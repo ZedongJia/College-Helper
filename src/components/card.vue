@@ -1,7 +1,10 @@
 <template lang="">
-  <div></div>
+    <div></div>
 </template>
 <script>
-export default {}
+export default {
+    data() {
+    }
+}
 </script>
 <style lang=""></style>
