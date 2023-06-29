@@ -14,5 +14,6 @@ export default {}
     width: 100vw;
     height: 100vh;
     background-color: var(--bg-color);
+    transition: 0.5s;
 }
 </style>

@@ -1,15 +1,15 @@
 <template>
-    <div>
+    <div style="position: relative;">
         <div>
             <span>hideButton</span>
             <span id="logo">logo</span>
         </div>
         <div>
-            <span>themeSw</span>
+            <span id="theme-switch" @click="changeTheme">主题切换</span>
             <span id="log-menu">
                 login
                 <span id="popover">
-                    <Card v-for="item in popoverData" :key="item.name" @onclick="handlePopoverClick(item)" Static>
+                    <Card v-for="item in popoverData" :key="item.name" @click="handlePopoverClick(item)" Static>
                         {{ item.name }}
                     </Card>
                 </span>
@@ -18,6 +18,7 @@
     </div>
 </template>
 <script>
+import Theme from '@/assets/theme'
 export default {
     data() {
         return {
@@ -30,17 +31,47 @@ export default {
                     name: '关于',
                     choice: 'ss'
                 }
-            ]
+            ],
+            isLight: true
         }
     },
     methods: {
         handlePopoverClick(item) {
             // todo
+            switch (item.name) {
+                case '登出':
+                    // todo
+                    this.$router.push('/login')
+                    break
+                case '关于':
+                    break
+            }
+        },
+        changeTheme() {
+            this.isLight = !this.isLight
+            let newTheme
+            if (this.isLight) {
+                newTheme = Theme.light
+            } else {
+                newTheme = Theme.dark
+            }
+            const root = document.querySelector(':root')
+            for (const k in newTheme) {
+                root.style.setProperty(k, newTheme[k])
+            }
         }
     }
 }
 </script>
 <style>
+#logo {
+    margin-left: 20px;
+}
+
+#theme-switch {
+    cursor: pointer;
+}
+
 #log-menu {
     cursor: pointer;
     position: relative;

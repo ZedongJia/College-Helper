@@ -20,7 +20,8 @@ export default {
 <style>
 #menu> *{
     cursor: pointer;
-    margin: 10px auto;
+    margin: 0 auto;
+    margin-bottom: 5px;
     padding-left: 2em;
     width: 90%;
     height: 48px;

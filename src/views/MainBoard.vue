@@ -40,9 +40,13 @@ export default {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
+    margin-bottom: 20px;
     width: 100%;
     height: 64px;
     line-height: 64px;
+    color: var(--font-color);
+    font-weight: bold;
+    box-shadow: 0 1px 10px var(--item-bg-color);
 }
 #main {
     display: flex;
@@ -53,5 +57,6 @@ export default {
 }
 #main>:nth-child(2) {
     flex: 0 0 85%;
+    padding: 20px;
 }
 </style>

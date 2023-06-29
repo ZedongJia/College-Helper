@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div id="operate-box">
-                <button>登录</button>
+                <button @click="signIn">登录</button>
                 <button @click="registerTo">去注册</button>
             </div>
         </div>
@@ -62,11 +62,12 @@
                 </div>
             </div>
             <div id="operate-box">
-                <button>注册</button>
+                <button @click="signUp">注册</button>
                 <button @click="backTo">去登录</button>
             </div>
         </div>
     </transition>
+    <div id="login-bg"></div>
 </template>
 <script>
 export default {
@@ -85,6 +86,13 @@ export default {
         }
     },
     methods: {
+        signIn() {
+            // todo
+            this.$router.push('/mainBoard')
+        },
+        signUp() {
+            // todo
+        },
         registerTo() {
             this.isRegister = true
         },
@@ -106,7 +114,8 @@ export default {
     align-items: center;
     background-color: transparent;
     backdrop-filter: blur(20px);
-    border: 1px solid grey;
+    box-shadow: 0 1px 5px black;
+    border-radius: 5px;
 }
 #login-frame > * {
     flex: 0 0 100%;
@@ -161,7 +170,6 @@ export default {
 #cf-box input:focus ~ span,
 #cf-box input:valid ~ span {
     transform: translate(0, -175%);
-    color: grey;
 }
 /* button css */
 #operate-box {
@@ -174,5 +182,17 @@ export default {
     cursor: pointer;
     height: 48px;
     font-size: 18px;
+}
+
+#login-bg {
+    z-index: -1;
+    position: fixed;
+    opacity: 0.8;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('./images/login-bg.png');
+    background-size: 100% 100%;
 }
 </style>
