@@ -1,72 +1,68 @@
 <template>
-    <transition name="fade">
-        <div
-            v-if="!isRegister"
-            id="login-frame"
-        >
-            <h1 id="title">垂直农业知识图谱系统</h1>
-            <div id="input-box">
-                <div id="account-box">
-                    <input
-                        type="text"
-                        v-model="login.account"
-                        required
-                    />
-                    <span>用户名</span>
-                </div>
-                <div id="pw-box">
-                    <input
-                        type="password"
-                        v-model="login.password"
-                        required
-                    />
-                    <span>密码</span>
-                </div>
+    <div
+        v-if="!isRegister"
+        id="login-frame"
+    >
+        <h1 id="title">垂直农业知识图谱系统</h1>
+        <div id="input-box">
+            <div id="account-box">
+                <input
+                    type="text"
+                    v-model="login.account"
+                    required
+                />
+                <span>用户名</span>
             </div>
-            <div id="operate-box">
-                <button @click="signIn">登录</button>
-                <button @click="registerTo">去注册</button>
+            <div id="pw-box">
+                <input
+                    type="password"
+                    v-model="login.password"
+                    required
+                />
+                <span>密码</span>
             </div>
         </div>
-    </transition>
-    <transition name="fade">
-        <div
-            v-if="isRegister"
-            id="login-frame"
-        >
-            <h1 id="title">垂直农业知识图谱系统</h1>
-            <div id="input-box">
-                <div id="account-box">
-                    <input
-                        type="text"
-                        v-model="register.account"
-                        required
-                    />
-                    <span>用户名</span>
-                </div>
-                <div id="pw-box">
-                    <input
-                        type="password"
-                        v-model="register.password"
-                        required
-                    />
-                    <span>密码</span>
-                </div>
-                <div id="cf-box">
-                    <input
-                        type="password"
-                        v-model="register.confirm"
-                        required
-                    />
-                    <span>再次确认密码</span>
-                </div>
+        <div id="operate-box">
+            <button @click="signIn">登录</button>
+            <button @click="registerTo">去注册</button>
+        </div>
+    </div>
+    <div
+        v-if="isRegister"
+        id="login-frame"
+    >
+        <h1 id="title">垂直农业知识图谱系统</h1>
+        <div id="input-box">
+            <div id="account-box">
+                <input
+                    type="text"
+                    v-model="register.account"
+                    required
+                />
+                <span>用户名</span>
             </div>
-            <div id="operate-box">
-                <button @click="signUp">注册</button>
-                <button @click="backTo">去登录</button>
+            <div id="pw-box">
+                <input
+                    type="password"
+                    v-model="register.password"
+                    required
+                />
+                <span>密码</span>
+            </div>
+            <div id="cf-box">
+                <input
+                    type="password"
+                    v-model="register.confirm"
+                    required
+                />
+                <span>再次确认密码</span>
             </div>
         </div>
-    </transition>
+        <div id="operate-box">
+            <button @click="signUp">注册</button>
+            <button @click="backTo">去登录</button>
+        </div>
+    </div>
     <div id="login-bg"></div>
 </template>
 <script>

@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import MainBoard from '@/views/MainBoard.vue'
 import Login from '@/views/Login.vue'
+import Identification from '@/views/Identification.vue'
 
 const routes = [
   {
@@ -13,7 +14,14 @@ const routes = [
   },
   {
     path: '/mainBoard',
-    component: MainBoard
+    redirect: '/mainBoard/identification',
+    component: MainBoard,
+    children: [
+      {
+        path: 'identification',
+        component: Identification
+      }
+    ]
   }
 ]
 

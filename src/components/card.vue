@@ -13,7 +13,8 @@
 export default {
     props: {
         Static: Boolean,
-        Dynamic: Boolean
+        Dynamic: Boolean,
+        Card: Boolean
     }
 }
 </script>

@@ -2,7 +2,9 @@
     <NavBar id="nav-bar"></NavBar>
     <div id="main">
         <Menu :data="menuData"></Menu>
-        <div>main</div>
+        <div>
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 <script>
@@ -58,5 +60,6 @@ export default {
 #main>:nth-child(2) {
     flex: 0 0 85%;
     padding: 20px;
+    color: var(--font-color);
 }
 </style>
