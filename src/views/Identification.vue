@@ -1,9 +1,9 @@
 <template lang="">
     <div>
-        <Board>dddsssd</Board>
+        <Board>like this</Board>
     </div>
 </template>
 <script>
 export default {}
 </script>
-<style lang=""></style>
+<style></style>
