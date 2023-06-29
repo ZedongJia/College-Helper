@@ -1,15 +1,23 @@
 <template>
-    <div style="position: relative;">
+    <div style="position: relative">
         <div>
             <span>hideButton</span>
             <span id="logo">logo</span>
         </div>
         <div>
-            <span id="theme-switch" @click="changeTheme">主题切换</span>
+            <ThemeButton
+                id="theme-switch"
+                @click="changeTheme"
+            ></ThemeButton>
             <span id="log-menu">
                 login
                 <span id="popover">
-                    <Card v-for="item in popoverData" :key="item.name" @click="handlePopoverClick(item)" Static>
+                    <Card
+                        v-for="item in popoverData"
+                        :key="item.name"
+                        @click="handlePopoverClick(item)"
+                        Static
+                    >
                         {{ item.name }}
                     </Card>
                 </span>
@@ -31,8 +39,7 @@ export default {
                     name: '关于',
                     choice: 'ss'
                 }
-            ],
-            isLight: true
+            ]
         }
     },
     methods: {
@@ -47,10 +54,9 @@ export default {
                     break
             }
         },
-        changeTheme() {
-            this.isLight = !this.isLight
+        changeTheme(isLight) {
             let newTheme
-            if (this.isLight) {
+            if (isLight) {
                 newTheme = Theme.light
             } else {
                 newTheme = Theme.dark
@@ -69,6 +75,8 @@ export default {
 }
 
 #theme-switch {
+    position: relative;
+    display: inline-block;
     cursor: pointer;
 }
 
@@ -89,24 +97,24 @@ export default {
     display: none;
     animation: slide-from-top 0.25s linear forwards;
 }
-#popover> * {
+#popover > * {
     cursor: pointer;
     height: 32px;
     line-height: 32px;
     font-weight: bold;
 }
-#log-menu:hover> #popover {
+#log-menu:hover > #popover {
     display: inline-block;
 }
 @keyframes slide-from-top {
-    0%{
+    0% {
         opacity: 0;
         transform: translate(-50%, -100%);
     }
-    80%{
+    80% {
         opacity: 0.2;
     }
-    100%{
+    100% {
         opacity: 1;
         transform: translate(-50%, 0);
     }
