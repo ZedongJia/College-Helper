@@ -176,7 +176,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 label {
     position: relative;
     display: inline-block;

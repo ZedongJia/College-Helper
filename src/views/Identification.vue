@@ -75,10 +75,11 @@ export default {
     margin: auto;
 }
 
-.zerotext {
-    margin: auto;
+.zero .zerotext {
+    margin: 0 auto;
     width: 85%;
     margin-top: 20px;
+    background-color: var(--edit-bg-color);
 }
 
 .zero {
@@ -115,9 +116,11 @@ export default {
 
 textarea {
     width: 100%;
+    height: 100%;
     resize: none;
     background-color: var(--bg-color);
-    color: var(--font-color);
+    color: var(--edit-font-color);
+    background-color: transparent;
     border: none;
 }
 
