@@ -1,8 +1,13 @@
 <template lang="">
-    <NavBar id="nav-bar"></NavBar>
+    <NavBar
+        id="nav-bar"
+        @hide="hideMenu"
+    ></NavBar>
     <div id="main">
-        <Menu :data="menuData"></Menu>
-        <div>
+        <Menu
+            :data="menuData"
+        ></Menu>
+        <div id="view">
             <router-view></router-view>
         </div>
     </div>
@@ -11,6 +16,7 @@
 export default {
     data() {
         return {
+            showMenu: true,
             menuData: [
                 {
                     name: '实体识别',
@@ -34,6 +40,23 @@ export default {
                 }
             ]
         }
+    },
+    methods: {
+        hideMenu() {
+            // hide menu
+            this.showMenu = !this.showMenu
+            const menu = document.querySelector('#menu')
+            const view = document.querySelector('#view')
+            if (this.showMenu) {
+                setTimeout(() => {
+                    menu.style.flex = '0 0 15%'
+                    view.style.flex = '0 0 85%'
+                }, 100)
+            } else {
+                menu.style.flex = '0 0 4%'
+                view.style.flex = '0 0 96%'
+            }
+        }
     }
 }
 </script>
@@ -51,13 +74,17 @@ export default {
     box-shadow: 0 1px 10px var(--item-bg-color);
 }
 #main {
+    position: relative;
     display: flex;
     flex-flow: row nowrap;
 }
-#main>:nth-child(1) {
+#main >* {
+    transition: 0.5s;
+}
+#main > :nth-child(1) {
     flex: 0 0 15%;
 }
-#main>:nth-child(2) {
+#main > :nth-child(2) {
     flex: 0 0 85%;
     padding: 20px;
     color: var(--font-color);

@@ -3,6 +3,7 @@ import Menu from './Menu.vue'
 import NavBar from './NavBar.vue'
 import Board from './Board.vue'
 import ThemeButton from './ThemeButton.vue'
+import HideButton from './HideButton.vue'
 
 export default (app) => {
     app.component('Card', Card)
@@ -10,4 +11,5 @@ export default (app) => {
     app.component('NavBar', NavBar)
     app.component('Board', Board)
     app.component('ThemeButton', ThemeButton)
+    app.component('HideButton', HideButton)
 }

@@ -28,5 +28,6 @@ export default {
     line-height: 48px;
     font-weight: bold;
     border-radius: 50px;
+    overflow: hidden;
 }
 </style>

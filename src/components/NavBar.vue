@@ -1,7 +1,10 @@
 <template>
     <div style="position: relative">
-        <div>
-            <span>hideButton</span>
+        <div style="display: flex; flex: row nowrap">
+            <HideButton
+                style="margin-top: 16px"
+                @click="emitHideMeg"
+            ></HideButton>
             <span id="logo">logo</span>
         </div>
         <div>
@@ -65,6 +68,10 @@ export default {
             for (const k in newTheme) {
                 root.style.setProperty(k, newTheme[k])
             }
+        },
+        emitHideMeg(e) {
+            this.$emit('hide', e)
+            e.stopPropagation()
         }
     }
 }
@@ -89,6 +96,7 @@ export default {
     text-align: center;
 }
 #popover {
+    z-index: 100;
     position: absolute;
     left: 50%;
     top: 64px;

@@ -183,7 +183,7 @@ export default {
 #login-bg {
     z-index: -1;
     position: fixed;
-    opacity: 0.8;
+    opacity: 0.7;
     top: 0;
     left: 0;
     width: 100vw;
