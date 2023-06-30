@@ -31,7 +31,7 @@ export default {
     align-items: center;
 }
 .hide-button > * {
-    width: 32px;
+    width: 24px;
     height: 4px;
     border-radius: 4px;
     background-color: var(--item-bg-color);
