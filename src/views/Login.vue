@@ -3,7 +3,7 @@
         v-if="!isRegister"
         id="login-frame"
     >
-        <h1 id="title">垂直农业知识图谱系统</h1>
+        <h1 id="title">垂直农业知识图谱</h1>
         <div id="input-box">
             <div id="account-box">
                 <input
@@ -176,8 +176,15 @@ export default {
 }
 #operate-box button {
     cursor: pointer;
+    width: 96px;
     height: 48px;
     font-size: 18px;
+    border-radius: 24px;
+    transition: 0.25s;
+}
+
+#operate-box button:hover {
+    box-shadow: 0 0 10px 1px rgb(0, 0, 0);
 }
 
 #login-bg {

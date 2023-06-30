@@ -5,7 +5,7 @@
                 style="margin-top: 16px"
                 @click="emitHideMeg"
             ></HideButton>
-            <span id="logo">logo</span>
+            <span id="logo">垂直农业知识图谱</span>
         </div>
         <div>
             <ThemeButton
@@ -79,6 +79,8 @@ export default {
 <style>
 #logo {
     margin-left: 20px;
+    font-size: 22px;
+    font-weight: bold;
 }
 
 #theme-switch {

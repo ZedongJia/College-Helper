@@ -60,8 +60,8 @@ export default {
                     ps[i].style.visibility = 'visible'
                 }
             } else {
-                menu.style.flex = '0 0 2%'
-                view.style.flex = '0 0 98%'
+                menu.style.flex = '0 0 6%'
+                view.style.flex = '0 0 94%'
                 for (let i = 0; i < ps.length; i++) {
                     ps[i].style.visibility = 'hidden'
                 }
