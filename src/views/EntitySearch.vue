@@ -1,9 +1,174 @@
 <template lang="">
-    <div>
-        entity
+    <div class="wrapper">
+        <Board> 查询条件: </Board>
+        <Board class="EntitySearchzero">
+            <input
+                v-model="entitySearch"
+                placeholder="输入实体名称"
+                ref="EntitySearchcontent"
+            />
+            <button
+                @click="performSearch"
+                class="EntitySearchbutton"
+            >
+                查询
+            </button>
+        </Board>
+        <Board style="margin-top: 20px"> 关系图 </Board>
+        <Board>
+            <div
+                id="realtionGraph"
+                style="height: 400px; width: 100%"
+            ></div>
+        </Board>
     </div>
 </template>
 <script>
-export default {}
+export default {
+    data() {
+        return {
+            colors: ['black', 'blue', 'green'],
+            entitySearch: '',
+            option: {
+                series: [
+                    {
+                        type: 'graph',
+                        layout: 'force',
+                        roam: true,
+                        animation: true,
+                        // 数据点
+                        data: [
+                            { name: '张三', symbolSize: 20, c: 1 },
+                            { name: '李四', symbolSize: 30, c: 1 },
+                            { name: '王五', symbolSize: 40, c: 1 },
+                            { name: '赵六', symbolSize: 30, c: 1 },
+                            { name: '小七', symbalSize: 40, c: 1 },
+                            { name: '小明', symbolSize: 30, c: 0 },
+                            { name: '小红', symbalSize: 40, c: 0 }
+                        ],
+                        // 边
+                        links: [
+                            { source: '张三', target: '李四', label: '朋友' },
+                            { source: '李四', target: '王五', label: '同事' },
+                            { source: '王五', target: '小七', label: '同学' },
+                            { source: '张三', target: '小明', label: '朋友' },
+                            { source: '小明', target: '小红', label: '同事' },
+                            { source: '小红', target: '小七', label: '同学' }
+                        ],
+                        // 数据点名称设置
+                        label: {
+                            show: true,
+                            position: 'right',
+                            formatter: '{b}',
+                            distance: 20,
+                            fontSize: 18,
+                            align: 'center'
+                        },
+                        // 边设置
+                        lineStyle: {
+                            color: 'black',
+                            opacity: 0.7,
+                            width: 2,
+                            curveness: 0
+                        },
+                        itemStyle: {
+                            color: (params) => {
+                                return this.colors[params.data.c]
+                            }
+                        },
+                        // 边上文字设置
+                        edgeLabel: {
+                            show: true,
+                            position: 'middle',
+                            fontSize: 12,
+                            formatter: (params) => {
+                                return params.data.label
+                            }
+                        },
+                        // 边的样式
+                        edgeSymbol: ['none', 'arrow'],
+                        edgeSymbolSize: [20, 8],
+                        force: {
+                            initLayout: 'circular',
+                            repulsion: 200,
+                            gravity: 0.01,
+                            edgeLength: 200
+                        },
+                        focus: 'adjacency',
+                        legendHoverLink: true
+                    }
+                ]
+            }
+        }
+    },
+    mounted() {
+        // 初始化echarts实例
+        const myChart = this.echarts.init(
+            document.getElementById('realtionGraph')
+        )
+        // 渲染人物关系图
+        myChart.setOption(this.option)
+        // window.addEventListener('resize', resizeCharts);
+        // 监听
+        window.addEventListener('resize', () => {
+            myChart.resize()
+        })
+    }
+}
+
+// 配置人物关系图的数据
+// methods: {
+//     performSearch() {
+//         // 获取查询关键字
+
+//         // 发送查询请求，获取数据
+//         // 可以使用fetch、axios等工具发送HTTP请求
+//         // 处理响应数据，并更新组件的data数据
+//     }
+// },
+// mounted() {
+
+// },
+// data() {
+//     return {
+
+//     }
+// }
 </script>
-<style lang=""></style>
+
+<style land="css">
+.EntitySearchzero {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.EntitySearchzero input,
+.EntitySearchzero button {
+    margin: 0;
+    /* 可根据需要调整 */
+    height: 70%;
+}
+
+.EntitySearchzero input {
+    padding-left: 1em;
+    border: 1px solid var(--item-bg-color);
+    width: 80%;
+    border-radius: 4px;
+}
+
+.EntitySearchzero button {
+    cursor: pointer;
+    background-color: var(--item-bg-color);
+    color: var(--item-font-color);
+    padding: 10px 30px;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: 0.25s;
+}
+.EntitySearchzero button:hover {
+    background-color: var(--item-bg-rev-color);
+    color: var(--item-font-rev-color);
+}
+</style>

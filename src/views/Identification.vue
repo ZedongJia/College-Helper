@@ -72,7 +72,7 @@ export default {
 <style>
 .wrapper {
     width: 80%;
-    margin: auto;
+    margin: 0 auto;
 }
 
 .zero .zerotext {
