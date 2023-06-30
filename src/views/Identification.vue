@@ -1,18 +1,19 @@
 <template lang="">
     <div class="wrapper">
         <Board>输入文本：</Board>
-        <Board class="zero">
+        <Board class="identity">
             <textarea
-                    class="textareaItem"
-                    style="margin-top: 20px;"
-                    name="description"
-                    rows="10"
-                    cols="100"
-                    placeholder="Enter text"
-                    v-model="textInput"
-                ></textarea>
+                class="textareaItem"
+                style="margin-top: 20px"
+                name="description"
+                rows="10"
+                cols="100"
+                placeholder="Enter text"
+                v-model="textInput"
+            ></textarea>
             <button
                 class="searchButton"
+                style="margin: 20px 0; width: 50%"
             >
                 提交!
             </button>
@@ -20,14 +21,14 @@
 
         <Board
             @click="firstexpand"
-            class="sizeone"
+            style="margin-top: 20px; cursor: pointer"
         >
             [查看识别结果]
         </Board>
         <transition name="fade">
             <Board
                 v-if="showfirstBox"
-                class="one"
+                class="searchresult"
             >
                 {{ recognizeResult }}
             </Board>
@@ -35,14 +36,14 @@
 
         <Board
             @click="secondexpand"
-            class="sizetwo"
+            style="margin-top: 20px; cursor: pointer"
         >
             [查看分词结果]
         </Board>
         <transition name="fade">
             <Board
                 v-if="showsecondBox"
-                class="two"
+                class="searchresult"
             >
                 {{ segmentationResult }}
             </Board>
@@ -75,37 +76,16 @@ export default {
 }
 </script>
 <style>
-
-.zero {
-    height: 350px;
-    position: relative;
+.identity {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
 }
 
-.sizeone,
-.sizetwo {
-    cursor: pointer;
-}
-
-.sizeone {
-    margin-top: 20px;
-}
-
-.sizetwo {
-    margin-top: 20px;
-}
-
-.one {
+.searchresult {
     padding: 10px;
     background-color: var(--bg-color);
     box-shadow: 0px 1px 5px var(--item-bg-color);
     height: 100px;
 }
-
-.two {
-    padding: 10px;
-    background-color: var(--bg-color);
-    box-shadow: 0px 1px 5px var(--item-bg-color);
-    height: 100px;
-}
-
 </style>

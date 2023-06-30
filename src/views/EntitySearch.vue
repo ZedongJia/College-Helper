@@ -1,16 +1,17 @@
 <template lang="">
     <div class="wrapper">
         <Board> 查询条件: </Board>
-        <Board class="EntitySearchzero">
+        <Board class="entitySearch">
             <input
                 class="inputItem"
+                style="width: 512px"
                 v-model="entitySearch"
                 placeholder="输入实体名称"
-                ref="EntitySearchcontent"
             />
             <button
                 @click="performSearch"
                 class="searchButton"
+                style="width: 128px"
             >
                 查询
             </button>
@@ -116,38 +117,14 @@ export default {
         })
     }
 }
-
-// 配置人物关系图的数据
-// methods: {
-//     performSearch() {
-//         // 获取查询关键字
-
-//         // 发送查询请求，获取数据
-//         // 可以使用fetch、axios等工具发送HTTP请求
-//         // 处理响应数据，并更新组件的data数据
-//     }
-// },
-// mounted() {
-
-// },
-// data() {
-//     return {
-
-//     }
-// }
 </script>
 
 <style>
-.EntitySearchzero {
+.entitySearch {
     height: 100px;
     display: flex;
+    flex-flow: row nowrap;
     align-items: center;
     justify-content: center;
 }
-
-.EntitySearchzero input {
-    padding-left: 1em;
-    width: 80%;
-}
-
 </style>
