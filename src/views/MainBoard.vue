@@ -20,23 +20,23 @@ export default {
             menuData: [
                 {
                     name: '实体识别',
-                    href: '1'
+                    href: 'identification'
                 },
                 {
                     name: '实体查询',
-                    href: '2'
+                    href: 'entitySearch'
                 },
                 {
                     name: '关系查询',
-                    href: '3'
+                    href: 'relationSearch'
                 },
                 {
                     name: '农业知识概览',
-                    href: '4'
+                    href: 'relationSearch'
                 },
                 {
                     name: '农知问答',
-                    href: '5'
+                    href: 'relationSearch'
                 }
             ]
         }

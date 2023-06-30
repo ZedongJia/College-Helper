@@ -2,6 +2,8 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import MainBoard from '@/views/MainBoard.vue'
 import Login from '@/views/Login.vue'
 import Identification from '@/views/Identification.vue'
+import EntitySearch from '@/views/EntitySearch.vue'
+import RelationSearch from '@/views/RelationSearch.vue'
 import Test from '@/views/Test.vue'
 
 const routes = [
@@ -21,6 +23,14 @@ const routes = [
       {
         path: 'identification',
         component: Identification
+      },
+      {
+        path: 'entitySearch',
+        component: EntitySearch
+      },
+      {
+        path: 'relationSearch',
+        component: RelationSearch
       }
     ]
   },

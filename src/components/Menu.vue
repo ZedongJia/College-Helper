@@ -12,7 +12,7 @@ export default {
     },
     methods: {
         turnTo(item) {
-            // todo
+            this.$router.push(item.href)
         }
     }
 }
