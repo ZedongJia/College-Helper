@@ -20,23 +20,28 @@ export default {
             menuData: [
                 {
                     name: '实体识别',
-                    href: 'identification'
+                    href: 'identification',
+                    icon: 'search'
                 },
                 {
                     name: '实体查询',
-                    href: 'entitySearch'
+                    href: 'entitySearch',
+                    icon: 'entity'
                 },
                 {
                     name: '关系查询',
-                    href: 'relationSearch'
+                    href: 'relationSearch',
+                    icon: 'relation'
                 },
                 {
                     name: '农业知识概览',
-                    href: 'relationSearch'
+                    href: 'relationSearch',
+                    icon: 'graph'
                 },
                 {
                     name: '农知问答',
-                    href: 'relationSearch'
+                    href: 'relationSearch',
+                    icon: 'chat'
                 }
             ]
         }
@@ -46,15 +51,20 @@ export default {
             // hide menu
             this.showMenu = !this.showMenu
             const menu = document.querySelector('#menu')
+            const ps = menu.querySelectorAll('p')
             const view = document.querySelector('#view')
             if (this.showMenu) {
-                setTimeout(() => {
-                    menu.style.flex = '0 0 15%'
-                    view.style.flex = '0 0 85%'
-                }, 100)
+                menu.style.flex = '0 0 15%'
+                view.style.flex = '0 0 85%'
+                for (let i = 0; i < ps.length; i++) {
+                    ps[i].style.visibility = 'visible'
+                }
             } else {
-                menu.style.flex = '0 0 4%'
-                view.style.flex = '0 0 96%'
+                menu.style.flex = '0 0 2%'
+                view.style.flex = '0 0 98%'
+                for (let i = 0; i < ps.length; i++) {
+                    ps[i].style.visibility = 'hidden'
+                }
             }
         }
     }
