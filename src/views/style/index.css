@@ -23,7 +23,7 @@
 }
 
 .inputItem {
-    padding-left: 1em;
+    padding-left: 0.5em;
     height: 48px;
     border: 1px solid var(--item-bg-color);
     border-radius: 4px;
