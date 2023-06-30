@@ -2,16 +2,20 @@
     <div class="wrapper">
         <Board>输入文本：</Board>
         <Board class="zero">
-            <Board class="zerotext">
-                <textarea
+            <textarea
+                    class="textareaItem"
+                    style="margin-top: 20px;"
                     name="description"
                     rows="10"
                     cols="100"
                     placeholder="Enter text"
                     v-model="textInput"
                 ></textarea>
-            </Board>
-            <button class="zerobutton">提交!</button>
+            <button
+                class="searchButton"
+            >
+                提交!
+            </button>
         </Board>
 
         <Board
@@ -47,6 +51,7 @@
 </template>
 
 <script>
+import './style/index.css'
 export default {
     data() {
         return {
@@ -70,17 +75,6 @@ export default {
 }
 </script>
 <style>
-.wrapper {
-    width: 80%;
-    margin: 0 auto;
-}
-
-.zero .zerotext {
-    margin: 0 auto;
-    width: 85%;
-    margin-top: 20px;
-    background-color: var(--edit-bg-color);
-}
 
 .zero {
     height: 350px;
@@ -114,34 +108,4 @@ export default {
     height: 100px;
 }
 
-textarea {
-    width: 100%;
-    height: 100%;
-    resize: none;
-    background-color: var(--bg-color);
-    color: var(--edit-font-color);
-    background-color: transparent;
-    border: none;
-}
-
-.zerobutton {
-    cursor: pointer;
-    position: absolute;
-    top: 87%;
-    left: 50%;
-    transform: translate(-50%, -87%);
-    background-color: var(--item-bg-color);
-    border-radius: 4px;
-    font-weight: bold;
-    color: var(--item-font-color);
-    padding: 12px 80px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 15px;
-    transition: 0.25s;
-}
-.zerobutton:hover {
-    background-color: var(--item-bg-rev-color);
-    color: var(--item-font-rev-color);
-}
 </style>

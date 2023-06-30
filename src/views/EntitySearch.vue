@@ -3,13 +3,14 @@
         <Board> 查询条件: </Board>
         <Board class="EntitySearchzero">
             <input
+                class="inputItem"
                 v-model="entitySearch"
                 placeholder="输入实体名称"
                 ref="EntitySearchcontent"
             />
             <button
                 @click="performSearch"
-                class="EntitySearchbutton"
+                class="searchButton"
             >
                 查询
             </button>
@@ -136,7 +137,7 @@ export default {
 // }
 </script>
 
-<style land="css">
+<style>
 .EntitySearchzero {
     height: 100px;
     display: flex;
@@ -144,31 +145,9 @@ export default {
     justify-content: center;
 }
 
-.EntitySearchzero input,
-.EntitySearchzero button {
-    margin: 0;
-    /* 可根据需要调整 */
-    height: 70%;
-}
-
 .EntitySearchzero input {
     padding-left: 1em;
-    border: 1px solid var(--item-bg-color);
     width: 80%;
-    border-radius: 4px;
 }
 
-.EntitySearchzero button {
-    cursor: pointer;
-    background-color: var(--item-bg-color);
-    color: var(--item-font-color);
-    padding: 10px 30px;
-    border-radius: 4px;
-    font-weight: bold;
-    transition: 0.25s;
-}
-.EntitySearchzero button:hover {
-    background-color: var(--item-bg-rev-color);
-    color: var(--item-font-rev-color);
-}
 </style>
