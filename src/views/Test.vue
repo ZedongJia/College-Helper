@@ -1,5 +1,5 @@
 <template lang="">
-    <ThemeButton></ThemeButton>
+    <EChart></EChart>
 </template>
 <script>
 export default {}
