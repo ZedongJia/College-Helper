@@ -1,12 +1,15 @@
 /* Style definition */
 :root {
+    --edit-bg-color: white;
+    --edit-font-color: black;
+    --headline-color: grey;
+
+
     /* theme */
     
     /* ligth */
     --bg-color: #fcfada;
     --font-color: black;
-    --edit-bg-color: white;
-    --edit-font-color: black;
     --item-bg-color: rgb(57, 84, 57);
     --item-font-color: rgb(255, 255, 255);
     

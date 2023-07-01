@@ -1,13 +1,14 @@
 <template lang="">
     <div class="wrapper">
+        <h1 style="color: var(--headline-color)">实体识别</h1>
+        <br />
         <Board>输入文本：</Board>
-        <Board class="identity">
+        <Board class="flex-column">
             <textarea
                 class="textareaItem"
                 style="margin-top: 20px"
                 name="description"
                 rows="10"
-                cols="100"
                 placeholder="Enter text"
                 v-model="textInput"
             ></textarea>
@@ -76,12 +77,6 @@ export default {
 }
 </script>
 <style>
-.identity {
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
-}
-
 .searchresult {
     padding: 10px;
     background-color: var(--bg-color);
