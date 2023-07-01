@@ -21,19 +21,6 @@
         <Board style="grid-column: 2 / 5"></Board>
     </div>
     <PopFrame v-if="appear">
-        <div
-            class="cus_vtree_wrap"
-            @click.capture="clickNodeWrap"
-        >
-            <v-tree-item
-                :treeData="treeData"
-                @clickNodeCom="clickNode"
-                :checkBox="checkBox"
-                :class="{ tree_root_lonely: treeData.length === 1 }"
-                @toggleCheckBox="checkBoxFun"
-            ></v-tree-item>
-        </div>
-
         <button
             class="searchButton"
             @click="outFrame"
@@ -46,18 +33,10 @@
 <script>
 import './style/index.css'
 export default {
-    name: 'vue-tree',
-    props: ['treeData', 'checkBox'],
     data() {
         return {
             appear: false
         }
-    },
-    mounted() {
-        this.initData(true, true, true)
-    },
-    updated() {
-        this.initData(true, true, true)
     },
     methods: {
         outFrame() {
