@@ -13,7 +13,7 @@
                 @click="changeTheme"
             ></ThemeButton>
             <span id="log-menu">
-                login
+                个人中心
                 <span id="popover">
                     <Card
                         v-for="item in popoverData"

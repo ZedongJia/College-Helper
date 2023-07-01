@@ -63,7 +63,7 @@
             <button @click="backTo">去登录</button>
         </div>
     </div>
-    <div id="login-bg"></div>
+    <img id="login-bg" src="./images/login-bg.jpg" alt="">
 </template>
 <script>
 export default {
@@ -78,6 +78,10 @@ export default {
                 account: '',
                 password: '',
                 confirm: ''
+            },
+            bgmove: {
+                ratio: 0.003,
+                style: ''
             }
         }
     },
@@ -97,7 +101,25 @@ export default {
         },
         followMove(e) {
             // todo
+            console.log(e)
+            const width = document.querySelector('body').clientWidth
+            const x = e.pageX - width / 2
+            let move = -50 + x * this.bgmove.ratio
+            // cut
+            if (move > -48) {
+                move = -48
+            } else if (move < -52) {
+                move = -52
+            }
+            this.bgmove.style.transform = 'translate(' + move + '%, -50%)'
         }
+    },
+    mounted() {
+        this.bgmove.style = document.querySelector('#login-bg').style
+        window.addEventListener('mousemove', this.followMove)
+    },
+    unmounted() {
+        window.removeEventListener('mousemove', this.followMove)
     }
 }
 </script>
@@ -194,11 +216,9 @@ export default {
     z-index: -1;
     position: fixed;
     opacity: 1;
-    top: 0;
-    left: 0;
-    width: 100vw;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     height: 100vh;
-    background-image: url('./images/login-bg.png');
-    background-size: cover;
 }
 </style>
