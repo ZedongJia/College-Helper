@@ -8,6 +8,7 @@
             :data="menuData"
         ></Menu>
         <div id="view">
+            <RouteNav></RouteNav>
             <router-view></router-view>
         </div>
     </div>

@@ -1,5 +1,5 @@
 <template lang="">
-    <Option :data="data" @choice="receive" default="nothing"></Option>
+    <RouteNav></RouteNav>
 </template>
 <script>
 export default {
