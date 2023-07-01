@@ -5,6 +5,7 @@ import Board from './Board.vue'
 import ThemeButton from './ThemeButton.vue'
 import HideButton from './HideButton.vue'
 import Option from './Option.vue'
+import PopFrame from './PopFrame.vue'
 
 export default (app) => {
     app.component('Card', Card)
@@ -14,4 +15,5 @@ export default (app) => {
     app.component('ThemeButton', ThemeButton)
     app.component('HideButton', HideButton)
     app.component('Option', Option)
+    app.component('PopFrame', PopFrame)
 }
