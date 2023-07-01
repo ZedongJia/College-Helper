@@ -63,13 +63,14 @@ function generateRelationGraph(element, data, link) {
             }
         ]
     }
-    const myChart = echarts.init(element)
+    let newChart = null
+    newChart = echarts.init(element)
     // 渲染人物关系图
-    myChart.setOption(option)
+    newChart.setOption(option)
     // window.addEventListener('resize', resizeCharts);
     // 监听
     window.addEventListener('resize', () => {
-        myChart.resize()
+        newChart.resize()
     })
 }
 

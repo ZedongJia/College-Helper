@@ -21,7 +21,7 @@
         <Board style="margin-top: 20px"> 关系图 </Board>
         <Board>
             <div
-                id="realtionGraph"
+                id="relationGraph"
                 style="height: 400px; width: 100%"
             ></div>
         </Board>
