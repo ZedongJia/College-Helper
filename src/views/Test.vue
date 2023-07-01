@@ -1,7 +1,22 @@
 <template lang="">
-    <EChart></EChart>
+    <Option :data="data" @choice="receive" default="nothing"></Option>
 </template>
 <script>
-export default {}
+export default {
+    data() {
+        return {
+            data: [
+                '洋葱',
+                '西红柿',
+                '土豆'
+            ]
+        }
+    },
+    methods: {
+        receive(msg) {
+            console.log(msg)
+        }
+    }
+}
 </script>
 <style lang=""></style>

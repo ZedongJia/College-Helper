@@ -52,4 +52,5 @@
     color: var(--edit-font-color);
     background-color: var(--edit-bg-color);
     border: 1px solid var(--item-bg-color);
+    border-radius: 4px;
 }

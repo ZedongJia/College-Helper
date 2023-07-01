@@ -8,57 +8,26 @@
         <board class="flex-row">
             <!-- 实体1 -->
             <input
-                style="width: 25%"
+                style="width: 30%"
                 type="text"
                 class="inputItem"
                 placeholder="实体1"
             />
             <!-- 关系选择 -->
-            <select
-                style="
-                    width: 25%;
-                    margin-left: 5%;
-                    margin-right: 5%;
-                    outline: none;
-                "
-                class="inputItem"
-                placeholder="实体1"
-            >
-                <option
-                    values=""
-                    selected
-                    disabled
-                >
-                    选择关系
-                </option>
-                <option
-                    value="option1"
-                    class="item"
-                >
-                    选项1
-                </option>
-                <option
-                    value="option2"
-                    class="item"
-                >
-                    选项2
-                </option>
-                <option
-                    value="option3"
-                    class="item"
-                >
-                    选项3
-                </option>
-            </select>
+            <Option
+                :data="options"
+                default="选择关系"
+                @choice="receiveOption"
+            ></Option>
             <!-- 实体2 -->
             <input
-                style="width: 25%"
+                style="width: 30%"
                 type="text"
                 class="inputItem"
                 placeholder="实体2"
             />
             <!-- 按钮 -->
-            &nbsp;<button class="searchButton">搜索</button>
+            <button class="searchButton" style="margin: 0 10px; padding: 0 20px;">搜索</button>
         </board>
         <!-- 关系图 -->
         <br />
@@ -78,7 +47,14 @@ export default {
     data() {
         return {
             data: [],
-            link: []
+            link: [],
+            options: ['选项1', '选项2', '选项2', '选项2'],
+            option: ''
+        }
+    },
+    methods: {
+        receiveOption(option) {
+            this.option = option
         }
     },
     created() {

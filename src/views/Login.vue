@@ -94,6 +94,9 @@ export default {
         },
         backTo() {
             this.isRegister = false
+        },
+        followMove(e) {
+            // todo
         }
     }
 }
@@ -190,12 +193,12 @@ export default {
 #login-bg {
     z-index: -1;
     position: fixed;
-    opacity: 0.7;
+    opacity: 1;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
     background-image: url('./images/login-bg.png');
-    background-size: 100% 100%;
+    background-size: cover;
 }
 </style>
