@@ -81,6 +81,6 @@ export default {
     padding: 10px;
     background-color: var(--bg-color);
     box-shadow: 0px 1px 5px var(--item-bg-color);
-    height: 100px;
+    min-height: 100px;
 }
 </style>
