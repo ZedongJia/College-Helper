@@ -34,7 +34,6 @@
                 {{ recognizeResult }}
             </Board>
         </transition>
-
         <Board
             @click="secondexpand"
             style="margin-top: 20px; cursor: pointer"

@@ -5,6 +5,7 @@ import Identification from '@/views/Identification.vue'
 import EntitySearch from '@/views/EntitySearch.vue'
 import RelationSearch from '@/views/RelationSearch.vue'
 import Overview from '@/views/Overview.vue'
+import Agricultural from '@/views/AgriculturalQA.vue'
 import Test from '@/views/Test.vue'
 
 const routes = [
@@ -36,6 +37,10 @@ const routes = [
       {
         path: 'overview',
         component: Overview
+      },
+      {
+        path: 'agriculturalQA',
+        component: Agricultural
       }
     ]
   },
