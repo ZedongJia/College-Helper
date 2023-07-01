@@ -35,7 +35,7 @@ export default {
                 },
                 {
                     name: '农业知识概览',
-                    href: 'relationSearch',
+                    href: 'overview',
                     icon: 'graph'
                 },
                 {

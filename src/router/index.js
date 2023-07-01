@@ -4,6 +4,7 @@ import Login from '@/views/Login.vue'
 import Identification from '@/views/Identification.vue'
 import EntitySearch from '@/views/EntitySearch.vue'
 import RelationSearch from '@/views/RelationSearch.vue'
+import Overview from '@/views/Overview.vue'
 import Test from '@/views/Test.vue'
 
 const routes = [
@@ -31,6 +32,10 @@ const routes = [
       {
         path: 'relationSearch',
         component: RelationSearch
+      },
+      {
+        path: 'overview',
+        component: Overview
       }
     ]
   },
