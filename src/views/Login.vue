@@ -80,7 +80,7 @@ export default {
                 confirm: ''
             },
             bgmove: {
-                ratio: 0.005,
+                ratio: 0.003,
                 style: ''
             }
         }
