@@ -1,7 +1,7 @@
 <template lang="">
-    <div class="wrapper">
-        <h1 style="color: var(--headline-color)">实体识别</h1>
-        <br />
+    <div
+        class="wrapper"
+    >
         <Board>输入文本：</Board>
         <Board class="flex-column">
             <textarea
@@ -31,7 +31,10 @@
                 v-if="showfirstBox"
                 class="searchresult"
             >
-                {{ recognizeResult }}
+                <LinkText
+                    :text="recognizeResult"
+                    :entity="entity"
+                ></LinkText>
             </Board>
         </transition>
         <Board
@@ -59,7 +62,8 @@ export default {
             showfirstBox: false,
             showsecondBox: false,
             textInput: '',
-            recognizeResult: '<a href="#/mainBoard/identification/detailContent">跳转</a>',
+            recognizeResult: '玉米，小麦',
+            entity: ['玉米'],
             segmentationResult: '无结果'
         }
     },

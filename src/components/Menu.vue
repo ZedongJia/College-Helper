@@ -26,7 +26,9 @@ export default {
     },
     methods: {
         turnTo(item) {
-            this.$router.push(item.href)
+            this.$router.push({
+                path: item.href
+            })
         }
     }
 }

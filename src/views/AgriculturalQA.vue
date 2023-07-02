@@ -109,10 +109,10 @@ export default {
 
 .itemLink {
     margin-left: 1%;
-    color: blue;
+    color: orange;
+    transition: 0.25s;
 }
 .itemLink:hover {
-    font-size: 14px;
     color: var(--item-bg-color);
 }
 

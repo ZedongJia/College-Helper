@@ -7,6 +7,7 @@ import HideButton from './HideButton.vue'
 import Option from './Option.vue'
 import PopFrame from './PopFrame.vue'
 import RouteNav from './RouteNav.vue'
+import LinkText from './LinkText.vue'
 
 export default (app) => {
     app.component('Card', Card)
@@ -18,4 +19,5 @@ export default (app) => {
     app.component('Option', Option)
     app.component('PopFrame', PopFrame)
     app.component('RouteNav', RouteNav)
+    app.component('LinkText', LinkText)
 }

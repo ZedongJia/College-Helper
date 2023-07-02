@@ -1,5 +1,5 @@
 <template>
-    <div class="overviewlayout">
+    <div class="wrapper overviewlayout">
         <Board style="grid-column: 1 / 2">
             分类专题：[{{ category }}] <br />
             <ui>

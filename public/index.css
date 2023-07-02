@@ -68,6 +68,16 @@ textarea {
     transition: 0.25s;
 }
 
+.slide-l-enter-from,
+.slide-l-leave-to {
+    opacity: 0;
+    transform: translate(-100%, 0);
+}
+.slide-l-enter-active,
+.slide-l-leave-active {
+    transition: opacity transform 1s;
+}
+
 @keyframes bounce {
     0% {
         transform: translate(0, 0);
@@ -77,5 +87,13 @@ textarea {
     }
     100% {
         transform: translate(0, 0);
+    }
+}
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
     }
 }

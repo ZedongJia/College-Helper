@@ -25,11 +25,19 @@ const routes = [
     children: [
       {
         path: 'identification',
-        component: Identification,
         children: [
           {
+            path: '',
+            component: Identification
+          },
+          {
             path: 'detailContent',
-            component: DetailContent
+            component: DetailContent,
+            props(route) {
+              return {
+                entity: route.query.entity
+              }
+            }
           }
         ]
       },

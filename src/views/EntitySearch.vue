@@ -1,7 +1,5 @@
 <template lang="">
     <div class="wrapper">
-        <h1 style="color: var(--headline-color)">实体查询</h1>
-        <br />
         <Board> 查询条件: </Board>
         <Board class="flex-row">
             <input

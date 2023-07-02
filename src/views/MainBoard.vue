@@ -21,27 +21,27 @@ export default {
             menuData: [
                 {
                     name: '实体识别',
-                    href: 'identification',
+                    href: '/mainBoard/identification',
                     icon: 'search'
                 },
                 {
                     name: '实体查询',
-                    href: 'entitySearch',
+                    href: '/mainBoard/entitySearch',
                     icon: 'entity'
                 },
                 {
                     name: '关系查询',
-                    href: 'relationSearch',
+                    href: '/mainBoard/relationSearch',
                     icon: 'relation'
                 },
                 {
                     name: '农业知识概览',
-                    href: 'overview',
+                    href: '/mainBoard/overview',
                     icon: 'graph'
                 },
                 {
                     name: '农知问答',
-                    href: 'agriculturalQA',
+                    href: '/mainBoard/agriculturalQA',
                     icon: 'chat'
                 }
             ]

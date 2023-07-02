@@ -1,21 +1,30 @@
 <template>
     <Board
         class="flex-row wrapper"
-        style="margin-bottom: 20px; justify-content: left; background-color: var(--item-bg-color);"
+        style="
+            margin-bottom: 20px;
+            justify-content: left;
+            background-color: var(--item-bg-color);
+        "
     >
-        <router-link
-            class="link"
-            v-for="(p, index) in pathList"
-            :key="index"
-            :to="getPath(index)"
+        <transition-group
+            name="slide-l"
+            mode="out-in"
         >
-            <img
-                style="width: 32px"
-                :src="getIcon(p)"
-                alt="..."
-            />
-            <p>{{ getCHName(p) }} ></p>
-        </router-link>
+            <router-link
+                class="link"
+                v-for="(p, index) in pathList"
+                :key="index"
+                :to="getPath(index)"
+            >
+                <img
+                    style="width: 32px"
+                    :src="getIcon(p)"
+                    alt="..."
+                />
+                <p>{{ getCHName(p) }} ></p>
+            </router-link>
+        </transition-group>
     </Board>
 </template>
 <script>
@@ -23,14 +32,7 @@ export default {
     data() {
         return {
             pathList: [],
-            icons: [
-                'home',
-                'search',
-                'entity',
-                'relation',
-                'graph',
-                'chat'
-            ]
+            icons: ['home', 'search', 'entity', 'relation', 'graph', 'chat']
         }
     },
     methods: {
@@ -81,6 +83,9 @@ export default {
                 case 'mainBoard':
                     icon = 'home'
                     break
+                case 'agriculturalQA':
+                    icon = 'chat'
+                    break
                 default:
                     return ''
             }
@@ -104,7 +109,7 @@ export default {
     height: 32px;
     line-height: 32px;
     color: var(--item-font-color);
-    transition: 0.25s;
+    transition: 1s;
 }
 .link:last-child {
     font-weight: bold;

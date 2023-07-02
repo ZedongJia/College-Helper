@@ -119,6 +119,9 @@
 import './style/index.css'
 import { generateRelationGraph } from './scripts/utils.js'
 export default {
+    props: {
+        entity: String
+    },
     data() {
         return {
             searchTitle: '',
@@ -137,8 +140,8 @@ export default {
         }
     },
     created() {
-        // 向后端请求
-        this.searchTitle = '杂交水稻'
+        this.searchTitle = this.entity
+        // 请求entity数据
         this.titleLabels = [
             { id: 0, name: '中国传统文化' },
             { id: 1, name: '农业' },

@@ -1,8 +1,5 @@
 <template lang="">
     <div class="wrapper">
-        <!-- 页面标题 -->
-        <h1 style="color: var(--headline-color)">关系查询</h1>
-        <br />
         <!-- 查询主界面 -->
         <board>查询条件：</board>
         <board class="flex-row">
