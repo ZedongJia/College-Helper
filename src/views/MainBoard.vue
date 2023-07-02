@@ -41,7 +41,7 @@ export default {
                 },
                 {
                     name: '农知问答',
-                    href: 'relationSearch',
+                    href: 'agriculturalQA',
                     icon: 'chat'
                 }
             ]

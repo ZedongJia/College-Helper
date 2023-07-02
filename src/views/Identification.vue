@@ -34,7 +34,6 @@
                 {{ recognizeResult }}
             </Board>
         </transition>
-
         <Board
             @click="secondexpand"
             style="margin-top: 20px; cursor: pointer"
@@ -60,7 +59,7 @@ export default {
             showfirstBox: false,
             showsecondBox: false,
             textInput: '',
-            recognizeResult: '无结果',
+            recognizeResult: '<a href="#/mainBoard/identification/detailContent">跳转</a>',
             segmentationResult: '无结果'
         }
     },
