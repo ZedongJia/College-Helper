@@ -7,7 +7,7 @@
                 <Board class="left">
                     <!-- 第一部分：标题 + 词条 -->
                     <!-- 页面标题 -->
-                    <h1 style="color: var(--headline-color)">
+                    <h1 style="padding: 0 0 0.5em 0.5em; color: var(--headline-color);">
                         {{ searchTitle }}
                     </h1>
                     <!-- 词条 -->
@@ -46,13 +46,13 @@
                             <div v-if="itemTable.isodd">
                                 <span
                                     class="key"
-                                    style="background-color: lightgray"
+                                    style="background-color: gray"
                                 >
                                     {{ itemTable.key }}
                                 </span>
                                 <span
                                     class="value"
-                                    style="background-color: lightgray"
+                                    style="background-color: gray"
                                 >
                                     {{ itemTable.value }}
                                 </span>
@@ -228,7 +228,6 @@ export default {
     margin-right: 10px;
     text-indent: 2em;
     font-size: 18px;
-    color: #333;
 }
 
 /* 左列： 表格 —— 键 + 值 */
