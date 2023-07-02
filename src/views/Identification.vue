@@ -62,8 +62,8 @@ export default {
             showfirstBox: false,
             showsecondBox: false,
             textInput: '',
-            recognizeResult: '玉米，小麦',
-            entity: ['玉米'],
+            recognizeResult: '玉米，小麦, 袁隆平, 垂直农业, 顶顶顶顶顶顶顶',
+            entity: ['玉米', '袁隆平', '垂直农业'],
             segmentationResult: '无结果'
         }
     },

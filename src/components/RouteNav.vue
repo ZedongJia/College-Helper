@@ -9,7 +9,6 @@
     >
         <transition-group
             name="slide-l"
-            mode="out-in"
         >
             <router-link
                 class="link"
@@ -54,8 +53,11 @@ export default {
                     return '农业知识概览'
                 case 'mainBoard':
                     return '主页'
-                default:
-                    return '未命名'
+            }
+            if (en.startsWith('detailContent')) {
+                return decodeURI(en).split('=')[1] + '-详情页面'
+            } else {
+                return '未命名'
             }
         },
         getPath(index) {
@@ -86,10 +88,11 @@ export default {
                 case 'agriculturalQA':
                     icon = 'chat'
                     break
-                default:
-                    return ''
             }
-            return require('../assets/icons/' + icon + '.png')
+            if (en.startsWith('detailContent')) {
+                icon = 'content'
+            }
+            return icon !== '' ? require('../assets/icons/' + icon + '.png') : ''
         }
     },
     mounted() {

@@ -35,12 +35,10 @@ export default {
         return {
             popoverData: [
                 {
-                    name: '登出',
-                    choice: 'ss'
+                    name: '登出'
                 },
                 {
-                    name: '关于',
-                    choice: 'ss'
+                    name: '关于'
                 }
             ]
         }

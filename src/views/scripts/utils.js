@@ -9,7 +9,7 @@ import * as echarts from 'echarts'
  */
 function generateRelationGraph(element, data, link, isDraggable, isAnimation) {
     // todo
-    const colors = ['black', 'blue', 'green']
+    const colors = ['red', 'green', 'yellow']
     const option = {
         series: [
             {
@@ -32,8 +32,8 @@ function generateRelationGraph(element, data, link, isDraggable, isAnimation) {
                 },
                 // 边设置
                 lineStyle: {
-                    color: 'black',
-                    opacity: 0.7,
+                    color: 'grey',
+                    opacity: 1,
                     width: 2,
                     curveness: 0
                 },

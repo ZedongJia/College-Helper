@@ -6,6 +6,7 @@
         <h1 id="title">垂直农业知识图谱</h1>
         <div id="input-box">
             <div id="account-box">
+                <img src="../assets/icons/user.png" alt="">
                 <input
                     type="text"
                     v-model="login.account"
@@ -14,6 +15,7 @@
                 <span>用户名</span>
             </div>
             <div id="pw-box">
+                <img src="../assets/icons/password.png" alt="">
                 <input
                     type="password"
                     v-model="login.password"
@@ -34,6 +36,7 @@
         <h1 id="title">垂直农业知识图谱系统</h1>
         <div id="input-box">
             <div id="account-box">
+                <img src="../assets/icons/user.png" alt="">
                 <input
                     type="text"
                     v-model="register.account"
@@ -42,6 +45,7 @@
                 <span>用户名</span>
             </div>
             <div id="pw-box">
+                <img src="../assets/icons/password.png" alt="">
                 <input
                     type="password"
                     v-model="register.password"
@@ -50,6 +54,7 @@
                 <span>密码</span>
             </div>
             <div id="cf-box">
+                <img src="../assets/icons/password.png" alt="">
                 <input
                     type="password"
                     v-model="register.confirm"
@@ -136,6 +141,7 @@ export default {
     backdrop-filter: blur(20px);
     box-shadow: 0 1px 5px black;
     border-radius: 5px;
+    animation: fade 0.25s ease-in forwards;
 }
 #login-frame > * {
     flex: 0 0 100%;
@@ -159,12 +165,12 @@ export default {
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
+    align-items: center;
 }
 
 #account-box input,
 #pw-box input,
 #cf-box input {
-    margin: 0 auto;
     padding-left: 1em;
     width: 80%;
     height: 48px;
