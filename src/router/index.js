@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import MainBoard from '@/views/MainBoard.vue'
 import Login from '@/views/Login.vue'
 import Identification from '@/views/Identification.vue'
+import DetailContent from '@/views/DetailContent.vue'
 import EntitySearch from '@/views/EntitySearch.vue'
 import RelationSearch from '@/views/RelationSearch.vue'
 import Overview from '@/views/Overview.vue'
@@ -24,7 +25,13 @@ const routes = [
     children: [
       {
         path: 'identification',
-        component: Identification
+        component: Identification,
+        children: [
+          {
+            path: 'detailContent',
+            component: DetailContent
+          }
+        ]
       },
       {
         path: 'entitySearch',

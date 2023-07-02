@@ -4,8 +4,10 @@ import * as echarts from 'echarts'
  * @param {*} element 树节点
  * @param {*} data 数据
  * @param {*} link 关系
+ * @param {*} isDraggable 是否可拖拽
+ * @param {*} isAnimation 是否显示动画
  */
-function generateRelationGraph(element, data, link) {
+function generateRelationGraph(element, data, link, isDraggable, isAnimation) {
     // todo
     const colors = ['black', 'blue', 'green']
     const option = {
@@ -13,8 +15,8 @@ function generateRelationGraph(element, data, link) {
             {
                 type: 'graph',
                 layout: 'force',
-                roam: true,
-                animation: true,
+                roam: isDraggable,
+                animation: isAnimation,
                 // 数据点
                 data: data,
                 // 边
@@ -51,15 +53,17 @@ function generateRelationGraph(element, data, link) {
                 },
                 // 边的样式
                 edgeSymbol: ['none', 'arrow'],
-                edgeSymbolSize: [20, 8],
+                edgeSymbolSize: [0, 8],
                 force: {
-                    initLayout: 'circular',
-                    repulsion: 200,
+                    // 初始化动画
+                    layoutAnimation: isAnimation,
+                    repulsion: 10,
                     gravity: 0.01,
                     edgeLength: 200
                 },
                 focus: 'adjacency',
-                legendHoverLink: true
+                legendHoverLink: true,
+                draggable: false
             }
         ]
     }

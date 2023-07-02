@@ -1,7 +1,5 @@
 <template lang="">
     <div class="wrapper">
-        <h1 style="color: var(--headline-color)">农知问答</h1>
-        <br />
         <Board>输入问题:</Board>
         <Board>
             <div class="flex-row">
@@ -28,20 +26,22 @@
         </Board>
         <br />
         <div class="row">
-            <div class="column left">
-                <Board>答案：</Board>
-                <Board>
-                    <p>这里是答案。</p>
-                </Board>
-            </div>
-            <div class="column right">
-                <Board>图谱显示：</Board>
-                <Board>
-                    <div
-                        id="relationGraph"
-                        style="height: 400px; width: 100%"
-                    ></div>
-                </Board>
+            <div class="AgriQAColumns">
+                <div class="left">
+                    <Board>答案：</Board>
+                    <Board>
+                        <p>这里是答案。</p>
+                    </Board>
+                </div>
+                <div class="right">
+                    <Board>图谱显示：</Board>
+                    <Board>
+                        <div
+                            id="relationGraph"
+                            style="height: 400px; width: 100%"
+                        ></div>
+                    </Board>
+                </div>
             </div>
         </div>
     </div>
@@ -116,18 +116,20 @@ export default {
     color: var(--item-bg-color);
 }
 
-/* 创建两个不相等的列 */
-.column {
-  float: left;
+/* 两列 */
+.AgriQAColumns {
+    width: 100%;
 }
 
 /* 左列宽度 */
-.column.left {
-  width: 40%;
+.AgriQAColumns .left {
+    float: left;
+    width: 40%;
+    justify-content: space-between;
 }
 
 /* 右列宽度 */
-.column.right {
+.AgriQAColumns .right {
   padding-left: 5%;
   width: 60%;
 }

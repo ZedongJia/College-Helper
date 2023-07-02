@@ -101,7 +101,6 @@ export default {
         },
         followMove(e) {
             // todo
-            console.log(e)
             const width = document.querySelector('body').clientWidth
             const x = e.pageX - width / 2
             let move = -50 + x * this.bgmove.ratio
