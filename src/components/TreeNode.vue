@@ -1,17 +1,33 @@
 <template>
     <li>
-        <!-- list-style-image:url(../assets/icons/zengjia.png); -->
         <!-- 当前节点 -->
         <div class="tree-node">
-            list-style-image:url(../assets/icons/zengjia.png)
             <div class="tree-line"></div>
-            {{ model.name }}
-            <span
-                v-if="isFolder"
-                class="toggle-icon"
-                @click="toggle"
-                >[进入分类]</span
+            <div
+                class="flex-row"
+                style="justify-content: left"
             >
+                <img
+                    style="width: 24px"
+                    v-if="isShow || !isFolder"
+                    src="../assets/icons/jianshao.png"
+                    alt="-"
+                />
+                <img
+                    style="width: 24px"
+                    v-else
+                    src="../assets/icons/zengjia.png"
+                    alt="+"
+                />
+                {{ model.name }}
+                <span
+                    v-if="isFolder"
+                    class="toggle-icon"
+                    @click="toggle"
+                >
+                    [进入分类]
+                </span>
+            </div>
         </div>
         <ul v-if="isShow">
             <!--

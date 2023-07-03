@@ -21,13 +21,12 @@
             <Board> 农业分类树 </Board>
             <Board
                 style="
+                    min-height: 400px;
                     max-height: 500px; /* 设置容器的最大高度 */
                     overflow-y: auto; /* 添加垂直滚动条 */
                 "
             >
-                <Tree
-                    :model="treeData"
-                ></Tree>
+                <Tree :model="treeData"></Tree>
             </Board>
             <Board>
                 <button
@@ -58,6 +57,54 @@ const treeData = {
                 {
                     name: '种植业',
                     children: [{ name: '树' }]
+                },
+                {
+                    name: '畜牧业',
+                    children: [{ name: '家畜' }]
+                },
+                {
+                    name: '种植业',
+                    children: [
+                        { name: '树' },
+                        {
+                            name: '畜牧业',
+                            children: [{ name: '家畜' }]
+                        },
+                        {
+                            name: '种植业',
+                            children: [
+                                { name: '树' },
+                                {
+                                    name: '畜牧业',
+                                    children: [{ name: '家畜' }]
+                                },
+                                {
+                                    name: '种植业',
+                                    children: [
+                                        { name: '树' },
+                                        {
+                                            name: '畜牧业',
+                                            children: [{ name: '家畜' }]
+                                        },
+                                        {
+                                            name: '种植业',
+                                            children: [
+                                                { name: '树' },
+                                                {
+                                                    name: '畜牧业',
+                                                    children: [{ name: '家畜' }]
+                                                },
+                                                {
+                                                    name: '种植业',
+                                                    children: [{ name: '树' }]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         }
