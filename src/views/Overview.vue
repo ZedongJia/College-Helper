@@ -13,56 +13,57 @@
                 显示
             </button>
         </Board>
-        <Board style="grid-column: 2 / 5"></Board>
-        <Board style="grid-column: 2 / 5"></Board>
+        <Board style="grid-column: 2 / 5"> 上级分类：</Board>
+        <Board style="grid-column: 2 / 5"> 下级分类：</Board>
     </div>
     <PopFrame v-if="appear">
-        <Board> 农业分类树 </Board>
-        <Board style="height: 75%">
-            <Tree
-                class="item"
-                :model="treeData"
-            ></Tree>
-        </Board>
-        <button
-            class="searchButton"
-            @click="outFrame"
-            style="position: absolute; top: 87%; right: 0"
-        >
-            返回
-        </button>
+        <div style="width: 50%; margin: 50px auto">
+            <Board> 农业分类树 </Board>
+            <Board
+                style="
+                    max-height: 500px; /* 设置容器的最大高度 */
+                    overflow-y: auto; /* 添加垂直滚动条 */
+                "
+            >
+                <Tree
+                    :model="treeData"
+                ></Tree>
+            </Board>
+            <Board>
+                <button
+                    class="searchButton"
+                    @click="outFrame"
+                    style=""
+                >
+                    返回
+                </button>
+            </Board>
+        </div>
     </PopFrame>
 </template>
 <script>
 import './style/index.css'
-import Tree from './Tree.vue'
 const treeData = {
-    name: 'My Tree',
+    name: '农业',
     children: [
         { name: 'hello' },
         { name: 'wat' },
         {
-            name: 'child folder',
+            name: '驯养动物',
             children: [
                 {
-                    name: 'child folder',
-                    children: [{ name: 'hello' }, { name: 'wat' }]
+                    name: '畜牧业',
+                    children: [{ name: '家畜' }]
                 },
-                { name: 'hello' },
-                { name: 'wat' },
                 {
-                    name: 'child folder',
-                    children: [{ name: 'hello' }, { name: 'wat' }]
+                    name: '种植业',
+                    children: [{ name: '树' }]
                 }
             ]
         }
     ]
 }
-
 export default {
-    components: {
-        Tree
-    },
     data() {
         return {
             appear: false,
@@ -81,12 +82,5 @@ export default {
     display: grid;
     grid-template-columns: 3fr 1fr;
     grid-gap: 15px 13px;
-}
-.item {
-  cursor: pointer;
-  line-height: 1.5;
-}
-.bold {
-  font-weight: bold;
 }
 </style>
