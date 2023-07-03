@@ -21,5 +21,6 @@
 }
 .pop-frame {
     z-index: 200;
+    animation: fade 0.5s forwards;
 }
 </style>

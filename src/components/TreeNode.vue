@@ -8,14 +8,12 @@
                 style="justify-content: left"
             >
                 <img
-                    style="width: 24px"
                     @click="toggle"
                     v-if="isShow || !isFolder"
                     src="../assets/icons/jianshao.png"
                     alt="-"
                 />
                 <img
-                    style="width: 24px"
                     @click="toggle"
                     v-else
                     src="../assets/icons/zengjia.png"
@@ -73,6 +71,7 @@ export default {
                 parent: this.parent,
                 children: this.model.children
             })
+            this.$store.commit('updateShowTree')
         }
     }
 }
@@ -83,6 +82,13 @@ export default {
     min-width: 100px;
     height: 32px;
     line-height: 32px;
+}
+.tree-node img {
+    cursor: pointer;
+    width: 24px;
+}
+.tree-node img:hover {
+    animation: bounce 0.25s;
 }
 .tree-line {
     position: absolute;

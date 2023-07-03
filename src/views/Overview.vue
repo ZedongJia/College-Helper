@@ -119,8 +119,19 @@ export default {
     },
     methods: {
         outFrame() {
+            this.$store.commit('updateShowTree')
+        }
+    },
+    watch: {
+        '$store.getters.isShowTree'() {
             this.appear = !this.appear
         }
+    },
+    mounted() {
+        this.$store.commit('updateCurrNode', {
+            parent: '',
+            children: treeData.children
+        })
     }
 }
 </script>

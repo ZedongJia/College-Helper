@@ -5,17 +5,23 @@ export default createStore({
     currNode: {
       parent: '',
       children: []
-    }
+    },
+    showTree: false
   },
   getters: {
     getCurrNode(state) {
       return state.currNode
+    },
+    isShowTree(state) {
+      return state.showTree
     }
   },
   mutations: {
     updateCurrNode(state, params) {
-      console.log(state)
       state.currNode = params
+    },
+    updateShowTree(state) {
+      state.showTree = !state.showTree
     }
   }
 })
