@@ -1,6 +1,6 @@
 <template>
     <ul class="tree">
-        <TreeNode :model="model"></TreeNode>
+        <TreeNode parent="root" :model="model"></TreeNode>
     </ul>
 </template>
 <script>

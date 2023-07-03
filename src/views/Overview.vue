@@ -13,8 +13,8 @@
                 显示
             </button>
         </Board>
-        <Board style="grid-column: 2 / 5"> 上级分类：</Board>
-        <Board style="grid-column: 2 / 5"> 下级分类：</Board>
+        <Board style="grid-column: 2 / 5"> 上级分类：{{ $store.getters.getCurrNode.parent }}</Board>
+        <Board style="grid-column: 2 / 5"> 下级分类：{{ $store.getters.getCurrNode.children }}</Board>
     </div>
     <PopFrame v-if="appear">
         <div style="width: 50%; margin: 50px auto">

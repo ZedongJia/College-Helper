@@ -9,21 +9,22 @@
             >
                 <img
                     style="width: 24px"
+                    @click="toggle"
                     v-if="isShow || !isFolder"
                     src="../assets/icons/jianshao.png"
                     alt="-"
                 />
                 <img
                     style="width: 24px"
+                    @click="toggle"
                     v-else
                     src="../assets/icons/zengjia.png"
                     alt="+"
                 />
                 {{ model.name }}
                 <span
-                    v-if="isFolder"
                     class="toggle-icon"
-                    @click="toggle"
+                    @click="record"
                 >
                     [进入分类]
                 </span>
@@ -35,9 +36,10 @@
         (如果使用单文件组件，则从文件名推断)
       -->
             <Tree
-                v-for="model in model.children"
-                :model="model"
-                :key="model.id"
+                v-for="m in model.children"
+                :parent="m.name"
+                :model="m"
+                :key="m.name"
             >
             </Tree>
         </ul>
@@ -47,6 +49,7 @@
 export default {
     name: 'Tree', // 在引用自身的时候是必须的
     props: {
+        parent: String,
         model: Object
     },
     data() {
@@ -64,6 +67,12 @@ export default {
             if (this.isFolder) {
                 this.isShow = !this.isShow
             }
+        },
+        record() {
+            this.$store.commit('updateCurrNode', {
+                parent: this.parent,
+                children: this.model.children
+            })
         }
     }
 }
