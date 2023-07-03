@@ -8,6 +8,7 @@ import Option from './Option.vue'
 import PopFrame from './PopFrame.vue'
 import RouteNav from './RouteNav.vue'
 import LinkText from './LinkText.vue'
+import Tree from './Tree.vue'
 
 export default (app) => {
     app.component('Card', Card)
@@ -20,4 +21,5 @@ export default (app) => {
     app.component('PopFrame', PopFrame)
     app.component('RouteNav', RouteNav)
     app.component('LinkText', LinkText)
+    app.component('Tree', Tree)
 }

@@ -11,7 +11,6 @@
     position: fixed;
     top: 0;
     left: 0;
-    opacity: 0.5;
     width: 100vw;
     height: 100vh;
     background-color: black;
@@ -21,7 +20,10 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    padding: 0%;
+    opacity: 1;
     height: 50%;
-    width:50%
+    width:50%;
+    background-color:var(--edit-bg-color);
 }
 </style>

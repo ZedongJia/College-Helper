@@ -2,10 +2,6 @@
     <div class="wrapper overviewlayout">
         <Board style="grid-column: 1 / 2">
             分类专题：[{{ category }}] <br />
-            <ui>
-                <li></li>
-                <li></li>
-            </ui>
         </Board>
         <Board style="grid-column: 2 / 5">
             分类导航:
@@ -21,10 +17,17 @@
         <Board style="grid-column: 2 / 5"></Board>
     </div>
     <PopFrame v-if="appear">
+        <Board> 农业分类树 </Board>
+        <Board style="height: 75%">
+            <Tree
+                class="item"
+                :model="treeData"
+            ></Tree>
+        </Board>
         <button
             class="searchButton"
             @click="outFrame"
-            style="position: absolute; top: 87%; right: 1%"
+            style="position: absolute; top: 87%; right: 0"
         >
             返回
         </button>
@@ -32,10 +35,38 @@
 </template>
 <script>
 import './style/index.css'
+import Tree from './Tree.vue'
+const treeData = {
+    name: 'My Tree',
+    children: [
+        { name: 'hello' },
+        { name: 'wat' },
+        {
+            name: 'child folder',
+            children: [
+                {
+                    name: 'child folder',
+                    children: [{ name: 'hello' }, { name: 'wat' }]
+                },
+                { name: 'hello' },
+                { name: 'wat' },
+                {
+                    name: 'child folder',
+                    children: [{ name: 'hello' }, { name: 'wat' }]
+                }
+            ]
+        }
+    ]
+}
+
 export default {
+    components: {
+        Tree
+    },
     data() {
         return {
-            appear: false
+            appear: false,
+            treeData
         }
     },
     methods: {
@@ -50,5 +81,12 @@ export default {
     display: grid;
     grid-template-columns: 3fr 1fr;
     grid-gap: 15px 13px;
+}
+.item {
+  cursor: pointer;
+  line-height: 1.5;
+}
+.bold {
+  font-weight: bold;
 }
 </style>
