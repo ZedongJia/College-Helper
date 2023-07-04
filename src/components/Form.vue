@@ -122,6 +122,9 @@ export default {
     top: 50%;
     transform: translate(0, -50%);
 }
+.myform img:hover {
+    width: 32px;
+}
 .myform thead tr {
     background: rgb(6, 143, 153);
 }
