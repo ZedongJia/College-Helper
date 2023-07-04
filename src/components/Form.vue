@@ -121,14 +121,14 @@ export default {
     right: 0;
     top: 50%;
     transform: translate(0, -50%);
+    transition: 0.25s;
 }
 .myform img:hover {
+    cursor: pointer;
     width: 32px;
+    transition: 0.25s;
 }
 .myform thead tr {
     background: rgb(6, 143, 153);
-}
-.myform tbody tr:nth-child(even) {
-    background: gray;
 }
 </style>

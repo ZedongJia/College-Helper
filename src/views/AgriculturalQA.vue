@@ -123,10 +123,13 @@ export default {
 .itemLink {
     margin-left: 1%;
     color: orange;
-    transition: 0.25s;
+    transition: 0.5s;
 }
 .itemLink:hover {
     color: var(--item-bg-color);
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.5s;
 }
 
 /* 两列 */
