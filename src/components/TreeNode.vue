@@ -35,7 +35,7 @@
       -->
             <Tree
                 v-for="m in model.children"
-                :parent="m.name"
+                :parent="model.name"
                 :model="m"
                 :key="m.name"
             >

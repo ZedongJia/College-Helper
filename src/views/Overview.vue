@@ -13,8 +13,18 @@
                 显示
             </button>
         </Board>
-        <Board style="grid-column: 2 / 5"> 上级分类：{{ $store.getters.getCurrNode.parent }}</Board>
-        <Board style="grid-column: 2 / 5"> 下级分类：{{ $store.getters.getCurrNode.children }}</Board>
+        <Board style="grid-column: 2 / 5">
+            上级分类：{{ $store.getters.getCurrNode.parent }}</Board
+        >
+        <Board style="grid-column: 2 / 5">
+            下级分类：
+            <p
+                v-for="i in $store.getters.getCurrNode.children"
+                :key="i"
+            >
+                {{ i.name }}
+            </p>
+        </Board>
     </div>
     <PopFrame v-if="appear">
         <div style="width: 50%; margin: 50px auto">
@@ -130,7 +140,7 @@ export default {
     mounted() {
         this.$store.commit('updateCurrNode', {
             parent: '',
-            children: treeData.children
+            children: []
         })
     }
 }
