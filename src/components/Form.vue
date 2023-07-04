@@ -112,14 +112,18 @@ export default {
     line-height: 48px;
     text-align: center;
 }
+.myform thead td {
+    font-size: 24px;
+}
 .myform img {
     width: 24px;
     position: absolute;
+    right: 0;
     top: 50%;
     transform: translate(0, -50%);
 }
 .myform thead tr {
-    background: var(--item-bg-color);
+    background: rgb(6, 143, 153);
 }
 .myform tbody tr:nth-child(even) {
     background: gray;

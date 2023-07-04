@@ -17,8 +17,6 @@
             </button>
         </Board>
         <br />
-        <Form :link="link"></Form>
-        <br />
         <Board> 关系图 </Board>
         <Board>
             <RelationGraph
@@ -29,6 +27,8 @@
             >
             </RelationGraph>
         </Board>
+        <br />
+        <Form :link="link"></Form>
     </div>
 </template>
 <script>

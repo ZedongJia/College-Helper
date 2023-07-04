@@ -22,10 +22,10 @@
                 <p>
                     热门搜索:
                     <a
-                        href="#"
                         class="itemLink"
                         v-for="itemLink in hotLinks"
                         :key="itemLink"
+                        @click="linkQuestion(itemLink.name)"
                     >
                         {{ itemLink.name }}
                     </a>
@@ -37,13 +37,13 @@
             <div class="AgriQAColumns">
                 <div class="left">
                     <Board>答案：</Board>
-                    <Board>
+                    <Board v-if="isShow">
                         <p>这里是答案。</p>
                     </Board>
                 </div>
                 <div class="right">
                     <Board>图谱显示：</Board>
-                    <Board>
+                    <Board v-if="isShow">
                         <RelationGraph
                             :data="data"
                             :link="link"
@@ -69,12 +69,23 @@ export default {
                 { id: 0, name: '崇明县适合种植什么植物？' },
                 { id: 1, name: '胡萝卜汁含有哪些营养成分?' },
                 { id: 2, name: '中国首都的天气类型是什么？' }
-            ]
+            ],
+            searchQuestion: '',
+            isShow: false
         }
     },
     methods: {
         performSearch() {
             // todo
+            // 判断问题不为空
+            // 像后端发送数据
+            console.log(this.searchQuestion)
+            this.isShow = true
+        },
+        linkQuestion(name) {
+            // todo
+            this.searchQuestion = name
+            this.performSearch()
         }
     },
     created() {

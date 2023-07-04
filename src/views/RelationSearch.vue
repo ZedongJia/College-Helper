@@ -43,6 +43,8 @@
             >
             </RelationGraph>
         </Board>
+        <br />
+        <Form :link="link"></Form>
     </div>
 </template>
 <script>
@@ -64,21 +66,23 @@ export default {
     created() {
         // 向后端请求，得到data，link
         this.data = [
-            { name: '张三', symbolSize: 20, c: 1 },
-            { name: '李四', symbolSize: 30, c: 1 },
-            { name: '王五', symbolSize: 40, c: 1 },
-            { name: '赵六', symbolSize: 30, c: 1 },
-            { name: '小七', symbalSize: 40, c: 1 },
-            { name: '小明', symbolSize: 30, c: 0 },
-            { name: '小红', symbalSize: 40, c: 0 }
+            { name: '玉米', symbolSize: 30, c: 1 },
+            { name: '蔬菜', symbolSize: 30, c: 1 },
+            { name: '番茄', symbolSize: 30, c: 1 },
+            { name: '大西瓜', symbolSize: 30, c: 1 },
+            { name: '水果', symbalSize: 30, c: 1 },
+            { name: '南开大学', symbalSize: 30, c: 0 },
+            { name: '起名字好难啊', symbalSize: 30, c: 0 },
+            { name: '大菠萝', symbalSize: 30, c: 0 }
         ]
         this.link = [
-            { source: '张三', target: '李四', label: '朋友' },
-            { source: '李四', target: '王五', label: '同事' },
-            { source: '王五', target: '小七', label: '同学' },
-            { source: '张三', target: '小明', label: '朋友' },
-            { source: '小明', target: '小红', label: '同事' },
-            { source: '小红', target: '小七', label: '同学' }
+            { source: '蔬菜', label: '属于3', target: '南开大学' },
+            { source: '水果', label: '属于2', target: '南开大学' },
+            { source: '大西瓜', label: '属于1', target: '水果' },
+            { source: '番茄', label: '属于0', target: '蔬菜' },
+            { source: '玉米', label: '属于5', target: '蔬菜' },
+            { source: '起名字好难啊', label: '属于4', target: '南开大学' },
+            { source: '大菠萝', label: '属于6', target: '水果' }
         ]
     }
 }
