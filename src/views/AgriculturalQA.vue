@@ -19,8 +19,16 @@
             </div>
             <!-- 热门搜索 -->
             <div class="hotLinks">
-                <p>热门搜索:
-                    <a href="#" class="itemLink" v-for="itemLink in hotLinks" :key=itemLink> {{ itemLink.name }} </a>
+                <p>
+                    热门搜索:
+                    <a
+                        href="#"
+                        class="itemLink"
+                        v-for="itemLink in hotLinks"
+                        :key="itemLink"
+                    >
+                        {{ itemLink.name }}
+                    </a>
                 </p>
             </div>
         </Board>
@@ -36,10 +44,13 @@
                 <div class="right">
                     <Board>图谱显示：</Board>
                     <Board>
-                        <div
-                            id="relationGraph"
-                            style="height: 400px; width: 100%"
-                        ></div>
+                        <RelationGraph
+                            :data="data"
+                            :link="link"
+                            isDraggable
+                            isAnimation
+                        >
+                        </RelationGraph>
                     </Board>
                 </div>
             </div>
@@ -48,7 +59,6 @@
 </template>
 <script>
 import './style/index.css'
-import { generateRelationGraph } from './scripts/utils.js'
 export default {
     data() {
         return {
@@ -86,14 +96,6 @@ export default {
             { source: '小明', target: '小红', label: '同事' },
             { source: '小红', target: '小七', label: '同学' }
         ]
-    },
-    mounted() {
-        // 初始化echarts实例
-        generateRelationGraph(
-            document.querySelector('#relationGraph'),
-            this.data,
-            this.link
-        )
     }
 }
 </script>
@@ -130,7 +132,7 @@ export default {
 
 /* 右列宽度 */
 .AgriQAColumns .right {
-  padding-left: 5%;
-  width: 60%;
+    padding-left: 5%;
+    width: 60%;
 }
 </style>

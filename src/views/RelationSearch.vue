@@ -24,22 +24,29 @@
                 placeholder="实体2"
             />
             <!-- 按钮 -->
-            <button class="searchButton" style="margin: 0 10px; padding: 0 20px;">搜索</button>
+            <button
+                class="searchButton"
+                style="margin: 0 10px; padding: 0 20px"
+            >
+                搜索
+            </button>
         </board>
         <!-- 关系图 -->
         <br />
         <board>关系图</board>
-        <board>
-            <div
-                id="relationGraph"
-                style="height: 400px; width: 100%"
-            ></div>
-        </board>
+        <Board>
+            <RelationGraph
+                :data="data"
+                :link="link"
+                isDraggable
+                isAnimation
+            >
+            </RelationGraph>
+        </Board>
     </div>
 </template>
 <script>
 import './style/index.css'
-import { generateRelationGraph } from './scripts/utils.js'
 export default {
     data() {
         return {
@@ -73,18 +80,9 @@ export default {
             { source: '小明', target: '小红', label: '同事' },
             { source: '小红', target: '小七', label: '同学' }
         ]
-    },
-    mounted() {
-        // 初始化echarts实例
-        generateRelationGraph(
-            document.querySelector('#relationGraph'),
-            this.data,
-            this.link
-        )
     }
 }
 </script>
-
 <style>
 .item:hover {
     background-color: var(--item-bg-rev-color);

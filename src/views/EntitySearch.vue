@@ -21,16 +21,18 @@
         <br />
         <Board> 关系图 </Board>
         <Board>
-            <div
-                id="relationGraph"
-                style="height: 400px; width: 100%"
-            ></div>
+            <RelationGraph
+                :data="data"
+                :link="link"
+                isDraggable
+                isAnimation
+            >
+            </RelationGraph>
         </Board>
     </div>
 </template>
 <script>
 import './style/index.css'
-import { generateRelationGraph } from './scripts/utils.js'
 export default {
     data() {
         return {
@@ -65,17 +67,6 @@ export default {
             { source: '起名字好难啊', label: '属于4', target: '南开大学' },
             { source: '大菠萝', label: '属于6', target: '水果' }
         ]
-    },
-    mounted() {
-        // 初始化echarts实例
-        generateRelationGraph(
-            document.querySelector('#relationGraph'),
-            this.data,
-            this.link
-        )
     }
 }
 </script>
-
-<style>
-</style>

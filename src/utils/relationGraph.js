@@ -7,7 +7,7 @@ import * as echarts from 'echarts'
  * @param {*} isDraggable 是否可拖拽
  * @param {*} isAnimation 是否显示动画
  */
-function generateRelationGraph(element, data, link, isDraggable, isAnimation) {
+function generateRelationGraph (element, data, link, isDraggable, isAnimation) {
     // todo
     const colors = ['red', 'green', 'yellow']
     const option = {
@@ -67,15 +67,16 @@ function generateRelationGraph(element, data, link, isDraggable, isAnimation) {
             }
         ]
     }
-    let newChart = null
-    newChart = echarts.init(element)
+    const newChart = echarts.init(element)
     // 渲染人物关系图
     newChart.setOption(option)
     // window.addEventListener('resize', resizeCharts);
     // 监听
-    window.addEventListener('resize', () => {
+    const listeningChart = () => {
         newChart.resize()
-    })
+    }
+    window.addEventListener('resize', listeningChart)
+    return listeningChart
 }
 
 export { generateRelationGraph }
