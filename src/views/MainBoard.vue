@@ -88,6 +88,7 @@ export default {
     position: relative;
     display: flex;
     flex-flow: row nowrap;
+    overflow-x: hidden;
 }
 #main >* {
     transition: 0.5s;
