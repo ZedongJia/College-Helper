@@ -1,11 +1,12 @@
 <template>
-    <board>关系图表</board>
-    <Board>
-        <div style="margin: 3px">
-            <table class="myform">
-                <thead>
-                    <tr>
-                        <td
+    <board>
+        <Title title="关系图表"></Title>
+    </board>
+    <Board style="padding: 0">
+        <table class="myform">
+            <thead>
+                <tr>
+                    <td
                             style="height: 32px; position: relative"
                             v-for="itemHeader, index in tableHeader"
                             :key="itemHeader"
@@ -16,9 +17,10 @@
                                 @click="Sort(index)"
                             />
                         </td>
-                    </tr>
-                </thead>
-                <tbody>
+                </tr>
+            </thead>
+            <tbody>
+                <TransitionGroup name="list" mode="out-in">
                     <tr
                         v-for="itemTable in tableContent"
                         :key="itemTable"
@@ -27,9 +29,9 @@
                         <td>{{ itemTable.label }}</td>
                         <td>{{ itemTable.target }}</td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
+                </TransitionGroup>
+            </tbody>
+        </table>
     </Board>
 </template>
 <script>
@@ -99,39 +101,45 @@ export default {
 <style>
 .myform {
     width: 100%;
-    border-spacing: 0px;
-    border-right: 1px solid rgb(13, 212, 79);
-    border-bottom: 1px solid rgb(13, 212, 79);
     text-align: center;
+    border-collapse: collapse;
+}
+.myform thead td {
+    font-weight: bold;
 }
 .myform td {
-    border-left: 1px solid rgb(13, 212, 79);
-    border-top: 1px solid rgb(13, 212, 79);
+    cursor: default;
     padding: 0 10px;
     height: 48px;
     line-height: 48px;
     text-align: center;
 }
-.myform thead td {
-    font-size: 24px;
-}
 .myform img {
-    width: 24px;
+    cursor: pointer;
+    opacity: 0.5;
+    width: 20px;
     position: absolute;
-    right: 0;
+    right: 10%;
     top: 50%;
     transform: translate(0, -50%);
     transition: 0.25s;
 }
 .myform img:hover {
-    width: 32px;
-    cursor: pointer;
-    transition: 0.25s;
+    opacity: 1;
 }
 .myform thead tr {
-    background: rgb(6, 143, 153);
+    background: var(--item-bg-color);
+    color: var(--item-font-color);
+    transition: 0.25s;
 }
-.myform tbody tr:nth-child(even) {
-    background: rgb(206, 202, 202);
+.myform thead tr:hover {
+    background: var(--item-bg-rev-color);
+    color: var(--item-font-rev-color);
+}
+.myform tbody tr {
+    border-bottom: 1px solid var(--item-bg-color);
+}
+.myform tbody tr:last-child {
+    border-bottom: none;
 }
 </style>

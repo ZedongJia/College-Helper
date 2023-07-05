@@ -1,6 +1,8 @@
 <template lang="">
     <div class="wrapper">
-        <Board> 查询条件: </Board>
+        <Board>
+            <Title title="查询条件: "></Title>
+        </Board>
         <Board class="flex-row">
             <input
                 class="inputItem"
@@ -17,7 +19,9 @@
             </button>
         </Board>
         <br />
-        <Board> 关系图 </Board>
+        <Board>
+            <Title title="关系图"></Title>
+        </Board>
         <Board>
             <RelationGraph
                 :data="data"
@@ -32,7 +36,6 @@
     </div>
 </template>
 <script>
-import './style/index.css'
 export default {
     data() {
         return {

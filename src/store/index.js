@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 export default createStore({
     state: {
         currNode: {
-            parent: '',
+            parent: 'root',
             children: [],
             nodename: ''
         },

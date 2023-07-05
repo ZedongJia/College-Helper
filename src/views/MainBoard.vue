@@ -86,6 +86,7 @@ export default {
 }
 #main {
     position: relative;
+    padding-bottom: 64px;
     display: flex;
     flex-flow: row nowrap;
     overflow-x: hidden;

@@ -75,7 +75,7 @@
                 <div class="right">
                     <!-- 相关概念 -->
                     <Board>
-                        <h3 style="color: var(--headline-color)">相关概念</h3>
+                        <Title title="相关概念"></Title>
                         <br />
                         <!-- 关系 点 -->
                         <RelationGraph
@@ -86,7 +86,7 @@
                     <br />
                     <!-- 农业类型 -->
                     <Board>
-                        <h3 style="color: var(--headline-color)">农业类型</h3>
+                        <Title title="农业类型"></Title>
                         <div
                             class="flex-row"
                             style="justify-content: left; flex-flow: row wrap"
@@ -113,7 +113,7 @@
                     <br />
                     <!-- 实体类型 -->
                     <Board>
-                        <h3 style="color: var(--headline-color)">实体类型</h3>
+                        <Title title="实体类型"></Title>
                     </Board>
                 </div>
             </div>
@@ -121,7 +121,6 @@
     </div>
 </template>
 <script>
-import './style/index.css'
 export default {
     props: {
         entity: String

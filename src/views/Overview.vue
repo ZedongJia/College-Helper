@@ -1,9 +1,11 @@
 <template>
     <div class="wrapper overviewlayout">
         <Board style="grid-column: 1 / 2">
-            <span style="font-size: larger"
-                >分类专题： [{{ $store.getters.getCurrNode.nodename }}] <br
-            /></span>
+            <Title
+                :title="
+                    '分类专题： [' + $store.getters.getCurrNode.nodename + ']'
+                "
+            ></Title>
             <div
                 style="width: 100%"
                 v-for="key in Object.keys(sortedList)"
@@ -11,14 +13,7 @@
             >
                 <p
                     v-if="hasChildren(sortedList[key])"
-                    style="
-                        margin: 16px 0;
-                        width: 64px;
-                        height: 24px;
-                        line-height: 24px;
-                        background-color: var(--item-bg-rev-color);
-                        text-align: center;
-                    "
+                    class="label"
                 >
                     {{ key }}
                 </p>
@@ -34,34 +29,48 @@
         </Board>
         <div style="dispaly: grid; grid-template-rows: 200px 1fr 1fr">
             <Board>
-                分类导航:
+                <Title title="分类导航:"></Title>
+                <br />
                 <button
                     class="searchButton flex-column"
                     @click="outFrame"
-                    style="margin: 20px 0; width: 100%"
+                    style="width: 100%"
                 >
                     显示
                 </button>
             </Board>
-            <Board style="margin-top: 20%">
-                上级分类：<br /><span style="font-size: small">{{
-                    $store.getters.getCurrNode.parent
-                }}</span></Board
-            >
-            <Board style="margin-top: 20%">
-                下级分类：
+            <br />
+            <Board>
+                <Title
+                    style="margin-bottom: 8px"
+                    title="上级分类："
+                ></Title>
                 <p
+                    style="color: grey"
+                    v-if="$store.getters.getCurrNode.parent === 'root'"
+                >
+                    已是最高级分类
+                </p>
+                <span v-else> {{ $store.getters.getCurrNode.parent }} </span>
+            </Board>
+            <br />
+            <Board>
+                <Title
+                    style="margin-bottom: 8px"
+                    title="下级分类："
+                ></Title>
+                <p
+                    style="color: grey"
                     v-if="
                         !hasChildren(this.$store.getters.getCurrNode.children)
                     "
-                    style="font-size: small"
                 >
                     已是最低级分类
                 </p>
                 <p
+                    style="margin-bottom: 8px"
                     v-for="i in $store.getters.getCurrNode.children"
                     :key="i"
-                    style="font-size: small"
                 >
                     {{ i.name }}
                 </p>
@@ -70,7 +79,9 @@
     </div>
     <PopFrame v-if="appear">
         <div style="width: 50%; margin: 50px auto">
-            <Board> 农业分类树 </Board>
+            <Board>
+                <Title title="农业分类树"></Title>
+            </Board>
             <Board
                 style="
                     min-height: 400px;
@@ -80,11 +91,14 @@
             >
                 <Tree :model="treeData"></Tree>
             </Board>
-            <Board>
+            <Board
+                class="flex-row"
+                style="justify-content: right"
+            >
                 <button
                     class="searchButton"
                     @click="outFrame"
-                    style=""
+                    style="padding: 0 3em"
                 >
                     返回
                 </button>
@@ -93,7 +107,6 @@
     </PopFrame>
 </template>
 <script>
-import './style/index.css'
 const pinyin = require('js-pinyin')
 const treeData = {
     name: '农业',
@@ -177,7 +190,6 @@ export default {
             this.$store.commit('updateShowTree')
         },
         hasChildren(children) {
-            console.log(children)
             return children !== undefined && children.length !== 0
         },
         dfsAllNodes(i) {
@@ -197,12 +209,14 @@ export default {
             this.dfsAllNodes(this.node)
         }
     },
-    mounted() {
+    created() {
         this.$store.commit('updateCurrNode', {
-            parent: '已是最高级分类',
+            parent: 'root',
             children: treeData.children,
             nodename: treeData.name
         })
+    },
+    mounted() {
         this.node = this.$store.getters.getCurrNode
         this.dfsAllNodes(this.node)
     },
@@ -245,6 +259,17 @@ export default {
     display: grid;
     grid-template-columns: 3fr 1fr;
     grid-column-gap: 5%;
+}
+.label {
+    margin: 16px 0;
+    width: 64px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    background-color: var(--item-bg-rev-color);
+    box-shadow: 0 2px 5px var(--item-bg-color);
+    border: none;
+    border-radius: 5px;
 }
 .categray {
     display: flex;

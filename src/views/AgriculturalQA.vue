@@ -1,6 +1,8 @@
 <template lang="">
     <div class="wrapper">
-        <Board>输入问题:</Board>
+        <Board>
+            <Title title="输入问题:"></Title>
+        </Board>
         <Board>
             <div class="flex-row">
                 <input
@@ -36,13 +38,17 @@
         <div class="row">
             <div class="AgriQAColumns">
                 <div class="left">
-                    <Board>答案：</Board>
+                    <Board>
+                        <Title title="答案："></Title>
+                    </Board>
                     <Board v-if="isShow">
                         <p>这里是答案。</p>
                     </Board>
                 </div>
                 <div class="right">
-                    <Board>图谱显示：</Board>
+                    <Board>
+                        <Title title="图谱显示："></Title>
+                    </Board>
                     <Board v-if="isShow">
                         <RelationGraph
                             :data="data"
@@ -58,7 +64,6 @@
     </div>
 </template>
 <script>
-import './style/index.css'
 export default {
     data() {
         return {

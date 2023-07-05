@@ -4,25 +4,24 @@
     --edit-font-color: black;
     --headline-color: grey;
 
-
     /* theme */
-    
+
     /* ligth */
     --bg-color: #fcfada;
     --font-color: black;
     --item-bg-color: rgb(57, 84, 57);
     --item-font-color: rgb(255, 255, 255);
-    
+
     /* menu-item hover */
     --item-bg-rev-color: rgb(180, 243, 183);
     --item-font-rev-color: rgb(0, 0, 0);
-    
+
     /* dark */
     /* --bg-color: #000000;
     --font-color: white;
     --item-bg-color: rgb(113, 181, 157);
     --item-font-color: rgb(0, 0, 0); */
-    
+
     /* menu-item hover */
     /* --item-bg-rev-color: rgb(38, 83, 39);
     --item-font-rev-color: rgb(255, 255, 255); */
@@ -59,6 +58,18 @@ textarea {
     outline: none;
 }
 /* Global animation */
+
+.list-move,
+.list-enter-active,
+.list-leave-active {
+    transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+}
+
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
@@ -93,7 +104,66 @@ textarea {
     0% {
         opacity: 0;
     }
-    100%{
+    100% {
         opacity: 1;
     }
+}
+
+/* shared css */
+.wrapper {
+    width: 80%;
+    margin: 0 auto;
+    animation: fade 0.25s ease-in forwards;
+}
+/* layout */
+.flex-row {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-column {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+/* input \ button \ textarea */
+.searchButton {
+    cursor: pointer;
+    padding: 0 8px;
+    vertical-align: middle;
+    height: 48px;
+    font-weight: bold;
+    color: var(--item-font-color);
+    line-height: 48px;
+    text-align: center;
+    background-color: var(--item-bg-color);
+    border-radius: 4px;
+    transition: 0.25s;
+}
+
+.searchButton:hover {
+    background-color: var(--item-bg-rev-color);
+    color: var(--item-font-rev-color);
+}
+
+.inputItem {
+    padding-left: 0.5em;
+    height: 48px;
+    border: 1px solid var(--item-bg-color);
+    border-radius: 4px;
+    background-color: var(--edit-bg-color);
+}
+
+.textareaItem {
+    padding: 1em;
+    width: 85%;
+    resize: none;
+    color: var(--edit-font-color);
+    background-color: var(--edit-bg-color);
+    border: 1px solid var(--item-bg-color);
+    border-radius: 4px;
 }

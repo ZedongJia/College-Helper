@@ -1,8 +1,8 @@
 <template lang="">
-    <div
-        class="wrapper"
-    >
-        <Board>输入文本：</Board>
+    <div class="wrapper">
+        <Board>
+            <Title title="输入文本："></Title>
+        </Board>
         <Board class="flex-column">
             <textarea
                 class="textareaItem"
@@ -19,12 +19,11 @@
                 提交!
             </button>
         </Board>
-
+        <br />
         <Board
             @click="firstexpand"
-            style="margin-top: 20px; cursor: pointer"
         >
-            [查看识别结果]
+            <Title style="cursor: pointer" title="[查看识别结果]"></Title>
         </Board>
         <transition name="fade">
             <Board
@@ -37,11 +36,11 @@
                 ></LinkText>
             </Board>
         </transition>
+        <br />
         <Board
             @click="secondexpand"
-            style="margin-top: 20px; cursor: pointer"
         >
-            [查看分词结果]
+            <Title style="cursor: pointer" title="[查看分词结果]"></Title>
         </Board>
         <transition name="fade">
             <Board
@@ -55,7 +54,6 @@
 </template>
 
 <script>
-import './style/index.css'
 export default {
     data() {
         return {
