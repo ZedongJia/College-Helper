@@ -124,11 +124,14 @@ export default {
     transition: 0.25s;
 }
 .myform img:hover {
-    cursor: pointer;
     width: 32px;
+    cursor: pointer;
     transition: 0.25s;
 }
 .myform thead tr {
     background: rgb(6, 143, 153);
+}
+.myform tbody tr:nth-child(even) {
+    background: rgb(206, 202, 202);
 }
 </style>
