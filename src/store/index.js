@@ -1,27 +1,28 @@
 import { createStore } from 'vuex'
 
 export default createStore({
-  state: {
-    currNode: {
-      parent: '',
-      children: []
+    state: {
+        currNode: {
+            parent: '',
+            children: [],
+            nodename: ''
+        },
+        showTree: false
     },
-    showTree: false
-  },
-  getters: {
-    getCurrNode(state) {
-      return state.currNode
+    getters: {
+        getCurrNode(state) {
+            return state.currNode
+        },
+        isShowTree(state) {
+            return state.showTree
+        }
     },
-    isShowTree(state) {
-      return state.showTree
+    mutations: {
+        updateCurrNode(state, params) {
+            state.currNode = params
+        },
+        updateShowTree(state) {
+            state.showTree = !state.showTree
+        }
     }
-  },
-  mutations: {
-    updateCurrNode(state, params) {
-      state.currNode = params
-    },
-    updateShowTree(state) {
-      state.showTree = !state.showTree
-    }
-  }
 })

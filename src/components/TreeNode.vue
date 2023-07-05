@@ -19,7 +19,7 @@
                     src="../assets/icons/zengjia.png"
                     alt="+"
                 />
-                {{ model.name }}
+                <p style="cursor: default">{{ model.name }}</p>
                 <span
                     class="toggle-icon"
                     @click="record"
@@ -35,7 +35,7 @@
       -->
             <Tree
                 v-for="m in model.children"
-                :parent="m.name"
+                :parent="model.name"
                 :model="m"
                 :key="m.name"
             >
@@ -48,7 +48,8 @@ export default {
     name: 'Tree', // 在引用自身的时候是必须的
     props: {
         parent: String,
-        model: Object
+        model: Object,
+        nodename: String
     },
     data() {
         return {
@@ -69,7 +70,8 @@ export default {
         record() {
             this.$store.commit('updateCurrNode', {
                 parent: this.parent,
-                children: this.model.children
+                children: this.model.children,
+                nodename: this.model.name
             })
             this.$store.commit('updateShowTree')
         }

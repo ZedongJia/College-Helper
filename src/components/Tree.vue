@@ -1,6 +1,6 @@
 <template>
     <ul class="tree">
-        <TreeNode parent="root" :model="model"></TreeNode>
+        <TreeNode parent="已是最高级分类" :model="model"></TreeNode>
     </ul>
 </template>
 <script>
