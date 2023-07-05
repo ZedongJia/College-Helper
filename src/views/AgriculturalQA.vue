@@ -19,8 +19,16 @@
             </div>
             <!-- 热门搜索 -->
             <div class="hotLinks">
-                <p>热门搜索:
-                    <a href="#" class="itemLink" v-for="itemLink in hotLinks" :key=itemLink> {{ itemLink.name }} </a>
+                <p>
+                    热门搜索:
+                    <a
+                        class="itemLink"
+                        v-for="itemLink in hotLinks"
+                        :key="itemLink"
+                        @click="linkQuestion(itemLink.name)"
+                    >
+                        {{ itemLink.name }}
+                    </a>
                 </p>
             </div>
         </Board>
@@ -29,17 +37,20 @@
             <div class="AgriQAColumns">
                 <div class="left">
                     <Board>答案：</Board>
-                    <Board>
+                    <Board v-if="isShow">
                         <p>这里是答案。</p>
                     </Board>
                 </div>
                 <div class="right">
                     <Board>图谱显示：</Board>
-                    <Board>
-                        <div
-                            id="relationGraph"
-                            style="height: 400px; width: 100%"
-                        ></div>
+                    <Board v-if="isShow">
+                        <RelationGraph
+                            :data="data"
+                            :link="link"
+                            isDraggable
+                            isAnimation
+                        >
+                        </RelationGraph>
                     </Board>
                 </div>
             </div>
@@ -48,7 +59,6 @@
 </template>
 <script>
 import './style/index.css'
-import { generateRelationGraph } from './scripts/utils.js'
 export default {
     data() {
         return {
@@ -59,12 +69,23 @@ export default {
                 { id: 0, name: '崇明县适合种植什么植物？' },
                 { id: 1, name: '胡萝卜汁含有哪些营养成分?' },
                 { id: 2, name: '中国首都的天气类型是什么？' }
-            ]
+            ],
+            searchQuestion: '',
+            isShow: false
         }
     },
     methods: {
         performSearch() {
             // todo
+            // 判断问题不为空
+            // 像后端发送数据
+            console.log(this.searchQuestion)
+            this.isShow = true
+        },
+        linkQuestion(name) {
+            // todo
+            this.searchQuestion = name
+            this.performSearch()
         }
     },
     created() {
@@ -86,14 +107,6 @@ export default {
             { source: '小明', target: '小红', label: '同事' },
             { source: '小红', target: '小七', label: '同学' }
         ]
-    },
-    mounted() {
-        // 初始化echarts实例
-        generateRelationGraph(
-            document.querySelector('#relationGraph'),
-            this.data,
-            this.link
-        )
     }
 }
 </script>
@@ -110,10 +123,13 @@ export default {
 .itemLink {
     margin-left: 1%;
     color: orange;
-    transition: 0.25s;
+    transition: 0.5s;
 }
 .itemLink:hover {
     color: var(--item-bg-color);
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.5s;
 }
 
 /* 两列 */
@@ -130,7 +146,7 @@ export default {
 
 /* 右列宽度 */
 .AgriQAColumns .right {
-  padding-left: 5%;
-  width: 60%;
+    padding-left: 5%;
+    width: 60%;
 }
 </style>

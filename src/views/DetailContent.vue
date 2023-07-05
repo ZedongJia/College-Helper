@@ -7,7 +7,12 @@
                 <Board class="left">
                     <!-- 第一部分：标题 + 词条 -->
                     <!-- 页面标题 -->
-                    <h1 style="padding: 0 0 0.5em 0.5em; color: var(--headline-color);">
+                    <h1
+                        style="
+                            padding: 0 0 0.5em 0.5em;
+                            color: var(--headline-color);
+                        "
+                    >
                         {{ searchTitle }}
                     </h1>
                     <!-- 词条 -->
@@ -73,10 +78,10 @@
                         <h3 style="color: var(--headline-color)">相关概念</h3>
                         <br />
                         <!-- 关系 点 -->
-                        <div
-                            id="relationGraph"
-                            style="height: 200px; width: 100%"
-                        ></div>
+                        <RelationGraph
+                            :data="data"
+                            :link="link"
+                        ></RelationGraph>
                     </Board>
                     <br />
                     <!-- 农业类型 -->
@@ -117,7 +122,6 @@
 </template>
 <script>
 import './style/index.css'
-import { generateRelationGraph } from './scripts/utils.js'
 export default {
     props: {
         entity: String
@@ -175,17 +179,6 @@ export default {
             { id: 1, name: '生物技术' },
             { id: 2, name: '杂交水稻' }
         ]
-    },
-    mounted() {
-        // 初始化echarts实例
-        generateRelationGraph(
-            document.querySelector('#relationGraph'),
-            this.data,
-            this.link,
-            // eslint-disable-next-line no-undef
-            false,
-            false
-        )
     }
 }
 </script>
@@ -215,10 +208,10 @@ export default {
 }
 
 @media screen and (max-width: 600px) {
-  .left .image {
-    width: 90%;
-    margin: 5px;
-  }
+    .left .image {
+        width: 90%;
+        margin: 5px;
+    }
 }
 
 /* 左列：文字 */
@@ -271,6 +264,4 @@ export default {
     margin-top: 5px;
     margin-right: 5px;
 }
-
-/* 实体类型 */
 </style>

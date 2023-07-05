@@ -32,6 +32,7 @@
                 </div>
             </div>
         </Board>
+<<<<<<< HEAD
         <div style="dispaly: grid; grid-template-rows: 200px 1fr 1fr">
             <Board>
                 分类导航:
@@ -67,6 +68,20 @@
                 </p>
             </Board>
         </div>
+=======
+        <Board style="grid-column: 2 / 5">
+            上级分类：{{ $store.getters.getCurrNode.parent }}</Board
+        >
+        <Board style="grid-column: 2 / 5">
+            下级分类：
+            <p
+                v-for="i in $store.getters.getCurrNode.children"
+                :key="i"
+            >
+                {{ i.name }}
+            </p>
+        </Board>
+>>>>>>> c4241b87ceae164ae96fcdc5785ec6ca79ab9f4b
     </div>
     <PopFrame v-if="appear">
         <div style="width: 50%; margin: 50px auto">
@@ -199,9 +214,14 @@ export default {
     },
     mounted() {
         this.$store.commit('updateCurrNode', {
+<<<<<<< HEAD
             parent: '已是最高级分类',
             children: treeData.children,
             nodename: treeData.name
+=======
+            parent: '',
+            children: []
+>>>>>>> c4241b87ceae164ae96fcdc5785ec6ca79ab9f4b
         })
         this.node = this.$store.getters.getCurrNode
         this.dfsAllNodes(this.node)
