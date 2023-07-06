@@ -1,5 +1,6 @@
 <template lang="">
-    <LinkText text="hello, J is ACM" :entity="['J', 'ACM']"></LinkText>
+    <Loading></Loading>
+    44
 </template>
 <script>
 export default {}

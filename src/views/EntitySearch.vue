@@ -21,9 +21,11 @@
         <br />
         <Board>
             <Title title="关系图"></Title>
-        </Board>
+        </Board >
         <Board>
+            <loading v-if="isLoading"></loading>
             <RelationGraph
+                v-else
                 :data="data"
                 :link="link"
                 isDraggable
@@ -41,12 +43,16 @@ export default {
         return {
             entity: '',
             data: [],
-            link: []
+            link: [],
+            isLoading: true
         }
     },
     methods: {
         performSearch() {
             // todo
+        },
+        loadPageData() {
+            this.isLoading = false
         }
     },
     created() {
@@ -73,3 +79,4 @@ export default {
     }
 }
 </script>
+<style></style>
