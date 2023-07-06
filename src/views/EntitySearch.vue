@@ -21,17 +21,18 @@
         <br />
         <Board>
             <Title title="关系图"></Title>
-        </Board>
+        </Board >
         <Board>
+            <loading v-if="isLoading"></loading>
             <RelationGraph
+                v-else
                 :data="data"
                 :link="link"
                 isDraggable
                 isAnimation
-                v-if="this.isShow"
             >
             </RelationGraph>
-            <h1 v-else style="color: grey; text-align: center;">暂无查询结果</h1>
+            <h1 v-if="!isLoading" style="color: grey; text-align: center;">暂无查询结果</h1>
         </Board>
         <br />
         <Board>
@@ -50,13 +51,17 @@ export default {
             entity: '',
             isShow: false,
             data: [],
-            link: []
+            link: [],
+            isLoading: true
         }
     },
     methods: {
         performSearch() {
             // todo
             this.isShow = true
+        },
+        loadPageData() {
+            this.isLoading = false
         }
     },
     created() {
@@ -83,3 +88,4 @@ export default {
     }
 }
 </script>
+<style></style>
