@@ -13,6 +13,7 @@ import Tree from './Tree.vue'
 import TreeNode from './TreeNode.vue'
 import Form from './Form.vue'
 import RelationGraph from './RelationGraph.vue'
+import Loading from './Loading.vue'
 
 export default (app) => {
     app.component('Title', Title)
@@ -30,4 +31,5 @@ export default (app) => {
     app.component('TreeNode', TreeNode)
     app.component('Form', Form)
     app.component('RelationGraph', RelationGraph)
+    app.component('Loading', Loading)
 }
