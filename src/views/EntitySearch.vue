@@ -28,11 +28,19 @@
                 :link="link"
                 isDraggable
                 isAnimation
+                v-if="this.isShow"
             >
             </RelationGraph>
+            <h1 v-else style="color: grey; text-align: center;">暂无查询结果</h1>
         </Board>
         <br />
-        <Form :link="link"></Form>
+        <Board>
+            <Title title="关系图表"></Title>
+        </Board>
+        <Form :link="link" v-if="this.isShow"></Form>
+        <Board v-else>
+            <h1 style="color: grey; text-align: center;">暂无查询结果</h1>
+        </Board>
     </div>
 </template>
 <script>
@@ -40,6 +48,7 @@ export default {
     data() {
         return {
             entity: '',
+            isShow: false,
             data: [],
             link: []
         }
@@ -47,6 +56,7 @@ export default {
     methods: {
         performSearch() {
             // todo
+            this.isShow = true
         }
     },
     created() {

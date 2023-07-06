@@ -11,6 +11,7 @@
                 type="text"
                 class="inputItem"
                 placeholder="实体1"
+                v-model="entity1"
             />
             <!-- 关系选择 -->
             <Option
@@ -24,44 +25,64 @@
                 type="text"
                 class="inputItem"
                 placeholder="实体2"
+                v-model="entity2"
             />
             <!-- 按钮 -->
             <button
                 class="searchButton"
                 style="margin: 0 10px; padding: 0 20px"
+                @click="performSearch"
+                id="btn"
             >
                 搜索
             </button>
         </board>
         <!-- 关系图 -->
         <br />
-        <board><Title title="关系图"></Title></board>
+        <Board>
+            <Title title="关系图"></Title>
+        </Board>
         <Board>
             <RelationGraph
                 :data="data"
                 :link="link"
                 isDraggable
                 isAnimation
+                v-if="this.isShow"
             >
             </RelationGraph>
+            <h1 v-else style="color: grey; text-align: center;">暂无查询结果</h1>
         </Board>
         <br />
-        <Form :link="link"></Form>
+        <Board>
+            <Title title="关系图表"></Title>
+        </Board>
+        <Form v-if="this.isShow" :link="link"></Form>
+        <Board v-else>
+            <h1 style="color: grey; text-align: center;">暂无查询结果</h1>
+        </Board>
     </div>
 </template>
 <script>
 export default {
     data() {
         return {
+            isShow: false,
             data: [],
             link: [],
             options: ['选项1', '选项2', '选项2', '选项2'],
-            option: ''
+            option: '',
+            entity1: '',
+            entity2: ''
         }
     },
     methods: {
         receiveOption(option) {
             this.option = option
+        },
+        performSearch() {
+            // todo
+            this.isShow = true
         }
     },
     created() {

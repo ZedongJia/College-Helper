@@ -1,8 +1,5 @@
 <template>
-    <board>
-        <Title title="关系图表"></Title>
-    </board>
-    <Board style="padding: 32px 48px">
+    <Board style="padding: 32px 48px;">
         <table class="myform">
             <thead>
                 <tr>
