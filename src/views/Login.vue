@@ -6,7 +6,10 @@
         <h1 id="title">垂直农业知识图谱</h1>
         <div id="input-box">
             <div id="account-box">
-                <img src="../assets/icons/user.png" alt="">
+                <img
+                    src="../assets/icons/user.png"
+                    alt=""
+                />
                 <input
                     type="text"
                     v-model="login.account"
@@ -15,7 +18,10 @@
                 <span>用户名</span>
             </div>
             <div id="pw-box">
-                <img src="../assets/icons/password.png" alt="">
+                <img
+                    src="../assets/icons/password.png"
+                    alt=""
+                />
                 <input
                     type="password"
                     v-model="login.password"
@@ -36,7 +42,10 @@
         <h1 id="title">垂直农业知识图谱系统</h1>
         <div id="input-box">
             <div id="account-box">
-                <img src="../assets/icons/user.png" alt="">
+                <img
+                    src="../assets/icons/user.png"
+                    alt=""
+                />
                 <input
                     type="text"
                     v-model="register.account"
@@ -45,7 +54,10 @@
                 <span>用户名</span>
             </div>
             <div id="pw-box">
-                <img src="../assets/icons/password.png" alt="">
+                <img
+                    src="../assets/icons/password.png"
+                    alt=""
+                />
                 <input
                     type="password"
                     v-model="register.password"
@@ -54,7 +66,10 @@
                 <span>密码</span>
             </div>
             <div id="cf-box">
-                <img src="../assets/icons/password.png" alt="">
+                <img
+                    src="../assets/icons/password.png"
+                    alt=""
+                />
                 <input
                     type="password"
                     v-model="register.confirm"
@@ -68,7 +83,11 @@
             <button @click="backTo">去登录</button>
         </div>
     </div>
-    <img id="login-bg" src="./images/login-bg.jpg" alt="">
+    <img
+        id="login-bg"
+        src="./images/login-bg.jpg"
+        alt=""
+    />
 </template>
 <script>
 export default {
@@ -171,7 +190,7 @@ export default {
 #account-box input,
 #pw-box input,
 #cf-box input {
-    padding-left: 1em;
+    padding: 0 1em;
     width: 80%;
     height: 48px;
     font-size: 18px;

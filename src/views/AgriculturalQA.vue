@@ -11,13 +11,12 @@
                     v-model="searchQuestion"
                     placeholder="Enter Text..."
                 />&nbsp;
-                <button
-                    @click="performSearch"
-                    class="searchButton"
+                <Button
+                    @clickIt="performSearch"
                     style="width: 15%"
                 >
                     提交
-                </button>
+                </Button>
             </div>
             <!-- 热门搜索 -->
             <div class="hotLinks">

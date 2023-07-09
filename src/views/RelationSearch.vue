@@ -28,14 +28,13 @@
                 v-model="entity2"
             />
             <!-- 按钮 -->
-            <button
-                class="searchButton"
+            <Button
                 style="margin: 0 10px; padding: 0 20px"
-                @click="performSearch"
+                @clickIt="performSearch"
                 id="btn"
             >
                 搜索
-            </button>
+            </Button>
         </board>
         <!-- 关系图 -->
         <br />

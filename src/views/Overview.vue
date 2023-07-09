@@ -31,13 +31,12 @@
             <Board>
                 <Title title="分类导航:"></Title>
                 <br />
-                <button
-                    class="searchButton flex-column"
-                    @click="outFrame"
+                <Button
+                    @clickIt="outFrame"
                     style="width: 100%"
                 >
                     显示
-                </button>
+                </Button>
             </Board>
             <br />
             <Board>
@@ -95,13 +94,12 @@
                 class="flex-row"
                 style="justify-content: right"
             >
-                <button
-                    class="searchButton"
-                    @click="outFrame"
+                <Button
+                    @clickIt="outFrame"
                     style="padding: 0 3em"
                 >
                     返回
-                </button>
+                </Button>
             </Board>
         </div>
     </PopFrame>

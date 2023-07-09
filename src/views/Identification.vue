@@ -12,13 +12,12 @@
                 placeholder="Enter text"
                 v-model="textInput"
             ></textarea>
-            <button
-                class="searchButton"
-                style="margin: 20px 0; width: 50%"
-                @click="performSearch"
+            <Button
+                style="margin: 20px 0; width: 20%"
+                @clickIt="performSearch"
             >
                 提交!
-            </button>
+            </Button>
         </Board>
         <br />
         <Board @click="firstexpand">

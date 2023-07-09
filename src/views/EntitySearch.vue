@@ -10,13 +10,12 @@
                 v-model="entity"
                 placeholder="输入实体名称"
             />
-            <button
-                @click="performSearch"
-                class="searchButton"
+            <Button
+                @clickIt="performSearch"
                 style="width: 15%"
             >
                 查询
-            </button>
+            </Button>
         </Board>
         <br />
         <Board>

@@ -1,3 +1,6 @@
+import InfoForm from './InfoForm.vue'
+import Input from './Input.vue'
+import Button from './Button.vue'
 import Title from './Title.vue'
 import Card from './Card.vue'
 import Menu from './Menu.vue'
@@ -18,6 +21,9 @@ import EmptyHint from './EmptyHint.vue'
 import AnswerBoard from './AnswerBoard.vue'
 
 export default (app) => {
+    app.component('InfoForm', InfoForm)
+    app.component('Input', Input)
+    app.component('Button', Button)
     app.component('Title', Title)
     app.component('Card', Card)
     app.component('Menu', Menu)

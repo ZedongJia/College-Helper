@@ -135,25 +135,6 @@ textarea {
 }
 
 /* input \ button \ textarea */
-.searchButton {
-    cursor: pointer;
-    padding: 0 8px;
-    vertical-align: middle;
-    height: 48px;
-    font-weight: bold;
-    color: var(--item-font-color);
-    line-height: 48px;
-    text-align: center;
-    background-color: var(--item-bg-color);
-    border-radius: 4px;
-    transition: 0.25s;
-}
-
-.searchButton:hover {
-    background-color: var(--item-bg-rev-color);
-    color: var(--item-font-rev-color);
-}
-
 .inputItem {
     padding-left: 0.5em;
     height: 48px;
