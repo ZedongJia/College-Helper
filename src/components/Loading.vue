@@ -4,9 +4,9 @@
         style="height: 400px; animation: fade 0.25s ease-in forwards"
     >
         <div class="loading"></div>
-        <span style="display: flex; margin-top: 8px; font-weight: bold"
-            >Loading <dot>...</dot></span
-        >
+        <span style="display: flex; margin-top: 8px; font-weight: bold">
+            Loading <span class="dot">...</span>
+        </span>
     </div>
 </template>
 <style>
@@ -65,7 +65,7 @@
         transform: rotate(calc(var(--s, 1) * 120deg)) translate(0);
     }
 }
-dot {
+.dot {
     /*让点垂直居中*/
     height: 1em;
     line-height: 1;
@@ -75,7 +75,7 @@ dot {
     /*溢出部分的点隐藏*/
     overflow: hidden;
 }
-dot::before {
+.dot::before {
     /*三行三种点，需要搭配white-space:pre使用才能识别\A字符*/
     content: '...\A..\A.';
     white-space: pre-wrap;
