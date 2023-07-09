@@ -36,8 +36,8 @@ export default {
     margin-top: 32px;
     padding: 0 1em;
     width: 100%;
-    height: 32px;
-    line-height: 32px;
+    height: 48px;
+    line-height: 48px;
     color: var(--item-font-color);
 }
 
@@ -47,8 +47,8 @@ export default {
     left: 0;
     bottom: 0;
     padding-left: 1em;
-    height: 32px;
-    line-height: 32px;
+    height: 48px;
+    line-height: 48px;
     color: grey;
     transition: all ease 0.5s;
 }
@@ -77,7 +77,7 @@ export default {
 
 .input-blank:focus ~ .fill,
 .input-blank:valid ~ .fill {
-    height: 32px;
-    border-radius: 0px;
+    height: 48px;
+    border-radius: 5px;
 }
 </style>

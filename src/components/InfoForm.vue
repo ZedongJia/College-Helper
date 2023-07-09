@@ -7,7 +7,7 @@
             :key="input"
         >
             <Input
-                style="width: 80%;"
+                style="width: 80%"
                 :title="input.symbol"
                 :type="input.type"
                 v-model="inputsF[input.symbol]"
@@ -83,15 +83,15 @@ export default {
     align-items: center;
     background-color: transparent;
     backdrop-filter: blur(20px);
-    box-shadow: 0 1px 5px black;
-    border-radius: 5px;
+    border-radius: 12px;
+    box-shadow: 7px 7px 10px 3px #24004628;
 }
 .frame > * {
     flex: 0 0 100%;
 }
 /* title */
 .input-title {
-    margin: 32px 0;
+    margin-top: 80px;
     font-size: 26px;
     text-align: center;
 }

@@ -1,6 +1,5 @@
 <template>
     <NavBar
-        id="nav-bar"
         @hide="hideMenu"
     ></NavBar>
     <div id="main">
@@ -72,18 +71,6 @@ export default {
 }
 </script>
 <style>
-#nav-bar {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    width: 100%;
-    height: 64px;
-    line-height: 64px;
-    color: var(--font-color);
-    font-weight: bold;
-    box-shadow: 0 1px 10px var(--item-bg-color);
-}
 #main {
     position: relative;
     padding-bottom: 64px;

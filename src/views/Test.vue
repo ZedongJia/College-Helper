@@ -10,6 +10,7 @@
 export default {
     data() {
         return {
+            isShow: false,
             inputs: [
                 {
                     type: 'text',

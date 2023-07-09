@@ -41,7 +41,7 @@ export default {
     line-height: 48px;
     font-weight: bold;
     text-transform: uppercase;
-    transition: 0.25s;
+    transition: 0.4s;
     color: var(--item-font-color);
     background-color: var(--item-bg-color);
     border-radius: 5px;

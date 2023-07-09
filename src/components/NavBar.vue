@@ -1,5 +1,5 @@
 <template>
-    <div style="position: relative">
+    <div id="nav-bar">
         <div style="display: flex; flex: row nowrap">
             <HideButton
                 style="margin-top: 16px"
@@ -7,11 +7,11 @@
             ></HideButton>
             <span id="logo">垂直农业知识图谱</span>
         </div>
-        <div>
-            <ThemeButton
+        <div class="flex-row">
+            <ThemeCheck
                 id="theme-switch"
-                @click="changeTheme"
-            ></ThemeButton>
+                v-model="isLight"
+            ></ThemeCheck>
             <span id="log-menu">
                 个人中心
                 <span id="popover">
@@ -40,7 +40,8 @@ export default {
                 {
                     name: '关于'
                 }
-            ]
+            ],
+            isLight: true
         }
     },
     methods: {
@@ -48,6 +49,8 @@ export default {
             // todo
             switch (item.name) {
                 case '登出':
+                    // turn style to light
+                    this.isLight = true
                     // todo
                     this.$router.push('/login')
                     break
@@ -71,10 +74,29 @@ export default {
             this.$emit('hide', e)
             e.stopPropagation()
         }
+    },
+    watch: {
+        isLight() {
+            this.changeTheme(this.isLight)
+        }
     }
 }
 </script>
 <style>
+#nav-bar {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    width: 100%;
+    height: 64px;
+    line-height: 64px;
+    color: var(--font-color);
+    font-weight: bold;
+    box-shadow: 0 1px 10px var(--item-bg-color);
+}
+
 #logo {
     margin-left: 20px;
     font-size: 22px;
