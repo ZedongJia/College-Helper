@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <Board :inset="inset" class="fade-in">
         <Loading v-if="isLoading"></Loading>
         <EmptyHint v-if="isEmpty && !isLoading"></EmptyHint>

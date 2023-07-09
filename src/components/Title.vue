@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <h3 class="title">
         {{ title }}
     </h3>

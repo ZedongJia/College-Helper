@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <div class="wrapper fade-in">
         <br />
         <div class="row">

@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <div id="menu">
         <Card
             v-for="item in data"

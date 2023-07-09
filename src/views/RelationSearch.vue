@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <div class="wrapper fade-in">
         <!-- 查询主界面 -->
         <board>
@@ -61,7 +61,7 @@
     </div>
 </template>
 <script>
-import { loading } from '@/utils/loadingCallback'
+import { loading } from '@/utils/callback'
 
 export default {
     data() {

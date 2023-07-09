@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <div :class="{ container: true, inset: inset }">
         <slot></slot>
     </div>

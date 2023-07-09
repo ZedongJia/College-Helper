@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <Loading></Loading>
     44
 </template>

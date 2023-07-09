@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <NavBar
         id="nav-bar"
         @hide="hideMenu"

@@ -9,9 +9,6 @@
         >
     </div>
 </template>
-<script>
-export default {}
-</script>
 <style>
 .loading {
     margin: 0 auto;
