@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="wrapper">
+    <div class="wrapper fade-in">
         <!-- 查询主界面 -->
         <board>
             <Title title="查询条件："></Title>
@@ -42,32 +42,31 @@
         <Board>
             <Title title="关系图"></Title>
         </Board>
-        <Board>
-            <RelationGraph
-                :data="data"
-                :link="link"
-                isDraggable
-                isAnimation
-                v-if="this.isShow"
-            >
-            </RelationGraph>
-            <h1 v-else style="color: grey; text-align: center;">暂无查询结果</h1>
-        </Board>
+        <RelationGraph
+            :data="data"
+            :link="link"
+            isDraggable
+            isAnimation
+            :isLoading="isLoading"
+        >
+        </RelationGraph>
         <br />
         <Board>
             <Title title="关系图表"></Title>
         </Board>
-        <Form v-if="this.isShow" :link="link"></Form>
-        <Board v-else>
-            <h1 style="color: grey; text-align: center;">暂无查询结果</h1>
-        </Board>
+        <Form
+            :isLoading="isLoading"
+            :link="link"
+        ></Form>
     </div>
 </template>
 <script>
+import { loading } from '@/utils/loadingCallback'
+
 export default {
     data() {
         return {
-            isShow: false,
+            isLoading: false,
             data: [],
             link: [],
             options: ['选项1', '选项2', '选项2', '选项2'],
@@ -82,7 +81,14 @@ export default {
         },
         performSearch() {
             // todo
-            this.isShow = true
+            this.isLoading = true
+
+            // waiting for data
+            loading(() => {
+                this.isLoading = false
+                this.data = []
+                this.link = []
+            })
         }
     },
     created() {

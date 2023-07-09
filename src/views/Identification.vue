@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="wrapper">
+    <div class="wrapper fade-in">
         <Board>
             <Title title="输入文本："></Title>
         </Board>
@@ -15,45 +15,49 @@
             <button
                 class="searchButton"
                 style="margin: 20px 0; width: 50%"
+                @click="performSearch"
             >
                 提交!
             </button>
         </Board>
         <br />
-        <Board
-            @click="firstexpand"
-        >
-            <Title style="cursor: pointer" title="[查看识别结果]"></Title>
+        <Board @click="firstexpand">
+            <Title
+                style="cursor: pointer"
+                title="[查看识别结果]"
+            ></Title>
         </Board>
-        <transition name="fade">
-            <Board
-                v-if="showfirstBox"
-                class="searchresult"
-            >
+        <AnswerBoard
+            :isShow="showfirstBox"
+            :isLoading="isLoading"
+            extend
+        >
+            <template #extend>
                 <LinkText
                     :text="recognizeResult"
                     :entity="entity"
-                ></LinkText>
-            </Board>
-        </transition>
+                >
+                </LinkText>
+            </template>
+        </AnswerBoard>
         <br />
-        <Board
-            @click="secondexpand"
-        >
-            <Title style="cursor: pointer" title="[查看分词结果]"></Title>
+        <Board @click="secondexpand">
+            <Title
+                style="cursor: pointer"
+                title="[查看分词结果]"
+            ></Title>
         </Board>
-        <transition name="fade">
-            <Board
-                v-if="showsecondBox"
-                class="searchresult"
-            >
-                {{ segmentationResult }}
-            </Board>
-        </transition>
+        <AnswerBoard
+            :isShow="showsecondBox"
+            :isLoading="isLoading"
+            :data="segmentationResult"
+        ></AnswerBoard>
     </div>
 </template>
 
 <script>
+import { loading } from '@/utils/loadingCallback'
+
 export default {
     data() {
         return {
@@ -62,7 +66,8 @@ export default {
             textInput: '',
             recognizeResult: '玉米，小麦, 袁隆平, 垂直农业, 顶顶顶顶顶顶顶',
             entity: ['玉米', '袁隆平', '垂直农业'],
-            segmentationResult: '无结果'
+            segmentationResult: '无结果',
+            isLoading: false
         }
     },
     methods: {
@@ -73,15 +78,21 @@ export default {
         secondexpand() {
             // ...
             this.showsecondBox = !this.showsecondBox
+        },
+        performSearch() {
+            // todo
+            // 判断问题不为空
+            // 像后端发送数据
+            this.isLoading = true
+
+            // waiting for data
+            loading(() => {
+                this.isLoading = false
+                this.recognizeResult = ''
+                this.segmentationResult = ''
+            })
         }
     }
 }
 </script>
-<style>
-.searchresult {
-    padding: 10px;
-    background-color: var(--bg-color);
-    box-shadow: 0px 1px 5px var(--item-bg-color);
-    min-height: 100px;
-}
-</style>
+<style></style>

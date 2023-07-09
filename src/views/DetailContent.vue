@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="wrapper">
+    <div class="wrapper fade-in">
         <br />
         <div class="row">
             <div class="DetailContentColumns">
@@ -79,8 +79,10 @@
                         <br />
                         <!-- 关系 点 -->
                         <RelationGraph
+                            fixHeight="200px"
                             :data="data"
                             :link="link"
+                            inset
                         ></RelationGraph>
                     </Board>
                     <br />

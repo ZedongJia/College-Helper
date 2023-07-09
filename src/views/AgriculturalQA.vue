@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="wrapper">
+    <div class="wrapper fade-in">
         <Board>
             <Title title="输入问题:"></Title>
         </Board>
@@ -41,29 +41,33 @@
                     <Board>
                         <Title title="答案："></Title>
                     </Board>
-                    <Board v-if="isShow">
-                        <p>这里是答案。</p>
-                    </Board>
+                    <AnswerBoard
+                        :isLoading="isLoading"
+                        isShow="true"
+                        :data="answer"
+                    >
+                    </AnswerBoard>
                 </div>
                 <div class="right">
                     <Board>
                         <Title title="图谱显示："></Title>
                     </Board>
-                    <Board v-if="isShow">
-                        <RelationGraph
-                            :data="data"
-                            :link="link"
-                            isDraggable
-                            isAnimation
-                        >
-                        </RelationGraph>
-                    </Board>
+                    <RelationGraph
+                        :isLoading="isLoading"
+                        :data="data"
+                        :link="link"
+                        isDraggable
+                        isAnimation
+                    >
+                    </RelationGraph>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+import { loading } from '@/utils/loadingCallback'
+
 export default {
     data() {
         return {
@@ -76,7 +80,8 @@ export default {
                 { id: 2, name: '中国首都的天气类型是什么？' }
             ],
             searchQuestion: '',
-            isShow: false
+            isLoading: false,
+            answer: ''
         }
     },
     methods: {
@@ -84,8 +89,14 @@ export default {
             // todo
             // 判断问题不为空
             // 像后端发送数据
-            console.log(this.searchQuestion)
-            this.isShow = true
+            this.isLoading = true
+
+            // waiting for data
+            loading(() => {
+                this.isLoading = false
+                this.data = []
+                this.link = []
+            })
         },
         linkQuestion(name) {
             // todo

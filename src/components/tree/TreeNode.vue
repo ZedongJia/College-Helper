@@ -10,13 +10,13 @@
                 <img
                     @click="toggle"
                     v-if="isShow || !isFolder"
-                    src="../assets/icons/jianshao.png"
+                    src="@/assets/icons/jianshao.png"
                     alt="-"
                 />
                 <img
                     @click="toggle"
                     v-else
-                    src="../assets/icons/zengjia.png"
+                    src="@/assets/icons/zengjia.png"
                     alt="+"
                 />
                 <p style="cursor: default">{{ model.name }}</p>

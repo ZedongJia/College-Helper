@@ -1,5 +1,6 @@
 <script>
 import { h } from 'vue'
+import EmptyHint from './EmptyHint.vue'
 export default {
     props: {
         text: String,
@@ -43,7 +44,10 @@ export default {
         }
     },
     render() {
-        return h('div', { class: 'link-text' }, this.renderContent.map((item) => item))
+        if (this.renderContent.length !== 0) {
+            return h('div', { class: 'link-text' }, this.renderContent.map((item) => item))
+        }
+        return h(EmptyHint)
     },
     mounted() {
         this.checkLinkAndReplace()

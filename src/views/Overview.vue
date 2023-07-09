@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper overviewlayout">
+    <div class="wrapper fade-in overviewlayout">
         <Board style="grid-column: 1 / 2">
             <Title
                 :title="

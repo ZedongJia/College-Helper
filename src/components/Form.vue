@@ -1,6 +1,11 @@
 <template>
-    <Board style="padding: 32px 48px;">
-        <table class="myform">
+    <Board>
+        <Loading v-if="isLoading"></Loading>
+        <EmptyHint v-if="isEmpty && !isLoading"></EmptyHint>
+        <table
+            v-if="!isEmpty && !isLoading"
+            class="myform"
+        >
             <thead>
                 <tr>
                     <td
@@ -37,6 +42,7 @@
 <script>
 export default {
     props: {
+        isLoading: Boolean,
         link: Array
     },
     data() {
@@ -94,6 +100,15 @@ export default {
                 )
                 this.isSort = true
             }
+        }
+    },
+    computed: {
+        isEmpty() {
+            return (
+                this.link === undefined ||
+                this.link === null ||
+                this.link.length === 0
+            )
         }
     }
 }

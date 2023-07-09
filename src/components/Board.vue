@@ -1,10 +1,14 @@
 <template lang="">
-    <div class="container">
+    <div :class="{ container: true, inset: inset }">
         <slot></slot>
     </div>
 </template>
 <script>
-export default {}
+export default {
+    props: {
+        inset: Boolean
+    }
+}
 </script>
 <style>
 .container {
@@ -12,5 +16,9 @@ export default {}
     background-color: var(--bg-color);
     box-shadow: 0px 1px 5px var(--item-bg-color);
     transition: 0.25s;
+}
+.inset {
+    padding: 0;
+    box-shadow: none;
 }
 </style>

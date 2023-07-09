@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="wrapper">
+    <div class="wrapper fade-in">
         <Board>
             <Title title="查询条件: "></Title>
         </Board>
@@ -21,47 +21,48 @@
         <br />
         <Board>
             <Title title="关系图"></Title>
-        </Board >
-        <Board>
-            <loading v-if="isLoading"></loading>
-            <RelationGraph
-                v-else
-                :data="data"
-                :link="link"
-                isDraggable
-                isAnimation
-            >
-            </RelationGraph>
-            <h1 v-if="!isLoading" style="color: grey; text-align: center;">暂无查询结果</h1>
         </Board>
+        <RelationGraph
+            :isLoading="isLoading"
+            :data="data"
+            :link="link"
+            isDraggable
+            isAnimation
+        >
+        </RelationGraph>
         <br />
         <Board>
             <Title title="关系图表"></Title>
         </Board>
-        <Form :link="link" v-if="this.isShow"></Form>
-        <Board v-else>
-            <h1 style="color: grey; text-align: center;">暂无查询结果</h1>
-        </Board>
+        <Form
+            :isLoading="isLoading"
+            :link="link"
+        ></Form>
     </div>
 </template>
 <script>
+import { loading } from '@/utils/loadingCallback'
+
 export default {
     data() {
         return {
             entity: '',
-            isShow: false,
+            isLoading: false,
             data: [],
-            link: [],
-            isLoading: true
+            link: []
         }
     },
     methods: {
         performSearch() {
             // todo
-            this.isShow = true
-        },
-        loadPageData() {
-            this.isLoading = false
+            this.isLoading = true
+
+            // waiting for data
+            loading(() => {
+                this.isLoading = false
+                this.data = []
+                this.link = []
+            })
         }
     },
     created() {

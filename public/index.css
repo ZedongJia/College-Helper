@@ -109,11 +109,15 @@ textarea {
     }
 }
 
+/* shared animation */
+.fade-in {
+    animation: fade 0.25s ease-in forwards;
+}
+
 /* shared css */
 .wrapper {
     width: 80%;
     margin: 0 auto;
-    animation: fade 0.25s ease-in forwards;
 }
 /* layout */
 .flex-row {

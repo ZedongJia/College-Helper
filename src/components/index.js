@@ -9,11 +9,13 @@ import Option from './Option.vue'
 import PopFrame from './PopFrame.vue'
 import RouteNav from './RouteNav.vue'
 import LinkText from './LinkText.vue'
-import Tree from './Tree.vue'
-import TreeNode from './TreeNode.vue'
+import Tree from './tree/Tree.vue'
+import TreeNode from './tree/TreeNode.vue'
 import Form from './Form.vue'
 import RelationGraph from './RelationGraph.vue'
 import Loading from './Loading.vue'
+import EmptyHint from './EmptyHint.vue'
+import AnswerBoard from './AnswerBoard.vue'
 
 export default (app) => {
     app.component('Title', Title)
@@ -32,4 +34,6 @@ export default (app) => {
     app.component('Form', Form)
     app.component('RelationGraph', RelationGraph)
     app.component('Loading', Loading)
+    app.component('EmptyHint', EmptyHint)
+    app.component('AnswerBoard', AnswerBoard)
 }
