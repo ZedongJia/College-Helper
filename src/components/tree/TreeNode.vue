@@ -45,7 +45,7 @@
 </template>
 <script>
 export default {
-    name: 'Tree', // 在引用自身的时候是必须的
+    name: 'TreeNode', // 在引用自身的时候是必须的
     props: {
         parent: String,
         model: Object,

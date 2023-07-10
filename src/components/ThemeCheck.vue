@@ -14,6 +14,7 @@
 </template>
 <script>
 export default {
+    name: 'ThemeCheck',
     props: {
         modelValue: Boolean
     },

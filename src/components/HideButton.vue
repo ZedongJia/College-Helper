@@ -10,6 +10,7 @@
 </template>
 <script>
 export default {
+    name: 'HideButton',
     props: {
         isLight: Boolean
     },

@@ -8,6 +8,7 @@
 </template>
 <script>
 export default {
+    name: 'Button',
     data() {
         return {
             isClick: false

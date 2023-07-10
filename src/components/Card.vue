@@ -11,6 +11,7 @@
 </template>
 <script>
 export default {
+    name: 'Card',
     props: {
         Static: Boolean,
         Dynamic: Boolean

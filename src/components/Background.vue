@@ -3,6 +3,7 @@ import { Segmentor } from '@/assets/bg/script.js'
 import '@/assets/bg/style.css'
 import { h } from 'vue'
 export default {
+    name: 'BackGround',
     data() {
         return {
             s: new Segmentor()

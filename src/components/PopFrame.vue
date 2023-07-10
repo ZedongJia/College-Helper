@@ -6,6 +6,11 @@
         <div class="full-screen cover"></div>
     </div>
 </template>
+<script>
+export default {
+    name: 'PopFrame'
+}
+</script>
 <style>
 .full-screen {
     position: fixed;

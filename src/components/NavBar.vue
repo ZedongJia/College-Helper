@@ -31,6 +31,7 @@
 <script>
 import Theme from '@/assets/theme'
 export default {
+    name: 'NavBar',
     data() {
         return {
             popoverData: [

@@ -2,6 +2,7 @@
 import { h } from 'vue'
 import EmptyHint from './EmptyHint.vue'
 export default {
+    name: 'LinkText',
     props: {
         text: String,
         entity: Array

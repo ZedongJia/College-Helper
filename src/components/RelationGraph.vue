@@ -16,6 +16,7 @@
 import { generateRelationGraph } from '@/utils/relationGraph'
 import { nextTick } from 'vue'
 export default {
+    name: 'RelationGraph',
     props: {
         fixHeight: {
             type: String,

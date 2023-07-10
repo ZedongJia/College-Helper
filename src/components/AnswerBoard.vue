@@ -13,6 +13,7 @@
 </template>
 <script>
 export default {
+    name: 'AnswerBoard',
     props: {
         extend: Boolean,
         isShow: Boolean,

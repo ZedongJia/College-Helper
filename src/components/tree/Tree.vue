@@ -5,6 +5,7 @@
 </template>
 <script>
 export default {
+    name: 'Tree',
     props: {
         model: Object
     }

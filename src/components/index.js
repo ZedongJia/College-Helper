@@ -1,3 +1,7 @@
+/**
+ * 注册一个组件，你需要先引入你的组件
+ * 然后加入到installList中
+ */
 import BackGround from './Background.vue'
 import InfoForm from './InfoForm.vue'
 import Input from './Input.vue'
@@ -21,27 +25,33 @@ import Loading from './Loading.vue'
 import EmptyHint from './EmptyHint.vue'
 import AnswerBoard from './AnswerBoard.vue'
 
-export default (app) => {
-    app.component('BackGround', BackGround)
-    app.component('InfoForm', InfoForm)
-    app.component('Input', Input)
-    app.component('Button', Button)
-    app.component('Title', Title)
-    app.component('Card', Card)
-    app.component('Menu', Menu)
-    app.component('NavBar', NavBar)
-    app.component('Board', Board)
-    app.component('ThemeCheck', ThemeCheck)
-    app.component('HideButton', HideButton)
-    app.component('Option', Option)
-    app.component('PopFrame', PopFrame)
-    app.component('RouteNav', RouteNav)
-    app.component('LinkText', LinkText)
-    app.component('Tree', Tree)
-    app.component('TreeNode', TreeNode)
-    app.component('Form', Form)
-    app.component('RelationGraph', RelationGraph)
-    app.component('Loading', Loading)
-    app.component('EmptyHint', EmptyHint)
-    app.component('AnswerBoard', AnswerBoard)
+const installList = [
+    BackGround,
+    InfoForm,
+    Input,
+    Button,
+    Title,
+    Card,
+    Menu,
+    NavBar,
+    Board,
+    ThemeCheck,
+    HideButton,
+    Option,
+    PopFrame,
+    RouteNav,
+    LinkText,
+    Tree,
+    TreeNode,
+    Form,
+    RelationGraph,
+    Loading,
+    EmptyHint,
+    AnswerBoard
+]
+
+export default {
+    install (vue) {
+        installList.forEach(e => vue.component(e.name, e))
+    }
 }

@@ -9,6 +9,11 @@
         </span>
     </div>
 </template>
+<script>
+export default {
+    name: 'Loading'
+}
+</script>
 <style>
 .loading {
     margin: 0 auto;
