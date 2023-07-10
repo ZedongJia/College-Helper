@@ -1,34 +1,11 @@
 <template>
-    <InfoForm
-        title="hhhhhhhhh"
-        :inputs="inputs"
-        :buttons="buttons"
-        @receive="r"
-    ></InfoForm>
+    <Option
+        :data="['instance of', 'sql', 'norm']"
+        default="instance of"
+    ></Option>
 </template>
 <script>
 export default {
-    data() {
-        return {
-            isShow: false,
-            inputs: [
-                {
-                    type: 'text',
-                    symbol: 'Account'
-                },
-                {
-                    type: 'password',
-                    symbol: 'Password'
-                }
-            ],
-            buttons: ['register', 'login']
-        }
-    },
-    methods: {
-        r(msg) {
-            console.log(msg)
-        }
-    }
 }
 </script>
 <style></style>

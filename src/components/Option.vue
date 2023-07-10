@@ -1,7 +1,7 @@
 <template>
-    <ul class="select" @mouseleave="closeOptions">
-        <Card class="selected" @click="handleOptions">
-            {{ selected }} |
+    <ul class="select" @mouseenter="openOption" @mouseleave="closeOption">
+        <Card class="selected">
+            {{ selected }}
         </Card>
         <li ref="option" class="option">
             <Card
@@ -29,7 +29,7 @@ export default {
         }
     },
     methods: {
-        handleOptions() {
+        openOption() {
             this.open = !this.open
             if (this.open) {
                 this.$refs.option.style.display = 'block'
@@ -39,12 +39,12 @@ export default {
         },
         handleOptionClick(item) {
             this.selected = item
-            this.handleOptions()
+            this.openOption()
             this.$emit('choice', this.selected)
         },
-        closeOptions() {
+        closeOption() {
             if (this.open) {
-                this.handleOptions()
+                this.openOption()
             }
         }
     },
@@ -58,9 +58,10 @@ export default {
     cursor: pointer;
     position: relative;
     display: inline-block;
-    width: 100px;
+    width: 150px;
     height: 48px;
     text-align: center;
+    text-transform: uppercase;
 }
 .selected {
     width: 100%;
