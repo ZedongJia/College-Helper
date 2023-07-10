@@ -1,3 +1,4 @@
+import BackGround from './Background.vue'
 import InfoForm from './InfoForm.vue'
 import Input from './Input.vue'
 import Button from './Button.vue'
@@ -21,6 +22,7 @@ import EmptyHint from './EmptyHint.vue'
 import AnswerBoard from './AnswerBoard.vue'
 
 export default (app) => {
+    app.component('BackGround', BackGround)
     app.component('InfoForm', InfoForm)
     app.component('Input', Input)
     app.component('Button', Button)

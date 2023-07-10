@@ -13,6 +13,7 @@
         :buttons="loginLayout.buttons"
         @receive="r"
     ></InfoForm>
+    <BackGround></BackGround>
 </template>
 <script>
 export default {

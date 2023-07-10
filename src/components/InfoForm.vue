@@ -73,6 +73,7 @@ export default {
 </script>
 <style>
 .frame {
+    z-index: 200;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -82,7 +83,7 @@ export default {
     flex-flow: row wrap;
     align-items: center;
     background-color: transparent;
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(100px);
     border-radius: 12px;
     box-shadow: 7px 7px 10px 3px #24004628;
 }
