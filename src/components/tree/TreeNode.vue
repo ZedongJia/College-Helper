@@ -48,8 +48,7 @@ export default {
     name: 'TreeNode', // 在引用自身的时候是必须的
     props: {
         parent: String,
-        model: Object,
-        nodename: String
+        model: Object
     },
     data() {
         return {
