@@ -1,8 +1,5 @@
 <template>
-    <Option
-        :data="['instance of', 'sql', 'norm']"
-        default="instance of"
-    ></Option>
+    <EmptyHint />
 </template>
 <script>
 export default {
