@@ -2,7 +2,7 @@
  * 注册一个组件，你需要先引入你的组件
  * 然后加入到installList中
  */
-import BackGround from './BackGround.vue'
+import BackGround from './Background.vue'
 import InfoForm from './InfoForm.vue'
 import Input from './Input.vue'
 import Button from './Button.vue'
@@ -24,7 +24,6 @@ import RelationGraph from './RelationGraph.vue'
 import Loading from './Loading.vue'
 import EmptyHint from './EmptyHint.vue'
 import AnswerBoard from './AnswerBoard.vue'
-import ChatView from './ChatView.vue'
 
 const installList = [
     BackGround,
@@ -48,8 +47,7 @@ const installList = [
     RelationGraph,
     Loading,
     EmptyHint,
-    AnswerBoard,
-    ChatView
+    AnswerBoard
 ]
 
 export default {

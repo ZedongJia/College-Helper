@@ -8,6 +8,7 @@ import RelationSearch from '@/views/RelationSearch.vue'
 import Overview from '@/views/Overview.vue'
 import Agricultural from '@/views/AgriculturalQA.vue'
 import Test from '@/views/Test.vue'
+import ChatAI from '@/views/ChatAI.vue'
 
 const routes = [
   {
@@ -58,8 +59,8 @@ const routes = [
         component: Agricultural
       },
       {
-        path: 'test',
-        component: Test
+        path: 'chatAI',
+        component: ChatAI
       }
     ]
   },
