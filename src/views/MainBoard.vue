@@ -19,6 +19,11 @@ export default {
             showMenu: true,
             menuData: [
                 {
+                    name: '个性推荐',
+                    href: '/#',
+                    icon: 'chat'
+                },
+                {
                     name: '实体识别',
                     href: '/mainBoard/identification',
                     icon: 'search'
@@ -41,6 +46,16 @@ export default {
                 {
                     name: '农知问答',
                     href: '/mainBoard/agriculturalQA',
+                    icon: 'chat'
+                },
+                {
+                    name: '图谱演变',
+                    href: '/#',
+                    icon: 'chat'
+                },
+                {
+                    name: '3',
+                    href: '/#',
                     icon: 'chat'
                 }
             ]

@@ -2,7 +2,7 @@
  * 注册一个组件，你需要先引入你的组件
  * 然后加入到installList中
  */
-import BackGround from './Background.vue'
+import BackGround from './BackGround.vue'
 import InfoForm from './InfoForm.vue'
 import Input from './Input.vue'
 import Button from './Button.vue'

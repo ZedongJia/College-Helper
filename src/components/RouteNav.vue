@@ -54,6 +54,8 @@ export default {
                     return '农业知识概览'
                 case 'mainBoard':
                     return '主页'
+                case 'agriculturalQA':
+                    return '农知问答'
             }
             if (en.startsWith('detailContent')) {
                 return decodeURI(en).split('=')[1] + '-详情页面'
