@@ -56,6 +56,10 @@ const routes = [
       {
         path: 'agriculturalQA',
         component: Agricultural
+      },
+      {
+        path: 'test',
+        component: Test
       }
     ]
   },

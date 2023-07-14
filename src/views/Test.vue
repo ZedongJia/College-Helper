@@ -1,5 +1,5 @@
 <template>
-    <EmptyHint />
+    <ChatView></ChatView>
 </template>
 <script>
 export default {

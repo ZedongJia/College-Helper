@@ -111,7 +111,7 @@ textarea {
 
 /* shared animation */
 .fade-in {
-    animation: fade 0.25s ease-in forwards;
+    animation: fade 0.7s ease-in forwards;
 }
 
 /* shared css */
