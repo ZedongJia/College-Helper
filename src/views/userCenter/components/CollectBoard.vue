@@ -1,5 +1,9 @@
 <template lang="">
-    <div>collection</div>
+    <Board
+        class="flex-row-evenly"
+        inset
+        >Collection
+    </Board>
 </template>
 <script>
 export default {}

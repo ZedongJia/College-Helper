@@ -103,7 +103,7 @@
                 </template>
             </div>
             <hr style="margin: 10px 0px 10px 0px" />
-            <div class="flex-row">
+            <div class="flex-row-center">
                 <!-- 清理聊天记录 -->
                 <img
                     src="../assets/icons/clear.png"
@@ -430,6 +430,7 @@ export default {
 .clearImg:hover {
     opacity: 1;
 }
+
 /* 提示框 */
 .tooltiptext,
 .tooltiptext {

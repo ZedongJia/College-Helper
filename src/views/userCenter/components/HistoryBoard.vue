@@ -1,5 +1,9 @@
 <template lang="">
-    <div>history</div>
+    <Board
+        class="flex-row-evenly"
+        inset
+        >History
+    </Board>
 </template>
 <script>
 export default {}

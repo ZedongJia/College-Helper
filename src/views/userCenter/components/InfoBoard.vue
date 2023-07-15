@@ -98,6 +98,7 @@ export default {
     },
     created() {
         // require
+        // do sth
         const userInfo = {
             imgUrl: '',
             nickName: 'hh',

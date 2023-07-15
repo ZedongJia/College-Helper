@@ -1,5 +1,9 @@
 <template lang="">
-    <div>contact</div>
+    <Board
+        class="flex-row-evenly"
+        inset
+        >Contact
+    </Board>
 </template>
 <script>
 export default {}

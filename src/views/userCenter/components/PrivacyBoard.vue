@@ -55,6 +55,12 @@ export default {
                     title: '是否显示微信',
                     options: ['是', '否'],
                     symbol: 'weChat_priv'
+                },
+                {
+                    type: 'checkbox',
+                    title: '是否显示收藏',
+                    options: ['是', '否'],
+                    symbol: 'collection_priv'
                 }
             ],
             buttons: ['commit']
@@ -73,12 +79,14 @@ export default {
     },
     created() {
         // require
+        // do sth
         const userInfo = {
             gender_priv: '是',
             telephone_priv: '是',
             email_priv: '是',
             qq_priv: '是',
-            weChat_priv: '是'
+            weChat_priv: '是',
+            collection_priv: '是'
         }
         Object.values(userInfo).forEach((item, index) => {
             this.inputs[index].value = item
