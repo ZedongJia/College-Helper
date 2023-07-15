@@ -14,12 +14,13 @@
                     v-for="(item, index) in chatItem"
                     :key="item.id"
                 >
-                    <!-- AI消息 -->
                     <div
-                        v-if="item.isAI"
                         class="areachat"
+                        :style="{
+                            flexDirection: item.isAI ? '' : 'row-reverse'
+                        }"
                     >
-                        <!-- 左侧：头像+用户名 -->
+                        <!-- 左侧：头像 + 用户名 -->
                         <div class="left">
                             <img
                                 :src="require('../assets/' + item.image)"
@@ -27,35 +28,65 @@
                             />
                             <p class="username">{{ item.username }}</p>
                         </div>
-                        <!-- 右侧：消息框 -->
+                        <!-- 右侧：时间 + 消息 -->
                         <div
                             class="right"
-                            style="padding-left: 15px"
+                            :style="{
+                                padding: item.isAI
+                                    ? '0px 0px 0px 15px'
+                                    : '0px 15px 0px 0px'
+                            }"
                         >
-                            <p class="time">{{ item.time }}</p>
-                            <div
-                                class="flex-row"
-                                style="justify-content: left"
+                            <!-- 时间 -->
+                            <p
+                                class="time"
+                                :style="{ textAlign: item.isAI ? '' : 'right' }"
                             >
-                                <div
-                                    class="chatleft"
-                                    style="z-index: 2"
+                                {{ item.time }}
+                            </p>
+                            <!-- 消息 -->
+                            <div
+                                :class="{
+                                    chatleft: item.isAI,
+                                    chatright: !item.isAI
+                                }"
+                                :style="{ float: item.isAI ? '' : 'right' }"
+                                style="z-index: 2"
+                            >
+                                <p
+                                    v-if="!item.isthinking"
+                                    class="fade-in"
                                 >
-                                    <p class="fade-in">{{ item.content }}</p>
-                                    <div class="tooltiptext">
-                                        <a
-                                            @click="isShow(item, index)"
-                                            class="tiplink flex-row"
-                                        >
-                                            <img
-                                                src="../assets/icons/chart.png"
-                                            />
-                                            <p>{{ item.tip }}</p>
-                                        </a>
-                                    </div>
+                                    {{ item.content }}
+                                </p>
+                                <!-- 思考ing -->
+                                <span
+                                    v-if="item.isthinking"
+                                    style="display: flex"
+                                >
+                                    <p>正在努力思考中</p>
+                                    <span
+                                        class="dot"
+                                        style="font-size: 24px"
+                                        >...</span
+                                    >
+                                </span>
+                                <!-- AI提示框 -->
+                                <div
+                                    v-if="item.isAI && !item.isthinking"
+                                    class="tooltiptext"
+                                >
+                                    <a
+                                        @click="isShow(item, index)"
+                                        class="tiplink flex-row"
+                                    >
+                                        <img src="../assets/icons/chart.png" />
+                                        <p>{{ item.tip }}</p>
+                                    </a>
                                 </div>
                             </div>
-                            <div v-if="item.isShowGraph">
+                            <!-- 关系图 -->
+                            <div v-if="item.isAI && item.isShowGraph">
                                 <br />
                                 <RelationGraph
                                     :data="data"
@@ -69,74 +100,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- 用户消息 -->
-                    <div
-                        v-else
-                        class="areachat"
-                        style="flex-direction: row-reverse"
-                    >
-                        <!-- 右侧(使用left)：头像+用户名 -->
-                        <div
-                            class="left"
-                            style="margin-right: 2%"
-                        >
-                            <img
-                                :src="require('../assets/' + item.image)"
-                                alt="头像"
-                            />
-                            <p class="username">{{ item.username }}</p>
-                        </div>
-                        <!-- 左侧(使用right) -->
-                        <div
-                            class="right"
-                            style="padding-right: 15px"
-                        >
-                            <p
-                                class="time"
-                                style="text-align: right"
-                            >
-                                {{ item.time }}
-                            </p>
-                            <div
-                                class="chatright"
-                                style="float: right"
-                            >
-                                <p class="fade-in">
-                                    {{ item.content }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
                 </template>
-                <!-- 思考 -->
-                <div
-                    v-if="thinking"
-                    class="areachat"
-                >
-                    <div class="left">
-                        <img
-                            src="../assets/test.png"
-                            alt="头像"
-                        />
-                        <p class="username">AI</p>
-                    </div>
-                    <div
-                        class="right"
-                        style="padding-left: 15px"
-                    >
-                        <p class="time">14:34</p>
-                        <div class="chatleft fade-in">
-                            <span style="display: flex">
-                                正在努力思考中
-                                <span
-                                    class="dot"
-                                    style="font-size: 24px"
-                                    >...</span
-                                >
-                            </span>
-                        </div>
-                    </div>
-                </div>
             </div>
             <hr style="margin: 10px 0px 10px 0px" />
             <div class="flex-row">
@@ -167,16 +131,16 @@
             <Board style="border-radius: 20px; text-align: center">
                 <h3>清空聊天记录</h3>
                 <hr style="margin: 3% 0 3% 0" />
-                <p>确定清空当前对话内容吗？此操作将无法恢复</p>
+                <p>确定清空当前对话内容吗？此操作将无法恢复！</p>
                 <hr style="margin: 3% 0 3% 0" />
-                <div class="flex-row">
+                <div style="align-items: center">
                     <Button
-                        @click="appear = true"
+                        @clickIt="stopClearInfo"
                         style="margin-right: 10px"
                     >
                         取消
                     </Button>
-                    <Button @click="clearInfo"> 确定 </Button>
+                    <Button @clickIt="clearInfo"> 确定 </Button>
                 </div>
             </Board>
         </div>
@@ -200,9 +164,19 @@ export default {
                     image: 'test.png',
                     isAI: true,
                     tip: '空空如也~',
-                    isLoading: false
+                    isLoading: false,
+                    isthinking: false
                 }
             ],
+            // 思考ing
+            thinkItem: {
+                username: 'AI',
+                time: '10:26',
+                content: '',
+                image: 'test.png',
+                isAI: 'true',
+                isthinking: true
+            },
             // 输入框的内容
             chatContent: '',
             // 提交按钮
@@ -210,8 +184,6 @@ export default {
             // 答案的关系数据
             data: [],
             link: [],
-            // 测试，后期可删去
-            isAI: false,
             // 加载loading
             thinking: false,
             // 输入框样式
@@ -232,7 +204,6 @@ export default {
         }
     },
     methods: {
-        // input输入框绑定回车事件
         // 发出消息后，当超出最大高度时，聊天框移到最底部显示刚发出的消息
         toBottomArea() {
             nextTick(() => {
@@ -251,18 +222,17 @@ export default {
             }
             this.chatItem.push(temp)
             this.chatContent = ''
-            this.isAI = !this.isAI
             this.toBottomArea()
         },
         // 在聊天框加载AI的消息
         addAiInfo() {
             // 禁用输入框 修改按钮内容
             this.inputStyle.style = 'width: 70%; cursor: not-allowed'
-            this.inputStyle.placeholder = '点击按钮可以让AI闭嘴~'
+            this.inputStyle.placeholder = '点击按钮让AI闭嘴~'
             this.inputStyle.disabled = true
             // 假装思考，加载 loading...
             setTimeout(() => {
-                this.thinking = true
+                this.chatItem.push(this.thinkItem)
                 this.buttonText = '闭嘴'
                 this.toBottomArea()
             }, 1000)
@@ -297,6 +267,7 @@ export default {
                 tip: '查看关系图',
                 isLoading: false
             }
+            this.chatItem.pop()
             this.chatItem.push(temp)
             this.toBottomArea()
             this.thinking = false
@@ -314,6 +285,10 @@ export default {
             this.chatItem[this.chatItem.length - 1].tip = this.nullTipText
             clearTimeout(this.timer)
         },
+        // 取消清除聊天记录
+        stopClearInfo() {
+            this.appear = false
+        },
         // 清除聊天记录
         clearInfo() {
             // tofo
@@ -327,7 +302,6 @@ export default {
                     tip: this.nullTipText
                 }
             ]
-            this.isAI = false
             this.appear = false
         },
         // 显示关系图
