@@ -8,7 +8,6 @@ import RelationSearch from '@/views/RelationSearch.vue'
 import Overview from '@/views/Overview.vue'
 import Agricultural from '@/views/AgriculturalQA.vue'
 import Test from '@/views/Test.vue'
-import HomePage from '@/views/HomePage.vue'
 import UserCenter from '@/views/userCenter/UserCenter.vue'
 import ChatAI from '@/views/ChatAI.vue'
 
@@ -63,10 +62,6 @@ const routes = [
             {
                 path: 'userCenter',
                 component: UserCenter
-            },
-            {
-                path: 'HomePage',
-                component: HomePage
             },
             {
                 path: 'chatAI',

@@ -34,7 +34,6 @@ export default {
     width: 100%;
 }
 .input-blank {
-    margin-top: 32px;
     padding: 0 1em;
     width: 100%;
     height: 48px;
@@ -73,7 +72,7 @@ export default {
     color: var(--item-bg-color);
     font-weight: 500;
     padding-left: 0;
-    transform: translate(0, -32px);
+    transform: translate(0, -36px);
 }
 
 .input-blank:focus ~ .fill,

@@ -5,6 +5,7 @@
         :inputs="registerLayout.inputs"
         :buttons="registerLayout.buttons"
         @receive="r"
+        Popover
     ></InfoForm>
     <InfoForm
         v-if="!isRegister"
@@ -12,6 +13,7 @@
         :inputs="loginLayout.inputs"
         :buttons="loginLayout.buttons"
         @receive="r"
+        Popover
     ></InfoForm>
     <BackGround></BackGround>
 </template>
@@ -34,11 +36,13 @@ export default {
                 inputs: [
                     {
                         type: 'text',
-                        symbol: 'Account'
+                        title: '账号',
+                        symbol: 'account'
                     },
                     {
                         type: 'password',
-                        symbol: 'Password'
+                        title: '密码',
+                        symbol: 'password'
                     }
                 ],
                 buttons: ['login', 'to register']
@@ -47,15 +51,18 @@ export default {
                 inputs: [
                     {
                         type: 'text',
-                        symbol: 'Account'
+                        title: '账号',
+                        symbol: 'account'
                     },
                     {
                         type: 'password',
-                        symbol: 'Password'
+                        title: '密码',
+                        symbol: 'password'
                     },
                     {
                         type: 'password',
-                        symbol: 'Confirm'
+                        title: '再次确认密码',
+                        symbol: 'confirm'
                     }
                 ],
                 buttons: ['register', 'to login']
