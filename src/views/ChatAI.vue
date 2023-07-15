@@ -184,8 +184,6 @@ export default {
             // 答案的关系数据
             data: [],
             link: [],
-            // 加载loading
-            thinking: false,
             // 输入框样式
             inputStyle: {
                 class: 'inputItem',
@@ -195,7 +193,7 @@ export default {
             },
             // 定时器
             timer: ref(null),
-            // 闭嘴用语
+            // 闭嘴
             stopText: '好的，我闭嘴啦',
             nullTipText: '空空如也~',
             // 清除聊天记录
@@ -270,7 +268,6 @@ export default {
             this.chatItem.pop()
             this.chatItem.push(temp)
             this.toBottomArea()
-            this.thinking = false
             // 恢复输入框 恢复按钮内容
             this.inputStyle.style = 'width: 70%;'
             this.inputStyle.disabled = false
