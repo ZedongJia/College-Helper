@@ -35,8 +35,7 @@ export default {
                 this.data === undefined ||
                 this.data === null ||
                 this.data.length === 0
-            console.log(this.data)
-            if (!isEmpty) {
+            if (!isEmpty && !this.isLoading) {
                 nextTick(() => {
                     generateRelationGraph(
                         this.$refs.graph,
