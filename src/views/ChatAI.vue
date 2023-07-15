@@ -1,9 +1,7 @@
 <template>
     <div class="wrapper fade-in">
         <Board>
-            <h2 style="text-align: center; margin: 10px 0 10px 0">
-                加点什么呢
-            </h2>
+            <Title>加点什么呢</Title>
             <hr />
             <div
                 id="toBottom"
@@ -34,8 +32,7 @@
                         >
                             <p class="time">{{ item.time }}</p>
                             <div
-                                class="flex-row"
-                                style="justify-content: left"
+                                class="flex-row-left"
                             >
                                 <div
                                     class="chatleft"
@@ -45,7 +42,7 @@
                                     <div class="tooltiptext">
                                         <a
                                             @click="isShow(item, index)"
-                                            class="tiplink flex-row"
+                                            class="tiplink flex-row-center"
                                         >
                                             <img
                                                 src="../assets/icons/chart.png"
@@ -139,7 +136,7 @@
                 </div>
             </div>
             <hr style="margin: 10px 0px 10px 0px" />
-            <div class="flex-row">
+            <div class="flex-row-center">
                 <!-- 清理聊天记录 -->
                 <img
                     src="../assets/icons/clear.png"
@@ -169,7 +166,7 @@
                 <hr style="margin: 3% 0 3% 0" />
                 <p>确定清空当前对话内容吗？此操作将无法恢复</p>
                 <hr style="margin: 3% 0 3% 0" />
-                <div class="flex-row">
+                <div class="flex-row-center">
                     <Button
                         @click="appear = true"
                         style="margin-right: 10px"
