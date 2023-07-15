@@ -7,7 +7,7 @@
             ></HideButton>
             <span id="logo">垂直农业知识图谱</span>
         </div>
-        <div class="flex-row">
+        <div class="flex-row-center">
             <ThemeCheck
                 id="theme-switch"
                 v-model="isLight"

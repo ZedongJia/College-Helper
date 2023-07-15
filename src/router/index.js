@@ -8,6 +8,8 @@ import RelationSearch from '@/views/RelationSearch.vue'
 import Overview from '@/views/Overview.vue'
 import Agricultural from '@/views/AgriculturalQA.vue'
 import Test from '@/views/Test.vue'
+import HomePage from '@/views/HomePage.vue'
+import UserCenter from '@/views/userCenter/UserCenter.vue'
 
 const routes = [
   {
@@ -56,6 +58,14 @@ const routes = [
       {
         path: 'agriculturalQA',
         component: Agricultural
+      },
+      {
+        path: 'userCenter',
+        component: UserCenter
+      },
+      {
+        path: 'HomePage',
+        component: HomePage
       }
     ]
   },

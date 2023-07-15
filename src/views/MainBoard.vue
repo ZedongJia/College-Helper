@@ -54,8 +54,8 @@ export default {
                     icon: 'chat'
                 },
                 {
-                    name: '3',
-                    href: '/#',
+                    name: '用户中心',
+                    href: '/mainBoard/userCenter',
                     icon: 'chat'
                 }
             ]
