@@ -441,7 +441,6 @@ export default {
     left: 50%;
     top: 95%;
     background-color: gray;
-    color: var(--item-font-color);
     text-align: center;
     position: absolute;
     z-index: 9999;
@@ -463,7 +462,7 @@ export default {
 .chatleft:hover .tooltiptext,
 .chatright:hover .tooltiptext {
     visibility: visible;
-    opacity: 0.65;
+    opacity: 0.75;
 }
 .chatleft:hover .tooltiptext:hover,
 .chatright:hover .tooltiptext:hover {
@@ -473,15 +472,12 @@ export default {
 /* 提示框中的链接 */
 .tiplink {
     font-size: 14px;
-    text-decoration: none;
-    color: black;
+    color: var(--item-font-color);
+    transition: 0.5s;
 }
 .tiplink:hover {
     cursor: pointer;
     transition: 0.5s;
     font-size: 16px;
 }
-/* .tiplink img:hover {
-    width: px;
-} */
 </style>
