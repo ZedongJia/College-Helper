@@ -6,7 +6,12 @@
             popover: Popover
         }"
     >
-        <h1 class="input-title">{{ title }}</h1>
+        <h1
+            v-if="title !== ''"
+            class="input-title"
+        >
+            {{ title }}
+        </h1>
         <div
             class="input-box"
             v-for="input in inputs"
@@ -66,7 +71,10 @@ export default {
      * ]
      */
     props: {
-        title: String,
+        title: {
+            type: String,
+            default: ''
+        },
         Popover: Boolean,
         inputs: {
             type: Array,
@@ -141,7 +149,7 @@ export default {
     box-shadow: 7px 7px 10px 3px #24004628;
 }
 
-.popover .input-box>* {
+.popover .input-box > * {
     width: 80%;
 }
 

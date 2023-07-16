@@ -6,20 +6,12 @@
         8. QQ
         9. 微信
      -->
-    <Board
-        class="flex-row-evenly"
-        inset
-    >
-        <div style="width: 10%">侧边栏修饰</div>
-        <InfoForm
-            style="width: 60%"
-            title="隐私权限设置"
-            :inputs="inputs"
-            :buttons="buttons"
-            @receive="r"
-        ></InfoForm>
-        <div style="width: 10%">侧边栏修饰</div>
-    </Board>
+    <InfoForm
+        style="width: 60%"
+        :inputs="inputs"
+        :buttons="buttons"
+        @receive="r"
+    ></InfoForm>
 </template>
 <script>
 export default {

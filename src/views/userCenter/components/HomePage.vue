@@ -9,15 +9,16 @@
             <h2>{{ userInfo.nickName }}</h2>
         </div>
         <ul class="content">
+            <EmptyHint v-if="isEmpty"></EmptyHint>
             <li
+                v-else
                 class="flex-row-evenly"
                 v-for="msg in userInfo.publicMsg"
                 :key="msg.title"
             >
                 <span style="font-weight: bold">{{ msg.title }}</span>
                 <span>{{ msg.value }}</span>
-                <Br />
-                <span class="hover-fill"></span>
+                <i class="hover-fill"></i>
             </li>
         </ul>
     </Board>
@@ -26,29 +27,33 @@
 export default {
     data() {
         return {
-            isFold: true,
-            userInfo: {}
+            userInfo: {
+                nickName: 'zhngsan',
+                publicMsg: []
+            }
+        }
+    },
+    computed: {
+        isEmpty() {
+            return this.userInfo.publicMsg.length === 0
         }
     },
     created() {
         // request, filter, get public
-        this.userInfo = {
-            nickName: 'zhangsan',
-            publicMsg: [
-                {
-                    title: '邮箱地址',
-                    value: '224@qq.com'
-                },
-                {
-                    title: 'QQ',
-                    value: '21145712'
-                },
-                {
-                    title: '微信',
-                    value: '145745874'
-                }
-            ]
-        }
+        this.userInfo.publicMsg = [
+            {
+                title: '邮箱地址',
+                value: '224@qq.com'
+            },
+            {
+                title: 'QQ',
+                value: '21145712'
+            },
+            {
+                title: '微信',
+                value: '145745874'
+            }
+        ]
     }
 }
 </script>
@@ -61,14 +66,6 @@ export default {
 
 .info:hover {
     height: 400px;
-}
-
-.info:hover .content {
-    width: 40%;
-    margin-left: 64px;
-    padding-left: 64px;
-    opacity: 1;
-    transform: scale(1);
 }
 
 .simple-info {
@@ -84,10 +81,17 @@ export default {
 }
 
 .content {
+    padding-left: 64px;
     width: 0;
     opacity: 0;
     transform: scale(0);
     transition: all 0.5s;
+}
+
+.info:hover .content {
+    opacity: 1;
+    width: 60%;
+    transform: scale(1);
 }
 
 .content li {

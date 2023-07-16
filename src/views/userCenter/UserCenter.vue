@@ -13,7 +13,14 @@
                     {{ option }}
                 </li>
             </ul>
-            <component :is="board[pointer]"></component>
+            <Board
+                class="flex-row-evenly"
+                inset
+            >
+                <div style="width: 10%">侧边栏修饰</div>
+                <component style="width: 60%;" :is="board[pointer]"></component>
+                <div style="width: 10%">侧边栏修饰</div>
+            </Board>
         </Board>
     </div>
 </template>
@@ -83,9 +90,24 @@ export default {
     position: relative;
     color: var(--font-color);
     background-color: var(--bg-color);
+    animation: flow-up 0.5s forwards;
+}
+
+@keyframes flow-up {
+    0% {
+        border-radius: 50px 50px 0 0;
+        opacity: 0;
+        transform: translateY(30%);
+    }
+    100% {
+        opacity: 1;
+        border-radius: 5px 5px 0 0;
+        transform: translateY(0);
+    }
 }
 
 .bar ~ div {
+    padding: 64px 0;
     background-color: var(--bg-color);
 }
 </style>

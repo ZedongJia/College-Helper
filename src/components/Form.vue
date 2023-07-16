@@ -24,7 +24,6 @@
             <tbody>
                 <TransitionGroup
                     name="list"
-                    mode="out-in"
                 >
                     <tr
                         v-for="itemTable in tableContent"
