@@ -49,7 +49,6 @@ class Segmentor {
         const { __MOVEPACE__, SEG, __reRender__, redefineStyle } = this
         const dl = (mouseX - el.clientWidth / 2) * __MOVEPACE__
         const dt = (mouseY - el.clientHeight / 2) * __MOVEPACE__
-        console.log(dl, dt)
         const styleList = SEG.map(e => {
             const newPostion = {
                 l: e.position.l + dl,

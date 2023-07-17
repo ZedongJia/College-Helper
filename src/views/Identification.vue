@@ -3,7 +3,7 @@
         <Board>
             <Title title="输入文本："></Title>
         </Board>
-        <Board class="flex-column">
+        <Board class="flex-column-center">
             <textarea
                 class="textareaItem"
                 style="margin-top: 20px"

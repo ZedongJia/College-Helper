@@ -1,16 +1,4 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import MainBoard from '@/views/MainBoard.vue'
-import Login from '@/views/Login.vue'
-import Identification from '@/views/Identification.vue'
-import DetailContent from '@/views/DetailContent.vue'
-import EntitySearch from '@/views/EntitySearch.vue'
-import RelationSearch from '@/views/RelationSearch.vue'
-import Overview from '@/views/Overview.vue'
-import Agricultural from '@/views/AgriculturalQA.vue'
-import Test from '@/views/Test.vue'
-import HomePage from '@/views/HomePage.vue'
-import UserCenter from '@/views/userCenter/UserCenter.vue'
-import ChatAI from '@/views/ChatAI.vue'
 
 const routes = [
     {
@@ -19,23 +7,23 @@ const routes = [
     },
     {
         path: '/login',
-        component: Login
+        component: () => import('@/views/Login.vue')
     },
     {
         path: '/mainBoard',
         redirect: '/mainBoard/identification',
-        component: MainBoard,
+        component: () => import('@/views/MainBoard.vue'),
         children: [
             {
                 path: 'identification',
                 children: [
                     {
                         path: '',
-                        component: Identification
+                        component: () => import('@/views/Identification.vue')
                     },
                     {
                         path: 'detailContent',
-                        component: DetailContent,
+                        component: () => import('@/views/DetailContent.vue'),
                         props (route) {
                             return {
                                 entity: route.query.entity
@@ -46,37 +34,33 @@ const routes = [
             },
             {
                 path: 'entitySearch',
-                component: EntitySearch
+                component: () => import('@/views/EntitySearch.vue')
             },
             {
                 path: 'relationSearch',
-                component: RelationSearch
+                component: () => import('@/views/RelationSearch.vue')
             },
             {
                 path: 'overview',
-                component: Overview
+                component: () => import('@/views/Overview.vue')
             },
             {
                 path: 'agriculturalQA',
-                component: Agricultural
+                component: () => import('@/views/AgriculturalQA.vue')
             },
             {
                 path: 'userCenter',
-                component: UserCenter
-            },
-            {
-                path: 'HomePage',
-                component: HomePage
+                component: () => import('@/views/userCenter/UserCenter.vue')
             },
             {
                 path: 'chatAI',
-                component: ChatAI
+                component: () => import('@/views/ChatAI.vue')
             }
         ]
     },
     {
         path: '/test',
-        component: Test
+        component: () => import('@/views/Test.vue')
     }
 ]
 
