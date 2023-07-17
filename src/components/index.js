@@ -24,6 +24,8 @@ import RelationGraph from './RelationGraph.vue'
 import Loading from './Loading.vue'
 import EmptyHint from './EmptyHint.vue'
 import AnswerBoard from './AnswerBoard.vue'
+import ChatBoard from './ChatBoard.vue'
+import WarningBox from './WarningBox.vue'
 
 const installList = [
     BackGround,
@@ -47,7 +49,9 @@ const installList = [
     RelationGraph,
     Loading,
     EmptyHint,
-    AnswerBoard
+    AnswerBoard,
+    ChatBoard,
+    WarningBox
 ]
 
 export default {
