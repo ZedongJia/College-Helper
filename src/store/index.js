@@ -2,6 +2,12 @@ import { createStore } from 'vuex'
 
 export default createStore({
     state: {
+        userInfo: {
+            nickname: '雨霖铃',
+            account: '',
+            password: '',
+            image: 'test.png'
+        },
         currNode: {
             parent: 'root',
             children: [],
@@ -12,6 +18,9 @@ export default createStore({
     getters: {
         getCurrNode(state) {
             return state.currNode
+        },
+        getUserInfo(state) {
+            return state.userInfo
         },
         isShowTree(state) {
             return state.showTree
