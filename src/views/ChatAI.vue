@@ -12,7 +12,7 @@ export default {
     data() {
         return {
             userInfo: {
-                username: 'AI',
+                username: 'zhangsan',
                 image: 'test.png'
             }
         }
