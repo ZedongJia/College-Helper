@@ -25,7 +25,7 @@ import Loading from './Loading.vue'
 import EmptyHint from './EmptyHint.vue'
 import AnswerBoard from './AnswerBoard.vue'
 import ChatBoard from './ChatBoard.vue'
-import WarningBox from './WarningBox.vue'
+import PromptBox from './PromptBox.vue'
 
 const installList = [
     BackGround,
@@ -51,7 +51,7 @@ const installList = [
     EmptyHint,
     AnswerBoard,
     ChatBoard,
-    WarningBox
+    PromptBox
 ]
 
 export default {

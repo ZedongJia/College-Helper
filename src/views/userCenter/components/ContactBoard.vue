@@ -2,10 +2,16 @@
     <Board
         class="flex-row-evenly"
         inset
-        >Contact
+        >
     </Board>
 </template>
 <script>
-export default {}
+export default {
+    data() {
+        return {
+            isShow: true
+        }
+    }
+}
 </script>
 <style lang=""></style>

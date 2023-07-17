@@ -125,8 +125,9 @@
             {{ canCommit ? '提交' : '闭嘴' }}
         </Button>
     </div>
-    <WarningBox
+    <PromptBox
         v-if="appear"
+        title="确认清空？"
         @confirm="clearInfo"
         @back="stopClearInfo"
     />
