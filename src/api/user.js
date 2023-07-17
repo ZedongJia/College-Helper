@@ -12,6 +12,16 @@ export function loginGET (params) {
         params
     })
 }
+/**
+ * 登出
+ * @returns {Promise}
+ */
+export function logOutGET () {
+    return axois({
+        url: 'user/logout',
+        method: 'GET'
+    })
+}
 
 /**
  * 登录请求API

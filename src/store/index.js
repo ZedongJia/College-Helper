@@ -23,6 +23,9 @@ export default createStore({
         },
         isShowTree(state) {
             return state.showTree
+        },
+        isLogin(state) {
+            return state.userInfo.ID !== -1
         }
     },
     mutations: {

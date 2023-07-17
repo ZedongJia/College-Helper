@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { validCookie } from '@/api/user'
+import store from '@/store/index.js'
 
 const routes = [
     {
@@ -73,10 +74,9 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
     // 跳过login
-    if (from.fullPath !== '/login' && to.fullPath !== '/' && to.fullPath !== '/login') {
+    if (to.fullPath !== '/login' && !store.getters.isLogin) {
         // 检测
         validCookie().then((response) => {
-            console.log(response)
             if (response.data - 400 === 0) {
                 router.push({
                     name: 'login'
