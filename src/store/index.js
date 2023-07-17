@@ -3,6 +3,7 @@ import { createStore } from 'vuex'
 export default createStore({
     state: {
         userInfo: {
+            ID: -1,
             nickname: '雨霖铃',
             image: 'test.png'
         },
@@ -32,6 +33,7 @@ export default createStore({
             state.showTree = !state.showTree
         },
         updateUserInfo(state, userInfo) {
+            state.userInfo.ID = userInfo.ID
             state.userInfo.nickname = userInfo.nickname
             state.userInfo.image = userInfo.image
         }

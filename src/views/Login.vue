@@ -17,7 +17,12 @@
         @receive="r"
         Popover
     ></InfoForm>
-    <!-- <BackGround></BackGround> -->
+    <BackGround></BackGround>
+    <PromptBox
+        :title="prompt"
+        noConfirm
+        :isShow="isShow"
+    ></PromptBox>
 </template>
 <script>
 import { loginGET, registerPOST } from '@/api/user.js'
@@ -61,7 +66,9 @@ export default {
                 ],
                 buttons: ['register', 'to login']
             },
-            warning: ''
+            warning: '',
+            isShow: false,
+            prompt: ''
         }
     },
     methods: {
@@ -80,18 +87,21 @@ export default {
             })
                 .then((response) => {
                     if (JSON.stringify(response.data) !== '{}') {
-                        console.log(response)
                         userinfo = response.data
                         this.$store.commit('updateUserInfo', userinfo)
-                        this.$router.push({
-                            path: '/mainBoard'
-                        })
+                        // 产生提示框
+                        this.generatePrompt('登陆成功')
+                        setTimeout(() => {
+                            this.$router.push({
+                                path: '/mainBoard'
+                            })
+                        }, 1500)
                     } else {
                         this.raise('没有该用户的信息')
                     }
                 })
                 .catch(() => {
-                    this.raise('没有该用户的信息')
+                    this.raise('网络故障，请重试')
                 })
         },
         signUp(registerMsg) {
@@ -112,13 +122,16 @@ export default {
                 .then((response) => {
                     state = response.data
                     if (state - 200 === 0) {
-                        this.loginTo()
+                        this.generatePrompt('注册成功')
+                        setTimeout(() => {
+                            this.loginTo()
+                        }, 1500)
                     } else {
                         this.raise('该用户已注册')
                     }
                 })
                 .catch(() => {
-                    this.raise('该用户已注册')
+                    this.raise('网络故障，请重试')
                 })
         },
         registerTo() {
@@ -155,6 +168,14 @@ export default {
         },
         clearWarning() {
             this.warning = ''
+        },
+        generatePrompt(msg) {
+            this.prompt = msg
+            this.isShow = true
+            setTimeout(() => {
+                this.isShow = false
+                this.prompt = ''
+            }, 1250)
         }
     }
 }

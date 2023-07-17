@@ -22,6 +22,16 @@ export function registerPOST (params) {
     return axois({
         url: 'user/register/',
         method: 'POST',
-        data: params
+        data: params,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+}
+
+export function validCookie () {
+    return axois({
+        url: 'user/valid/',
+        method: 'GET'
     })
 }
