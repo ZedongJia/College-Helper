@@ -44,6 +44,9 @@
                 v-model="inputsF[input.symbol]"
             ></Input>
         </div>
+        <div v-if="Popover">
+            <p class="warning">{{ warning }} <slot></slot></p>
+        </div>
         <div class="button-box">
             <Button
                 v-for="button in buttons"
@@ -72,6 +75,10 @@ export default {
      */
     props: {
         title: {
+            type: String,
+            default: ''
+        },
+        warning: {
             type: String,
             default: ''
         },
@@ -197,5 +204,13 @@ export default {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
+}
+
+.warning {
+    margin: 0 auto;
+    width: 80%;
+    font-size: 18px;
+    font-weight: bold;
+    color: red;
 }
 </style>
