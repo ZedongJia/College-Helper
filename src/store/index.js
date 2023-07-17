@@ -4,8 +4,6 @@ export default createStore({
     state: {
         userInfo: {
             nickname: '雨霖铃',
-            account: '',
-            password: '',
             image: 'test.png'
         },
         currNode: {
@@ -32,6 +30,10 @@ export default createStore({
         },
         updateShowTree(state) {
             state.showTree = !state.showTree
+        },
+        updateUserInfo(state, userInfo) {
+            state.userInfo.nickname = userInfo.nickname
+            state.userInfo.image = userInfo.image
         }
     }
 })

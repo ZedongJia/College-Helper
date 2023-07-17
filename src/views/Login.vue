@@ -61,32 +61,49 @@ export default {
                 ],
                 buttons: ['register', 'to login']
             },
-            warning: '',
-            userinfo: {}
+            warning: ''
         }
     },
     methods: {
         signIn(loginMsg) {
-            console.log(loginMsg)
+            if (loginMsg.account === '') {
+                this.raise('账号信息不能为空')
+                return
+            } else if (loginMsg.password === '') {
+                this.raise('密码不能为空')
+                return
+            }
             let userinfo = {}
             loginGET({
                 account: loginMsg.account,
                 password: loginMsg.password
             })
                 .then((response) => {
-                    if (response.data !== '{}') {
-                        userinfo = JSON.parse(response.data)
-                        this.userinfo = userinfo
-                        this.$router.push('/mainBoard')
+                    if (JSON.stringify(response.data) !== '{}') {
+                        console.log(response)
+                        userinfo = response.data
+                        this.$store.commit('updateUserInfo', userinfo)
+                        this.$router.push({
+                            path: '/mainBoard'
+                        })
                     } else {
-                        // y
+                        this.raise('没有该用户的信息')
                     }
                 })
                 .catch(() => {
-                    // y
+                    this.raise('没有该用户的信息')
                 })
         },
         signUp(registerMsg) {
+            if (registerMsg.account === '') {
+                this.raise('账号信息不能为空')
+                return
+            } else if (registerMsg.password === '') {
+                this.raise('密码不能为空')
+                return
+            } else if (registerMsg.confirm !== registerMsg.password) {
+                this.raise('密码与确认密码必须相同')
+            }
             let state = -1
             registerPOST({
                 account: registerMsg.account,
@@ -94,21 +111,23 @@ export default {
             })
                 .then((response) => {
                     state = response.data
+                    if (state - 200 === 0) {
+                        this.loginTo()
+                    } else {
+                        this.raise('该用户已注册')
+                    }
                 })
                 .catch(() => {
-                    // t
+                    this.raise('该用户已注册')
                 })
-            if (state === 200) {
-                this.loginTo()
-            } else {
-                // y
-            }
         },
         registerTo() {
             this.isRegister = true
+            this.clearWarning()
         },
         loginTo() {
             this.isRegister = false
+            this.clearWarning()
         },
         r(e) {
             switch (e.name) {
@@ -133,6 +152,9 @@ export default {
         raise(msg) {
             // 产生警告
             this.warning = msg
+        },
+        clearWarning() {
+            this.warning = ''
         }
     }
 }

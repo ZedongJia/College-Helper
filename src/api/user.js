@@ -22,6 +22,6 @@ export function registerPOST (params) {
     return axois({
         url: 'user/register/',
         method: 'POST',
-        params
+        data: params
     })
 }

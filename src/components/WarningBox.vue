@@ -1,6 +1,6 @@
 <template>
     <PopFrame>
-        <div style="width: 40%; margin: 180px 0px 0px 40%">
+        <div style="width: 40%;position: fixed; top: 0;left: 0;">
             <Board style="border-radius: 20px; text-align: center">
                 <h3>清空聊天记录</h3>
                 <hr style="margin: 3% 0 3% 0" />
@@ -36,4 +36,6 @@ export default {
 }
 </script>
 <style>
+.promptBox {
+}
 </style>
