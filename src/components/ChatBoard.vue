@@ -190,7 +190,6 @@ export default {
             nextTick(() => {
                 const div = document.getElementById('toBottom')
                 div.scrollTop = div.scrollHeight
-                this.height = div.scrollTop
             })
         },
         // 获取当前时间
@@ -199,11 +198,10 @@ export default {
             return time
         },
         // 生成消息
-        generateMessage(content, pos) {
+        generateMessage(content, time, pos) {
             const temp = Object.create(this.template[pos])
             temp.content = content
-            temp.time = this.getCurrentTime()
-            console.log(this.messageList)
+            temp.time = time
             return temp
         },
         AIresponse() {
@@ -211,7 +209,11 @@ export default {
             this.canCommit = false
             // 思考
             setTimeout(() => {
-                const temp = this.generateMessage('', 'left')
+                const temp = this.generateMessage(
+                    '',
+                    this.getCurrentTime(),
+                    'left'
+                )
                 temp.isthinking = true
                 this.messageList.push(temp)
                 this.toBottomArea()
@@ -223,7 +225,11 @@ export default {
                 // 弹出thinking数据
                 this.messageList.pop()
                 // 生成content 修改相应内容
-                const temp = this.generateMessage(content, 'left')
+                const temp = this.generateMessage(
+                    content,
+                    this.getCurrentTime(),
+                    'left'
+                )
                 temp.tip = '查看关系图'
                 this.messageList.push(temp)
                 this.toBottomArea()
@@ -237,11 +243,26 @@ export default {
                 // 禁止提交空内容
                 if (this.chatContent.trim() !== '') {
                     this.messageList.push(
-                        this.generateMessage(this.chatContent, 'right')
+                        this.generateMessage(
+                            this.chatContent,
+                            this.getCurrentTime(),
+                            'right'
+                        )
                     )
                     this.toBottomArea()
                     // 搜索框置空
                     this.chatContent = ''
+                    // 向后端请求数据，看是否有对方的信息
+                    setTimeout(() => {
+                        this.messageList.push(
+                            this.generateMessage(
+                                '哈喽哈喽',
+                                this.getCurrentTime(),
+                                'left'
+                            )
+                        )
+                        this.toBottomArea()
+                    }, 3000)
                     if (this.AImode) {
                         this.AIresponse()
                     }
@@ -255,7 +276,13 @@ export default {
             // 弹出思考ing
             this.messageList.pop()
             // 停止回答
-            this.messageList.push(this.generateMessage(this.stopText, 'left'))
+            this.messageList.push(
+                this.generateMessage(
+                    this.stopText,
+                    this.getCurrentTime(),
+                    'left'
+                )
+            )
             // 清除延时器  后期应该是拦截请求
             clearTimeout(this.timer)
             this.canCommit = true
@@ -265,7 +292,13 @@ export default {
             // 清空数组
             this.messageList = []
             if (this.AImode) {
-                this.messageList.push(this.generateMessage('让我们开始新的话题叭~', 'left'))
+                this.messageList.push(
+                    this.generateMessage(
+                        '让我们开始新的话题叭~',
+                        this.getCurrentTime(),
+                        'left'
+                    )
+                )
             }
             // 清除延时器  后期应该是拦截请求
             clearTimeout(this.timer)
@@ -326,26 +359,82 @@ export default {
             return this.printtext.slice(0, this.currentIndex)
         }
     },
+    mounted() {
+        setTimeout(() => {
+            const div = document.getElementById('toBottom')
+            div.scrollTop = div.scrollHeight
+        }, 0)
+    },
     created() {
         // 设定更新时间，用于获取left用户信息, 500ms请求一次
         if (!this.AImode) {
             console.log('false')
             // 获取先前聊天记录
-            const messageList = [
+            const HistoryMesList = [
+                { ID: 1, time: '10:23', content: '哈喽哈喽' },
+                { ID: 1, time: '10:24', content: '额鹅鹅鹅' },
+                { ID: 1, time: '10:26', content: '不理我' },
+                { ID: 2, time: '10:30', content: '你好你好' },
+                { ID: 2, time: '10:30', content: '刚才在打游戏' },
+                { ID: 1, time: '10:31', content: '噢噢没事' }
             ]
+            // 将历史纪录加入到消息列表中
+            for (let i = 0; i < HistoryMesList.length; i++) {
+                if (HistoryMesList[i].ID === 1) {
+                    this.messageList.push(
+                        this.generateMessage(
+                            HistoryMesList[i].content,
+                            HistoryMesList[i].time,
+                            'right'
+                        )
+                    )
+                } else {
+                    this.messageList.push(
+                        this.generateMessage(
+                            HistoryMesList[i].content,
+                            HistoryMesList[i].time,
+                            'left'
+                        )
+                    )
+                }
+            }
             this.updateEvent = setInterval(() => {
                 // 请求contentList，后端会保留left最后一次请求截止日期
-                for (const c in messageList) {
-                    this.generateMessage(c, 'left')
+                // 500ms更新一次聊天记录，并保存到数组中
+                const newInfo = []
+                for (let i = 0; i < newInfo.length; i++) {
+                    if (newInfo[i].ID === 1) {
+                        this.messageList.push(
+                            this.generateMessage(
+                                newInfo[i].content,
+                                newInfo[i].time,
+                                'right'
+                            )
+                        )
+                    } else {
+                        this.messageList.push(
+                            this.generateMessage(
+                                newInfo[i].content,
+                                newInfo[i].time,
+                                'left'
+                            )
+                        )
+                    }
                 }
             }, 500)
         } else {
             console.log(this.messageList)
             this.messageList.push(
-                this.generateMessage('快来和我交流你的问题叭~', 'left')
+                this.generateMessage(
+                    '快来和我交流你的问题叭~',
+                    this.getCurrentTime(),
+                    'left'
+                )
             )
-            console.log(this.messageList)
         }
+    },
+    unmounted() {
+        clearInterval(this.updateEvent)
     }
 }
 </script>
