@@ -61,16 +61,11 @@ export default {
 .info {
     width: 100%;
     height: 300px;
-    transition: 0.5s;
+    transition: 0.25s;
 }
 
 .info:hover {
     height: 400px;
-}
-
-.simple-info {
-    height: 200px;
-    transition: 0.5s;
 }
 
 .avatar {

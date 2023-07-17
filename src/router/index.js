@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { validCookie } from '@/api/user'
 
 const routes = [
     {
@@ -6,6 +7,7 @@ const routes = [
         redirect: '/login'
     },
     {
+        name: 'login',
         path: '/login',
         component: () => import('@/views/Login.vue')
     },
@@ -67,6 +69,25 @@ const routes = [
 const router = createRouter({
     history: createWebHashHistory(),
     routes
+})
+
+router.beforeEach(async (to, from) => {
+    // 跳过login
+    if (from.fullPath !== '/login' && to.fullPath !== '/' && to.fullPath !== '/login') {
+        // 检测
+        validCookie().then((response) => {
+            console.log(response)
+            if (response.data - 400 === 0) {
+                router.push({
+                    name: 'login'
+                })
+            }
+        }).catch(() => {
+            router.push({
+                name: 'login'
+            })
+        })
+    }
 })
 
 export default router
