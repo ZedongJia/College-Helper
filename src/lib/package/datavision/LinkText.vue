@@ -1,6 +1,6 @@
 <script>
 import { h } from 'vue'
-import EmptyHint from './EmptyHint.vue'
+import EmptyHint from '../interaction/EmptyHint.vue'
 export default {
     name: 'LinkText',
     props: {

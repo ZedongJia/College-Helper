@@ -43,8 +43,12 @@
     </ul>
 </template>
 <script>
+import Card from './Card.vue'
 export default {
-    name: 'Cardgroup',
+    name: 'CardGroup',
+    components: {
+        Card
+    },
     props: {
         pages: {
             type: Array,

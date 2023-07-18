@@ -1,9 +1,15 @@
 <template>
     <router-view></router-view>
     <div id="bg"></div>
+    <GlobalPrompt />
 </template>
 <script>
-export default {}
+import GlobalPrompt from '@/components/GlobalPrompt.vue'
+export default {
+    components: {
+        GlobalPrompt
+    }
+}
 </script>
 <style>
 #bg {

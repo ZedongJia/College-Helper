@@ -53,10 +53,10 @@
         <Board>
             <Title title="关系图表"></Title>
         </Board>
-        <Form
+        <Table
             :isLoading="isLoading"
             :link="link"
-        ></Form>
+        ></Table>
     </div>
 </template>
 <script>

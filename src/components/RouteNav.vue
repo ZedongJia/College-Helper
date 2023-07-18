@@ -52,7 +52,7 @@ export default {
                     return '关系查询'
                 case 'overview':
                     return '农业知识概览'
-                case 'mainBoard':
+                case 'system':
                     return '主页'
                 case 'agriculturalQA':
                     return '农知问答'
@@ -85,7 +85,7 @@ export default {
                 case 'overview':
                     icon = 'graph'
                     break
-                case 'mainBoard':
+                case 'system':
                     icon = 'home'
                     break
                 case 'agriculturalQA':

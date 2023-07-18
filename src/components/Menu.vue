@@ -9,7 +9,7 @@
             <div style="display: flex; flex-flow: row nowrap">
                 <div style="margin-right: 0.5em">
                     <img
-                        style="margin-top: 8px; width: 32px;"
+                        style="margin-top: 8px; width: 32px"
                         :src="require('../assets/icons/' + item.icon + '.png')"
                         alt="..."
                     />
@@ -21,7 +21,6 @@
 </template>
 <script>
 export default {
-    name: 'Menu',
     props: {
         data: Array
     },

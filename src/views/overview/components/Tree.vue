@@ -4,8 +4,11 @@
     </ul>
 </template>
 <script>
+import TreeNode from './TreeNode.vue'
 export default {
-    name: 'Tree',
+    components: {
+        TreeNode
+    },
     props: {
         model: Object
     }

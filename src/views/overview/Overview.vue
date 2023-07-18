@@ -1,11 +1,7 @@
 <template>
     <div class="wrapper fade-in overviewlayout">
         <Board style="grid-column: 1 / 2">
-            <Title
-                :title="
-                    '分类专题： [' + $store.getters.getCurrNode.nodename + ']'
-                "
-            ></Title>
+            <Title :title="'分类专题： [' + node.name + ']'"></Title>
             <div
                 style="width: 100%"
                 v-for="key in Object.keys(sortedList)"
@@ -46,11 +42,11 @@
                 ></Title>
                 <p
                     style="color: grey"
-                    v-if="$store.getters.getCurrNode.parent === 'root'"
+                    v-if="node.parent === 'root'"
                 >
                     已是最高级分类
                 </p>
-                <span v-else> {{ $store.getters.getCurrNode.parent }} </span>
+                <span v-else> {{ node.parent }} </span>
             </Board>
             <br />
             <Board>
@@ -61,14 +57,14 @@
                 <p
                     style="color: grey"
                     v-if="
-                        !hasChildren(this.$store.getters.getCurrNode.children)
+                        !hasChildren(node.children)
                     "
                 >
                     已是最低级分类
                 </p>
                 <p
                     style="margin-bottom: 8px"
-                    v-for="i in $store.getters.getCurrNode.children"
+                    v-for="i in node.children"
                     :key="i"
                 >
                     {{ i.name }}
@@ -90,9 +86,7 @@
             >
                 <Tree :model="treeData"></Tree>
             </Board>
-            <Board
-                class="flex-row-right"
-            >
+            <Board class="flex-row-right">
                 <Button
                     @clickIt="outFrame"
                     style="padding: 0 3em"
@@ -104,6 +98,8 @@
     </PopFrame>
 </template>
 <script>
+import { mapState } from 'vuex'
+import Tree from './components/Tree'
 const pinyin = require('js-pinyin')
 const treeData = {
     name: '农业',
@@ -174,17 +170,19 @@ const treeData = {
     ]
 }
 export default {
+    components: {
+        Tree
+    },
     data() {
         return {
             appear: false,
             treeData,
-            childrenList: [],
-            node: []
+            childrenList: []
         }
     },
     methods: {
         outFrame() {
-            this.$store.commit('updateShowTree')
+            this.$store.commit('tree/show')
         },
         hasChildren(children) {
             return children !== undefined && children.length !== 0
@@ -198,26 +196,11 @@ export default {
             return i.name
         }
     },
-    watch: {
-        '$store.getters.isShowTree'() {
-            this.appear = !this.appear
-            this.node = this.$store.getters.getCurrNode
-            this.childrenList = []
-            this.dfsAllNodes(this.node)
-        }
-    },
-    created() {
-        this.$store.commit('updateCurrNode', {
-            parent: 'root',
-            children: treeData.children,
-            nodename: treeData.name
-        })
-    },
-    mounted() {
-        this.node = this.$store.getters.getCurrNode
-        this.dfsAllNodes(this.node)
-    },
     computed: {
+        ...mapState({
+            isShow: (state) => state.tree.isShow,
+            node: (state) => state.tree.currNode
+        }),
         sortedList() {
             const sortedData = {}
             const collator = new Intl.Collator('zh')
@@ -248,6 +231,23 @@ export default {
             }
             return sortedData
         }
+    },
+    watch: {
+        isShow() {
+            this.appear = !this.appear
+            this.childrenList = []
+            this.dfsAllNodes(this.node)
+        }
+    },
+    created() {
+        this.$store.commit('tree/updateNode', {
+            parent: 'root',
+            children: treeData.children,
+            name: treeData.name
+        })
+    },
+    mounted() {
+        this.dfsAllNodes(this.node)
     }
 }
 </script>

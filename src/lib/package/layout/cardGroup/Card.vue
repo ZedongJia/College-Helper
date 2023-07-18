@@ -3,11 +3,6 @@
         <slot></slot>
     </div>
 </template>
-<script>
-export default {
-    name: 'Card'
-}
-</script>
 <style>
 .card {
     padding: 10px;

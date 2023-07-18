@@ -26,18 +26,18 @@
                 </span>
             </span>
         </div>
-        <PromptBox
-            :title="prompt"
-            noConfirm
-            :isShow="isShow"
-        ></PromptBox>
     </div>
 </template>
 <script>
 import { logOutGET } from '@/api/user'
 import Theme from '@/assets/theme'
+import HideButton from './components/HideButton.vue'
+import ThemeCheck from './components/ThemeCheck.vue'
 export default {
-    name: 'NavBar',
+    components: {
+        HideButton,
+        ThemeCheck
+    },
     data() {
         return {
             popoverData: [
@@ -48,9 +48,7 @@ export default {
                     name: '关于'
                 }
             ],
-            isLight: true,
-            prompt: '',
-            isShow: false
+            isLight: true
         }
     },
     methods: {
@@ -65,16 +63,16 @@ export default {
                         .then((response) => {
                             console.log(response)
                             if (response.data - 200 === 0) {
-                                this.generatePrompt('登出成功')
+                                this.$store.commit('prompt/trigger', '登出成功')
                                 setTimeout(() => {
                                     this.$router.push('/login')
                                 }, 1500)
                             } else {
-                                this.generatePrompt('登出失败，请重试')
+                                this.$store.commit('prompt/trigger', '登出失败，请重试')
                             }
                         })
                         .catch(() => {
-                            this.generatePrompt('网络故障，请重试')
+                            this.$store.commit('prompt/trigger', '网络故障，请重试')
                         })
                     break
                 case '关于':
@@ -96,14 +94,6 @@ export default {
         emitHideMeg(e) {
             this.$emit('hide', e)
             e.stopPropagation()
-        },
-        generatePrompt(msg) {
-            this.prompt = msg
-            this.isShow = true
-            setTimeout(() => {
-                this.isShow = false
-                this.prompt = ''
-            }, 1250)
         }
     },
     watch: {

@@ -16,11 +16,12 @@
         ></div>
         <div style="flex: 0 0 68%; height: 100%">
             <EmptyHint v-if="JSON.stringify(personInfo) === '{}'"></EmptyHint>
-            <ChatBoard
-                v-else
-                :info="personInfo"
-                :key="personInfo.username"
-            ></ChatBoard>
+            <keep-alive :max="10" v-else>
+                <ChatBoard
+                    :info="personInfo"
+                    :key="personInfo.username"
+                ></ChatBoard>
+            </keep-alive>
         </div>
     </div>
 </template>
@@ -45,7 +46,6 @@ export default {
     },
     methods: {
         talkTo(group, index) {
-            console.log(index)
             // 请求人员数据
             const image = 'http://localhost:8000/gallery/match/?ID=5'
             const talkToPerson = this.temperoaryDict[group][index]

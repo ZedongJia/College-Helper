@@ -15,7 +15,7 @@
                     >
                         {{ itemHeader.name }}
                         <img
-                            src="..\assets\icons\sort.png"
+                            src="@/assets/icons/sort.png"
                             @click="Sort(index)"
                         />
                     </td>
@@ -40,7 +40,7 @@
 </template>
 <script>
 export default {
-    name: 'Form',
+    name: 'Table',
     props: {
         isLoading: Boolean,
         link: Array

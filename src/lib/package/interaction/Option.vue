@@ -1,17 +1,24 @@
 <template>
-    <ul class="select" @mouseenter="openOption" @mouseleave="closeOption">
-        <Card class="selected">
+    <ul
+        class="select"
+        @mouseenter="openOption"
+        @mouseleave="closeOption"
+    >
+        <MenuItem class="selected" noShade>
             {{ selected }}
-        </Card>
-        <li ref="option" class="option">
-            <Card
+        </MenuItem>
+        <li
+            ref="option"
+            class="option"
+        >
+            <MenuItem
                 v-for="item in data"
                 :key="item"
                 @click="handleOptionClick(item)"
                 Static
             >
                 {{ item }}
-            </Card>
+            </MenuItem>
         </li>
     </ul>
 </template>

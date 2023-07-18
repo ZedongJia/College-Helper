@@ -15,11 +15,12 @@
             </ul>
             <Board
                 class="flex-row-evenly"
+                style="width: 100%; overflow: hidden;"
                 inset
             >
-                <div style="width: 6%">侧边栏修饰</div>
+                <div class="side-decoration"></div>
                 <component :is="board[pointer]"></component>
-                <div style="width: 6%">侧边栏修饰</div>
+                <div class="side-decoration"></div>
             </Board>
         </Board>
     </div>
@@ -91,6 +92,14 @@ export default {
     color: var(--font-color);
     background-color: var(--bg-color);
     animation: flow-up 0.5s forwards;
+}
+
+.side-decoration {
+    width: 10%;
+    height: 300px;
+    background-image: url('../../assets/side-d.png');
+    background-size: cover;
+    background-position: 50% 0;
 }
 
 @keyframes flow-up {

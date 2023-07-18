@@ -22,7 +22,7 @@
                 :id="input.symbol"
                 v-if="input.options !== undefined"
             >
-                <span>{{ input.title }}</span>
+                <span class="form-title">{{ input.title }}</span>
                 <label
                     class="flex-row-center"
                     v-for="option in input.options"
@@ -35,16 +35,17 @@
                     />
                     {{ option }}
                 </label>
-                <span class="line"></span>
             </form>
-            <div class="flex-row-left form-box" v-else-if="input.type === 'file'">
+            <div
+                class="flex-row-left file-box"
+                v-else-if="input.type === 'file'"
+            >
+                <span class="file-label">{{ input.title }}</span>
                 <input
                     :id="input.symbol"
-                    :title="input.title"
                     :type="input.type"
                     :accept="input.accept"
                 />
-                <span class="line"></span>
             </div>
             <Input
                 v-else
@@ -201,30 +202,43 @@ export default {
 }
 
 .form-box {
-    position: relative;
     width: 100%;
     height: 64px;
+    color: var(--item-bg-color);
     border-bottom: 2px solid var(--item-bg-color);
 }
 
 .form-box > * {
     margin: 0 0.5em;
-    color: var(--item-bg-color);
 }
 
-.form-box span {
+.form-box .form-title {
     margin: 0 1em;
     font-weight: bold;
     font-size: 18px;
-    color: var(--item-bg-color);
 }
 
 /* 表单样式 */
-.form-box input[type="file"] {
+.file-box {
+    width: 100%;
+    color: var(--item-bg-color);
+}
+.file-box .file-label {
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 96px;
+    line-height: 48px;
+    color: var(--item-bg-color);
+    transition: all ease 0.5s;
+}
+
+.file-box input[type='file'] {
     font-weight: bold;
 }
 
-.form-box input[type="file"]::file-selector-button {
+.file-box input[type='file']::file-selector-button {
     cursor: pointer;
     overflow: hidden;
     text-align: center;
@@ -238,6 +252,11 @@ export default {
     background-color: var(--item-bg-color);
     border-radius: 5px;
     border: none;
+}
+
+.file-box input[type='file']::file-selector-button:hover {
+    color: var(--item-font-rev-color);
+    background-color: var(--item-bg-rev-color);
 }
 
 /* button css */

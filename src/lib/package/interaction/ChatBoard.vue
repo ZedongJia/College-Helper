@@ -81,7 +81,7 @@
                                     @click="isShow(item, index)"
                                     class="tiplink flex-row"
                                 >
-                                    <img src="../assets/icons/chart.png" />
+                                    <img src="@/assets/icons/chart.png" />
                                     <p>{{ item.tip }}</p>
                                 </a>
                             </div>
@@ -104,10 +104,13 @@
             </div>
         </div>
         <hr style="margin: 10px 0px 10px 0px" />
-        <div class="flex-row-evenly" style="width: 80%;">
+        <div
+            class="flex-row-evenly"
+            style="width: 80%"
+        >
             <!-- 清理聊天记录 -->
             <img
-                src="../assets/icons/clear.png"
+                src="@/assets/icons/clear.png"
                 @click="appear = true"
                 class="clearImg"
             />
@@ -143,11 +146,17 @@
 <script>
 import { nextTick, ref } from 'vue'
 import { loading } from '@/utils/callback'
+
 export default {
     name: 'ChatBoard',
     props: {
         info: Object,
         AImode: Boolean
+    },
+    computed: {
+        typedText() {
+            return this.printtext.slice(0, this.currentIndex)
+        }
     },
     data() {
         return {
@@ -167,8 +176,8 @@ export default {
                 },
                 right: {
                     // 你的信息
-                    username: this.$store.getters.getUserInfo.nickname,
-                    image: this.$store.getters.getUserInfo.image,
+                    username: this.$store.state.userInfo.nickname,
+                    image: this.$store.state.userInfo.image,
                     time: '',
                     content: '',
                     isLeft: false
@@ -361,13 +370,7 @@ export default {
             }, 25)
         }
     },
-    computed: {
-        typedText() {
-            return this.printtext.slice(0, this.currentIndex)
-        }
-    },
     mounted() {
-        console.log(this.template)
         setTimeout(() => {
             const div = document.getElementById('toBottom')
             if (div !== undefined) {
@@ -378,7 +381,6 @@ export default {
     created() {
         // 设定更新时间，用于获取left用户信息, 500ms请求一次
         if (!this.AImode) {
-            console.log('false')
             // 获取先前聊天记录
             const HistoryMesList = [
                 { ID: 1, time: '10:23', content: '哈喽哈喽' },

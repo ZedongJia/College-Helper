@@ -13,7 +13,15 @@
     </div>
 </template>
 <script>
+import NavBar from '@/components/nav/NavBar.vue'
+import Menu from '@/components/Menu.vue'
+import RouteNav from '@/components/RouteNav.vue'
 export default {
+    components: {
+        NavBar,
+        Menu,
+        RouteNav
+    },
     data() {
         return {
             showMenu: true,
@@ -25,27 +33,27 @@ export default {
                 },
                 {
                     name: '实体识别',
-                    href: '/mainBoard/identification',
+                    href: '/system/identification',
                     icon: 'search'
                 },
                 {
                     name: '实体查询',
-                    href: '/mainBoard/entitySearch',
+                    href: '/system/entitySearch',
                     icon: 'entity'
                 },
                 {
                     name: '关系查询',
-                    href: '/mainBoard/relationSearch',
+                    href: '/system/relationSearch',
                     icon: 'relation'
                 },
                 {
                     name: '农业知识概览',
-                    href: '/mainBoard/overview',
+                    href: '/system/overview',
                     icon: 'graph'
                 },
                 {
                     name: '农知问答',
-                    href: '/mainBoard/agriculturalQA',
+                    href: '/system/agriculturalQA',
                     icon: 'chat'
                 },
                 {
@@ -55,7 +63,7 @@ export default {
                 },
                 {
                     name: '用户中心',
-                    href: '/mainBoard/userCenter',
+                    href: '/system/userCenter',
                     icon: 'chat'
                 }
             ]

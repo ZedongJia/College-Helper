@@ -33,19 +33,18 @@
         一个可以通过其“name”选项递归渲染自己的组件，
         (如果使用单文件组件，则从文件名推断)
       -->
-            <Tree
+            <TreeNode
                 v-for="m in model.children"
                 :parent="model.name"
                 :model="m"
                 :key="m.name"
             >
-            </Tree>
+            </TreeNode>
         </ul>
     </li>
 </template>
 <script>
 export default {
-    name: 'TreeNode', // 在引用自身的时候是必须的
     props: {
         parent: String,
         model: Object
@@ -67,12 +66,12 @@ export default {
             }
         },
         record() {
-            this.$store.commit('updateCurrNode', {
+            this.$store.commit('tree/updateNode', {
                 parent: this.parent,
                 children: this.model.children,
-                nodename: this.model.name
+                name: this.model.name
             })
-            this.$store.commit('updateShowTree')
+            this.$store.commit('tree/hide')
         }
     }
 }
