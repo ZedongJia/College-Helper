@@ -17,9 +17,9 @@
                 class="flex-row-evenly"
                 inset
             >
-                <div style="width: 8%">侧边栏修饰</div>
-                <component style="width: 70%;" :is="board[pointer]"></component>
-                <div style="width: 8%">侧边栏修饰</div>
+                <div style="width: 6%">侧边栏修饰</div>
+                <component :is="board[pointer]"></component>
+                <div style="width: 6%">侧边栏修饰</div>
             </Board>
         </Board>
     </div>

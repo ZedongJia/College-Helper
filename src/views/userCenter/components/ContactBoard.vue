@@ -1,16 +1,26 @@
 <template lang="">
-    <div class="flex-row-center">
+    <div
+        class="flex-row-evenly"
+        style="width: 88%; height: 600px"
+    >
         <MessageList
-            style="flex: 0 0 30%"
+            style="flex: 0 0 30%; height: 100%"
             :messageDict="temperoaryDict"
             :headers="['时间', '昵称']"
             :colWidth="[30, 70]"
             @query="talkTo"
             @del="del"
         ></MessageList>
-        <div style="flex: 0 0 70%">
+        <div
+            style="flex: 0 0 2%; height: 100%; border-right: 1px solid grey"
+        ></div>
+        <div style="flex: 0 0 68%; height: 100%">
             <EmptyHint v-if="JSON.stringify(personInfo) === '{}'"></EmptyHint>
-            <ChatBoard v-else :info="personInfo"></ChatBoard>
+            <ChatBoard
+                v-else
+                :info="personInfo"
+                :key="personInfo.username"
+            ></ChatBoard>
         </div>
     </div>
 </template>
@@ -35,6 +45,7 @@ export default {
     },
     methods: {
         talkTo(group, index) {
+            console.log(index)
             // 请求人员数据
             const image = 'http://localhost:8000/gallery/match/?ID=5'
             const talkToPerson = this.temperoaryDict[group][index]
@@ -47,3 +58,8 @@ export default {
     }
 }
 </script>
+<style>
+.t {
+    align-items: baseline;
+}
+</style>

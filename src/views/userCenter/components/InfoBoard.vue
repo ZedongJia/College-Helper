@@ -23,9 +23,10 @@ export default {
         return {
             inputs: [
                 {
-                    type: 'text',
+                    type: 'file',
                     title: '头像图片',
-                    symbol: 'imgUrl'
+                    symbol: 'imgUrl',
+                    accept: 'image/*'
                 },
                 {
                     type: 'text',
@@ -50,7 +51,7 @@ export default {
                 {
                     type: 'checkbox',
                     title: '性别',
-                    options: ['男', '女'],
+                    options: ['男', '女', '未知'],
                     symbol: 'gender'
                 },
                 {

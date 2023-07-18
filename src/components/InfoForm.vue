@@ -37,12 +37,21 @@
                 </label>
                 <span class="line"></span>
             </form>
+            <div class="flex-row-left form-box" v-else-if="input.type === 'file'">
+                <input
+                    :id="input.symbol"
+                    :title="input.title"
+                    :type="input.type"
+                    :accept="input.accept"
+                />
+                <span class="line"></span>
+            </div>
             <Input
                 v-else
                 :title="input.title"
                 :type="input.type"
                 v-model="inputsF[input.symbol]"
-            ></Input>
+            />
         </div>
         <div v-if="Popover">
             <p class="warning">{{ warning }} <slot></slot></p>
@@ -95,7 +104,8 @@ export default {
     data() {
         return {
             inputsF: {},
-            checkBox: []
+            checkBox: [],
+            fileBox: []
         }
     },
     methods: {
@@ -103,6 +113,7 @@ export default {
             const name = e.target.innerHTML
             // deal form
             this.decodeForm()
+            this.decodeFile()
             this.$emit('receive', {
                 name: name,
                 inputsF: this.inputsF
@@ -122,6 +133,14 @@ export default {
                     }
                 }
             })
+        },
+        decodeFile() {
+            const fileNode = this.fileBox.map((e) =>
+                document.querySelector('#' + e)
+            )
+            fileNode.forEach((e, index) => {
+                this.inputsF[this.fileBox[index]] = e.files[0]
+            })
         }
     },
     created() {
@@ -131,6 +150,9 @@ export default {
             this.inputsF[this.inputs[i].symbol] = value
             if (this.inputs[i].type === 'checkbox') {
                 this.checkBox.push(this.inputs[i].symbol)
+            }
+            if (this.inputs[i].type === 'file') {
+                this.fileBox.push(this.inputs[i].symbol)
             }
         }
     }
@@ -150,8 +172,7 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: transparent;
-    backdrop-filter: blur(100px);
+    background-color: white;
     border-radius: 12px;
     box-shadow: 7px 7px 10px 3px #24004628;
 }
@@ -196,6 +217,27 @@ export default {
     font-weight: bold;
     font-size: 18px;
     color: var(--item-bg-color);
+}
+
+/* 表单样式 */
+.form-box input[type="file"] {
+    font-weight: bold;
+}
+
+.form-box input[type="file"]::file-selector-button {
+    cursor: pointer;
+    overflow: hidden;
+    text-align: center;
+    min-width: 120px;
+    margin-right: 2em;
+    height: 48px;
+    line-height: 48px;
+    font-weight: bold;
+    transition: 0.4s;
+    color: var(--item-font-color);
+    background-color: var(--item-bg-color);
+    border-radius: 5px;
+    border: none;
 }
 
 /* button css */

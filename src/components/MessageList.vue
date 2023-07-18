@@ -92,12 +92,13 @@ export default {
 }
 
 .list .header span {
+    color: grey;
     font-weight: bold;
 }
 
 .list .header:hover span {
     cursor: default;
-    color: var(--font-color);
+    color: grey;
 }
 
 .list li > span:nth-child(1) {
