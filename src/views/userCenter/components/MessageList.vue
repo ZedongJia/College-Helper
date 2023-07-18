@@ -15,14 +15,29 @@
             ></Title>
             <br />
             <li
+                class="flex-row header"
+            >
+                <span
+                    v-for="(v, index) in headers"
+                    :key="v"
+                    :Style="'flex: 0 0 ' + colWidth[index] + '%;'"
+                >
+                    {{ v }}
+                </span>
+            </li>
+            <li
                 class="flex-row"
                 v-for="(item, index) in Object.values(messageDict[group])"
                 :key="item"
-                @click="turnTo(group, index)"
+                @click="query(group, index)"
             >
-                <span>{{ item.time }}</span>
-                <span>{{ item.type }}</span>
-                <span>{{ item.content }}</span>
+                <span
+                    v-for="(v, index) in Object.values(item)"
+                    :key="v"
+                    :Style="'flex: 0 0 ' + colWidth[index] + '%;'"
+                >
+                    {{ v }}
+                </span>
                 <Button @clickIt="del(group, index)">Delete<i>!</i></Button>
                 <i class="hover-fill"></i>
             </li>
@@ -32,32 +47,16 @@
 <script>
 export default {
     props: {
-        messageDict: Object
+        messageDict: Object,
+        colWidth: Array,
+        headers: Array
     },
     methods: {
-        turnTo(group, index) {
-            const { type, content } = this.messageDict[group][index]
-            let page = ''
-            switch (type) {
-                case '实体识别':
-                    page = 'identification'
-                    break
-                case '关系查询':
-                    page = 'relationSearch'
-                    break
-                case '实体查询':
-                    page = 'entitySearch'
-                    break
-            }
-            this.$router.push({
-                path: page,
-                meta: {
-                    content: content
-                }
-            })
+        query(group, index) {
+            this.$emit('query', group, index)
         },
         del(group, index) {
-            // todo
+            this.$emit('del', group, index)
         }
     }
 }
@@ -87,6 +86,19 @@ export default {
     color: var(--item-font-color);
 }
 
+.list .header {
+    border-bottom: 1px solid grey;
+}
+
+.list .header span {
+    font-weight: bold;
+}
+
+.list .header:hover span {
+    cursor: default;
+    color: var(--font-color);
+}
+
 .list li > span:nth-child(1) {
     flex: 0 0 20%;
 }
@@ -114,8 +126,11 @@ export default {
 }
 
 .list .btn {
-    position: relative;
-    flex: 0 0 10%;
+    z-index: 200;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(0, -50%);
     min-width: 0;
     color: var(--font-color);
     background-color: transparent;
