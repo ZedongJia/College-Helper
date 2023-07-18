@@ -1,5 +1,5 @@
 export default {
-    path: 'test',
+    path: '/test',
     component: () => import('@/views/debug/Test.vue'),
     children: []
 }
