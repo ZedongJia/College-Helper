@@ -74,10 +74,10 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
     // test
-    const backdoor = true
-    if (backdoor) {
-        return
-    }
+    // const backdoor = true
+    // if (backdoor) {
+    //     return
+    // }
     // 跳过login
     if (to.fullPath !== '/login' && !store.getters.isLogin) {
         // 检测

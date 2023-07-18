@@ -4,8 +4,8 @@ export default createStore({
     state: {
         userInfo: {
             ID: -1,
-            nickname: '雨霖铃',
-            image: 'test.png'
+            nickname: '张三',
+            image: 'http://localhost:8000/gallery/match/?ID=5'
         },
         currNode: {
             parent: 'root',

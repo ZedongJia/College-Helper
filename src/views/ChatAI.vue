@@ -13,7 +13,7 @@ export default {
         return {
             userInfo: {
                 username: 'zhangsan',
-                image: 'test.png'
+                image: 'http://localhost:8000/gallery/match/?ID=5'
             }
         }
     },

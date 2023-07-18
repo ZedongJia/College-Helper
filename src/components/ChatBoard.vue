@@ -23,7 +23,7 @@
                     <!-- 左侧：头像 + 用户名 -->
                     <div class="left">
                         <img
-                            :src="require('../assets/' + item.image)"
+                            :src="item.image"
                             alt="头像"
                         />
                         <p class="username">{{ item.username }}</p>
@@ -367,6 +367,7 @@ export default {
         }
     },
     mounted() {
+        console.log(this.template)
         setTimeout(() => {
             const div = document.getElementById('toBottom')
             if (div !== undefined) {

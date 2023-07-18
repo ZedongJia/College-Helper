@@ -9,10 +9,9 @@
             @del="del"
         ></MessageList>
         <div style="flex: 0 0 70%">
-            <EmptyHint v-if="talkToPerson === ''"></EmptyHint>
-            <div v-else>{{ talkToPerson }}</div>
+            <EmptyHint v-if="JSON.stringify(personInfo) === '{}'"></EmptyHint>
+            <ChatBoard v-else :info="personInfo"></ChatBoard>
         </div>
-        <!-- <ChatBoard  :info="userInfo"></ChatBoard> -->
     </div>
 </template>
 <script>
@@ -31,16 +30,16 @@ export default {
                     }
                 ]
             },
-            userInfo: {
-                username: 'zhangsan',
-                image: 'test.png'
-            },
-            talkToPerson: ''
+            personInfo: {}
         }
     },
     methods: {
         talkTo(group, index) {
-            this.talkToPerson = this.temperoaryDict[group][index]
+            // 请求人员数据
+            const image = 'http://localhost:8000/gallery/match/?ID=5'
+            const talkToPerson = this.temperoaryDict[group][index]
+            this.personInfo.username = talkToPerson.nickname
+            this.personInfo.image = image
         },
         del(group, indx) {
             // todo
