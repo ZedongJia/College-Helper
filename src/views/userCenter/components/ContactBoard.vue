@@ -1,15 +1,34 @@
 <template lang="">
-    <Board
-        class="flex-row-evenly"
-        inset
-        >
-    </Board>
+    <MessageList :messageDict="templateDict"></MessageList>
+    <ChatBoard :info="userInfo"></ChatBoard>
 </template>
 <script>
 export default {
     data() {
         return {
-            isShow: true
+            templateDict: {
+                临时会话: [
+                    {
+                        time: '8:59',
+                        type: '实体查询',
+                        content: '玉米'
+                    },
+                    {
+                        time: '8:59',
+                        type: '实体查询',
+                        content: '玉米'
+                    },
+                    {
+                        time: '8:59',
+                        type: '实体查询',
+                        content: '玉米'
+                    }
+                ]
+            },
+            userInfo: {
+                username: 'zhangsan',
+                image: 'test.png'
+            }
         }
     }
 }
