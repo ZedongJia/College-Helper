@@ -10,64 +10,64 @@ import Agricultural from '@/views/AgriculturalQA.vue'
 import Test from '@/views/Test.vue'
 
 const routes = [
-  {
-    path: '/',
-    redirect: '/login'
-  },
-  {
-    path: '/login',
-    component: Login
-  },
-  {
-    path: '/mainBoard',
-    redirect: '/mainBoard/identification',
-    component: MainBoard,
-    children: [
-      {
-        path: 'identification',
+    {
+        path: '/',
+        redirect: '/login'
+    },
+    {
+        path: '/login',
+        component: Login
+    },
+    {
+        path: '/mainBoard',
+        redirect: '/mainBoard/identification',
+        component: MainBoard,
         children: [
-          {
-            path: '',
-            component: Identification
-          },
-          {
-            path: 'detailContent',
-            component: DetailContent,
-            props(route) {
-              return {
-                entity: route.query.entity
-              }
+            {
+                path: 'identification',
+                children: [
+                    {
+                        path: '',
+                        component: Identification
+                    },
+                    {
+                        path: 'detailContent',
+                        component: DetailContent,
+                        props(route) {
+                            return {
+                                entity: route.query.entity
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                path: 'entitySearch',
+                component: EntitySearch
+            },
+            {
+                path: 'relationSearch',
+                component: RelationSearch
+            },
+            {
+                path: 'overview',
+                component: Overview
+            },
+            {
+                path: 'agriculturalQA',
+                component: Agricultural
             }
-          }
         ]
-      },
-      {
-        path: 'entitySearch',
-        component: EntitySearch
-      },
-      {
-        path: 'relationSearch',
-        component: RelationSearch
-      },
-      {
-        path: 'overview',
-        component: Overview
-      },
-      {
-        path: 'agriculturalQA',
-        component: Agricultural
-      }
-    ]
-  },
-  {
-    path: '/test',
-    component: Test
-  }
+    },
+    {
+        path: '/test',
+        component: Test
+    }
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
-  routes
+    history: createWebHashHistory(),
+    routes
 })
 
 export default router

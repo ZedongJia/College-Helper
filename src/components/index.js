@@ -7,6 +7,7 @@ import InfoForm from './InfoForm.vue'
 import Input from './Input.vue'
 import Button from './Button.vue'
 import Title from './Title.vue'
+import MenuItem from './MenuItem.vue'
 import Card from './Card.vue'
 import Menu from './Menu.vue'
 import NavBar from './NavBar.vue'
@@ -24,6 +25,7 @@ import RelationGraph from './RelationGraph.vue'
 import Loading from './Loading.vue'
 import EmptyHint from './EmptyHint.vue'
 import AnswerBoard from './AnswerBoard.vue'
+import Cardgroup from './Cardgroup.vue'
 
 const installList = [
     BackGround,
@@ -32,6 +34,7 @@ const installList = [
     Button,
     Title,
     Card,
+    MenuItem,
     Menu,
     NavBar,
     Board,
@@ -47,7 +50,8 @@ const installList = [
     RelationGraph,
     Loading,
     EmptyHint,
-    AnswerBoard
+    AnswerBoard,
+    Cardgroup
 ]
 
 export default {

@@ -1,6 +1,6 @@
 <template>
     <div id="menu">
-        <Card
+        <MenuItem
             v-for="item in data"
             :key="item.name"
             @click="turnTo(item)"
@@ -16,7 +16,7 @@
                 </div>
                 <p>{{ item.name }}</p>
             </div>
-        </Card>
+        </MenuItem>
     </div>
 </template>
 <script>

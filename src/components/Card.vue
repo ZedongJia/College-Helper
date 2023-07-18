@@ -1,37 +1,22 @@
 <template>
-    <div
-    :class="{
-        normal: true,
-        static: Static,
-        dynamic: Dynamic
-    }"
-    >
-    <slot></slot>
+    <div class="card">
+        <slot></slot>
     </div>
 </template>
 <script>
 export default {
-    name: 'Card',
-    props: {
-        Static: Boolean,
-        Dynamic: Boolean
-    }
+    name: 'Card'
 }
 </script>
 <style>
-.normal {
+.card {
+    padding: 10px;
+    border-radius: 20px;
     background-color: var(--item-bg-color);
     color: var(--item-font-color);
-    border-radius: 2px;
-    transition: 0.5s;
-}
-.dynamic:hover {
-    transform: translate(10%, 0);
-    background-color: var(--item-bg-rev-color);
-    color: var(--item-font-rev-color);
-}
-.static:hover {
-    background-color: var(--item-bg-rev-color);
-    color: var(--item-font-rev-color);
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+        rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+        rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 </style>

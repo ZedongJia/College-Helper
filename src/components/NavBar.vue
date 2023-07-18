@@ -15,14 +15,14 @@
             <span id="log-menu">
                 个人中心
                 <span id="popover">
-                    <Card
+                    <MenuItem
                         v-for="item in popoverData"
                         :key="item.name"
                         @click="handlePopoverClick(item)"
                         Static
                     >
                         {{ item.name }}
-                    </Card>
+                    </MenuItem>
                 </span>
             </span>
         </div>
