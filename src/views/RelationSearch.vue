@@ -4,7 +4,7 @@
         <board>
             <Title title="查询条件："></Title>
         </board>
-        <board class="flex-row">
+        <board class="flex-row-center">
             <!-- 实体1 -->
             <input
                 style="width: 30%"

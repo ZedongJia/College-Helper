@@ -4,7 +4,7 @@
             <Title title="输入问题:"></Title>
         </Board>
         <Board>
-            <div class="flex-row">
+            <div class="flex-row-center">
                 <input
                     class="inputItem"
                     style="width: 70%"

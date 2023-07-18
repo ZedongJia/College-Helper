@@ -3,7 +3,7 @@
         <Board>
             <Title title="查询条件: "></Title>
         </Board>
-        <Board class="flex-row">
+        <Board class="flex-row-center">
             <input
                 class="inputItem"
                 style="width: 70%"

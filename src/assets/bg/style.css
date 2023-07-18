@@ -4,10 +4,9 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgb(137, 221, 137);
-    /* background-image: url('./4.jpg');
+    background-image: url('bg.png');
     background-size: cover;
-    overflow: hidden; */
+    overflow: hidden;
 }
 .segment {
     position: absolute;

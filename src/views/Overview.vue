@@ -91,8 +91,7 @@
                 <Tree :model="treeData"></Tree>
             </Board>
             <Board
-                class="flex-row"
-                style="justify-content: right"
+                class="flex-row-right"
             >
                 <Button
                     @clickIt="outFrame"

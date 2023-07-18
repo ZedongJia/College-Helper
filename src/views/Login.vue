@@ -2,43 +2,46 @@
     <InfoForm
         v-if="isRegister"
         :title="title"
+        :warning="warning"
         :inputs="registerLayout.inputs"
         :buttons="registerLayout.buttons"
         @receive="r"
+        Popover
     ></InfoForm>
     <InfoForm
         v-if="!isRegister"
         :title="title"
+        :warning="warning"
         :inputs="loginLayout.inputs"
         :buttons="loginLayout.buttons"
         @receive="r"
+        Popover
     ></InfoForm>
     <BackGround></BackGround>
+    <PromptBox
+        :title="prompt"
+        noConfirm
+        :isShow="isShow"
+    ></PromptBox>
 </template>
 <script>
+import { loginGET, registerPOST } from '@/api/user.js'
 export default {
     data() {
         return {
             isRegister: false,
             title: '垂直农业知识图谱',
-            login: {
-                account: '',
-                password: ''
-            },
-            register: {
-                account: '',
-                password: '',
-                confirm: ''
-            },
             loginLayout: {
                 inputs: [
                     {
                         type: 'text',
-                        symbol: 'Account'
+                        title: '账号',
+                        symbol: 'account'
                     },
                     {
                         type: 'password',
-                        symbol: 'Password'
+                        title: '密码',
+                        symbol: 'password'
                     }
                 ],
                 buttons: ['login', 'to register']
@@ -47,34 +50,97 @@ export default {
                 inputs: [
                     {
                         type: 'text',
-                        symbol: 'Account'
+                        title: '账号',
+                        symbol: 'account'
                     },
                     {
                         type: 'password',
-                        symbol: 'Password'
+                        title: '密码',
+                        symbol: 'password'
                     },
                     {
                         type: 'password',
-                        symbol: 'Confirm'
+                        title: '再次确认密码',
+                        symbol: 'confirm'
                     }
                 ],
                 buttons: ['register', 'to login']
-            }
+            },
+            warning: '',
+            isShow: false,
+            prompt: ''
         }
     },
     methods: {
         signIn(loginMsg) {
-            // todo
-            this.$router.push('/mainBoard')
+            if (loginMsg.account === '') {
+                this.raise('账号信息不能为空')
+                return
+            } else if (loginMsg.password === '') {
+                this.raise('密码不能为空')
+                return
+            }
+            let userinfo = {}
+            loginGET({
+                account: loginMsg.account,
+                password: loginMsg.password
+            })
+                .then((response) => {
+                    if (JSON.stringify(response.data) !== '{}') {
+                        userinfo = response.data
+                        this.$store.commit('updateUserInfo', userinfo)
+                        // 产生提示框
+                        this.generatePrompt('登陆成功')
+                        setTimeout(() => {
+                            this.$router.push({
+                                path: '/mainBoard'
+                            })
+                        }, 1500)
+                    } else {
+                        this.raise('没有该用户的信息')
+                    }
+                })
+                .catch(() => {
+                    this.raise('网络故障，请重试')
+                })
         },
         signUp(registerMsg) {
-            // todo
+            if (registerMsg.account === '') {
+                this.raise('账号信息不能为空')
+                return
+            } else if (registerMsg.password === '') {
+                this.raise('密码不能为空')
+                return
+            } else if (registerMsg.confirm !== registerMsg.password) {
+                this.raise('密码与确认密码必须相同')
+            }
+            let state = -1
+            registerPOST({
+                account: registerMsg.account,
+                password: registerMsg.password
+            })
+                .then((response) => {
+                    state = response.data
+                    if (state - 200 === 0) {
+                        this.generatePrompt('注册成功')
+                        setTimeout(() => {
+                            this.loginTo()
+                        }, 1500)
+                    } else {
+                        this.raise('该用户已注册')
+                    }
+                })
+                .catch(() => {
+                    this.raise('网络故障，请重试')
+                })
         },
         registerTo() {
             this.isRegister = true
+            this.clearWarning()
         },
         loginTo() {
             this.isRegister = false
+            this.clearWarning()
         },
         r(e) {
             switch (e.name) {
@@ -91,6 +157,25 @@ export default {
                     this.loginTo()
                     break
             }
+        },
+        /**
+         * 警告
+         * @param {String} msg message to raise
+         */
+        raise(msg) {
+            // 产生警告
+            this.warning = msg
+        },
+        clearWarning() {
+            this.warning = ''
+        },
+        generatePrompt(msg) {
+            this.prompt = msg
+            this.isShow = true
+            setTimeout(() => {
+                this.isShow = false
+                this.prompt = ''
+            }, 1250)
         }
     }
 }

@@ -2,7 +2,7 @@
  * 注册一个组件，你需要先引入你的组件
  * 然后加入到installList中
  */
-import BackGround from './Background.vue'
+import BackGround from './BackGround.vue'
 import InfoForm from './InfoForm.vue'
 import Input from './Input.vue'
 import Button from './Button.vue'
@@ -26,6 +26,9 @@ import Loading from './Loading.vue'
 import EmptyHint from './EmptyHint.vue'
 import AnswerBoard from './AnswerBoard.vue'
 import Cardgroup from './Cardgroup.vue'
+import ChatBoard from './ChatBoard.vue'
+import PromptBox from './PromptBox.vue'
+import MessageList from './MessageList.vue'
 
 const installList = [
     BackGround,
@@ -51,7 +54,10 @@ const installList = [
     Loading,
     EmptyHint,
     AnswerBoard,
-    Cardgroup
+    Cardgroup,
+    ChatBoard,
+    PromptBox,
+    MessageList
 ]
 
 export default {

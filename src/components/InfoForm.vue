@@ -1,17 +1,60 @@
 <template>
-    <div class="frame fade-in">
-        <h1 class="input-title">{{ title }}</h1>
+    <div
+        :class="{
+            frame: true,
+            'fade-in': true,
+            popover: Popover
+        }"
+    >
+        <h1
+            v-if="title !== ''"
+            class="input-title"
+        >
+            {{ title }}
+        </h1>
         <div
             class="input-box"
             v-for="input in inputs"
             :key="input"
         >
+            <form
+                class="flex-row-left form-box"
+                :id="input.symbol"
+                v-if="input.options !== undefined"
+            >
+                <span>{{ input.title }}</span>
+                <label
+                    class="flex-row-center"
+                    v-for="option in input.options"
+                    :key="option"
+                >
+                    <input
+                        type="radio"
+                        name="check"
+                        :checked="inputsF[input.symbol] == option"
+                    />
+                    {{ option }}
+                </label>
+                <span class="line"></span>
+            </form>
+            <div class="flex-row-left form-box" v-else-if="input.type === 'file'">
+                <input
+                    :id="input.symbol"
+                    :title="input.title"
+                    :type="input.type"
+                    :accept="input.accept"
+                />
+                <span class="line"></span>
+            </div>
             <Input
-                style="width: 80%"
-                :title="input.symbol"
+                v-else
+                :title="input.title"
                 :type="input.type"
                 v-model="inputsF[input.symbol]"
-            ></Input>
+            />
+        </div>
+        <div v-if="Popover">
+            <p class="warning">{{ warning }} <slot></slot></p>
         </div>
         <div class="button-box">
             <Button
@@ -40,7 +83,15 @@ export default {
      * ]
      */
     props: {
-        title: String,
+        title: {
+            type: String,
+            default: ''
+        },
+        warning: {
+            type: String,
+            default: ''
+        },
+        Popover: Boolean,
         inputs: {
             type: Array,
             default: () => []
@@ -52,42 +103,84 @@ export default {
     },
     data() {
         return {
-            inputsF: {}
+            inputsF: {},
+            checkBox: [],
+            fileBox: []
         }
     },
     methods: {
         handleClick(e) {
             const name = e.target.innerHTML
+            // deal form
+            this.decodeForm()
+            this.decodeFile()
             this.$emit('receive', {
                 name: name,
                 inputsF: this.inputsF
             })
             e.stopPropagation()
+        },
+        decodeForm() {
+            const formNode = this.checkBox.map((e) =>
+                document.querySelector('#' + e)
+            )
+            formNode.forEach((e, index) => {
+                const checkboxs = e.querySelectorAll('input')
+                for (let i = 0; i < checkboxs.length; i++) {
+                    if (e.checked) {
+                        this.inputsF[checkboxs[index]] = e.value
+                        break
+                    }
+                }
+            })
+        },
+        decodeFile() {
+            const fileNode = this.fileBox.map((e) =>
+                document.querySelector('#' + e)
+            )
+            fileNode.forEach((e, index) => {
+                this.inputsF[this.fileBox[index]] = e.files[0]
+            })
         }
     },
     created() {
         for (let i = 0; i < this.inputs.length; i++) {
-            this.inputsF[this.inputs[i].symbol] = ''
+            const value =
+                this.inputs[i].value === undefined ? '' : this.inputs[i].value
+            this.inputsF[this.inputs[i].symbol] = value
+            if (this.inputs[i].type === 'checkbox') {
+                this.checkBox.push(this.inputs[i].symbol)
+            }
+            if (this.inputs[i].type === 'file') {
+                this.fileBox.push(this.inputs[i].symbol)
+            }
         }
     }
 }
 </script>
 <style>
 .frame {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+}
+.popover {
     z-index: 200;
+    width: 400px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 400px;
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-    background-color: transparent;
-    backdrop-filter: blur(100px);
+    background-color: white;
     border-radius: 12px;
     box-shadow: 7px 7px 10px 3px #24004628;
 }
+
+.popover .input-box > * {
+    width: 80%;
+}
+
 .frame > * {
     flex: 0 0 100%;
 }
@@ -99,11 +192,52 @@ export default {
 }
 
 .input-box {
+    margin-top: 32px;
     position: relative;
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
     align-items: center;
+}
+
+.form-box {
+    position: relative;
+    width: 100%;
+    height: 64px;
+    border-bottom: 2px solid var(--item-bg-color);
+}
+
+.form-box > * {
+    margin: 0 0.5em;
+    color: var(--item-bg-color);
+}
+
+.form-box span {
+    margin: 0 1em;
+    font-weight: bold;
+    font-size: 18px;
+    color: var(--item-bg-color);
+}
+
+/* 表单样式 */
+.form-box input[type="file"] {
+    font-weight: bold;
+}
+
+.form-box input[type="file"]::file-selector-button {
+    cursor: pointer;
+    overflow: hidden;
+    text-align: center;
+    min-width: 120px;
+    margin-right: 2em;
+    height: 48px;
+    line-height: 48px;
+    font-weight: bold;
+    transition: 0.4s;
+    color: var(--item-font-color);
+    background-color: var(--item-bg-color);
+    border-radius: 5px;
+    border: none;
 }
 
 /* button css */
@@ -112,5 +246,13 @@ export default {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
+}
+
+.warning {
+    margin: 0 auto;
+    width: 80%;
+    font-size: 18px;
+    font-weight: bold;
+    color: red;
 }
 </style>

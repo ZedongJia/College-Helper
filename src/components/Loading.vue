@@ -1,6 +1,6 @@
 <template>
     <div
-        class="flex-column"
+        class="flex-column-center"
         style="height: 400px; animation: fade 0.25s ease-in forwards"
     >
         <div class="loading"></div>
