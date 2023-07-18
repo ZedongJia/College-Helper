@@ -1,136 +1,143 @@
 <!-- 输出用户与AI的聊天消息 -->
 <template>
-    <h2 style="text-align: center; margin: 10px 0 10px 0">加点什么呢</h2>
-    <hr />
-    <div
-        id="toBottom"
-        class="chat"
+    <Board
+        class="flex-row-evenly"
+        inset
     >
+        <Title style="margin: 10px 0 10px 0">加点什么呢</Title>
+        <hr />
         <div
-            v-for="(item, index) in messageList"
-            :key="item.id"
+            id="toBottom"
+            class="chat"
         >
             <div
-                class="areachat"
-                :style="{
-                    flexDirection: item.isLeft ? '' : 'row-reverse'
-                }"
+                v-for="(item, index) in messageList"
+                :key="item.id"
             >
-                <!-- 左侧：头像 + 用户名 -->
-                <div class="left">
-                    <img
-                        :src="require('../assets/' + item.image)"
-                        alt="头像"
-                    />
-                    <p class="username">{{ item.username }}</p>
-                </div>
-                <!-- 右侧：时间 + 消息 -->
                 <div
-                    class="right"
+                    class="areachat"
                     :style="{
-                        padding: item.isLeft
-                            ? '0px 0px 0px 15px'
-                            : '0px 15px 0px 0px'
+                        flexDirection: item.isLeft ? '' : 'row-reverse'
                     }"
                 >
-                    <!-- 时间 -->
-                    <p
-                        class="time"
-                        :style="{ textAlign: item.isLeft ? '' : 'right' }"
-                    >
-                        {{ item.time }}
-                    </p>
-                    <!-- 消息 -->
-                    <div
-                        :class="{
-                            chatleft: item.isLeft,
-                            chatright: !item.isLeft
-                        }"
-                        :style="{ float: item.isLeft ? '' : 'right' }"
-                        style="z-index: 2"
-                    >
-                        <p
-                            v-if="!item.isthinking"
-                            class="fade-in"
-                            id="chatText"
-                        >
-                            {{ item.content }}
-                        </p>
-                        <!-- 思考ing -->
-                        <span
-                            v-if="item.isthinking"
-                            style="display: flex"
-                        >
-                            <p>正在努力思考中</p>
-                            <span
-                                class="dot"
-                                style="font-size: 24px"
-                                >...</span
-                            >
-                        </span>
-                        <!-- AI提示框 -->
-                        <div
-                            v-if="AImode && item.isLeft && !item.isthinking"
-                            class="tooltiptext"
-                        >
-                            <a
-                                @click="isShow(item, index)"
-                                class="tiplink flex-row"
-                            >
-                                <img src="../assets/icons/chart.png" />
-                                <p>{{ item.tip }}</p>
-                            </a>
-                        </div>
+                    <!-- 左侧：头像 + 用户名 -->
+                    <div class="left">
+                        <img
+                            :src="require('../assets/' + item.image)"
+                            alt="头像"
+                        />
+                        <p class="username">{{ item.username }}</p>
                     </div>
-                    <!-- 关系图 -->
-                    <div v-if="item.isLeft && item.isShowGraph">
-                        <br />
-                        <RelationGraph
-                            :data="data"
-                            :link="link"
-                            isDraggable
-                            isAnimation
-                            :isLoading="item.isLoading"
-                            style="z-index: 1"
+                    <!-- 右侧：时间 + 消息 -->
+                    <div
+                        class="right"
+                        :style="{
+                            padding: item.isLeft
+                                ? '0px 0px 0px 15px'
+                                : '0px 15px 0px 0px'
+                        }"
+                    >
+                        <!-- 时间 -->
+                        <p
+                            class="time"
+                            :style="{ textAlign: item.isLeft ? '' : 'right' }"
                         >
-                        </RelationGraph>
+                            {{ item.time }}
+                        </p>
+                        <!-- 消息 -->
+                        <div
+                            :class="{
+                                chatleft: item.isLeft,
+                                chatright: !item.isLeft
+                            }"
+                            :style="{ float: item.isLeft ? '' : 'right' }"
+                            style="z-index: 2"
+                        >
+                            <p
+                                v-if="!item.isthinking"
+                                class="fade-in"
+                                id="chatText"
+                            >
+                                {{ item.content }}
+                            </p>
+                            <!-- 思考ing -->
+                            <span
+                                v-if="item.isthinking"
+                                style="display: flex"
+                            >
+                                <p>正在努力思考中</p>
+                                <span
+                                    class="dot"
+                                    style="font-size: 24px"
+                                    >...</span
+                                >
+                            </span>
+                            <!-- AI提示框 -->
+                            <div
+                                v-if="AImode && item.isLeft && !item.isthinking"
+                                class="tooltiptext"
+                            >
+                                <a
+                                    @click="isShow(item, index)"
+                                    class="tiplink flex-row"
+                                >
+                                    <img src="../assets/icons/chart.png" />
+                                    <p>{{ item.tip }}</p>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- 关系图 -->
+                        <div v-if="item.isLeft && item.isShowGraph">
+                            <br />
+                            <RelationGraph
+                                :data="data"
+                                :link="link"
+                                isDraggable
+                                isAnimation
+                                :isLoading="item.isLoading"
+                                style="z-index: 1"
+                            >
+                            </RelationGraph>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <hr style="margin: 10px 0px 10px 0px" />
-    <div class="flex-row">
-        <!-- 清理聊天记录 -->
-        <img
-            src="../assets/icons/clear.png"
-            @click="appear = true"
-            class="clearImg"
+        <hr style="margin: 10px 0px 10px 0px" />
+        <div class="flex-row">
+            <!-- 清理聊天记录 -->
+            <img
+                src="../assets/icons/clear.png"
+                @click="appear = true"
+                class="clearImg"
+            />
+            <!-- 输入框 -->
+            <input
+                class="inputItem"
+                style="width: 70%"
+                :style="{ cursor: canCommit ? '' : 'not-allowed' }"
+                :placeholder="
+                    canCommit ? 'Enter Text...' : '点击按钮让AI闭嘴...'
+                "
+                :disabled="!canCommit"
+                v-model="chatContent"
+                @keyup.enter="commit"
+            />
+            <!-- 按钮 -->
+            <Button
+                @clickIt="commit"
+                style="width: 15%; margin-left: 10px"
+            >
+                {{ canCommit ? '提交' : '闭嘴' }}
+            </Button>
+        </div>
+        <PromptBox
+            v-if="appear"
+            title="确认清空？"
+            @confirm="clearInfo"
+            @back="stopClearInfo"
         />
-        <!-- 输入框 -->
-        <input
-            class="inputItem"
-            style="width: 70%"
-            :style="{ cursor: canCommit ? '' : 'not-allowed' }"
-            :placeholder="canCommit ? 'Enter Text...' : '点击按钮让AI闭嘴...'"
-            :disabled="!canCommit"
-            v-model="chatContent"
-            @keyup.enter="commit"
-        />
-        <!-- 按钮 -->
-        <Button
-            @clickIt="commit"
-            style="width: 15%; margin-left: 10px"
-        >
-            {{ canCommit ? '提交' : '闭嘴' }}
-        </Button>
-    </div>
-    <PromptBox
-        v-if="appear"
-        title="确认清空？"
-        @confirm="clearInfo"
-        @back="stopClearInfo"
-    />
+    </Board>
 </template>
 
 <script>
@@ -362,7 +369,9 @@ export default {
     mounted() {
         setTimeout(() => {
             const div = document.getElementById('toBottom')
-            div.scrollTop = div.scrollHeight
+            if (div !== undefined) {
+                div.scrollTop = div.scrollHeight
+            }
         }, 0)
     },
     created() {
