@@ -432,7 +432,6 @@ export default {
                 }
             }, 500)
         } else {
-            console.log(this.messageList)
             this.messageList.push(
                 this.generateMessage(
                     '快来和我交流你的问题叭~',
