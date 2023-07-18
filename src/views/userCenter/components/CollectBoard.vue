@@ -8,7 +8,6 @@
     ></MessageList>
 </template>
 <script>
-import MessageList from './MessageList.vue'
 export default {
     data() {
         return {
@@ -40,9 +39,6 @@ export default {
         del(group, index) {
             // todo
         }
-    },
-    components: {
-        MessageList
     },
     created() {
         // require

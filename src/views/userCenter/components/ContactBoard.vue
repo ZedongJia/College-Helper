@@ -3,18 +3,19 @@
         <MessageList
             style="flex: 0 0 30%"
             :messageDict="temperoaryDict"
-            :headers="['时间','昵称']"
+            :headers="['时间', '昵称']"
             :colWidth="[30, 70]"
             @query="talkTo"
             @del="del"
         ></MessageList>
-        <EmptyHint v-if="talkToPerson === ''"></EmptyHint>
-        <div v-else>{{ talkToPerson }}</div>
-        <!-- <ChatBoard style="flex: 0 0 70%;" :info="userInfo"></ChatBoard> -->
+        <div style="flex: 0 0 70%">
+            <EmptyHint v-if="talkToPerson === ''"></EmptyHint>
+            <div v-else>{{ talkToPerson }}</div>
+        </div>
+        <!-- <ChatBoard  :info="userInfo"></ChatBoard> -->
     </div>
 </template>
 <script>
-import MessageList from './MessageList.vue'
 export default {
     data() {
         return {
@@ -44,9 +45,6 @@ export default {
         del(group, indx) {
             // todo
         }
-    },
-    components: {
-        MessageList
     }
 }
 </script>

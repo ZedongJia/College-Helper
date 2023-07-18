@@ -26,6 +26,7 @@ import EmptyHint from './EmptyHint.vue'
 import AnswerBoard from './AnswerBoard.vue'
 import ChatBoard from './ChatBoard.vue'
 import PromptBox from './PromptBox.vue'
+import MessageList from './MessageList.vue'
 
 const installList = [
     BackGround,
@@ -51,7 +52,8 @@ const installList = [
     EmptyHint,
     AnswerBoard,
     ChatBoard,
-    PromptBox
+    PromptBox,
+    MessageList
 ]
 
 export default {

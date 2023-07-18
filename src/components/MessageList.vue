@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <transition-group
         tag="ul"
         name="list"
@@ -46,6 +46,7 @@
 </template>
 <script>
 export default {
+    name: 'MessageList',
     props: {
         messageDict: Object,
         colWidth: Array,
