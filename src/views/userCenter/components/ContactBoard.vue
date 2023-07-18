@@ -1,12 +1,15 @@
 <template lang="">
-    <MessageList :messageDict="templateDict"></MessageList>
-    <ChatBoard :info="userInfo"></ChatBoard>
+    <div class="flex-row-center">
+        <MessageList style="flex: 0 0 30%;" :messageDict="temperoaryDict"></MessageList>
+        <ChatBoard style="flex: 0 0 70%;" :info="userInfo"></ChatBoard>
+    </div>
 </template>
 <script>
+import MessageList from './MessageList.vue'
 export default {
     data() {
         return {
-            templateDict: {
+            temperoaryDict: {
                 临时会话: [
                     {
                         time: '8:59',
@@ -30,7 +33,9 @@ export default {
                 image: 'test.png'
             }
         }
+    },
+    components: {
+        MessageList
     }
 }
 </script>
-<style lang=""></style>
