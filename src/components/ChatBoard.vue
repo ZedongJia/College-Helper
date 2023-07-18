@@ -1,7 +1,7 @@
 <!-- 输出用户与AI的聊天消息 -->
 <template>
     <Board
-        class="flex-row-evenly"
+        class="flex-column-evenly"
         inset
     >
         <Title style="margin: 10px 0 10px 0">加点什么呢</Title>
@@ -104,7 +104,7 @@
             </div>
         </div>
         <hr style="margin: 10px 0px 10px 0px" />
-        <div class="flex-row">
+        <div class="flex-row-evenly" style="width: 80%;">
             <!-- 清理聊天记录 -->
             <img
                 src="../assets/icons/clear.png"
