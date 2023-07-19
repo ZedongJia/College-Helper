@@ -15,7 +15,7 @@ export default {
              * }
              */
             state.isShow = true
-            if (typeof signal === 'object') {
+            if (typeof params === 'object') {
                 state.msg = params.msg
                 state.level = params.level
             } else {

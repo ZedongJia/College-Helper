@@ -56,15 +56,14 @@ export default {
             // todo
             switch (item.name) {
                 case '登出':
-                    // turn style to light
-                    this.isLight = true
                     // todo
                     logOutGET()
                         .then((response) => {
-                            console.log(response)
                             if (response.data - 200 === 0) {
                                 this.$store.commit('prompt/trigger', '登出成功')
                                 setTimeout(() => {
+                                    // turn style to light
+                                    this.isLight = true
                                     this.$router.push('/')
                                 }, 1500)
                             } else {

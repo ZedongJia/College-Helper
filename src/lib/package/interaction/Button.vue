@@ -37,7 +37,7 @@ export default {
     }
 }
 </script>
-<style scoped>
+<style>
 .btn {
     z-index: 1;
     cursor: pointer;
