@@ -55,7 +55,10 @@ export default {
                     symbol: 'collection_priv'
                 }
             ],
-            buttons: ['commit']
+            buttons: [{
+                title: '提交',
+                symbol: 'commit'
+            }]
         }
     },
     methods: {

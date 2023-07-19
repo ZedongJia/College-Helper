@@ -6,7 +6,17 @@
         :buttons="buttons"
         @receive="r"
         Popover
-    ></InfoForm>
+    >
+        <template #tip>
+            <router-link :to="{ name: 'quickLogin' }"
+                ><b>快速登录</b></router-link
+            >
+            ,
+            <router-link :to="{ name: 'forget' }"
+                ><b>忘记密码?</b></router-link
+            >
+        </template>
+    </InfoForm>
 </template>
 <script>
 import { loginGET } from '@/api/user.js'
@@ -26,7 +36,16 @@ export default {
                     symbol: 'password'
                 }
             ],
-            buttons: ['login', 'to register'],
+            buttons: [
+                {
+                    title: '登录',
+                    symbol: 'login'
+                },
+                {
+                    title: '去注册',
+                    symbol: 'to register'
+                }
+            ],
             warning: ''
         }
     },
@@ -53,7 +72,7 @@ export default {
                         // 跳转
                         jumpTo(() => {
                             this.$router.push({
-                                path: '/mainBoard'
+                                path: '/system'
                             })
                         })
                     } else {

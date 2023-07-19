@@ -65,7 +65,7 @@ export default {
                             if (response.data - 200 === 0) {
                                 this.$store.commit('prompt/trigger', '登出成功')
                                 setTimeout(() => {
-                                    this.$router.push('/login')
+                                    this.$router.push('/')
                                 }, 1500)
                             } else {
                                 this.$store.commit('prompt/trigger', '登出失败，请重试')

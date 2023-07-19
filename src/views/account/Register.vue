@@ -31,7 +31,16 @@ export default {
                     symbol: 'confirm'
                 }
             ],
-            buttons: ['register', 'to login'],
+            buttons: [
+                {
+                    title: '注册',
+                    symbol: 'register'
+                },
+                {
+                    title: '去登录',
+                    symbol: 'to login'
+                }
+            ],
             warning: ''
         }
     },
