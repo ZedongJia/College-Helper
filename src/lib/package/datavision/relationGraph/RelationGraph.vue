@@ -13,7 +13,7 @@
     </Board>
 </template>
 <script>
-import { generateRelationGraph } from '@/utils/relationGraph'
+import { generateRelationGraph } from './relationGraph.js'
 import { nextTick } from 'vue'
 export default {
     name: 'RelationGraph',

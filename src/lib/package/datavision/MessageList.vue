@@ -38,7 +38,7 @@
                 >
                     {{ v }}
                 </span>
-                <Button @clickIt="del(group, index)">Delete<i>!</i></Button>
+                <Button @clickIt="del(group, index)" warn>Delete<i>!</i></Button>
                 <i class="hover-fill"></i>
             </li>
         </span>

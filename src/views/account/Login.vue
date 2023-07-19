@@ -6,7 +6,15 @@
         :buttons="buttons"
         @receive="r"
         Popover
-    ></InfoForm>
+    >
+        <template #tip>
+            <router-link :to="{ name: 'quickLogin' }"
+                ><b>快速登录</b></router-link
+            >
+            &nbsp;,&nbsp;
+            <router-link :to="{ name: 'forget' }"><b>忘记密码?</b></router-link>
+        </template>
+    </InfoForm>
 </template>
 <script>
 import { loginGET } from '@/api/user.js'
@@ -26,7 +34,16 @@ export default {
                     symbol: 'password'
                 }
             ],
-            buttons: ['login', 'to register'],
+            buttons: [
+                {
+                    title: '登录',
+                    symbol: 'login'
+                },
+                {
+                    title: '去注册',
+                    symbol: 'to register'
+                }
+            ],
             warning: ''
         }
     },
@@ -39,29 +56,23 @@ export default {
                 this.raise('密码不能为空')
                 return
             }
-            let userinfo = {}
             loginGET({
                 account: loginMsg.account,
                 password: loginMsg.password
             })
                 .then((response) => {
-                    if (JSON.stringify(response.data) !== '{}') {
-                        userinfo = response.data
-                        this.$store.commit('userInfo/update', userinfo)
-                        // 产生提示框
-                        this.$store.commit('prompt/trigger', '登陆成功')
-                        // 跳转
-                        jumpTo(() => {
-                            this.$router.push({
-                                path: '/mainBoard'
-                            })
+                    this.$store.commit('userInfo/update', response.data)
+                    // 产生提示框
+                    this.$store.commit('prompt/trigger', '登陆成功')
+                    // 跳转
+                    jumpTo(() => {
+                        this.$router.push({
+                            name: 'system'
                         })
-                    } else {
-                        this.raise('没有该用户的信息')
-                    }
+                    })
                 })
                 .catch(() => {
-                    this.raise('网络故障，请重试')
+                    this.raise('没有该用户的信息')
                 })
         },
         toRegister() {

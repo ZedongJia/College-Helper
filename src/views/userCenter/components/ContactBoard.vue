@@ -18,6 +18,7 @@
             <EmptyHint v-if="JSON.stringify(personInfo) === '{}'"></EmptyHint>
             <keep-alive :max="10" v-else>
                 <ChatBoard
+                    :title="personInfo.username"
                     :info="personInfo"
                     :key="personInfo.username"
                 ></ChatBoard>

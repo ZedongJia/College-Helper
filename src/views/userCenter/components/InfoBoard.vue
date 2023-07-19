@@ -75,7 +75,10 @@ export default {
                     symbol: 'weChat'
                 }
             ],
-            buttons: ['commit']
+            buttons: [{
+                title: '提交',
+                symbol: 'commit'
+            }]
         }
     },
     methods: {

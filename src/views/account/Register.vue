@@ -31,7 +31,16 @@ export default {
                     symbol: 'confirm'
                 }
             ],
-            buttons: ['register', 'to login'],
+            buttons: [
+                {
+                    title: '注册',
+                    symbol: 'register'
+                },
+                {
+                    title: '去登录',
+                    symbol: 'to login'
+                }
+            ],
             warning: ''
         }
     },
@@ -47,24 +56,18 @@ export default {
             } else if (registerMsg.confirm !== registerMsg.password) {
                 this.raise('密码与确认密码必须相同')
             }
-            let state = -1
             registerPOST({
                 account: registerMsg.account,
                 password: registerMsg.password
             })
-                .then((response) => {
-                    state = response.data
-                    if (state - 200 === 0) {
-                        this.$store.commit('prompt/trigger', '注册成功')
-                        jumpTo(() => {
-                            this.toLogin()
-                        })
-                    } else {
-                        this.raise('该用户已注册')
-                    }
+                .then(() => {
+                    this.$store.commit('prompt/trigger', '注册成功')
+                    jumpTo(() => {
+                        this.toLogin()
+                    })
                 })
                 .catch(() => {
-                    this.raise('网络故障，请重试')
+                    this.raise('该用户已注册')
                 })
         },
         toLogin() {

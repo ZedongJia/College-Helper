@@ -14,7 +14,12 @@
     </PopFrame>
     <Board
         v-else
-        class="prompt-box p-top"
+        :class="{
+            'prompt-box': true,
+            'p-top': true,
+            info: level === 'info',
+            warning: level === 'warning'
+        }"
     >
         <Title
             :title="title"
@@ -28,7 +33,11 @@ export default {
     props: {
         title: String,
         noConfirm: Boolean,
-        isShow: Boolean
+        isShow: Boolean,
+        level: {
+            type: String,
+            default: 'info'
+        }
     },
     methods: {
         confirm(e) {
@@ -71,7 +80,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 .prompt-box {
     position: fixed;
     padding: 16px 0;
@@ -91,5 +100,11 @@ export default {
     top: 10%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+.info {
+    background-color: rgb(66, 217, 134) !important;
+}
+.warning {
+    background-color: rgb(255, 66, 66) !important;
 }
 </style>

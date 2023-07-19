@@ -4,7 +4,7 @@
         class="flex-column-evenly"
         inset
     >
-        <Title style="margin: 10px 0 10px 0">加点什么呢</Title>
+        <Title style="margin: 10px 0 10px 0">{{ title }}</Title>
         <hr />
         <div
             id="toBottom"
@@ -151,7 +151,8 @@ export default {
     name: 'ChatBoard',
     props: {
         info: Object,
-        AImode: Boolean
+        AImode: Boolean,
+        title: String
     },
     computed: {
         typedText() {

@@ -47,6 +47,21 @@
                     :accept="input.accept"
                 />
             </div>
+            <div
+                class="flex-row"
+                v-else-if="input.type === 'valid'"
+            >
+                <Input
+                    :title="input.title"
+                    type="text"
+                    v-model="inputsF[input.symbol]"
+                />
+                <Button
+                    @clickIt="send(this, input.callback)"
+                    :disabled="notAllowed"
+                    >{{ sendPrompt }}</Button
+                >
+            </div>
             <Input
                 v-else
                 :title="input.title"
@@ -55,16 +70,19 @@
             />
         </div>
         <div v-if="Popover">
-            <p class="warning">{{ warning }} <slot></slot></p>
+            <p class="warning-text">{{ warning }} <slot></slot></p>
         </div>
         <div class="button-box">
             <Button
                 v-for="button in buttons"
                 :key="button"
-                @click="handleClick"
+                @click.stop="handleClick(button.symbol)"
             >
-                {{ button }}
+                {{ button.title }}
             </Button>
+        </div>
+        <div class="tip">
+            <slot name="tip"></slot>
         </div>
     </div>
 </template>
@@ -106,12 +124,29 @@ export default {
         return {
             inputsF: {},
             checkBox: [],
-            fileBox: []
+            fileBox: [],
+            sendPrompt: '点击发送',
+            notAllowed: false
         }
     },
     methods: {
-        handleClick(e) {
-            const name = e.target.innerHTML
+        send(e, callback) {
+            this.sendPrompt = '已发送'
+            this.notAllowed = true
+            let count = 60
+            const wait = setInterval(() => {
+                this.sendPrompt = count
+                count -= 1
+                if (count === 0) {
+                    clearInterval(wait)
+                    this.sendPrompt = '点击发送'
+                    this.notAllowed = false
+                }
+            }, 1000)
+            callback(this.inputsF.account)
+        },
+        handleClick(symbol) {
+            const name = symbol
             // deal form
             this.decodeForm()
             this.decodeFile()
@@ -119,7 +154,6 @@ export default {
                 name: name,
                 inputsF: this.inputsF
             })
-            e.stopPropagation()
         },
         decodeForm() {
             const formNode = this.checkBox.map((e) =>
@@ -161,6 +195,7 @@ export default {
 </script>
 <style>
 .frame {
+    padding: 32px 0;
     width: 100%;
     display: flex;
     flex-flow: row wrap;
@@ -187,7 +222,7 @@ export default {
 }
 /* title */
 .input-title {
-    margin-top: 80px;
+    margin-top: 32px;
     font-size: 26px;
     text-align: center;
 }
@@ -261,13 +296,18 @@ export default {
 
 /* button css */
 .button-box {
-    margin: 32px 0;
+    margin-top: 32px;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
 }
 
-.warning {
+.tip {
+    margin: 5px 0;
+    text-align: center;
+}
+
+.warning-text {
     margin: 0 auto;
     width: 80%;
     font-size: 18px;

@@ -5,7 +5,7 @@
 // datavision
 import LinkText from './package/datavision/LinkText.vue'
 import MessageList from './package/datavision/MessageList.vue'
-import RelationGraph from './package/datavision/RelationGraph.vue'
+import RelationGraph from './package/datavision/relationGraph/RelationGraph.vue'
 import Table from './package/datavision/Table.vue'
 // interaction
 import AnswerBoard from './package/interaction/AnswerBoard.vue'

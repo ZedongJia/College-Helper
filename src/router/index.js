@@ -1,9 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { validCookie } from '@/api/user'
-import store from '@/store/index.js'
+import { stateGET } from '@/api/user.js'
 import login from './modules/account.js'
 import dashBoard from './modules/System.js'
 import debug from './modules/debug.js'
+import store from '@/store/index.js'
 
 const routes = [
     // entry redirect
@@ -22,21 +22,29 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-    const { userInfo } = store.getters
+    if (store.state.userInfo.ID === -1) {
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        if (userInfo !== null) {
+            for (const k in userInfo) {
+                store.state.userInfo[k] = userInfo[k]
+            }
+        }
+    }
     // test
     const backdoor = true
     if (backdoor) {
         return
     }
     // 跳过login
-    if (!to.fullPath.startsWith('/account') && !userInfo.hasLogin) {
+    if (!to.fullPath.startsWith('/account')) {
         // 检测
-        validCookie().then((response) => {
-            if (response.data - 400 === 0) {
-                router.push({
-                    name: 'login'
-                })
-            }
+        await stateGET({
+            logout: false
+        }, () => {
+            store.commit('userInfo/refresh')
+            router.push({
+                name: 'login'
+            })
         }).catch(() => {
             router.push({
                 name: 'login'
