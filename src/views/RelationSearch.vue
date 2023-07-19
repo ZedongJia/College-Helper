@@ -56,6 +56,10 @@
         <Table
             :isLoading="isLoading"
             :link="link"
+            :header="[ '实体1', '关系', '实体2']"
+            isShowButton
+            ButtonName="详情"
+            @detail="detail"
         ></Table>
     </div>
 </template>
@@ -88,6 +92,11 @@ export default {
                 this.data = []
                 this.link = []
             })
+        },
+        detail(item) {
+            this.entity1 = item.source
+            this.option = item.label
+            this.entity2 = item.target
         }
     },
     created() {

@@ -29,7 +29,7 @@
     </div>
 </template>
 <script>
-import { logOutGET } from '@/api/user'
+import { stateGET } from '@/api/user'
 import Theme from '@/assets/theme'
 import HideButton from './components/HideButton.vue'
 import ThemeCheck from './components/ThemeCheck.vue'
@@ -56,23 +56,25 @@ export default {
             // todo
             switch (item.name) {
                 case '登出':
-                    // turn style to light
-                    this.isLight = true
                     // todo
-                    logOutGET()
-                        .then((response) => {
-                            console.log(response)
-                            if (response.data - 200 === 0) {
-                                this.$store.commit('prompt/trigger', '登出成功')
-                                setTimeout(() => {
-                                    this.$router.push('/login')
-                                }, 1500)
-                            } else {
-                                this.$store.commit('prompt/trigger', '登出失败，请重试')
-                            }
+                    stateGET({
+                        logout: true
+                    })
+                        .then(() => {
+                            // 清空本地存储
+                            this.$store.commit('userInfo/refresh')
+                            this.$store.commit('prompt/trigger', '登出成功')
+                            setTimeout(() => {
+                                // turn style to light
+                                this.isLight = true
+                                this.$router.push('/')
+                            }, 1500)
                         })
                         .catch(() => {
-                            this.$store.commit('prompt/trigger', '网络故障，请重试')
+                            this.$store.commit('prompt/trigger', {
+                                msg: '登出失败，请重试',
+                                level: 'warning'
+                            })
                         })
                     break
                 case '关于':

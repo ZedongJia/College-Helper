@@ -9,10 +9,19 @@
     ></MessageList>
 </template>
 <script>
+import { getCollectedInfo } from '@/api/user'
+
 export default {
     data() {
         return {
-            collectionDict: {}
+            collectionDict: {
+                实体查询: [
+                ],
+                关系查询: [
+                ],
+                实体识别: [
+                ]
+            }
         }
     },
     methods: {
@@ -43,32 +52,22 @@ export default {
     },
     created() {
         // require
-        this.collectionDict = {
-            实体查询: [
-                {
-                    time: '8:59',
-                    type: '实体查询',
-                    content: '玉米'
-                },
-                {
-                    time: '8:59',
-                    type: '实体查询',
-                    content: '玉米'
-                },
-                {
-                    time: '8:59',
-                    type: '实体查询',
-                    content: '玉米'
-                }
-            ],
-            关系查询: [
-                {
-                    time: '8:59',
-                    type: '关系查询',
-                    content: '玉米属于植物'
-                }
-            ]
-        }
+        getCollectedInfo({
+                user_ID: this.$store.state.userInfo.ID
+            })
+                .then((response) => {
+                    if (JSON.stringify(response.data) !== '{}') {
+                        const temp = response.data
+                        for (let i = 0; i < temp.length; i++) {
+                            this.collectionDict[temp[i].type].push(temp[i])
+                        }
+                    } else {
+                        console.log('失败')
+                    }
+                })
+                .catch(() => {
+                    console.log('网络故障，请重试')
+                })
     }
 }
 </script>

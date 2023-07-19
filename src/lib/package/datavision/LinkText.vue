@@ -37,7 +37,7 @@ export default {
         turnToDetail(e) {
             const entity = e.target.innerHTML
             this.$router.push({
-                path: '/mainBoard/identification/detailContent',
+                name: 'detailContent',
                 query: {
                     entity: entity
                 }

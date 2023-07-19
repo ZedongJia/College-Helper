@@ -1,7 +1,12 @@
 <template>
     <button
-        class="btn"
-        @click="handleClick"
+        :class="{
+            btn: true,
+            disabled: disabled,
+            warning: warn
+        }"
+        @click.stop="handleClick"
+        :disabled="disabled"
     >
         <slot></slot>
     </button>
@@ -9,6 +14,10 @@
 <script>
 export default {
     name: 'Button',
+    props: {
+        warn: Boolean,
+        disabled: Boolean
+    },
     data() {
         return {
             isClick: false
@@ -24,7 +33,6 @@ export default {
                     this.isClick = false
                 }, 500)
             }
-            e.stopPropagation()
         }
     }
 }
@@ -68,5 +76,16 @@ export default {
 
 .btn:hover {
     color: var(--item-font-rev-color);
+}
+
+.warning {
+    background-color: rgb(255, 66, 66) !important;
+}
+.warning::before {
+    background-color: rgb(250, 129, 129) !important;
+}
+
+.disabled {
+    cursor: not-allowed;
 }
 </style>

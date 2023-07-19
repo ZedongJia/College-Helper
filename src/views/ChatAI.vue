@@ -1,9 +1,9 @@
 <template>
     <div class="wrapper fade-in">
         <Board>
-            <ChatBoard
-                :info="userInfo"
-            />
+            <keep-alive>
+                <ChatBoard title="" :info="userInfo" />
+            </keep-alive>
         </Board>
     </div>
 </template>

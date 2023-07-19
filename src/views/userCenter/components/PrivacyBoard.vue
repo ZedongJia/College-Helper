@@ -14,6 +14,7 @@
     ></InfoForm>
 </template>
 <script>
+import { getPrivacyInfo } from '@/api/user'
 export default {
     data() {
         return {
@@ -47,15 +48,18 @@ export default {
                     title: '是否显示微信',
                     options: ['是', '否'],
                     symbol: 'weChat_priv'
-                },
-                {
-                    type: 'checkbox',
-                    title: '是否显示收藏',
-                    options: ['是', '否'],
-                    symbol: 'collection_priv'
                 }
+                // {
+                //     type: 'checkbox',
+                //     title: '是否显示收藏',
+                //     options: ['是', '否'],
+                //     symbol: 'collection_priv'
+                // }
             ],
-            buttons: ['commit']
+            buttons: [{
+                title: '提交',
+                symbol: 'commit'
+            }]
         }
     },
     methods: {
@@ -72,16 +76,31 @@ export default {
     created() {
         // require
         // do sth
+        getPrivacyInfo({
+                id: this.$store.state.userInfo.ID
+            })
+                .then((response) => {
+                    if (JSON.stringify(response.data) !== '{}') {
+                        const temp = response.data[0]
+                        temp.pop('user_ID')
+                        console.log(typeof temp)
+                    } else {
+                        console.log('失败')
+                    }
+                })
+                .catch(() => {
+                    console.log('网络故障，请重试')
+                })
         const userInfo = {
             gender_priv: '是',
             telephone_priv: '是',
             email_priv: '是',
-            qq_priv: '是',
-            weChat_priv: '是',
-            collection_priv: '是'
+            qq_priv: '否',
+            weChat_priv: '是'
         }
         Object.values(userInfo).forEach((item, index) => {
             this.inputs[index].value = item
+            console.log(this.inputs[index])
         })
     }
 }

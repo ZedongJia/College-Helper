@@ -1,3 +1,4 @@
+
 export default {
     path: '/account',
     redirect: '/account/login',
@@ -17,6 +18,11 @@ export default {
             name: 'forget',
             path: 'forget',
             component: () => import('@/views/account/Forget.vue')
+        },
+        {
+            name: 'quickLogin',
+            path: 'quickLogin',
+            component: () => import('@/views/account/QuickLogin.vue')
         }
     ]
 }

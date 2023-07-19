@@ -57,6 +57,11 @@ export default {
                     icon: 'chat'
                 },
                 {
+                    name: 'AI问答',
+                    href: '/system/chatAI',
+                    icon: 'chat'
+                },
+                {
                     name: '图谱演变',
                     href: '/#',
                     icon: 'chat'
@@ -109,7 +114,7 @@ export default {
 }
 #main > :nth-child(2) {
     flex: 0 0 85%;
-    padding: 20px;
+    padding: 0 20px 20px 20px;
     color: var(--font-color);
 }
 </style>

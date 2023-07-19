@@ -1,5 +1,5 @@
 <template lang="">
-    <InfoForm
+    <!-- <InfoForm
         v-if="isRegister"
         :title="title"
         :warning="warning"
@@ -7,7 +7,8 @@
         :buttons="registerLayout.buttons"
         @receive="r"
         Popover
-    ></InfoForm>
+    ></InfoForm> -->
+    Forget
 </template>
 <script>
 export default {}
