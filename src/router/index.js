@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { valid } from '@/api/user'
+import { stateGET } from '@/api/user.js'
 import login from './modules/account.js'
 import dashBoard from './modules/System.js'
 import debug from './modules/debug.js'
@@ -38,7 +38,10 @@ router.beforeEach(async (to, from) => {
     // 跳过login
     if (!to.fullPath.startsWith('/account')) {
         // 检测
-        valid(() => {
+        await stateGET({
+            logout: false
+        }, () => {
+            store.commit('userInfo/refresh')
             router.push({
                 name: 'login'
             })

@@ -29,7 +29,7 @@
     </div>
 </template>
 <script>
-import { logoutGET } from '@/api/user'
+import { stateGET } from '@/api/user'
 import Theme from '@/assets/theme'
 import HideButton from './components/HideButton.vue'
 import ThemeCheck from './components/ThemeCheck.vue'
@@ -57,7 +57,9 @@ export default {
             switch (item.name) {
                 case '登出':
                     // todo
-                    logoutGET()
+                    stateGET({
+                        logout: true
+                    })
                         .then(() => {
                             // 清空本地存储
                             this.$store.commit('userInfo/refresh')

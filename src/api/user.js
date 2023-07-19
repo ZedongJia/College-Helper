@@ -18,29 +18,9 @@ function raise (msg) {
 export function loginGET (params) {
     return new Promise((resolve, reject) => {
         axios({
-            url: 'user/login/',
+            url: 'user/account/',
             method: 'GET',
             params
-        }).then(response => {
-            if (response.data - STATE.NOT_FOUND === 0) {
-                reject(response)
-            } else {
-                resolve(response)
-            }
-        }).catch(() => {
-            raise('网络故障，请重试')
-        })
-    })
-}
-/**
- * 登出
- * @returns {Promise}
- */
-export function logoutGET () {
-    return new Promise((resolve, reject) => {
-        axios({
-            url: 'user/logout/',
-            method: 'GET'
         }).then(response => {
             if (response.data - STATE.NOT_FOUND === 0) {
                 reject(response)
@@ -61,7 +41,7 @@ export function logoutGET () {
 export function registerPOST (params) {
     return new Promise((resolve, reject) => {
         axios({
-            url: 'user/register/',
+            url: 'user/account/',
             method: 'POST',
             data: params,
             headers: {
@@ -80,15 +60,17 @@ export function registerPOST (params) {
 }
 
 /**
- * 验证
- * @param {function} error 错误执行函数
- * @returns
+ * 查看状态
+ * @param {{logout:boolean}} params
+ * @param {function} error
+ * @returns {Promise}
  */
-export function valid (error) {
+export function stateGET (params, error) {
     return new Promise((resolve, reject) => {
         axios({
-            url: 'user/valid/',
-            method: 'GET'
+            url: 'user/state/',
+            method: 'GET',
+            params
         }).then(response => {
             if (response.data - STATE.NOT_FOUND === 0) {
                 reject(response)
@@ -96,7 +78,11 @@ export function valid (error) {
                 resolve(response)
             }
         }).catch(() => {
-            error()
+            if (error === undefined) {
+                raise('网络故障，请重试')
+            } else {
+                error()
+            }
         })
     })
 }
