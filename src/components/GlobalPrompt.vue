@@ -3,6 +3,7 @@
         :title="prompt"
         noConfirm
         :isShow="isShow"
+        :level="level"
     ></PromptBox>
 </template>
 <script>
@@ -11,7 +12,8 @@ export default {
     computed: {
         ...mapState({
             isShow: state => state.prompt.isShow,
-            prompt: state => state.prompt.msg
+            prompt: state => state.prompt.msg,
+            level: state => state.prompt.level
         })
     }
 }

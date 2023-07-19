@@ -12,9 +12,7 @@
                 ><b>快速登录</b></router-link
             >
             ,
-            <router-link :to="{ name: 'forget' }"
-                ><b>忘记密码?</b></router-link
-            >
+            <router-link :to="{ name: 'forget' }"><b>忘记密码?</b></router-link>
         </template>
     </InfoForm>
 </template>

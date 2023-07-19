@@ -68,11 +68,17 @@ export default {
                                     this.$router.push('/')
                                 }, 1500)
                             } else {
-                                this.$store.commit('prompt/trigger', '登出失败，请重试')
+                                this.$store.commit('prompt/trigger', {
+                                    msg: '登出失败，请重试',
+                                    level: 'warning'
+                                })
                             }
                         })
                         .catch(() => {
-                            this.$store.commit('prompt/trigger', '网络故障，请重试')
+                            this.$store.commit('prompt/trigger', {
+                                msg: '网络故障，请重试',
+                                level: 'warning'
+                            })
                         })
                     break
                 case '关于':
