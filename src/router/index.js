@@ -3,7 +3,7 @@ import { validCookie } from '@/api/user'
 import store from '@/store/index.js'
 import login from './modules/account.js'
 import dashBoard from './modules/System.js'
-import test from './modules/test.js'
+import debug from './modules/debug.js'
 
 const routes = [
     // entry redirect
@@ -13,7 +13,7 @@ const routes = [
     },
     login,
     dashBoard,
-    test
+    debug
 ]
 
 const router = createRouter({
