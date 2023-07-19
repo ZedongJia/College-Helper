@@ -56,27 +56,18 @@ export default {
             } else if (registerMsg.confirm !== registerMsg.password) {
                 this.raise('密码与确认密码必须相同')
             }
-            let state = -1
             registerPOST({
                 account: registerMsg.account,
                 password: registerMsg.password
             })
-                .then((response) => {
-                    state = response.data
-                    if (state - 200 === 0) {
-                        this.$store.commit('prompt/trigger', '注册成功')
-                        jumpTo(() => {
-                            this.toLogin()
-                        })
-                    } else {
-                        this.raise('该用户已注册')
-                    }
+                .then(() => {
+                    this.$store.commit('prompt/trigger', '注册成功')
+                    jumpTo(() => {
+                        this.toLogin()
+                    })
                 })
                 .catch(() => {
-                    this.$store.commit('prompt/trigger', {
-                        msg: '网络故障，请重试',
-                        level: 'warning'
-                    })
+                    this.raise('该用户已注册')
                 })
         },
         toLogin() {

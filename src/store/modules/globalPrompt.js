@@ -9,7 +9,7 @@ export default {
     mutations: {
         trigger (state, param) {
             /**
-             * signal, 信号,类型为Object{
+             * param, 信号,类型为Object{
              *  msg: String,
              *  level: Enum('info', 'warning')
              * }
