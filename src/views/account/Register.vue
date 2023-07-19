@@ -73,7 +73,10 @@ export default {
                     }
                 })
                 .catch(() => {
-                    this.raise('网络故障，请重试')
+                    this.$store.commit('prompt/trigger', {
+                        msg: '网络故障，请重试',
+                        level: 'warning'
+                    })
                 })
         },
         toLogin() {

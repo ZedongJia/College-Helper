@@ -7,7 +7,7 @@ export default {
         durationTime: 1000
     },
     mutations: {
-        trigger (state, params) {
+        trigger (state, param) {
             /**
              * signal, 信号,类型为Object{
              *  msg: String,
@@ -15,11 +15,11 @@ export default {
              * }
              */
             state.isShow = true
-            if (typeof params === 'object') {
-                state.msg = params.msg
-                state.level = params.level
+            if (typeof param === 'object') {
+                state.msg = param.msg
+                state.level = param.level
             } else {
-                state.msg = params
+                state.msg = param
             }
             setTimeout(() => {
                 state.isShow = false

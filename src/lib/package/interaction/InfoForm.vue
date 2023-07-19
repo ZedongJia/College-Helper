@@ -303,6 +303,7 @@ export default {
 }
 
 .tip {
+    margin: 5px 0;
     text-align: center;
 }
 
