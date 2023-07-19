@@ -10,14 +10,20 @@
                 <tr>
                     <td
                         style="height: 32px; position: relative"
-                        v-for="(itemHeader, index) in tableHeader"
+                        v-for="(itemHeader, index) in header"
                         :key="itemHeader"
                     >
-                        {{ itemHeader.name }}
+                        {{ itemHeader }}
                         <img
                             src="@/assets/icons/sort.png"
                             @click="Sort(index)"
                         />
+                    </td>
+                    <td
+                        style="height: 32px; position: relative"
+                        v-if="isShowButton"
+                    >
+                        操作
                     </td>
                 </tr>
             </thead>
@@ -29,9 +35,8 @@
                         v-for="itemTable in tableContent"
                         :key="itemTable"
                     >
-                        <td>{{ itemTable.source }}</td>
-                        <td>{{ itemTable.label }}</td>
-                        <td>{{ itemTable.target }}</td>
+                        <td v-for="i in itemTable" :key="i">{{ i }}</td>
+                        <Button v-if="isShowButton" @clickIt="detail(itemTable)" style="margin: 2%;">{{ ButtonName }}<i>!</i></Button>
                     </tr>
                 </TransitionGroup>
             </tbody>
@@ -43,16 +48,14 @@ export default {
     name: 'Table',
     props: {
         isLoading: Boolean,
-        link: Array
+        link: Array,
+        header: Array,
+        isShowButton: Boolean,
+        ButtonName: String
     },
     data() {
         return {
             isSort: false,
-            tableHeader: [
-                { id: 0, name: '实体1' },
-                { id: 1, name: '关系' },
-                { id: 2, name: '实体2' }
-            ],
             tableContent: this.link
         }
     },
@@ -100,6 +103,10 @@ export default {
                 )
                 this.isSort = true
             }
+        },
+        // 查看详情
+        detail(item) {
+            this.$emit('detail', item)
         }
     },
     computed: {

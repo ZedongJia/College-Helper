@@ -35,6 +35,7 @@
         </Board>
         <Table
             :isLoading="isLoading"
+            :header="[ '实体1', '关系', '实体2']"
             :link="link"
         ></Table>
     </div>
