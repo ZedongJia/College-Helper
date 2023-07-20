@@ -1,7 +1,7 @@
 <template lang="">
     <div
         class="flex-row-evenly"
-        style="width: 88%; height: 600px"
+        style="width: 88%; height: 500px"
     >
         <MessageList
             style="flex: 0 0 30%; height: 100%"

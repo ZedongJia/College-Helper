@@ -3,7 +3,7 @@
         style="width: 70%;"
         :messageDict="collectionDict"
         :headers="['时间','查询分类','内容']"
-        :colWidth="[20, 10, 70]"
+        :colWidth="[10, 20, 70]"
         @query="turnTo"
         @del="del"
     ></MessageList>

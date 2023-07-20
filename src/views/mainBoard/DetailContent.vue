@@ -27,7 +27,7 @@
                     <!-- 第二部分 图片 + 文字 -->
                     <!-- 图片 -->
                     <img
-                        src="./images/test.png"
+                        src="../images/test.png"
                         alt="该条目无图片"
                         class="image"
                     />
