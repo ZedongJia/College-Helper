@@ -1,5 +1,5 @@
 <template>
-    <NavBar @hide="switchMenu"></NavBar>
+    <NavBar></NavBar>
     <div id="main">
         <Menu :data="menuData"></Menu>
         <div id="view">
@@ -24,11 +24,6 @@ export default {
             menuData: (state) => state.menu.menuList,
             showMenu: (state) => state.menu.showMenu
         })
-    },
-    methods: {
-        switchMenu() {
-            this.$store.commit('menu/switchMenu')
-        }
     }
 }
 </script>

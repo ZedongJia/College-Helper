@@ -15,7 +15,7 @@
             Dynamic
         >
             <div class="flex-row">
-                <div style="margin-right: 0.5em">
+                <div class="icon">
                     <ion-icon :name="item.icon"></ion-icon>
                 </div>
                 <p>{{ item.name }}</p>
@@ -108,7 +108,6 @@ export default {
     cursor: pointer;
     margin: 0 auto;
     margin-bottom: 5px;
-    padding-left: 1.5em;
     width: 90%;
     height: 48px;
     line-height: 48px;
@@ -116,4 +115,12 @@ export default {
     border-radius: 50px;
     overflow: hidden;
 }
+#menu .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 48px;
+    height: 32px;
+}
+
 </style>
