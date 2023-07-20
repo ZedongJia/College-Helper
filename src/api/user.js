@@ -86,3 +86,195 @@ export function stateGET (params, error) {
         })
     })
 }
+
+export function getUserAllInfo (params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/userInfo/',
+            method: 'GET',
+            params
+        }).then(response => {
+            if (response.data - STATE.NOT_FOUND === 0) {
+                reject(response)
+            } else {
+                resolve(response)
+            }
+        }).catch(() => {
+            raise('网络故障，请重试')
+        })
+    })
+}
+
+export function updateUserInfo (params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/userInfo/',
+            method: 'POST',
+            data: params,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(response => {
+            if (response.data - STATE.NOT_FOUND === 0) {
+                reject(response)
+            } else {
+                resolve(response)
+            }
+        }).catch(() => {
+            raise('网络故障，请重试')
+        })
+    })
+}
+
+export function getPrivacyInfo (params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/privacyInfo/',
+            method: 'GET',
+            params
+        }).then(response => {
+            if (response.data - STATE.NOT_FOUND === 0) {
+                reject(response)
+            } else {
+                resolve(response)
+            }
+        }).catch(() => {
+            raise('网络故障，请重试')
+        })
+    })
+}
+
+export function updatePrivacyInfo (params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/privacyInfo/',
+            method: 'POST',
+            data: params,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(response => {
+            if (response.data - STATE.NOT_FOUND === 0) {
+                reject(response)
+            } else {
+                resolve(response)
+            }
+        }).catch(() => {
+            raise('网络故障，请重试')
+        })
+    })
+}
+
+export function getTruePrivacy (params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/getTruePrivacy/',
+            method: 'GET',
+            params
+        }).then(response => {
+            if (response.data - STATE.NOT_FOUND === 0) {
+                reject(response)
+            } else {
+                resolve(response)
+            }
+        }).catch(() => {
+            raise('网络故障，请重试')
+        })
+    })
+}
+
+export function getBrowseInfo (params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/browseInfo/',
+            method: 'GET',
+            params
+        }).then(response => {
+            if (response.data - STATE.NOT_FOUND === 0) {
+                reject(response)
+            } else {
+                resolve(response)
+            }
+        }).catch(() => {
+            raise('网络故障，请重试')
+        })
+    })
+}
+
+export function deleteBrowseInfo (params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/browseInfo/',
+            method: 'POST',
+            data: params,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(response => {
+            if (response.data - STATE.NOT_FOUND === 0) {
+                reject(response)
+            } else {
+                resolve(response)
+            }
+        }).catch(() => {
+            raise('网络故障，请重试')
+        })
+    })
+}
+
+export function getCollectedInfo (params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/collectedInfo/',
+            method: 'GET',
+            params
+        }).then(response => {
+            if (response.data - STATE.NOT_FOUND === 0) {
+                reject(response)
+            } else {
+                resolve(response)
+            }
+        }).catch(() => {
+            raise('网络故障，请重试')
+        })
+    })
+}
+
+export function deleteCollectedInfo (params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/collectedInfo/',
+            method: 'POST',
+            data: params,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(response => {
+            if (response.data - STATE.NOT_FOUND === 0) {
+                reject(response)
+            } else {
+                resolve(response)
+            }
+        }).catch(() => {
+            raise('网络故障，请重试')
+        })
+    })
+}
+
+export function getMessageList (params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/getMessageList/',
+            method: 'GET',
+            params
+        }).then(response => {
+            if (response.data - STATE.NOT_FOUND === 0) {
+                reject(response)
+            } else {
+                resolve(response)
+            }
+        }).catch(() => {
+            raise('网络故障，请重试')
+        })
+    })
+}

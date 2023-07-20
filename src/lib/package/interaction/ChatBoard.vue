@@ -357,19 +357,19 @@ export default {
                     }
                 })
             }
-        },
-        // 打字效果
-        printText(text) {
-            // const textContainer = document.getElementById('chatText')
-            this.printtext = text
-            const interval = setInterval(() => {
-                if (this.currentIndex <= this.printtext.length) {
-                    this.currentIndex++
-                } else {
-                    clearInterval(interval)
-                }
-            }, 25)
         }
+        // // 打字效果
+        // printText(text) {
+        //     // const textContainer = document.getElementById('chatText')
+        //     this.printtext = text
+        //     const interval = setInterval(() => {
+        //         if (this.currentIndex <= this.printtext.length) {
+        //             this.currentIndex++
+        //         } else {
+        //             clearInterval(interval)
+        //         }
+        //     }, 25)
+        // }
     },
     mounted() {
         setTimeout(() => {

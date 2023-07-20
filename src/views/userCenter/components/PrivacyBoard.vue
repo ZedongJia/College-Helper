@@ -77,31 +77,30 @@ export default {
         // require
         // do sth
         getPrivacyInfo({
-                id: this.$store.state.userInfo.ID
-            })
-                .then((response) => {
-                    if (JSON.stringify(response.data) !== '{}') {
-                        const temp = response.data[0]
-                        temp.pop('user_ID')
-                        console.log(typeof temp)
-                    } else {
-                        console.log('失败')
-                    }
-                })
-                .catch(() => {
-                    console.log('网络故障，请重试')
-                })
-        const userInfo = {
-            gender_priv: '是',
-            telephone_priv: '是',
-            email_priv: '是',
-            qq_priv: '否',
-            weChat_priv: '是'
-        }
-        Object.values(userInfo).forEach((item, index) => {
-            this.inputs[index].value = item
-            console.log(this.inputs[index])
+            id: this.$store.state.userInfo.ID
         })
+            .then((response) => {
+                const temp = response.data[0]
+                delete temp.user_ID
+                Object.values(temp).forEach((item, index) => {
+                    item === 'true' ? this.inputs[index].value = '是' : this.inputs[index].value = '否'
+                })
+                console.log(this.inputs)
+            })
+            .catch(() => {
+                console.log('网络故障，请重试')
+            })
+            // const userInfo = {
+            //     gender_priv: '是',
+            //     telephone_priv: '是',
+            //     email_priv: '是',
+            //     qq_priv: '否',
+            //     weChat_priv: '是'
+            // }
+            // Object.values(userInfo).forEach((item, index) => {
+            //     this.inputs[index].value = item
+            // })
+            // console.log(this.inputs)
     }
 }
 </script>
