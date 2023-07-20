@@ -176,10 +176,9 @@ export default {
             fileNode.forEach((e, index) => {
                 this.inputsF[this.fileBox[index]] = e.files[0]
             })
-        }
-    },
-    created() {
-        for (let i = 0; i < this.inputs.length; i++) {
+        },
+        loadData() {
+            for (let i = 0; i < this.inputs.length; i++) {
             const value =
                 this.inputs[i].value === undefined ? '' : this.inputs[i].value
             this.inputsF[this.inputs[i].symbol] = value
@@ -189,6 +188,18 @@ export default {
             if (this.inputs[i].type === 'file') {
                 this.fileBox.push(this.inputs[i].symbol)
             }
+        }
+        }
+    },
+    mounted() {
+        this.loadData()
+    },
+    watch: {
+        inputs: {
+            handler() {
+                this.loadData()
+            },
+            deep: true
         }
     }
 }
