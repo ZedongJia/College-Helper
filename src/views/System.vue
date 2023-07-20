@@ -16,62 +16,21 @@
 import NavBar from '@/components/nav/NavBar.vue'
 import Menu from '@/components/Menu.vue'
 import RouteNav from '@/components/RouteNav.vue'
+import { mapState } from 'vuex'
 export default {
     components: {
         NavBar,
         Menu,
         RouteNav
     },
+    computed: {
+        ...mapState({
+            menuData: state => state.menu.menuList
+        })
+    },
     data() {
         return {
-            showMenu: true,
-            menuData: [
-                {
-                    name: '个性推荐',
-                    href: '/#',
-                    icon: 'chat'
-                },
-                {
-                    name: '实体识别',
-                    href: '/system/identification',
-                    icon: 'search'
-                },
-                {
-                    name: '实体查询',
-                    href: '/system/entitySearch',
-                    icon: 'entity'
-                },
-                {
-                    name: '关系查询',
-                    href: '/system/relationSearch',
-                    icon: 'relation'
-                },
-                {
-                    name: '农业知识概览',
-                    href: '/system/overview',
-                    icon: 'graph'
-                },
-                {
-                    name: '农知问答',
-                    href: '/system/agriculturalQA',
-                    icon: 'chat'
-                },
-                {
-                    name: 'AI问答',
-                    href: '/system/chatAI',
-                    icon: 'chat'
-                },
-                {
-                    name: '图谱演变',
-                    href: '/#',
-                    icon: 'chat'
-                },
-                {
-                    name: '用户中心',
-                    href: '/system/userCenter',
-                    icon: 'chat'
-                }
-            ]
+            showMenu: true
         }
     },
     methods: {

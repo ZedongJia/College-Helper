@@ -2,7 +2,7 @@
     <Board
         class="flex-row-center wrapper"
         style="
-            margin-bottom: 20px;
+            /* margin-bottom: 20px; */
             justify-content: left;
             background-color: var(--item-bg-color);
         "

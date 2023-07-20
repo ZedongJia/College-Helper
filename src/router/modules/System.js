@@ -1,4 +1,5 @@
 import identification from './modules/identification'
+import userCenter from './modules/userCenter.js'
 
 export default {
     name: 'system',
@@ -9,27 +10,24 @@ export default {
         identification,
         {
             path: 'entitySearch',
-            component: () => import('@/views/EntitySearch.vue')
+            component: () => import('@/views/mainBoard/EntitySearch.vue')
         },
         {
             path: 'relationSearch',
-            component: () => import('@/views/RelationSearch.vue')
+            component: () => import('@/views/mainBoard/RelationSearch.vue')
         },
         {
             path: 'overview',
-            component: () => import('@/views/overview/Overview.vue')
+            component: () => import('@/views/mainBoard/overview/Overview.vue')
         },
         {
             path: 'agriculturalQA',
-            component: () => import('@/views/AgriculturalQA.vue')
-        },
-        {
-            path: 'userCenter',
-            component: () => import('@/views/userCenter/UserCenter.vue')
+            component: () => import('@/views/mainBoard/AgriculturalQA.vue')
         },
         {
             path: 'chatAI',
-            component: () => import('@/views/ChatAI.vue')
-        }
+            component: () => import('@/views/mainBoard/ChatAI.vue')
+        },
+        userCenter
     ]
 }

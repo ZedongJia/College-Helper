@@ -11,7 +11,7 @@
         9. 微信
      -->
     <InfoForm
-        style="width: 60%"
+        style="margin-left: 32px; width: 60%;"
         :inputs="inputs"
         :buttons="buttons"
         @receive="r"
