@@ -2,48 +2,48 @@ const MainMenu = [
     {
         name: '个性推荐',
         href: '/#',
-        icon: 'chat'
+        icon: 'telescope-outline'
     },
     {
         name: '实体识别',
         href: '/system/identification',
-        icon: 'search'
+        icon: 'search-outline'
     },
     {
         name: '实体查询',
         href: '/system/entitySearch',
-        icon: 'entity'
+        icon: 'search-outline'
     },
     {
         name: '关系查询',
         href: '/system/relationSearch',
-        icon: 'relation'
+        icon: 'search-outline'
     },
     {
         name: '农业知识概览',
         href: '/system/overview',
-        icon: 'graph'
+        icon: 'podium-outline'
     },
     {
         name: '农知问答',
         href: '/system/agriculturalQA',
-        icon: 'chat'
+        icon: 'chatbox-ellipses-outline'
     },
     {
         name: 'AI问答',
         href: '/system/chatAI',
-        icon: 'chat'
+        icon: 'chatbubbles-outline'
     },
     {
         name: '图谱演变',
         href: '/#',
-        icon: 'chat'
+        icon: 'bar-chart-outline'
     },
     {
         name: '用户中心',
         href: '/system/userCenter',
         option: 'menu/toSubMenu',
-        icon: 'chat'
+        icon: 'person-outline'
     }
 ]
 
@@ -51,38 +51,38 @@ const SubMenu = [
     {
         name: '个人主页',
         href: '/system/userCenter/homePage',
-        icon: 'chat'
+        icon: 'home-outline'
     },
     {
         name: '信息修改',
         href: '/system/userCenter/infoBoard',
-        icon: 'chat'
+        icon: 'reader-outline'
     },
     {
         name: '隐私设置',
         href: '/system/userCenter/privacyBoard',
-        icon: 'chat'
+        icon: 'finger-print-outline'
     },
     {
         name: '查看历史记录',
         href: '/system/userCenter/historyBoard',
-        icon: 'chat'
+        icon: 'recording-outline'
     },
     {
         name: '查看收藏',
         href: '/system/userCenter/collectBoard',
-        icon: 'chat'
+        icon: 'star-outline'
     },
     {
         name: '私信',
         href: '/system/userCenter/contactBoard',
-        icon: 'chat'
+        icon: 'mail-unread-outline'
     },
     {
         name: '返回',
         href: '/system',
         option: 'menu/toMainMenu',
-        icon: 'chat'
+        icon: 'return-down-back-outline'
     }
 ]
 

@@ -2,7 +2,7 @@
     <div class="wrapper fade-in">
         <Board>
             <keep-alive>
-                <ChatBoard title="" :info="userInfo" />
+                <ChatBoard title="" :info="userInfo" AImode />
             </keep-alive>
         </Board>
     </div>

@@ -35,7 +35,7 @@ export default {
 <style>
 #main {
     position: relative;
-    padding-bottom: 64px;
+    padding-bottom: 32px;
     display: flex;
     flex-flow: row nowrap;
     overflow-x: hidden;

@@ -105,15 +105,19 @@
         </div>
         <hr style="margin: 10px 0px 10px 0px" />
         <div
-            class="flex-row-evenly"
+            class="flex-row-center"
             style="width: 80%"
         >
             <!-- 清理聊天记录 -->
-            <img
-                src="@/assets/icons/clear.png"
+            <div
                 @click="appear = true"
                 class="clearImg"
-            />
+            >
+                <ion-icon
+                    style="transform: scale(2)"
+                    name="trash-outline"
+                ></ion-icon>
+            </div>
             <!-- 输入框 -->
             <input
                 class="inputItem"
@@ -127,11 +131,17 @@
                 @keyup.enter="commit"
             />
             <!-- 按钮 -->
-            <Button
-                @clickIt="commit"
-                style="width: 15%; margin-left: 10px"
-            >
-                {{ canCommit ? '提交' : '闭嘴' }}
+            <Button @clickIt="commit">
+                <ion-icon
+                    style="transform: scale(2)"
+                    v-if="canCommit"
+                    name="send-outline"
+                ></ion-icon>
+                <ion-icon
+                    style="transform: scale(2)"
+                    v-else
+                    name="close-circle-outline"
+                ></ion-icon>
             </Button>
         </div>
         <PromptBox
@@ -454,26 +464,26 @@ export default {
 <style>
 /* scrollbar */
 .chat::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-  background-color: var(--bg-color);
+    width: 10px;
+    height: 10px;
+    background-color: var(--bg-color);
 }
 
 .chat::-webkit-scrollbar-thumb {
-  border-radius: 5px;
-  background-color: var(--item-bg-color);
+    border-radius: 5px;
+    background-color: var(--item-bg-color);
 }
 
 .chat::-webkit-scrollbar-button {
-  width: 10px;
-  height: 10px;
-  border-radius: 5px;
-  background-color: var(--item-bg-color);
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: var(--item-bg-color);
 }
 /* 聊天区域 */
 .chat {
     width: 100%;
-    height: 450px;
+    height: 400px;
     padding: 1%;
     overflow-x: hidden;
     overflow-y: auto;

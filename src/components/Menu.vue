@@ -14,13 +14,9 @@
             :data-index="index"
             Dynamic
         >
-            <div style="display: flex; flex-flow: row nowrap">
+            <div class="flex-row">
                 <div style="margin-right: 0.5em">
-                    <img
-                        style="margin-top: 8px; width: 32px"
-                        :src="require('../assets/icons/' + item.icon + '.png')"
-                        alt="..."
-                    />
+                    <ion-icon :name="item.icon"></ion-icon>
                 </div>
                 <p>{{ item.name }}</p>
             </div>
@@ -57,7 +53,7 @@ export default {
             gsap.to(el, {
                 opacity: 1,
                 height: '48px',
-                delay: el.dataset.index * 0.15,
+                delay: el.dataset.index * 0.05,
                 onComplete: done
             })
         },
