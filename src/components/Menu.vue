@@ -29,9 +29,16 @@
 </template>
 <script>
 import gsap from 'gsap'
+import { nextTick } from 'vue'
+import { mapState } from 'vuex'
 export default {
     props: {
         data: Array
+    },
+    computed: {
+        ...mapState({
+            showMenu: (state) => state.menu.showMenu
+        })
     },
     methods: {
         turnTo(item) {
@@ -61,11 +68,42 @@ export default {
                 delay: 0,
                 onComplete: done
             })
+        },
+        hideOrshow() {
+            const menu = document.querySelector('#menu')
+            const ps = menu.querySelectorAll('p')
+            const view = document.querySelector('#view')
+            if (this.showMenu) {
+                menu.style.flex = '0 0 15%'
+                view.style.flex = '0 0 85%'
+                for (let i = 0; i < ps.length; i++) {
+                    ps[i].style.visibility = 'visible'
+                }
+            } else {
+                menu.style.flex = '0 0 6%'
+                view.style.flex = '0 0 94%'
+                for (let i = 0; i < ps.length; i++) {
+                    ps[i].style.visibility = 'hidden'
+                }
+            }
         }
     },
     mounted() {
-        // 判断菜单栏加载
         this.$store.commit('menu/checkState')
+    },
+    watch: {
+        showMenu() {
+            // 判断菜单栏加载
+            this.hideOrshow()
+        },
+        data: {
+            handler() {
+                nextTick(() => {
+                    this.hideOrshow()
+                })
+            },
+            deep: true
+        }
     }
 }
 </script>

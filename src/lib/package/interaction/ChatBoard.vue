@@ -452,6 +452,24 @@ export default {
 </script>
 
 <style>
+/* scrollbar */
+.chat::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: var(--bg-color);
+}
+
+.chat::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: var(--item-bg-color);
+}
+
+.chat::-webkit-scrollbar-button {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: var(--item-bg-color);
+}
 /* 聊天区域 */
 .chat {
     width: 100%;

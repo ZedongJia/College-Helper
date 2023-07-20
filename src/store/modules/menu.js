@@ -90,7 +90,8 @@ export default {
     namespaced: true,
     state: {
         menuList: MainMenu,
-        state: 'main'
+        state: 'main',
+        showMenu: true
     },
     mutations: {
         toSubMenu (state) {
@@ -107,6 +108,9 @@ export default {
             } else {
                 this.commit('menu/toMainMenu')
             }
+        },
+        switchMenu (state) {
+            state.showMenu = !state.showMenu
         }
     }
 }

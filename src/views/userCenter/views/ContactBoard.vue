@@ -1,7 +1,7 @@
 <template lang="">
     <div
         class="flex-row-evenly"
-        style="width: 88%; height: 500px"
+        style="width: 100%; height: 500px"
     >
         <MessageList
             style="flex: 0 0 30%; height: 100%"
@@ -18,6 +18,7 @@
             <EmptyHint v-if="JSON.stringify(personInfo) === '{}'"></EmptyHint>
             <keep-alive :max="10" v-else>
                 <ChatBoard
+                    style="height: 500px"
                     :title="personInfo.username"
                     :info="personInfo"
                     :key="personInfo.username"

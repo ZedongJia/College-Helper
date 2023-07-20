@@ -1,11 +1,7 @@
 <template>
-    <NavBar
-        @hide="hideMenu"
-    ></NavBar>
+    <NavBar @hide="switchMenu"></NavBar>
     <div id="main">
-        <Menu
-            :data="menuData"
-        ></Menu>
+        <Menu :data="menuData"></Menu>
         <div id="view">
             <RouteNav></RouteNav>
             <router-view></router-view>
@@ -25,34 +21,13 @@ export default {
     },
     computed: {
         ...mapState({
-            menuData: state => state.menu.menuList
+            menuData: (state) => state.menu.menuList,
+            showMenu: (state) => state.menu.showMenu
         })
     },
-    data() {
-        return {
-            showMenu: true
-        }
-    },
     methods: {
-        hideMenu() {
-            // hide menu
-            this.showMenu = !this.showMenu
-            const menu = document.querySelector('#menu')
-            const ps = menu.querySelectorAll('p')
-            const view = document.querySelector('#view')
-            if (this.showMenu) {
-                menu.style.flex = '0 0 15%'
-                view.style.flex = '0 0 85%'
-                for (let i = 0; i < ps.length; i++) {
-                    ps[i].style.visibility = 'visible'
-                }
-            } else {
-                menu.style.flex = '0 0 6%'
-                view.style.flex = '0 0 94%'
-                for (let i = 0; i < ps.length; i++) {
-                    ps[i].style.visibility = 'hidden'
-                }
-            }
+        switchMenu() {
+            this.$store.commit('menu/switchMenu')
         }
     }
 }
@@ -65,7 +40,7 @@ export default {
     flex-flow: row nowrap;
     overflow-x: hidden;
 }
-#main >* {
+#main > * {
     transition: 0.5s;
 }
 #main > :nth-child(1) {
@@ -73,7 +48,7 @@ export default {
 }
 #main > :nth-child(2) {
     flex: 0 0 85%;
-    padding: 0 20px 20px 20px;
+    padding: 0 20px 0 20px;
     color: var(--font-color);
 }
 </style>
