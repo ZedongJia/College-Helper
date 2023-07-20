@@ -1,6 +1,6 @@
 <template>
     <TransitionGroup
-        id="menu"
+        class="menu"
         tag="div"
         :css="false"
         @before-enter="onBeforeEnter"
@@ -18,15 +18,15 @@
                 <div class="icon">
                     <ion-icon :name="item.icon"></ion-icon>
                 </div>
-                <p>{{ item.name }}</p>
+                <span class="text">{{ item.name }}</span>
             </div>
         </MenuItem>
     </TransitionGroup>
 </template>
 <script>
 import gsap from 'gsap'
-import { nextTick } from 'vue'
 import { mapState } from 'vuex'
+import { nextTick } from 'vue'
 export default {
     props: {
         data: Array
@@ -66,20 +66,20 @@ export default {
             })
         },
         hideOrshow() {
-            const menu = document.querySelector('#menu')
-            const ps = menu.querySelectorAll('p')
+            const menu = document.querySelector('.menu')
+            const spans = menu.querySelectorAll('span')
             const view = document.querySelector('#view')
             if (this.showMenu) {
                 menu.style.flex = '0 0 15%'
                 view.style.flex = '0 0 85%'
-                for (let i = 0; i < ps.length; i++) {
-                    ps[i].style.visibility = 'visible'
+                for (let i = 0; i < spans.length; i++) {
+                    spans[i].style.display = 'inline-block'
                 }
             } else {
-                menu.style.flex = '0 0 6%'
-                view.style.flex = '0 0 94%'
-                for (let i = 0; i < ps.length; i++) {
-                    ps[i].style.visibility = 'hidden'
+                menu.style.flex = '0 0 64px'
+                view.style.flex = '0 0 ' + (document.querySelector('body').clientWidth - 64) + 'px'
+                for (let i = 0; i < spans.length; i++) {
+                    spans[i].style.display = 'none'
                 }
             }
         }
@@ -104,23 +104,29 @@ export default {
 }
 </script>
 <style>
-#menu > * {
+.menu {
+    margin-left: 5px;
+    width: 100%;
+    transition: 0.5s;
+}
+.menu > * {
     cursor: pointer;
     margin: 0 auto;
     margin-bottom: 5px;
-    width: 90%;
     height: 48px;
     line-height: 48px;
     font-weight: bold;
     border-radius: 50px;
-    overflow: hidden;
 }
-#menu .icon {
+.menu .icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-width: 48px;
-    height: 32px;
+    min-width: 64px;
+    height: 48px;
+    transform: scale(1.5);
 }
-
+.menu .text {
+    height: 48px;
+}
 </style>
