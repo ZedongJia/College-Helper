@@ -13,7 +13,6 @@
     <InfoForm
         style="margin-left: 32px; width: 60%;"
         :inputs="inputs"
-        :buttons="buttons"
         @receive="r"
     ></InfoForm>
 </template>
@@ -74,11 +73,7 @@ export default {
                     title: '微信',
                     symbol: 'weChat'
                 }
-            ],
-            buttons: [{
-                title: '提交',
-                symbol: 'commit'
-            }]
+            ]
         }
     },
     methods: {

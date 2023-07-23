@@ -1,11 +1,5 @@
 <template>
-    <div
-        :class="{
-            frame: true,
-            'fade-in': true,
-            popover: Popover
-        }"
-    >
+    <div class="frame fade-in">
         <h1
             v-if="title !== ''"
             class="input-title"
@@ -73,13 +67,7 @@
             <p class="warning-text">{{ warning }} <slot></slot></p>
         </div>
         <div class="button-box">
-            <Button
-                v-for="button in buttons"
-                :key="button"
-                @click.stop="handleClick(button.symbol)"
-            >
-                {{ button.title }}
-            </Button>
+            <Button @click="handleClick">提交</Button>
         </div>
         <div class="tip">
             <slot name="tip"></slot>
@@ -89,18 +77,6 @@
 <script>
 export default {
     name: 'InfoForm',
-    /**
-     * inputs: [
-     *  {
-     *  type: 'text',
-     *  symbol: 'account'
-     * }
-     * ]
-     * buttons: [
-     *  'register',
-     *  'login'
-     * ]
-     */
     props: {
         title: {
             type: String,
@@ -112,10 +88,6 @@ export default {
         },
         Popover: Boolean,
         inputs: {
-            type: Array,
-            default: () => []
-        },
-        buttons: {
             type: Array,
             default: () => []
         }
@@ -179,16 +151,18 @@ export default {
         },
         loadData() {
             for (let i = 0; i < this.inputs.length; i++) {
-            const value =
-                this.inputs[i].value === undefined ? '' : this.inputs[i].value
-            this.inputsF[this.inputs[i].symbol] = value
-            if (this.inputs[i].type === 'checkbox') {
-                this.checkBox.push(this.inputs[i].symbol)
+                const value =
+                    this.inputs[i].value === undefined
+                        ? ''
+                        : this.inputs[i].value
+                this.inputsF[this.inputs[i].symbol] = value
+                if (this.inputs[i].type === 'checkbox') {
+                    this.checkBox.push(this.inputs[i].symbol)
+                }
+                if (this.inputs[i].type === 'file') {
+                    this.fileBox.push(this.inputs[i].symbol)
+                }
             }
-            if (this.inputs[i].type === 'file') {
-                this.fileBox.push(this.inputs[i].symbol)
-            }
-        }
         }
     },
     mounted() {
@@ -211,21 +185,6 @@ export default {
     display: flex;
     flex-flow: row wrap;
     align-items: center;
-}
-.popover {
-    z-index: 200;
-    width: 400px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 7px 7px 10px 3px #24004628;
-}
-
-.popover .input-box > * {
-    width: 80%;
 }
 
 .frame > * {

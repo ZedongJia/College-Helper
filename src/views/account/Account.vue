@@ -3,6 +3,7 @@
     <BackGround></BackGround>
 </template>
 <script>
+import './style/account.css'
 import BackGround from './components/BackGround.vue'
 export default {
     components: {
