@@ -33,7 +33,7 @@
             <label for="code">验证码</label>
             <span class="line"></span>
             <Button
-                @click="sendCode"
+                @click="sendCode($event)"
                 style="width: 50%; height: 40px; line-height: 40px"
                 >点击发送验证码
             </Button>
@@ -105,13 +105,14 @@ export default {
                 name: 'register'
             })
         },
-        sendCode() {
+        sendCode(e) {
             if (!this.validate(false)) {
                 return
             }
             codeGET()
                 .then((info) => {
                     this.$store.commit('prompt/trigger', info)
+                    this.countDown(e)
                 })
                 .catch((error) => {
                     this.$store.commit('prompt/trigger', {
@@ -141,6 +142,22 @@ export default {
                 isValid = false
             }
             return isValid
+        },
+        countDown(e) {
+            // 倒计时
+            e.target.setAttribute('disabled', true)
+            e.target.style.cursor = 'not-allowed'
+            let time = 60
+            e.target.innerHTML = time
+            const cdEvent = setInterval(() => {
+                time -= 1
+                if (time <= 0) {
+                    clearInterval(cdEvent)
+                    e.target.setAttribute('disabledx', false)
+                    e.target.style.cursor = 'pointer'
+                }
+                e.target.innerHTML = time
+            }, 1000)
         }
     }
 }
