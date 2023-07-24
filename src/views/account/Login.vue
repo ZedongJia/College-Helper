@@ -66,7 +66,7 @@ export default {
                 password: ''
             },
             validator: new Validator(),
-            use: ''
+            use: 'phone'
         }
     },
     methods: {
@@ -76,10 +76,11 @@ export default {
             }
             loginGET({
                 account: this.loginForm.account,
-                password: this.loginForm.password
+                password: this.loginForm.password,
+                use: this.use
             })
-                .then((response) => {
-                    this.$store.commit('userInfo/update', response.data)
+                .then((userInfo) => {
+                    this.$store.commit('userInfo/update', userInfo)
                     // 产生提示框
                     this.$store.commit('prompt/trigger', '登陆成功')
                     // 跳转
@@ -89,9 +90,12 @@ export default {
                         })
                     })
                 })
-                .catch(() => {
+                .catch((error) => {
                     // '没有该用户的信息'
-                    this.$store.commit('prompt/trigger', '登陆失败')
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
                 })
         },
         toRegister() {
@@ -110,6 +114,7 @@ export default {
                 phone: this.loginForm.account,
                 password: this.loginForm.password
             })
+            console.log(res)
             let isValid = true
             if (!res.password.result) {
                 document.querySelector('#password~.error-prompt').innerHTML =

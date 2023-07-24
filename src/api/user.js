@@ -12,7 +12,7 @@ function raise (msg) {
 }
 /**
  * 登录请求API
- * @param {{account: str,password: str}} params
+ * @param {{account: String,password: String,use:String}} params
  * @returns {Promise}
  */
 export function loginGET (params) {
@@ -22,10 +22,33 @@ export function loginGET (params) {
             method: 'GET',
             params
         }).then(response => {
-            if (response.data - STATE.NOT_FOUND === 0) {
-                reject(response)
+            const data = response.data
+            if (data.status) {
+                resolve(data.userInfo)
             } else {
-                resolve(response)
+                reject(data.error)
+            }
+        }).catch(() => {
+            raise('网络故障，请重试')
+        })
+    })
+}
+/**
+ * 快速登陆API
+ * @param {{phone: str, code: str}} params
+ */
+export function quickGET (params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/quick/',
+            method: 'GET',
+            params
+        }).then(response => {
+            const data = response.data
+            if (data.status) {
+                resolve(data.userInfo)
+            } else {
+                reject(data.error)
             }
         }).catch(() => {
             raise('网络故障，请重试')
@@ -48,10 +71,56 @@ export function registerPOST (params) {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(response => {
-            if (response.data - STATE.NOT_FOUND === 0) {
-                reject(response)
+            const data = response.data
+            if (data.status) {
+                resolve(data.info)
             } else {
-                resolve(response)
+                reject(data.error)
+            }
+        }).catch(() => {
+            raise('网络故障，请重试')
+        })
+    })
+}
+/**
+ * 验证码获取API
+ */
+export function codeGET () {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/code/',
+            method: 'GET'
+        }).then(response => {
+            const data = response.data
+            if (data.status) {
+                resolve(data.info)
+            } else {
+                reject(data.error)
+            }
+        }).catch(() => {
+            raise('网络故障，请重试')
+        })
+    })
+}
+/**
+ * 修改密码
+ * @param {{ID:int, password: String}} params
+ */
+export function pwPOST (params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/modifyPW/',
+            method: 'POST',
+            data: params,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(response => {
+            const data = response.data
+            if (data.status) {
+                resolve(data.info)
+            } else {
+                reject(data.error)
             }
         }).catch(() => {
             raise('网络故障，请重试')

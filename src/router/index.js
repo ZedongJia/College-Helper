@@ -31,10 +31,10 @@ router.beforeEach(async (to, from) => {
         }
     }
     // test
-    const backdoor = true
-    if (backdoor) {
-        return
-    }
+    // const backdoor = true
+    // if (backdoor) {
+    //     return
+    // }
     // 跳过login
     if (!to.fullPath.startsWith('/account')) {
         // 检测

@@ -82,10 +82,15 @@
                 v-model="registForm.code"
                 required
             />
-            <span style="right: 50%;" class="error-prompt"></span>
+            <span
+                style="right: 50%"
+                class="error-prompt"
+            ></span>
             <label for="code">验证码</label>
             <span class="line"></span>
-            <Button style="width: 50%; height: 40px; line-height: 40px"
+            <Button
+                @click="sendCode"
+                style="width: 50%; height: 40px; line-height: 40px"
                 >点击发送验证码
             </Button>
         </div>
@@ -104,7 +109,7 @@
 </template>
 <script>
 import { Validator } from '@/utils/validation.js'
-import { registerPOST } from '@/api/user.js'
+import { registerPOST, codeGET } from '@/api/user.js'
 import { jumpTo } from '@/utils/callback'
 export default {
     data() {
@@ -129,16 +134,35 @@ export default {
                 nickname: this.registForm.nickname,
                 email: this.registForm.email,
                 phone: this.registForm.phone,
-                password: this.registForm.password
+                password: this.registForm.password,
+                code: this.registForm.code
             })
-                .then(() => {
-                    this.$store.commit('prompt/trigger', '注册成功')
+                .then((info) => {
+                    this.$store.commit('prompt/trigger', info)
                     jumpTo(() => {
                         this.toLogin()
                     })
                 })
-                .catch(() => {
-                    this.raise('该用户已注册')
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
+        },
+        sendCode() {
+            if (!this.validate(false)) {
+                return
+            }
+            codeGET()
+                .then((info) => {
+                    this.$store.commit('prompt/trigger', info)
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
                 })
         },
         toLogin() {
@@ -146,7 +170,7 @@ export default {
                 name: 'login'
             })
         },
-        validate() {
+        validate(checkCode = true) {
             // 清空警告
             document.querySelectorAll('.error-prompt').forEach((e) => {
                 e.innerHTML = ''
@@ -183,7 +207,7 @@ export default {
                     '确认密码必须与密码相同'
                 isValid = false
             }
-            if (this.registForm.code === '') {
+            if (checkCode && this.registForm.code === '') {
                 document.querySelector('#code~.error-prompt').innerHTML =
                     '验证码不能为空'
                 isValid = false

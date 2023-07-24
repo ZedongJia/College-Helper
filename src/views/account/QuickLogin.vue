@@ -26,10 +26,15 @@
                 v-model="quickForm.code"
                 required
             />
-            <span style="right: 50%;" class="error-prompt"></span>
+            <span
+                style="right: 50%"
+                class="error-prompt"
+            ></span>
             <label for="code">验证码</label>
             <span class="line"></span>
-            <Button style="width: 50%; height: 40px; line-height: 40px"
+            <Button
+                @click="sendCode"
+                style="width: 50%; height: 40px; line-height: 40px"
                 >点击发送验证码
             </Button>
         </div>
@@ -54,8 +59,8 @@
     </div>
 </template>
 <script>
-// import { loginGET } from '@/api/user.js'
-// import { jumpTo } from '@/utils/callback.js'
+import { quickGET, codeGET } from '@/api/user.js'
+import { jumpTo } from '@/utils/callback.js'
 import { Validator } from '@/utils/validation.js'
 export default {
     data() {
@@ -69,48 +74,53 @@ export default {
     },
     methods: {
         signIn() {
-            this.validate()
-            // if (loginMsg.account === '') {
-            //     this.raise('手机号不能为空')
-            //     return
-            // } else if (loginMsg.sms === '') {
-            //     this.raise('验证码不能为空')
-            //     return
-            // }
-            // let userinfo = {}
-            // loginGET({
-            //     account: loginMsg.account,
-            //     password: loginMsg.password
-            // })
-            //     .then((response) => {
-            //         if (JSON.stringify(response.data) !== '{}') {
-            //             userinfo = response.data
-            //             this.$store.commit('userInfo/update', userinfo)
-            //             // 产生提示框
-            //             this.$store.commit('prompt/trigger', '登陆成功')
-            //             // 跳转
-            //             jumpTo(() => {
-            //                 this.$router.push({
-            //                     path: '/system'
-            //                 })
-            //             })
-            //         } else {
-            //             this.raise('没有该用户的信息')
-            //         }
-            //     })
-            //     .catch(() => {
-            //         this.$store.commit('prompt/trigger', {
-            //         msg: '网络故障，请重试',
-            //         level: 'warning'
-            //         })
-            //     })
+            if (!this.validate()) {
+                return
+            }
+
+            quickGET({
+                phone: this.quickForm.phone,
+                code: this.quickForm.code
+            })
+                .then((userInfo) => {
+                    this.$store.commit('userInfo/update', userInfo)
+                    // 产生提示框
+                    this.$store.commit('prompt/trigger', '登陆成功')
+                    // 跳转
+                    jumpTo(() => {
+                        this.$router.push({
+                            path: '/system'
+                        })
+                    })
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
         },
         toRegister() {
             this.$router.push({
                 name: 'register'
             })
         },
-        validate() {
+        sendCode() {
+            if (!this.validate(false)) {
+                return
+            }
+            codeGET()
+                .then((info) => {
+                    this.$store.commit('prompt/trigger', info)
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
+        },
+        validate(checkCode = true) {
             // 清空警告
             document.querySelectorAll('.error-prompt').forEach((e) => {
                 e.innerHTML = ''
@@ -125,7 +135,7 @@ export default {
                     res.phone.error
                 isValid = false
             }
-            if (this.quickForm.code === '') {
+            if (checkCode && this.quickForm.code === '') {
                 document.querySelector('#code~.error-prompt').innerHTML =
                     '验证码不能为空'
                 isValid = false

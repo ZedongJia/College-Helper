@@ -2,7 +2,7 @@
     <div
         v-if="dealPhone"
         id="account-form"
-        style="width: 500px;"
+        style="width: 500px"
     >
         <h1>找回密码</h1>
         <p>请输入你的手机号</p>
@@ -33,7 +33,7 @@
     <div
         v-if="dealCode"
         id="account-form"
-        style="width: 500px;"
+        style="width: 500px"
     >
         <h1>找回密码</h1>
         <p>我们已经向你的手机发送了验证码, 请输入验证码</p>
@@ -61,9 +61,7 @@
         </p>
     </div>
     <PopFrame v-if="dealPW">
-        <div
-            id="account-form"
-        >
+        <div id="account-form">
             <h1>修改密码</h1>
             <p>请输入您想要修改的密码</p>
             <div class="form-group">
@@ -111,12 +109,14 @@
     </PopFrame>
 </template>
 <script>
+import { quickGET, codeGET, pwPOST } from '@/api/user'
 import { nextTick } from 'vue'
 import { jumpTo } from '@/utils/callback.js'
 import { Validator } from '@/utils/validation.js'
 export default {
     data() {
         return {
+            ID: '',
             phone: '',
             code: '',
             inputList: [],
@@ -144,19 +144,28 @@ export default {
                     phone: this.phone
                 })
                 if (!ret.phone.result) {
-                    document.querySelector('.error-prompt').innerHTML = ret.phone.error
+                    document.querySelector('.error-prompt').innerHTML =
+                        ret.phone.error
                     this.phone = ''
                     return
                 }
                 // 发送验证码
-                // todo
-                this.dealPhone = false
-                this.dealCode = true
-                nextTick(() => {
-                    this.inputList = document.querySelectorAll(
-                        '#account-form input'
-                    )
-                })
+                codeGET()
+                    .then(() => {
+                        this.dealPhone = false
+                        this.dealCode = true
+                        nextTick(() => {
+                            this.inputList = document.querySelectorAll(
+                                '#account-form input'
+                            )
+                        })
+                    })
+                    .catch((error) => {
+                        this.$store.commit('prompt/trigger', {
+                            msg: error,
+                            level: 'warning'
+                        })
+                    })
                 return
             }
             if (this.dealCode) {
@@ -164,21 +173,51 @@ export default {
                 this.inputList.forEach((item) => {
                     this.code += item.value
                 })
-                console.log(this.code)
+                if (this.code === '') {
+                    document.querySelector('.error-prompt').innerHTML =
+                        '验证码不能为空'
+                    this.code = ''
+                    return
+                }
+                quickGET({
+                    phone: this.phone,
+                    code: this.code
+                })
+                    .then((userInfo) => {
+                        this.ID = userInfo.ID
+                        this.dealCode = false
+                        this.dealPW = true
+                    })
+                    .catch((error) => {
+                        this.$store.commit('prompt/trigger', {
+                            msg: error,
+                            level: 'warning'
+                        })
+                    })
                 // todo, 错误重定向回login页面
-                this.dealCode = false
-                this.dealPW = true
                 return
             }
             if (this.dealPW) {
-                // todo, 打包手机号和密码
-                this.$store.commit('prompt/trigger', '修改密码成功')
-                // 跳转
-                jumpTo(() => {
-                    this.$router.push({
-                        name: 'login'
-                    })
+                // todo, 打包ID和密码
+                pwPOST({
+                    ID: this.ID,
+                    password: this.reset.password
                 })
+                    .then((info) => {
+                        this.$store.commit('prompt/trigger', info)
+                        // 跳转
+                        jumpTo(() => {
+                            this.$router.push({
+                                name: 'login'
+                            })
+                        })
+                    })
+                    .catch((error) => {
+                        this.$store.commit('prompt/trigger', {
+                            msg: error,
+                            level: 'warning'
+                        })
+                    })
             }
         }
     },
