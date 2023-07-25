@@ -24,6 +24,7 @@
                     <div class="left">
                         <img
                             :src="item.image"
+                            style="width: 48px;height: 48px;"
                             alt="头像"
                         />
                         <p class="username">{{ item.username }}</p>

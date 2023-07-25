@@ -14,13 +14,11 @@
                 style="border-bottom: 1px solid var(--item-bg-color)"
             ></Title>
             <br />
-            <li
-                class="flex-row header"
-            >
+            <li class="flex-row header">
                 <span
                     v-for="(v, index) in headers"
                     :key="v"
-                    :Style="'flex: 0 0 ' + colWidth[index] + '%;'"
+                    :style="'flex: 0 0 ' + colWidth[index] + '%;'"
                 >
                     {{ v }}
                 </span>
@@ -34,11 +32,35 @@
                 <span
                     v-for="(v, index) in Object.values(item)"
                     :key="v"
-                    :Style="'flex: 0 0 ' + colWidth[index] + '%;'"
+                    :style="'flex: 0 0 ' + colWidth[index] + '%;'"
+                    class="flex-row-left"
                 >
-                    {{ v }}
+                    <span
+                        v-if="!!v.img || !!v.icon"
+                        class="prefix"
+                        ><img
+                            v-if="!!v.img"
+                            style="
+                                width: 32px;
+                                height: 32px;
+                                border-radius: 50%;
+                            "
+                            src="http://localhost:8000/gallery/match/?ID=5"
+                            alt=""
+                        />
+                        <ion-icon
+                            v-if="!!v.icon"
+                            style="transform: scale(1.5)"
+                            name="person-outline"
+                        ></ion-icon>
+                    </span>
+                    <span>{{ !!v.content ? v.content : v }}</span>
                 </span>
-                <Button @clickIt="del(group, index)" warn>Delete<i>!</i></Button>
+                <Button
+                    @clickIt="del(group, index)"
+                    warn
+                    >Delete<i>!</i></Button
+                >
                 <i class="hover-fill"></i>
             </li>
         </span>
@@ -101,13 +123,6 @@ export default {
     color: grey;
 }
 
-.list li > span:nth-child(1) {
-    flex: 0 0 20%;
-}
-.list li > span:nth-child(2) {
-    flex: 0 0 15%;
-}
-
 .list li .hover-fill {
     z-index: -100;
     pointer-events: none;
@@ -132,9 +147,35 @@ export default {
     position: absolute;
     right: 0;
     top: 50%;
+    display: none;
     transform: translate(0, -50%);
     min-width: 0;
     color: var(--font-color);
     background-color: transparent;
+}
+
+.list li:hover .btn {
+    display: inline-block;
+    animation: slide 0.25s ease-in-out forwards;
+}
+
+@keyframes slide {
+    0% {
+        opacity: 0;
+        transform: translate(20%, -50%);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0, -50%);
+    }
+}
+
+.list .group .prefix {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 16px;
+    width: 32px;
+    height: 48px;
 }
 </style>

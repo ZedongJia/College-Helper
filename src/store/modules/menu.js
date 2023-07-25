@@ -59,11 +59,6 @@ const SubMenu = [
         icon: 'reader-outline'
     },
     {
-        name: '隐私设置',
-        href: '/system/userCenter/privacyBoard',
-        icon: 'finger-print-outline'
-    },
-    {
         name: '查看历史记录',
         href: '/system/userCenter/historyBoard',
         icon: 'recording-outline'

@@ -7,6 +7,7 @@
             @input="handleInput"
             required
         />
+        <div class="icon"><ion-icon style="transform: scale(1.5);" :name="icon"></ion-icon></div>
         <span class="input-label">{{ title }}</span>
         <span class="fill"></span>
     </div>
@@ -18,7 +19,8 @@ export default {
     props: {
         type: String,
         modelValue: String,
-        title: String
+        title: String,
+        icon: String
     },
     methods: {
         handleInput(e) {
@@ -34,7 +36,7 @@ export default {
     width: 100%;
 }
 .input-blank {
-    padding: 0 1em;
+    padding: 0 48px;
     width: 100%;
     height: 48px;
     line-height: 48px;
@@ -46,7 +48,7 @@ export default {
     position: absolute;
     left: 0;
     bottom: 0;
-    padding-left: 1em;
+    padding-left: 48px;
     height: 48px;
     line-height: 48px;
     color: grey;
@@ -79,5 +81,21 @@ export default {
 .input-blank:valid ~ .fill {
     height: 48px;
     border-radius: 5px;
+}
+
+.input .icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    color: var(--item-bg-color);
+}
+.input-blank:focus ~ .icon,
+.input-blank:valid ~ .icon {
+    color: white;
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
     <div class="frame fade-in">
-        <h1
+        <Title
             v-if="title !== ''"
             class="input-title"
         >
             {{ title }}
-        </h1>
+        </Title>
         <div
             class="input-box"
             v-for="input in inputs"
@@ -19,13 +19,13 @@
                 <span class="form-title">{{ input.title }}</span>
                 <label
                     class="flex-row-center"
-                    v-for="option in input.options"
+                    v-for="(option, index) in input.options"
                     :key="option"
                 >
                     <input
                         type="radio"
                         name="check"
-                        :checked="inputsF[input.symbol] == option"
+                        :checked="inputsF[input.symbol] == input.labels[index]"
                     />
                     {{ option }}
                 </label>
@@ -58,17 +58,18 @@
             </div>
             <Input
                 v-else
+                :icon="input.icon"
                 :title="input.title"
                 :type="input.type"
                 v-model="inputsF[input.symbol]"
             />
+            <span :id="'id_' + input.symbol" class="error-prompt"></span>
         </div>
-        <div v-if="Popover">
-            <p class="warning-text">{{ warning }} <slot></slot></p>
-        </div>
-        <div class="button-box">
-            <Button @click="handleClick">提交</Button>
-        </div>
+        <Button
+            style="margin-top: 32px; flex: 0 0 180px"
+            @click="handleClick"
+            >提交</Button
+        >
         <div class="tip">
             <slot name="tip"></slot>
         </div>
@@ -82,11 +83,6 @@ export default {
             type: String,
             default: ''
         },
-        warning: {
-            type: String,
-            default: ''
-        },
-        Popover: Boolean,
         inputs: {
             type: Array,
             default: () => []
@@ -117,15 +113,11 @@ export default {
             }, 1000)
             callback(this.inputsF.account)
         },
-        handleClick(symbol) {
-            const name = symbol
+        handleClick() {
             // deal form
             this.decodeForm()
             this.decodeFile()
-            this.$emit('receive', {
-                name: name,
-                inputsF: this.inputsF
-            })
+            this.$emit('receive', this.inputsF)
         },
         decodeForm() {
             const formNode = this.checkBox.map((e) =>
@@ -184,6 +176,7 @@ export default {
     width: 100%;
     display: flex;
     flex-flow: row wrap;
+    justify-content: center;
     align-items: center;
 }
 
@@ -192,7 +185,7 @@ export default {
 }
 /* title */
 .input-title {
-    margin-top: 32px;
+    margin-bottom: 32px;
     font-size: 26px;
     text-align: center;
 }
@@ -213,14 +206,10 @@ export default {
     border-bottom: 2px solid var(--item-bg-color);
 }
 
-.form-box > * {
-    margin: 0 0.5em;
-}
-
 .form-box .form-title {
-    margin: 0 1em;
+    margin: 0 5px;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 /* 表单样式 */
@@ -264,14 +253,6 @@ export default {
     background-color: var(--item-bg-rev-color);
 }
 
-/* button css */
-.button-box {
-    margin-top: 32px;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-evenly;
-}
-
 .tip {
     margin: 5px 0;
     text-align: center;
@@ -282,6 +263,18 @@ export default {
     width: 80%;
     font-size: 18px;
     font-weight: bold;
+    color: red;
+}
+
+.error-prompt {
+    z-index: 200;
+    position: absolute;
+    top: -30px;
+    right: 0;
+    padding: 10px 0;
+    min-width: 1px;
+    height: 20px;
+    font-size: 12px;
     color: red;
 }
 </style>

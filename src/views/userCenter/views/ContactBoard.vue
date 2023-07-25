@@ -35,11 +35,17 @@ export default {
                 临时会话: [
                     {
                         time: '8:59',
-                        nickname: 'zhangsan'
+                        info: {
+                            img: 'http://localhost:8000/gallery/match/?ID=5',
+                            content: 'zhangsan'
+                        }
                     },
                     {
                         time: '8:59',
-                        nickname: 'lisi'
+                        info: {
+                            img: 'http://localhost:8000/gallery/match/?ID=5',
+                            content: 'lizi'
+                        }
                     }
                 ]
             },

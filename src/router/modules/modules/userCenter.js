@@ -12,10 +12,6 @@ export default {
             component: () => import('@/views/userCenter/views/InfoBoard.vue')
         },
         {
-            path: 'privacyBoard',
-            component: () => import('@/views/userCenter/views/PrivacyBoard.vue')
-        },
-        {
             path: 'historyBoard',
             component: () => import('@/views/userCenter/views/HistoryBoard.vue')
         },
