@@ -1,27 +1,27 @@
-<template lang="">
+<template>
+    <EmptyHint v-if="isEmpty"></EmptyHint>
     <MessageList
-        style="width: 70%;"
+        v-else
+        style="width: 100%"
         :messageDict="collectionDict"
-        :headers="['时间','查询分类','内容']"
-        :colWidth="[10, 20, 70]"
+        :headers="['时间', '查询分类', '内容']"
+        :colWidth="[30, 20, 50]"
         @query="turnTo"
         @del="del"
     ></MessageList>
 </template>
 <script>
-import { getCollectedInfo } from '@/api/user'
+import { getCollectionInfo, deleteCollectionInfo } from '@/api/user'
 
 export default {
     data() {
         return {
-            collectionDict: {
-                实体查询: [
-                ],
-                关系查询: [
-                ],
-                实体识别: [
-                ]
-            }
+            collectionDict: {}
+        }
+    },
+    computed: {
+        isEmpty() {
+            return JSON.stringify(this.collectionDict) === '{}'
         }
     },
     methods: {
@@ -47,27 +47,42 @@ export default {
             })
         },
         del(group, index) {
-            // todo
+            const { time, type, content } = this.collectionDict[group][index]
+            deleteCollectionInfo({
+                ID: this.$store.state.userInfo.ID,
+                time: time,
+                type: type,
+                content: content
+            })
+                .then(() => {
+                    this.$store.commit('prompt/trigger', '删除成功')
+                    this.loadData()
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
+        },
+        loadData() {
+            // require
+            getCollectionInfo({
+                ID: this.$store.state.userInfo.ID
+            })
+                .then((collectionInfo) => {
+                    this.collectionDict = collectionInfo
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
         }
     },
     created() {
-        // require
-        getCollectedInfo({
-                user_ID: this.$store.state.userInfo.ID
-            })
-                .then((response) => {
-                    if (JSON.stringify(response.data) !== '{}') {
-                        const temp = response.data
-                        for (let i = 0; i < temp.length; i++) {
-                            this.collectionDict[temp[i].type].push(temp[i])
-                        }
-                    } else {
-                        console.log('失败')
-                    }
-                })
-                .catch(() => {
-                    console.log('网络故障，请重试')
-                })
+        this.loadData()
     }
 }
 </script>

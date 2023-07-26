@@ -121,7 +121,7 @@ export default {
                 },
                 {
                     type: 'checkbox',
-                    title: '是否显示',
+                    title: '是否显示性别',
                     options: ['是', '否'],
                     labels: ['true', 'false'],
                     symbol: 'gender_priv'
@@ -188,6 +188,7 @@ export default {
                             this.$store.commit('prompt/trigger', '修改成功')
                             // 更新
                             this.$store.commit('userInfo/update', userInfo)
+                            this.loadData()
                         })
                     }
                     break
@@ -232,6 +233,7 @@ export default {
                     })
                         .then(() => {
                             this.$store.commit('prompt/trigger', '修改成功')
+                            this.loadData()
                         })
                         .catch((error) => {
                             this.$store.commit('prompt/trigger', {
@@ -241,7 +243,6 @@ export default {
                         })
                 }
             }
-            this.loadData()
         },
         loadData() {
             // require
@@ -259,7 +260,6 @@ export default {
                         level: 'warning'
                     })
                 })
-            // do sth
             getPrivacyInfo({
                 ID: this.$store.state.userInfo.ID
             })

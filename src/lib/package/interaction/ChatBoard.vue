@@ -481,6 +481,7 @@ export default {
     border-radius: 5px;
     background-color: var(--item-bg-color);
 }
+
 /* 聊天区域 */
 .chat {
     width: 100%;

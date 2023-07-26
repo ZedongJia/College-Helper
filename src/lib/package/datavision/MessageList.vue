@@ -134,7 +134,7 @@ export default {
     height: 0px;
     background: var(--item-bg-color);
     border-radius: 5px;
-    transition: 0.5s;
+    transition: 0.75s;
 }
 
 .list li:hover .hover-fill {

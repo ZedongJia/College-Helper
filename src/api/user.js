@@ -201,7 +201,7 @@ export function updateUserInfo (params) {
             if (data.status) {
                 resolve(data.userInfo)
             } else {
-                reject(response)
+                reject(data.error)
             }
         }).catch(() => {
             raise('网络故障，请重试')
@@ -250,103 +250,127 @@ export function updatePrivacyInfo (params) {
             if (data.status) {
                 resolve(response)
             } else {
-                reject(response)
+                reject(data.error)
             }
         }).catch(() => {
             raise('网络故障，请重试')
         })
     })
 }
-
-export function getTruePrivacy (params) {
+/**
+ * @param {{ID:int}} params
+ * @returns {Promise}
+ * then((openDict)=>{})
+ */
+export function getOpenInfo (params) {
     return new Promise((resolve, reject) => {
         axios({
-            url: 'user/getTruePrivacy/',
+            url: 'user/getOpenInfo/',
             method: 'GET',
             params
         }).then(response => {
-            if (response.data - STATE.NOT_FOUND === 0) {
-                reject(response)
+            const data = response.data
+            if (data.status) {
+                resolve(data.openDict)
             } else {
-                resolve(response)
+                reject(data.error)
             }
         }).catch(() => {
             raise('网络故障，请重试')
         })
     })
 }
-
+/**
+ * @param {{ID:int}} params
+ * @returns {Promise}
+ * then((browseInfo)=>{})
+ */
 export function getBrowseInfo (params) {
     return new Promise((resolve, reject) => {
         axios({
-            url: 'user/browseInfo/',
+            url: 'user/getBrowseInfo/',
             method: 'GET',
             params
         }).then(response => {
-            if (response.data - STATE.NOT_FOUND === 0) {
-                reject(response)
+            const data = response.data
+            if (data.status) {
+                resolve(data.browseInfo)
             } else {
-                resolve(response)
+                reject(data.error)
             }
         }).catch(() => {
             raise('网络故障，请重试')
         })
     })
 }
-
+/**
+ * 注意时间需要和分组的时间进行拼接再返回
+ * @param {{ID,time,typeof,content}} params
+ * @returns {Promise}
+ */
 export function deleteBrowseInfo (params) {
     return new Promise((resolve, reject) => {
         axios({
-            url: 'user/browseInfo/',
+            url: 'user/getBrowseInfo/',
             method: 'POST',
             data: params,
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(response => {
-            if (response.data - STATE.NOT_FOUND === 0) {
-                reject(response)
-            } else {
+            const data = response.data
+            if (data.status) {
                 resolve(response)
+            } else {
+                reject(response)
             }
         }).catch(() => {
             raise('网络故障，请重试')
         })
     })
 }
-
-export function getCollectedInfo (params) {
+/**
+ * @param {{ID:int}} params
+ * @returns {Promise}
+ * then((collectionInfo)=>{})
+ */
+export function getCollectionInfo (params) {
     return new Promise((resolve, reject) => {
         axios({
-            url: 'user/collectedInfo/',
+            url: 'user/getCollectionInfo/',
             method: 'GET',
             params
         }).then(response => {
-            if (response.data - STATE.NOT_FOUND === 0) {
-                reject(response)
+            const data = response.data
+            if (data.status) {
+                resolve(data.collectionInfo)
             } else {
-                resolve(response)
+                reject(data.error)
             }
         }).catch(() => {
             raise('网络故障，请重试')
         })
     })
 }
-
-export function deleteCollectedInfo (params) {
+/**
+ * @param {{ID,time,typeof,content}} params
+ * @returns {Promise}
+ */
+export function deleteCollectionInfo (params) {
     return new Promise((resolve, reject) => {
         axios({
-            url: 'user/collectedInfo/',
+            url: 'user/getCollectionInfo/',
             method: 'POST',
             data: params,
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(response => {
-            if (response.data - STATE.NOT_FOUND === 0) {
-                reject(response)
-            } else {
+            const data = response.data
+            if (data.status) {
                 resolve(response)
+            } else {
+                reject(response)
             }
         }).catch(() => {
             raise('网络故障，请重试')
@@ -354,20 +378,20 @@ export function deleteCollectedInfo (params) {
     })
 }
 
-export function getMessageList (params) {
-    return new Promise((resolve, reject) => {
-        axios({
-            url: 'user/getMessageList/',
-            method: 'GET',
-            params
-        }).then(response => {
-            if (response.data - STATE.NOT_FOUND === 0) {
-                reject(response)
-            } else {
-                resolve(response)
-            }
-        }).catch(() => {
-            raise('网络故障，请重试')
-        })
-    })
-}
+// export function getMessageList (params) {
+//     return new Promise((resolve, reject) => {
+//         axios({
+//             url: 'user/getMessageList/',
+//             method: 'GET',
+//             params
+//         }).then(response => {
+//             if (response.data - STATE.NOT_FOUND === 0) {
+//                 reject(response)
+//             } else {
+//                 resolve(response)
+//             }
+//         }).catch(() => {
+//             raise('网络故障，请重试')
+//         })
+//     })
+// }

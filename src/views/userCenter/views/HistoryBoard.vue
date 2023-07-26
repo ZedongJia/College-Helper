@@ -1,19 +1,26 @@
 <template>
+    <EmptyHint v-if="isEmpty"></EmptyHint>
     <MessageList
-        style="width: 70%;"
+        v-else
+        style="width: 100%"
         :messageDict="historyDict"
-        :headers="['时间','查询分类','内容']"
-        :colWidth="[10, 20, 70]"
+        :headers="['时间', '查询分类', '内容']"
+        :colWidth="[15, 20, 65]"
         @query="turnTo"
         @del="del"
     ></MessageList>
 </template>
 <script>
-import { getBrowseInfo } from '@/api/user'
+import { getBrowseInfo, deleteBrowseInfo } from '@/api/user'
 export default {
     data() {
         return {
             historyDict: {}
+        }
+    },
+    computed: {
+        isEmpty() {
+            return JSON.stringify(this.historyDict) === '{}'
         }
     },
     methods: {
@@ -39,72 +46,42 @@ export default {
             })
         },
         del(group, index) {
-            // todo
+            const { time, type, content } = this.historyDict[group][index]
+            deleteBrowseInfo({
+                ID: this.$store.state.userInfo.ID,
+                time: group + time,
+                type: type,
+                content: content
+            })
+                .then(() => {
+                    this.$store.commit('prompt/trigger', '删除成功')
+                    this.loadData()
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
+        },
+        loadData() {
+            // require
+            getBrowseInfo({
+                ID: this.$store.state.userInfo.ID
+            })
+                .then((browseInfo) => {
+                    this.historyDict = browseInfo
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
         }
     },
     created() {
-        // require
-        getBrowseInfo({
-                id: this.$store.state.userInfo.ID
-            })
-                .then((response) => {
-                    if (JSON.stringify(response.data) !== '{}') {
-                        const temp = response.data
-                        for (let i = 0; i < temp.length; i++) {
-                            // 获取日期
-                            const datatime = temp[i].time.split(' ')[0]
-                            // 获取时间
-                            temp[i].time = temp[i].time.split(' ')[1]
-                            if (datatime in this.historyDict) {
-                                this.historyDict[datatime].push(temp[i])
-                            } else {
-                                this.historyDict[datatime] = [temp[i]]
-                            }
-                        }
-                        console.log(this.historyDict)
-                    } else {
-                        console.log('失败')
-                    }
-                })
-                .catch(() => {
-                    console.log('网络故障，请重试')
-                })
-        // this.historyDict = {
-        //     '2021-5-6': [
-        //         {
-        //             time: '8:59',
-        //             type: '实体查询',
-        //             content: '玉米'
-        //         },
-        //         {
-        //             time: '8:59',
-        //             type: '实体识别',
-        //             content: '袁隆平是xxx得到的'
-        //         },
-        //         {
-        //             time: '8:59',
-        //             type: '关系查询',
-        //             content: '玉米属于植物'
-        //         }
-        //     ],
-        //     '2021-5-5': [
-        //         {
-        //             time: '8:59',
-        //             type: '实体查询',
-        //             content: '玉米'
-        //         },
-        //         {
-        //             time: '8:59',
-        //             type: '实体识别',
-        //             content: '袁隆平是xxx得到的'
-        //         },
-        //         {
-        //             time: '8:59',
-        //             type: '关系查询',
-        //             content: '玉米属于植物'
-        //         }
-        //     ]
-        // }
+        this.loadData()
     }
 }
 </script>
