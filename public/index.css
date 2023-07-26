@@ -157,6 +157,13 @@ textarea {
     align-items: center;
 }
 
+.flex-row-between {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .flex-column {
     display: flex;
     flex-flow: column nowrap;

@@ -19,13 +19,14 @@
                 <span class="form-title">{{ input.title }}</span>
                 <label
                     class="flex-row-center"
-                    v-for="(option, index) in input.options"
+                    v-for="option, index in input.options"
                     :key="option"
                 >
                     <input
                         type="radio"
                         name="check"
-                        :checked="inputsF[input.symbol] == input.labels[index]"
+                        :checked="input.labels[index] === input.value"
+                        @change="choice(input.symbol, input.labels[index])"
                     />
                     {{ option }}
                 </label>
@@ -63,11 +64,14 @@
                 :type="input.type"
                 v-model="inputsF[input.symbol]"
             />
-            <span :id="'id_' + input.symbol" class="error-prompt"></span>
+            <span
+                :id="'id_' + input.symbol"
+                class="error-prompt"
+            ></span>
         </div>
         <Button
             style="margin-top: 32px; flex: 0 0 180px"
-            @click="handleClick"
+            @clickIt="handleClick"
             >提交</Button
         >
         <div class="tip">
@@ -115,23 +119,11 @@ export default {
         },
         handleClick() {
             // deal form
-            this.decodeForm()
             this.decodeFile()
             this.$emit('receive', this.inputsF)
         },
-        decodeForm() {
-            const formNode = this.checkBox.map((e) =>
-                document.querySelector('#' + e)
-            )
-            formNode.forEach((e, index) => {
-                const checkboxs = e.querySelectorAll('input')
-                for (let i = 0; i < checkboxs.length; i++) {
-                    if (e.checked) {
-                        this.inputsF[checkboxs[index]] = e.value
-                        break
-                    }
-                }
-            })
+        choice(symbol, label) {
+            this.inputsF[symbol] = label
         },
         decodeFile() {
             const fileNode = this.fileBox.map((e) =>

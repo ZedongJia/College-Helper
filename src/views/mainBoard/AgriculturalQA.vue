@@ -34,32 +34,30 @@
             </div>
         </Board>
         <br />
-        <div class="row">
-            <div class="AgriQAColumns">
-                <div class="left">
-                    <Board>
-                        <Title title="答案："></Title>
-                    </Board>
-                    <AnswerBoard
-                        :isLoading="isLoading"
-                        isShow="true"
-                        :data="answer"
-                    >
-                    </AnswerBoard>
-                </div>
-                <div class="right">
-                    <Board>
-                        <Title title="图谱显示："></Title>
-                    </Board>
-                    <RelationGraph
-                        :isLoading="isLoading"
-                        :data="data"
-                        :link="link"
-                        isDraggable
-                        isAnimation
-                    >
-                    </RelationGraph>
-                </div>
+        <div class="flex-row-between" style="align-items: start;">
+            <div style="flex: 0 0 45%;">
+                <Board>
+                    <Title title="答案："></Title>
+                </Board>
+                <AnswerBoard
+                    :isLoading="isLoading"
+                    isShow="true"
+                    :data="answer"
+                >
+                </AnswerBoard>
+            </div>
+            <div style="flex: 0 0 50%;">
+                <Board>
+                    <Title title="图谱显示："></Title>
+                </Board>
+                <RelationGraph
+                    :isLoading="isLoading"
+                    :data="data"
+                    :link="link"
+                    isDraggable
+                    isAnimation
+                >
+                </RelationGraph>
             </div>
         </div>
     </div>
@@ -145,23 +143,5 @@ export default {
     font-size: 18px;
     cursor: pointer;
     transition: 0.5s;
-}
-
-/* 两列 */
-.AgriQAColumns {
-    width: 100%;
-}
-
-/* 左列宽度 */
-.AgriQAColumns .left {
-    float: left;
-    width: 40%;
-    justify-content: space-between;
-}
-
-/* 右列宽度 */
-.AgriQAColumns .right {
-    padding-left: 5%;
-    width: 60%;
 }
 </style>

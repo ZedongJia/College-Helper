@@ -18,7 +18,7 @@
             <EmptyHint v-if="JSON.stringify(personInfo) === '{}'"></EmptyHint>
             <keep-alive :max="10" v-else>
                 <ChatBoard
-                    style="height: 500px"
+                    style="height: 100%"
                     :title="personInfo.username"
                     :info="personInfo"
                     :key="personInfo.username"
@@ -57,7 +57,7 @@ export default {
             // 请求人员数据
             const image = 'http://localhost:8000/gallery/match/?ID=5'
             const talkToPerson = this.temperoaryDict[group][index]
-            this.personInfo.username = talkToPerson.nickname
+            this.personInfo.username = talkToPerson.info.content
             this.personInfo.image = image
         },
         del(group, indx) {

@@ -78,7 +78,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-import { getUserAllInfo, updateUserInfo, getPrivacyInfo, updatePrivacyInfo, getBrowseInfo, deleteBrowseInfo, getCollectedInfo, deleteCollectedInfo, getMessageList, getTruePrivacy } from '@/api/user'
+import { getUserInfo, updateUserInfo, getPrivacyInfo, updatePrivacyInfo, getBrowseInfo, deleteBrowseInfo, getCollectedInfo, deleteCollectedInfo, getMessageList, getTruePrivacy } from '@/api/user'
 export default {
     data() {
         return {
@@ -123,7 +123,7 @@ export default {
     methods: {
         getUserAllInfo1() {
             console.log(this.$store.state.userInfo.ID)
-            getUserAllInfo({
+            getUserInfo({
                 id: this.$store.state.userInfo.ID
             })
                 .then((response) => {

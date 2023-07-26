@@ -1,6 +1,6 @@
 import { axios, STATE } from './index.js'
 import store from '@/store/index.js'
-
+// ------------------------------登录注册-------------------------
 /**
  * @param {String} msg 报错信息
  */
@@ -36,6 +36,7 @@ export function loginGET (params) {
 /**
  * 快速登陆API
  * @param {{phone: str, code: str}} params
+ * @returns {Promise}
  */
 export function quickGET (params) {
     return new Promise((resolve, reject) => {
@@ -84,6 +85,7 @@ export function registerPOST (params) {
 }
 /**
  * 验证码获取API
+ * @returns {Promise}
  */
 export function codeGET () {
     return new Promise((resolve, reject) => {
@@ -105,6 +107,7 @@ export function codeGET () {
 /**
  * 修改密码
  * @param {{ID:int, password: String}} params
+ * @returns {Promise}
  */
 export function pwPOST (params) {
     return new Promise((resolve, reject) => {
@@ -156,17 +159,23 @@ export function stateGET (params, error) {
     })
 }
 
-export function getUserAllInfo (params) {
+// ----------------------------------个人信息----------------------------
+/**
+ * @param {{ID:int}} params
+ * @returns {Promise}
+ */
+export function getUserInfo (params) {
     return new Promise((resolve, reject) => {
         axios({
             url: 'user/userInfo/',
             method: 'GET',
             params
         }).then(response => {
-            if (response.data - STATE.NOT_FOUND === 0) {
-                reject(response)
+            const data = response.data
+            if (data.status) {
+                resolve(data.userInfo)
             } else {
-                resolve(response)
+                reject(data.error)
             }
         }).catch(() => {
             raise('网络故障，请重试')
@@ -174,6 +183,10 @@ export function getUserAllInfo (params) {
     })
 }
 
+/**
+ * @param {{ID:int, userInfo:{}}} params
+ * @returns {Promise}
+ */
 export function updateUserInfo (params) {
     return new Promise((resolve, reject) => {
         axios({
@@ -184,10 +197,11 @@ export function updateUserInfo (params) {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(response => {
-            if (response.data - STATE.NOT_FOUND === 0) {
-                reject(response)
+            const data = response.data
+            if (data.status) {
+                resolve(data.userInfo)
             } else {
-                resolve(response)
+                reject(response)
             }
         }).catch(() => {
             raise('网络故障，请重试')
@@ -195,6 +209,10 @@ export function updateUserInfo (params) {
     })
 }
 
+/**
+ * @param {{ID:int}} params
+ * @returns {Promise}
+ */
 export function getPrivacyInfo (params) {
     return new Promise((resolve, reject) => {
         axios({
@@ -202,10 +220,11 @@ export function getPrivacyInfo (params) {
             method: 'GET',
             params
         }).then(response => {
-            if (response.data - STATE.NOT_FOUND === 0) {
-                reject(response)
+            const data = response.data
+            if (data.status) {
+                resolve(data.privacyInfo)
             } else {
-                resolve(response)
+                reject(data.error)
             }
         }).catch(() => {
             raise('网络故障，请重试')
@@ -213,6 +232,10 @@ export function getPrivacyInfo (params) {
     })
 }
 
+/**
+ * @param {{k:v}} params
+ * @returns
+ */
 export function updatePrivacyInfo (params) {
     return new Promise((resolve, reject) => {
         axios({
@@ -223,10 +246,11 @@ export function updatePrivacyInfo (params) {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(response => {
-            if (response.data - STATE.NOT_FOUND === 0) {
-                reject(response)
-            } else {
+            const data = response.data
+            if (data.status) {
                 resolve(response)
+            } else {
+                reject(response)
             }
         }).catch(() => {
             raise('网络故障，请重试')

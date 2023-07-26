@@ -1,23 +1,23 @@
 <template>
-    <div class="info-box flex-row-evenly">
-        <div style="flex: 0 0 40%;">
+    <div class="info-box flex-row-between">
+        <div style="flex: 0 0 75%; padding-left: 64px">
             <InfoForm
                 v-if="pointer === 0"
-                style="width: 100%"
+                style="width: 70%"
                 title="信息修改"
                 :inputs="infoInputs"
                 @receive="r"
             ></InfoForm>
             <InfoForm
                 v-if="pointer === 1"
-                style="width: 80%"
+                style="width: 60%"
                 title="密码修改"
                 :inputs="pwInputs"
                 @receive="r"
             ></InfoForm>
             <InfoForm
                 v-if="pointer === 2"
-                style="width: 100%"
+                style="width: 70%"
                 title="隐私设置"
                 :inputs="privInputs"
                 @receive="r"
@@ -41,6 +41,13 @@
     </div>
 </template>
 <script>
+import {
+    getUserInfo,
+    updateUserInfo,
+    pwPOST,
+    getPrivacyInfo,
+    updatePrivacyInfo
+} from '@/api/user'
 import { Validator } from '@/utils/validation'
 export default {
     data() {
@@ -80,7 +87,7 @@ export default {
                 {
                     type: 'text',
                     title: 'QQ',
-                    symbol: 'qq',
+                    symbol: 'QQ',
                     icon: 'paw-outline'
                 },
                 {
@@ -107,17 +114,17 @@ export default {
             privInputs: [
                 {
                     type: 'checkbox',
-                    title: '是否显示',
-                    options: ['是', '否'],
-                    labels: ['true', 'false'],
-                    symbol: 'gender_priv'
-                },
-                {
-                    type: 'checkbox',
                     title: '是否显示电话',
                     options: ['是', '否'],
                     labels: ['true', 'false'],
                     symbol: 'telephone_priv'
+                },
+                {
+                    type: 'checkbox',
+                    title: '是否显示',
+                    options: ['是', '否'],
+                    labels: ['true', 'false'],
+                    symbol: 'gender_priv'
                 },
                 {
                     type: 'checkbox',
@@ -131,7 +138,7 @@ export default {
                     title: '是否显示QQ',
                     options: ['是', '否'],
                     labels: ['true', 'false'],
-                    symbol: 'qq_priv'
+                    symbol: 'QQ_priv'
                 },
                 {
                     type: 'checkbox',
@@ -155,7 +162,6 @@ export default {
     },
     methods: {
         r(receive) {
-            console.log(receive)
             switch (this.pointer) {
                 case 0: {
                     // 验证email, phone
@@ -175,7 +181,14 @@ export default {
                         isValid = false
                     }
                     if (isValid) {
-                        // do sth
+                        updateUserInfo({
+                            ID: this.$store.state.userInfo.ID,
+                            ...receive
+                        }).then((userInfo) => {
+                            this.$store.commit('prompt/trigger', '修改成功')
+                            // 更新
+                            this.$store.commit('userInfo/update', userInfo)
+                        })
                     }
                     break
                 }
@@ -195,56 +208,103 @@ export default {
                         isValid = false
                     }
                     if (isValid) {
-                        // do sth
+                        // todo
+                        pwPOST({
+                            ID: this.$store.state.userInfo.ID,
+                            password: receive.password
+                        })
+                            .then((info) => {
+                                this.$store.commit('prompt/trigger', info)
+                            })
+                            .catch((error) => {
+                                this.$store.commit('prompt/trigger', {
+                                    msg: error,
+                                    level: 'warning'
+                                })
+                            })
                     }
                     break
                 }
                 case 2: {
-                    break
+                    updatePrivacyInfo({
+                        ID: this.$store.state.userInfo.ID,
+                        ...receive
+                    })
+                        .then(() => {
+                            this.$store.commit('prompt/trigger', '修改成功')
+                        })
+                        .catch((error) => {
+                            this.$store.commit('prompt/trigger', {
+                                msg: error,
+                                level: 'warning'
+                            })
+                        })
                 }
             }
+            this.loadData()
+        },
+        loadData() {
+            // require
+            getUserInfo({
+                ID: this.$store.state.userInfo.ID
+            })
+                .then((userInfo) => {
+                    Object.values(userInfo).forEach((item, index) => {
+                        this.infoInputs[index + 1].value = item
+                    })
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
+            // do sth
+            getPrivacyInfo({
+                ID: this.$store.state.userInfo.ID
+            })
+                .then((privacyInfo) => {
+                    Object.values(privacyInfo).forEach((item, index) => {
+                        this.privInputs[index].value = item
+                    })
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
         },
         to(index) {
             this.pointer = index
         }
     },
     created() {
-        // require
-        // do sth
-        const userInfo = {
-            imgUrl: '',
-            nickName: 'hh',
-            gender: 'male',
-            telephone: '1245745745',
-            email: '1144@qq.com',
-            qq: '1144',
-            weChat: '1144'
-        }
-        Object.values(userInfo).forEach((item, index) => {
-            this.infoInputs[index].value = item
-        })
+        this.loadData()
     }
 }
 </script>
 <style>
 .info-box {
     align-items: start;
-    padding: 15px;
+    padding: 15px 100px;
 }
 .info-options {
     position: relative;
-    width: 30%;
+    width: 25%;
     padding: 0 15px;
     border-left: 5px solid grey;
     border-radius: 10px;
 }
 .info-options .active::after {
     z-index: 100;
-    content: '<<';
+    content: '\2605';
     position: absolute;
     right: 0;
     width: 20px;
     height: 20px;
+    line-height: 20px;
+    font-size: 20px;
     font-weight: bold;
     border-radius: 50%;
     color: var(--item-bg-color);

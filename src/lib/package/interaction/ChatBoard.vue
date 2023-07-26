@@ -4,7 +4,7 @@
         class="flex-column-evenly"
         inset
     >
-        <Title style="margin: 10px 0 10px 0">{{ title }}</Title>
+        <Title>{{ title }}</Title>
         <hr />
         <div
             id="toBottom"
