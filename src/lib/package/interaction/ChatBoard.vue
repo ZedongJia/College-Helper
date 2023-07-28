@@ -24,7 +24,7 @@
                     <div class="left">
                         <img
                             :src="item.image"
-                            style="width: 48px;height: 48px;"
+                            style="width: 48px; height: 48px"
                             alt="头像"
                         />
                         <p class="username">{{ item.username }}</p>
@@ -122,7 +122,7 @@
             <!-- 输入框 -->
             <input
                 class="inputItem"
-                style="width: 70%"
+                style="width: 70%; border-radius: 5px 0 0 5px"
                 :style="{ cursor: canCommit ? '' : 'not-allowed' }"
                 :placeholder="
                     canCommit ? 'Enter Text...' : '点击按钮让AI闭嘴...'
@@ -132,7 +132,10 @@
                 @keyup.enter="commit"
             />
             <!-- 按钮 -->
-            <Button @clickIt="commit">
+            <Button
+                style="border-radius: 0 5px 5px 0"
+                @clickIt="commit"
+            >
                 <ion-icon
                     style="transform: scale(2)"
                     v-if="canCommit"

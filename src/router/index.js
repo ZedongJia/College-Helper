@@ -41,6 +41,7 @@ router.beforeEach(async (to, from) => {
         await stateGET({
             logout: false
         }, () => {
+            console.log('enter')
             store.commit('userInfo/refresh')
             router.push({
                 name: 'login'
