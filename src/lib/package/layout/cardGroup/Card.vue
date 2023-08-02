@@ -3,9 +3,13 @@
         <slot></slot>
     </div>
 </template>
+<script>
+export default {
+    name: 'Card'
+}
+</script>
 <style>
 .card {
-    padding: 10px;
     border-radius: 20px;
     background-color: var(--item-bg-color);
     color: var(--item-font-color);

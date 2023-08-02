@@ -14,22 +14,26 @@
                 style="
                     cursor: default;
                     position: relative;
-                    height: 400px;
-                    width: 300px;
+                    width: 250px;
+                    height: 180px;
                 "
             >
                 <div
                     style="
+                        text-align: center;
                         pointer-events: none;
                         user-select: none;
                         z-index: 10;
                     "
                 >
-                    <h3 style="text-align: center">
+                    <h3>
                         {{ item.title }}
                     </h3>
-                    <hr class="line" />
-                    <p style="margin: 0 30px">
+                    <hr
+                        class="line"
+                        style="margin: 1em"
+                    />
+                    <p>
                         {{ item.content }}
                     </p>
                 </div>
@@ -77,7 +81,11 @@ export default {
             // 可见卡片的数量
             visible: 3,
             // 是否拖动
-            isDraging: false
+            isDraging: false,
+            isRefresh: false,
+            // 第一张卡片移动偏移量
+            firstwidth: 0,
+            firstheight: 0
         }
     },
     computed: {
@@ -123,7 +131,6 @@ export default {
                     // 计算X,Y偏移量
                     this.poswidth = this.endX - this.startX
                     this.posheight = this.endY - this.startY
-                    console.log(this.poswidth, this.posheight)
                     // 重置初始值
                     this.startX = this.endX
                     this.startY = this.endY
@@ -204,16 +211,31 @@ export default {
             if (index === this.firstPage) {
                 style.opacity = 1
                 style.zIndex = 3
-                style.transitionTimingFunction = 'ease'
-                style.transitionDurotaten = '300ms'
-                style.transform =
-                    'translate3D(' +
-                    this.lastPosWidth / 100 +
-                    'px' +
-                    ',' +
-                    this.lastPosHeight / 100 +
-                    'px' +
-                    ',0px) '
+                style.transition = 'transform ease 700ms'
+                if (this.isRefresh) {
+                    style.transform =
+                        'translate(' +
+                        this.firstwidth +
+                        'px,' +
+                        this.firstheight +
+                        'px)'
+                    setTimeout(() => {
+                        this.firstPage =
+                            this.firstPage === this.pages.length - 1
+                                ? 0
+                                : this.firstPage + 1
+                        this.isRefresh = false
+                    }, 1400)
+                } else {
+                    style.transform =
+                        'translate3D(' +
+                        this.lastPosWidth / 100 +
+                        'px' +
+                        ',' +
+                        this.lastPosHeight / 100 +
+                        'px' +
+                        ',0px) '
+                }
                 return style
             }
         },
@@ -230,31 +252,47 @@ export default {
                     index - firstPage > 0
                         ? index - firstPage
                         : index - firstPage + length
-                style.opacity = 1
-                console.log(this.offsetRatio)
-                style.transform =
-                    'translate3D(0,0,' +
-                    -1 * 60 * (perIndex - this.offsetRatio) +
-                    'px' +
-                    ')'
-                style.transitionTimingFunction = 'ease'
-                style.transitionDurotaten = '300ms'
                 style.zIndex = visible - perIndex
+                style.transition = 'transform ease 700ms'
+                if (this.isRefresh) {
+                    style.transform =
+                        'translate(' +
+                        this.firstwidth +
+                        'px,' +
+                        this.firstheight +
+                        'px)'
+                        console.log(style)
+                } else {
+                    style.transform =
+                        'translate3D(0,0,' +
+                        -1 * 60 * (perIndex - this.offsetRatio) +
+                        'px' +
+                        ')'
+                }
             } else {
-                style.zIndex = 0
+                style.zIndex = -1
                 style.opacity = 0
                 style.transform = 'translate3D(0px,0px,-120px)'
             }
             return style
         },
         onTransitionEnd(index) {
-            const lastPage =
-                this.firstPage === 0
-                    ? this.pages.length - 1
-                    : this.firstPage - 1
-            // dom发生变化正在执行的动画滑动序列已经变为上一层
-            if (index === lastPage) {
-                this.animation = false
+            if (this.isRefresh) {
+                    this.firstwidth = 0 - this.firstwidth
+                    this.firstheight = 0 - this.firstheight
+                    this.isRefresh = !this.isRefresh
+                    console.log(this.isRefresh)
+            }
+        },
+        Refresh(index, centerX, centerY) {
+            this.isRefresh = true
+            let posneg = 1
+            if (index === 1 || index === 4) {
+                posneg = 3 - index > 0 ? 1 : -1
+                this.firstheight = posneg * centerY
+            } else {
+                this.firstwidth = (index % 3 === 0 ? 1 : -1) * centerX
+                this.firstheight = (index % 2 === 0 ? 1 : -1) * centerY
             }
         }
     }
@@ -263,12 +301,12 @@ export default {
 <style>
 .cardgroup {
     position: relative;
-    width: 300px;
-    height: 400px;
+    width: 250px;
+    height: 180px;
     perspective: 1000px;
-    perspective-origin: 50% 130%;
+    perspective-origin: 50% 150%;
     -webkit-perspective: 1000px;
-    -webkit-perspective-origin: 50% 130%;
+    -webkit-perspective-origin: 50% 150%;
 }
 .cardgroup li {
     position: absolute;

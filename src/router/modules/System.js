@@ -30,6 +30,10 @@ export default {
         {
             path: 'chatAI',
             component: () => import('@/views/ChatAI.vue')
+        },
+        {
+            path: 'interest',
+            component: () => import('@/views/Interest.vue')
         }
     ]
 }

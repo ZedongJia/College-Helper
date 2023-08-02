@@ -28,7 +28,7 @@ export default {
             menuData: [
                 {
                     name: '个性推荐',
-                    href: '/#',
+                    href: '/system/interest',
                     icon: 'chat'
                 },
                 {
