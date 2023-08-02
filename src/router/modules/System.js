@@ -25,14 +25,11 @@ export default {
             component: () => import('@/views/mainBoard/AgriculturalQA.vue')
         },
         {
-            path: 'chatAI',
-            component: () => import('@/views/ChatAI.vue')
-        },
-        {
             path: 'interest',
             component: () => import('@/views/Interest.vue')
         },
         {
+            path: 'chatAI',
             component: () => import('@/views/mainBoard/ChatAI.vue')
         },
         userCenter
