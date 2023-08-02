@@ -4,7 +4,7 @@
         class="flex-column-evenly"
         inset
     >
-        <Title style="margin: 10px 0 10px 0">加点什么呢</Title>
+        <Title>{{ title }}</Title>
         <hr />
         <div
             id="toBottom"
@@ -24,6 +24,7 @@
                     <div class="left">
                         <img
                             :src="item.image"
+                            style="width: 48px; height: 48px"
                             alt="头像"
                         />
                         <p class="username">{{ item.username }}</p>
@@ -105,19 +106,23 @@
         </div>
         <hr style="margin: 10px 0px 10px 0px" />
         <div
-            class="flex-row-evenly"
+            class="flex-row-center"
             style="width: 80%"
         >
             <!-- 清理聊天记录 -->
-            <img
-                src="@/assets/icons/clear.png"
+            <div
                 @click="appear = true"
                 class="clearImg"
-            />
+            >
+                <ion-icon
+                    style="transform: scale(2)"
+                    name="trash-outline"
+                ></ion-icon>
+            </div>
             <!-- 输入框 -->
             <input
                 class="inputItem"
-                style="width: 70%"
+                style="width: 70%; border-radius: 5px 0 0 5px"
                 :style="{ cursor: canCommit ? '' : 'not-allowed' }"
                 :placeholder="
                     canCommit ? 'Enter Text...' : '点击按钮让AI闭嘴...'
@@ -128,10 +133,19 @@
             />
             <!-- 按钮 -->
             <Button
+                style="border-radius: 0 5px 5px 0"
                 @clickIt="commit"
-                style="width: 15%; margin-left: 10px"
             >
-                {{ canCommit ? '提交' : '闭嘴' }}
+                <ion-icon
+                    style="transform: scale(2)"
+                    v-if="canCommit"
+                    name="send-outline"
+                ></ion-icon>
+                <ion-icon
+                    style="transform: scale(2)"
+                    v-else
+                    name="close-circle-outline"
+                ></ion-icon>
             </Button>
         </div>
         <PromptBox
@@ -151,7 +165,8 @@ export default {
     name: 'ChatBoard',
     props: {
         info: Object,
-        AImode: Boolean
+        AImode: Boolean,
+        title: String
     },
     computed: {
         typedText() {
@@ -356,19 +371,19 @@ export default {
                     }
                 })
             }
-        },
-        // 打字效果
-        printText(text) {
-            // const textContainer = document.getElementById('chatText')
-            this.printtext = text
-            const interval = setInterval(() => {
-                if (this.currentIndex <= this.printtext.length) {
-                    this.currentIndex++
-                } else {
-                    clearInterval(interval)
-                }
-            }, 25)
         }
+        // // 打字效果
+        // printText(text) {
+        //     // const textContainer = document.getElementById('chatText')
+        //     this.printtext = text
+        //     const interval = setInterval(() => {
+        //         if (this.currentIndex <= this.printtext.length) {
+        //             this.currentIndex++
+        //         } else {
+        //             clearInterval(interval)
+        //         }
+        //     }, 25)
+        // }
     },
     mounted() {
         setTimeout(() => {
@@ -451,10 +466,29 @@ export default {
 </script>
 
 <style>
+/* scrollbar */
+.chat::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: var(--bg-color);
+}
+
+.chat::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: var(--item-bg-color);
+}
+
+.chat::-webkit-scrollbar-button {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: var(--item-bg-color);
+}
+
 /* 聊天区域 */
 .chat {
     width: 100%;
-    height: 450px;
+    height: 400px;
     padding: 1%;
     overflow-x: hidden;
     overflow-y: auto;

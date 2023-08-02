@@ -9,18 +9,22 @@
             v-for="group in Object.keys(messageDict)"
             :key="group"
         >
-            <Title
-                :title="group"
-                style="border-bottom: 1px solid var(--item-bg-color)"
-            ></Title>
+            <div class="group-block flex-row-left">
+                <span class="icon"
+                    ><ion-icon
+                        style="transform: scale(2)"
+                        name="stats-chart-outline"
+                    ></ion-icon
+                ></span>
+                <span> {{ group }} </span>
+            </div>
             <br />
-            <li
-                class="flex-row header"
-            >
+            <div class="group-item">
+                <li class="flex-row header">
                 <span
                     v-for="(v, index) in headers"
                     :key="v"
-                    :Style="'flex: 0 0 ' + colWidth[index] + '%;'"
+                    :style="'flex: 0 0 ' + colWidth[index] + '%;'"
                 >
                     {{ v }}
                 </span>
@@ -34,13 +38,39 @@
                 <span
                     v-for="(v, index) in Object.values(item)"
                     :key="v"
-                    :Style="'flex: 0 0 ' + colWidth[index] + '%;'"
+                    :style="'flex: 0 0 ' + colWidth[index] + '%;'"
+                    class="flex-row-left"
                 >
-                    {{ v }}
+                    <span
+                        v-if="!!v.img || !!v.icon"
+                        class="prefix"
+                        ><img
+                            v-if="!!v.img"
+                            style="
+                                width: 32px;
+                                height: 32px;
+                                border-radius: 50%;
+                            "
+                            src="http://localhost:8000/gallery/match/?ID=5"
+                            alt=""
+                        />
+                        <ion-icon
+                            v-if="!!v.icon"
+                            style="transform: scale(1.5)"
+                            name="person-outline"
+                        ></ion-icon>
+                    </span>
+                    <span>{{ !!v.content ? v.content : v }}</span>
                 </span>
-                <Button @clickIt="del(group, index)" warn>Delete<i>!</i></Button>
+                <Button
+                    v-if="!nodel"
+                    @clickIt="del(group, index)"
+                    warn
+                    >Delete<i>!</i></Button
+                >
                 <i class="hover-fill"></i>
             </li>
+            </div>
         </span>
     </transition-group>
 </template>
@@ -50,7 +80,8 @@ export default {
     props: {
         messageDict: Object,
         colWidth: Array,
-        headers: Array
+        headers: Array,
+        nodel: Boolean
     },
     methods: {
         query(group, index) {
@@ -63,6 +94,30 @@ export default {
 }
 </script>
 <style>
+.list::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: var(--bg-color);
+}
+
+.list::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: var(--item-bg-color);
+}
+
+.list::-webkit-scrollbar-button {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: var(--item-bg-color);
+}
+
+.list {
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 .list .group {
     display: block;
     margin-bottom: 1em;
@@ -87,6 +142,25 @@ export default {
     color: var(--item-font-color);
 }
 
+.group-block {
+    width: 100%;
+    font-weight: bold;
+    font-size: 18px;
+    border-bottom: 2px solid grey;
+}
+
+.group-block .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+}
+
+.group-item {
+    padding: 0 32px;
+}
+
 .list .header {
     border-bottom: 1px solid grey;
 }
@@ -101,13 +175,6 @@ export default {
     color: grey;
 }
 
-.list li > span:nth-child(1) {
-    flex: 0 0 20%;
-}
-.list li > span:nth-child(2) {
-    flex: 0 0 15%;
-}
-
 .list li .hover-fill {
     z-index: -100;
     pointer-events: none;
@@ -119,7 +186,7 @@ export default {
     height: 0px;
     background: var(--item-bg-color);
     border-radius: 5px;
-    transition: 0.5s;
+    transition: 0.75s;
 }
 
 .list li:hover .hover-fill {
@@ -132,9 +199,35 @@ export default {
     position: absolute;
     right: 0;
     top: 50%;
+    display: none;
     transform: translate(0, -50%);
     min-width: 0;
     color: var(--font-color);
     background-color: transparent;
+}
+
+.list li:hover .btn {
+    display: inline-block;
+    animation: slide 0.25s ease-in-out forwards;
+}
+
+@keyframes slide {
+    0% {
+        opacity: 0;
+        transform: translate(20%, -50%);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0, -50%);
+    }
+}
+
+.list .group .prefix {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 16px;
+    width: 32px;
+    height: 48px;
 }
 </style>

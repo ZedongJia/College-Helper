@@ -13,6 +13,7 @@ export default {
 </script>
 <style>
 .full-screen {
+    z-index: 1000;
     position: fixed;
     top: 0;
     left: 0;

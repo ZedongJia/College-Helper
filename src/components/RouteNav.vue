@@ -2,100 +2,82 @@
     <Board
         class="flex-row-center wrapper"
         style="
-            margin-bottom: 20px;
+            /* margin-bottom: 20px; */
             justify-content: left;
             background-color: var(--item-bg-color);
         "
     >
-        <transition-group
-            name="slide-l"
-        >
+        <transition-group name="slide-l">
             <router-link
                 class="link"
                 v-for="(p, index) in pathList"
                 :key="index"
-                :to="getPath(index)"
+                :to="p.href"
             >
-                <img
-                    style="width: 32px"
-                    :src="getIcon(p)"
-                    alt="..."
-                />
-                <p>{{ getCHName(p) }} ></p>
+                <span class="icon"><ion-icon :name="p.icon"></ion-icon></span>
+                <span class="text">{{ p.name }} /</span>
             </router-link>
         </transition-group>
     </Board>
 </template>
 <script>
+import { mapState } from 'vuex'
+
 export default {
     name: 'RouteNav',
     data() {
         return {
             pathList: [],
-            icons: ['home', 'search', 'entity', 'relation', 'graph', 'chat']
+            exclude: ['system'],
+            include: [
+                {
+                    name: '详情页面',
+                    base: 'detailContent',
+                    icon: 'reader-outline'
+                }
+            ]
         }
+    },
+    computed: {
+        ...mapState({
+            menuList: (state) => state.menu.menuList
+        })
     },
     methods: {
         recalculatePath() {
-            const newPathList = this.$route.fullPath
-                .split('/')
-                .filter((item) => item !== '')
-            this.pathList = newPathList
-        },
-        getCHName(en) {
-            switch (en) {
-                case 'identification':
-                    return '实体识别'
-                case 'entitySearch':
-                    return '实体查询'
-                case 'relationSearch':
-                    return '关系查询'
-                case 'overview':
-                    return '农业知识概览'
-                case 'system':
-                    return '主页'
-                case 'agriculturalQA':
-                    return '农知问答'
-            }
-            if (en.startsWith('detailContent')) {
-                return decodeURI(en).split('=')[1] + '-详情页面'
-            } else {
-                return '未命名'
-            }
-        },
-        getPath(index) {
-            let path = ''
-            for (let i = 0; i <= index; i++) {
-                path += '/' + this.pathList[i]
-            }
-            return path
-        },
-        getIcon(en) {
-            let icon = ''
-            switch (en) {
-                case 'identification':
-                    icon = 'search'
-                    break
-                case 'entitySearch':
-                    icon = 'entity'
-                    break
-                case 'relationSearch':
-                    icon = 'relation'
-                    break
-                case 'overview':
-                    icon = 'graph'
-                    break
-                case 'system':
-                    icon = 'home'
-                    break
-                case 'agriculturalQA':
-                    icon = 'chat'
-                    break
-            }
-            if (en.startsWith('detailContent')) {
-                icon = 'content'
-            }
-            return icon !== '' ? require('../assets/icons/' + icon + '.png') : ''
+            this.pathList = []
+            const fullPath = this.$route.fullPath
+            const currPathList = fullPath.split('/')
+            currPathList.forEach((item) => {
+                if (!this.exclude.includes(item)) {
+                    if (item !== '') {
+                        if (item.includes('?')) {
+                            const newItem = item.substring(0, item.indexOf('?'))
+                            this.include.forEach((e) => {
+                                if (e.base === newItem) {
+                                    const href = fullPath.substring(
+                                        0,
+                                        fullPath.indexOf(item) + item.length
+                                    )
+                                    this.pathList.push({
+                                        name: e.name,
+                                        href: href,
+                                        icon: e.icon
+                                    })
+                                }
+                            })
+                        } else {
+                            for (let i = 0; i < this.menuList.length; i++) {
+                                // 匹配正常路径
+                                if (this.menuList[i].href.endsWith(item)) {
+                                    this.pathList.push(this.menuList[i])
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }
+            })
         }
     },
     mounted() {
@@ -111,11 +93,23 @@ export default {
 <style>
 .link {
     display: flex;
+    align-items: center;
     margin-right: 1em;
     height: 32px;
-    line-height: 32px;
     color: var(--item-font-color);
     transition: 1s;
+}
+.link .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+}
+.link .text {
+    padding-left: 0.02em;
+    height: 32px;
+    line-height: 32px;
 }
 .link:last-child {
     font-weight: bold;

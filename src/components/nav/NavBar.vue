@@ -1,10 +1,10 @@
 <template>
     <div id="nav-bar">
         <div style="display: flex; flex: row nowrap">
-            <HideButton
-                style="margin-top: 16px"
-                @click="emitHideMeg"
-            ></HideButton>
+            <span
+                class="menuToggle"
+                @click="switchMenu"
+            ></span>
             <span id="logo">垂直农业知识图谱</span>
         </div>
         <div class="flex-row-center">
@@ -29,13 +29,11 @@
     </div>
 </template>
 <script>
-import { logOutGET } from '@/api/user'
+import { stateGET } from '@/api/user'
 import Theme from '@/assets/theme'
-import HideButton from './components/HideButton.vue'
 import ThemeCheck from './components/ThemeCheck.vue'
 export default {
     components: {
-        HideButton,
         ThemeCheck
     },
     data() {
@@ -57,25 +55,22 @@ export default {
             switch (item.name) {
                 case '登出':
                     // todo
-                    logOutGET()
-                        .then((response) => {
-                            if (response.data - 200 === 0) {
-                                this.$store.commit('prompt/trigger', '登出成功')
-                                setTimeout(() => {
-                                    // turn style to light
-                                    this.isLight = true
-                                    this.$router.push('/')
-                                }, 1500)
-                            } else {
-                                this.$store.commit('prompt/trigger', {
-                                    msg: '登出失败，请重试',
-                                    level: 'warning'
-                                })
-                            }
+                    stateGET({
+                        logout: true
+                    })
+                        .then(() => {
+                            // 清空本地存储
+                            this.$store.commit('userInfo/refresh')
+                            this.$store.commit('prompt/trigger', '登出成功')
+                            setTimeout(() => {
+                                // turn style to light
+                                this.isLight = true
+                                this.$router.push('/')
+                            }, 1500)
                         })
                         .catch(() => {
                             this.$store.commit('prompt/trigger', {
-                                msg: '网络故障，请重试',
+                                msg: '登出失败，请重试',
                                 level: 'warning'
                             })
                         })
@@ -96,9 +91,9 @@ export default {
                 root.style.setProperty(k, newTheme[k])
             }
         },
-        emitHideMeg(e) {
-            this.$emit('hide', e)
-            e.stopPropagation()
+        switchMenu() {
+            this.$store.commit('menu/switchMenu')
+            document.querySelector('.menuToggle').classList.toggle('active')
         }
     },
     watch: {
@@ -174,5 +169,41 @@ export default {
         opacity: 1;
         transform: translate(-50%, 0);
     }
+}
+.menuToggle {
+    min-width: 60px;
+    height: 70px;
+    background: transparent;
+    z-index: 1000;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.menuToggle::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 3px;
+    background-color: var(--item-bg-color);
+    transform: translateY(-9px);
+    transition: 0.5s;
+    box-shadow: 0 9px 0 var(--item-bg-color);
+}
+.menuToggle::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 3px;
+    background-color: var(--item-bg-color);
+    transform: translateY(9px);
+    transition: 0.5s;
+}
+.menuToggle.active::before {
+    transform: translateY(0px) rotate(45deg);
+    box-shadow: 0 0 0 var(--item-bg-color);
+}
+.menuToggle.active::after {
+    transform: translateY(0px) rotate(-45deg);
 }
 </style>

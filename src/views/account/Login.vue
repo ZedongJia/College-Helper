@@ -1,85 +1,99 @@
 <template>
-    <InfoForm
-        title="登录"
-        :warning="warning"
-        :inputs="inputs"
-        :buttons="buttons"
-        @receive="r"
-        Popover
-    >
-        <template #tip>
-            <router-link :to="{ name: 'quickLogin' }"
-                ><b>快速登录</b></router-link
+    <div id="account-form">
+        <h1>登录</h1>
+        <div class="form-group">
+            <span class="icon">
+                <ion-icon name="person-circle-outline"></ion-icon>
+            </span>
+            <input
+                id="account"
+                type="text"
+                v-model="loginForm.account"
+                required
+            />
+            <span class="error-prompt"></span>
+            <label for="account">手机号或邮箱</label>
+            <span class="line"></span>
+        </div>
+        <div class="form-group">
+            <span class="icon">
+                <ion-icon name="key-outline"></ion-icon>
+            </span>
+            <input
+                id="password"
+                type="password"
+                v-model="loginForm.password"
+                required
+            />
+            <span class="error-prompt"></span>
+            <label for="password">密码</label>
+            <span class="line"></span>
+        </div>
+        <p>
+            <router-link
+                style="float: left"
+                :to="{ name: 'quickLogin' }"
+                >验证码登陆</router-link
             >
-            ,
-            <router-link :to="{ name: 'forget' }"><b>忘记密码?</b></router-link>
-        </template>
-    </InfoForm>
+            <router-link
+                style="float: right"
+                :to="{ name: 'forget' }"
+                >忘记密码?</router-link
+            >
+        </p>
+        <Button
+            @click="signIn"
+            style="
+                margin-top: 40px;
+                width: 80%;
+                height: 40px;
+                line-height: 40px;
+            "
+            >登录</Button
+        >
+        <p>还没有账号? <a @click="toRegister">去注册</a></p>
+    </div>
 </template>
 <script>
 import { loginGET } from '@/api/user.js'
 import { jumpTo } from '@/utils/callback.js'
+import { Validator } from '@/utils/validation.js'
 export default {
     data() {
         return {
-            inputs: [
-                {
-                    type: 'text',
-                    title: '账号',
-                    symbol: 'account'
-                },
-                {
-                    type: 'password',
-                    title: '密码',
-                    symbol: 'password'
-                }
-            ],
-            buttons: [
-                {
-                    title: '登录',
-                    symbol: 'login'
-                },
-                {
-                    title: '去注册',
-                    symbol: 'to register'
-                }
-            ],
-            warning: ''
+            loginForm: {
+                account: '',
+                password: ''
+            },
+            validator: new Validator(),
+            use: 'phone'
         }
     },
     methods: {
-        signIn(loginMsg) {
-            if (loginMsg.account === '') {
-                this.raise('账号信息不能为空')
-                return
-            } else if (loginMsg.password === '') {
-                this.raise('密码不能为空')
+        signIn() {
+            if (!this.validate()) {
                 return
             }
-            let userinfo = {}
             loginGET({
-                account: loginMsg.account,
-                password: loginMsg.password
+                account: this.loginForm.account,
+                password: this.loginForm.password,
+                use: this.use
             })
-                .then((response) => {
-                    if (JSON.stringify(response.data) !== '{}') {
-                        userinfo = response.data
-                        this.$store.commit('userInfo/update', userinfo)
-                        // 产生提示框
-                        this.$store.commit('prompt/trigger', '登陆成功')
-                        // 跳转
-                        jumpTo(() => {
-                            this.$router.push({
-                                path: '/system'
-                            })
+                .then((userInfo) => {
+                    this.$store.commit('userInfo/update', userInfo)
+                    // 产生提示框
+                    this.$store.commit('prompt/trigger', '登陆成功')
+                    // 跳转
+                    jumpTo(() => {
+                        this.$router.push({
+                            name: 'system'
                         })
-                    } else {
-                        this.raise('没有该用户的信息')
-                    }
+                    })
                 })
-                .catch(() => {
+                .catch((error) => {
+                    // '没有该用户的信息'
                     this.$store.commit('prompt/trigger', {
-                        msg: '网络故障，请重试',
+                        msg: error,
                         level: 'warning'
                     })
                 })
@@ -89,23 +103,36 @@ export default {
                 name: 'register'
             })
         },
-        r(e) {
-            switch (e.name) {
-                case 'login':
-                    this.signIn(e.inputsF)
-                    break
-                case 'to register':
-                    this.toRegister()
-                    break
+        validate() {
+            // 清空警告
+            document.querySelectorAll('.error-prompt').forEach((e) => {
+                e.innerHTML = ''
+            })
+
+            const res = this.validator.validate({
+                email: this.loginForm.account,
+                phone: this.loginForm.account,
+                password: this.loginForm.password
+            })
+            console.log(res)
+            let isValid = true
+            if (!res.password.result) {
+                document.querySelector('#password~.error-prompt').innerHTML =
+                    res.password.error
+                isValid = false
             }
-        },
-        /**
-         * 警告
-         * @param {String} msg message to raise
-         */
-        raise(msg) {
-            // 产生警告
-            this.warning = msg
+            if (res.email.result) {
+                this.use = 'email'
+            }
+            if (res.phone.result) {
+                this.use = 'phone'
+            }
+            if (!res.email.result && !res.phone.result) {
+                document.querySelector('#account~.error-prompt').innerHTML =
+                    '请输入正确的手机号或邮箱'
+                isValid = false
+            }
+            return isValid
         }
     }
 }

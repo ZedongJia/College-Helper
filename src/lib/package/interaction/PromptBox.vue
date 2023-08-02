@@ -82,6 +82,7 @@ export default {
 </script>
 <style scoped>
 .prompt-box {
+    z-index: 1000;
     position: fixed;
     padding: 16px 0;
     width: 300px;

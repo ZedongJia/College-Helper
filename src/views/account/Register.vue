@@ -1,80 +1,167 @@
 <template lang="">
-    <InfoForm
-        title="注册"
-        :warning="warning"
-        :inputs="inputs"
-        :buttons="buttons"
-        @receive="r"
-        Popover
-    ></InfoForm>
+    <div id="account-form">
+        <h1>注册</h1>
+        <div class="form-group">
+            <span class="icon">
+                <ion-icon name="person-circle-outline"></ion-icon>
+            </span>
+            <input
+                id="nickname"
+                type="text"
+                v-model="registForm.nickname"
+                required
+            />
+            <span class="error-prompt"></span>
+            <label for="nickname">用户名</label>
+            <span class="line"></span>
+        </div>
+        <div class="form-group">
+            <span class="icon">
+                <ion-icon name="mail-outline"></ion-icon>
+            </span>
+            <input
+                id="email"
+                type="text"
+                v-model="registForm.email"
+                required
+            />
+            <span class="error-prompt"></span>
+            <label for="email">邮箱</label>
+            <span class="line"></span>
+        </div>
+        <div class="form-group">
+            <span class="icon">
+                <ion-icon name="call-outline"></ion-icon>
+            </span>
+            <input
+                id="phone"
+                type="text"
+                v-model="registForm.phone"
+                required
+            />
+            <span class="error-prompt"></span>
+            <label for="phone">电话</label>
+            <span class="line"></span>
+        </div>
+        <div class="form-group">
+            <span class="icon">
+                <ion-icon name="key-outline"></ion-icon>
+            </span>
+            <input
+                id="password"
+                type="password"
+                v-model="registForm.password"
+                required
+            />
+            <span class="error-prompt"></span>
+            <label for="password">密码</label>
+            <span class="line"></span>
+        </div>
+        <div class="form-group">
+            <span class="icon">
+                <ion-icon name="key-outline"></ion-icon>
+            </span>
+            <input
+                id="confirm"
+                type="password"
+                v-model="registForm.confirm"
+                required
+            />
+            <span class="error-prompt"></span>
+            <label for="confirm">确认密码</label>
+            <span class="line"></span>
+        </div>
+        <div class="form-group">
+            <span class="icon">
+                <ion-icon name="code-working-outline"></ion-icon>
+            </span>
+            <input
+                style="width: 50%"
+                id="code"
+                type="text"
+                v-model="registForm.code"
+                required
+            />
+            <span
+                style="right: 50%"
+                class="error-prompt"
+            ></span>
+            <label for="code">验证码</label>
+            <span class="line"></span>
+            <Button
+                @click="sendCode($event)"
+                style="width: 50%; height: 40px; line-height: 40px"
+                >点击发送验证码
+            </Button>
+        </div>
+        <Button
+            @click="signUp"
+            style="
+                margin-top: 40px;
+                width: 80%;
+                height: 40px;
+                line-height: 40px;
+            "
+            >注册</Button
+        >
+        <p>已有账号？<a @click="toLogin">去登录</a></p>
+    </div>
 </template>
 <script>
-import { registerPOST } from '@/api/user.js'
+import { Validator } from '@/utils/validation.js'
+import { registerPOST, codeGET } from '@/api/user.js'
 import { jumpTo } from '@/utils/callback'
 export default {
     data() {
         return {
-            inputs: [
-                {
-                    type: 'text',
-                    title: '账号',
-                    symbol: 'account'
-                },
-                {
-                    type: 'password',
-                    title: '密码',
-                    symbol: 'password'
-                },
-                {
-                    type: 'password',
-                    title: '再次确认密码',
-                    symbol: 'confirm'
-                }
-            ],
-            buttons: [
-                {
-                    title: '注册',
-                    symbol: 'register'
-                },
-                {
-                    title: '去登录',
-                    symbol: 'to login'
-                }
-            ],
-            warning: ''
+            registForm: {
+                nickname: '',
+                email: '',
+                phone: '',
+                password: '',
+                confirm: '',
+                code: ''
+            },
+            validator: new Validator()
         }
     },
     methods: {
-        signUp(registerMsg) {
-            // 校验
-            if (registerMsg.account === '') {
-                this.raise('账号信息不能为空')
+        signUp() {
+            if (!this.validate()) {
                 return
-            } else if (registerMsg.password === '') {
-                this.raise('密码不能为空')
-                return
-            } else if (registerMsg.confirm !== registerMsg.password) {
-                this.raise('密码与确认密码必须相同')
             }
-            let state = -1
             registerPOST({
-                account: registerMsg.account,
-                password: registerMsg.password
+                nickname: this.registForm.nickname,
+                email: this.registForm.email,
+                phone: this.registForm.phone,
+                password: this.registForm.password,
+                code: this.registForm.code
             })
-                .then((response) => {
-                    state = response.data
-                    if (state - 200 === 0) {
-                        this.$store.commit('prompt/trigger', '注册成功')
-                        jumpTo(() => {
-                            this.toLogin()
-                        })
-                    } else {
-                        this.raise('该用户已注册')
-                    }
+                .then((info) => {
+                    this.$store.commit('prompt/trigger', info)
+                    jumpTo(() => {
+                        this.toLogin()
+                    })
                 })
-                .catch(() => {
+                .catch((error) => {
                     this.$store.commit('prompt/trigger', {
-                        msg: '网络故障，请重试',
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
+        },
+        sendCode(e) {
+            if (!this.validate(false)) {
+                return
+            }
+            codeGET()
+                .then((info) => {
+                    this.$store.commit('prompt/trigger', info)
+                    this.countDown(e)
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
                         level: 'warning'
                     })
                 })
@@ -84,23 +171,65 @@ export default {
                 name: 'login'
             })
         },
-        r(e) {
-            switch (e.name) {
-                case 'register':
-                    this.signUp(e.inputsF)
-                    break
-                case 'to login':
-                    this.toLogin()
-                    break
+        validate(checkCode = true) {
+            // 清空警告
+            document.querySelectorAll('.error-prompt').forEach((e) => {
+                e.innerHTML = ''
+            })
+
+            const res = this.validator.validate({
+                email: this.registForm.email,
+                phone: this.registForm.phone,
+                password: this.registForm.password
+            })
+            let isValid = true
+            if (this.registForm.nickname === '') {
+                document.querySelector('#nickname~.error-prompt').innerHTML =
+                    '用户名不能为空'
+                isValid = false
             }
+            if (!res.password.result) {
+                document.querySelector('#password~.error-prompt').innerHTML =
+                    res.password.error
+                isValid = false
+            }
+            if (!res.email.result) {
+                document.querySelector('#email~.error-prompt').innerHTML =
+                    res.email.error
+                isValid = false
+            }
+            if (!res.phone.result) {
+                document.querySelector('#phone~.error-prompt').innerHTML =
+                    res.phone.error
+                isValid = false
+            }
+            if (this.registForm.confirm !== this.registForm.password) {
+                document.querySelector('#confirm~.error-prompt').innerHTML =
+                    '确认密码必须与密码相同'
+                isValid = false
+            }
+            if (checkCode && this.registForm.code === '') {
+                document.querySelector('#code~.error-prompt').innerHTML =
+                    '验证码不能为空'
+                isValid = false
+            }
+            return isValid
         },
-        /**
-         * 警告
-         * @param {String} msg message to raise
-         */
-        raise(msg) {
-            // 产生警告
-            this.warning = msg
+        countDown(e) {
+            // 倒计时
+            e.target.setAttribute('disabled', true)
+            e.target.style.cursor = 'not-allowed'
+            let time = 60
+            e.target.innerHTML = time
+            const cdEvent = setInterval(() => {
+                time -= 1
+                if (time <= 0) {
+                    clearInterval(cdEvent)
+                    e.target.setAttribute('disabledx', false)
+                    e.target.style.cursor = 'pointer'
+                }
+                e.target.innerHTML = time
+            }, 1000)
         }
     }
 }

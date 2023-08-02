@@ -59,14 +59,17 @@ textarea {
 }
 /* Global animation */
 
-.list-move,
 .list-enter-active,
 .list-leave-active {
-    transition: all 0.5s ease;
+    transition: all 0.25s ease;
 }
 
-.list-enter-from,
-.list-leave-to {
+.list-enter-from {
+    transform: translate(0, 100%);
+    opacity: 0;
+}
+.list-enter-to {
+    transform: translate(0, -100%);
     opacity: 0;
 }
 
@@ -154,6 +157,13 @@ textarea {
     align-items: center;
 }
 
+.flex-row-between {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .flex-column {
     display: flex;
     flex-flow: column nowrap;
@@ -188,8 +198,8 @@ input[type='radio'] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    margin: 0  8px 0 16px;
-    width: 1px;
+    margin: 0 8px 0 16px;
+    width: 20px;
     height: 32px;
 }
 
@@ -199,7 +209,7 @@ input[type='radio']::before {
     position: absolute;
     top: 50%;
     left: 0;
-    transform: translate(-100%, -50%);
+    transform: translate(0, -50%);
     background: var(--bg-color);
     width: 20px;
     height: 20px;
@@ -227,8 +237,9 @@ input[type='radio']:checked::before {
 }
 
 a {
-  color: var(--bg-font-color);
-  transition: 0.25s;
+    cursor: pointer;
+    color: var(--bg-font-color);
+    transition: 0.25s;
 }
 a:hover {
     color: var(--item-bg-rev-color);

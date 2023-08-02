@@ -26,7 +26,6 @@ export default {
     color: var(--item-font-color);
     border-radius: 2px;
     transition: 0.5s;
-
 }
 .shade {
     box-shadow: 7px 7px 10px 3px #24004628;

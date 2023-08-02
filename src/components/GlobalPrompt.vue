@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <PromptBox
         :title="prompt"
         noConfirm
@@ -18,4 +18,4 @@ export default {
     }
 }
 </script>
-<style lang=""></style>
+<style></style>

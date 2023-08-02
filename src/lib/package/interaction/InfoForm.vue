@@ -1,17 +1,11 @@
 <template>
-    <div
-        :class="{
-            frame: true,
-            'fade-in': true,
-            popover: Popover
-        }"
-    >
-        <h1
+    <div class="frame fade-in">
+        <Title
             v-if="title !== ''"
             class="input-title"
         >
             {{ title }}
-        </h1>
+        </Title>
         <div
             class="input-box"
             v-for="input in inputs"
@@ -25,13 +19,14 @@
                 <span class="form-title">{{ input.title }}</span>
                 <label
                     class="flex-row-center"
-                    v-for="option in input.options"
+                    v-for="option, index in input.options"
                     :key="option"
                 >
                     <input
                         type="radio"
                         name="check"
-                        :checked="inputsF[input.symbol] == option"
+                        :checked="input.labels[index] === input.value"
+                        @change="choice(input.symbol, input.labels[index])"
                     />
                     {{ option }}
                 </label>
@@ -64,23 +59,21 @@
             </div>
             <Input
                 v-else
+                :icon="input.icon"
                 :title="input.title"
                 :type="input.type"
                 v-model="inputsF[input.symbol]"
             />
+            <span
+                :id="'id_' + input.symbol"
+                class="error-prompt"
+            ></span>
         </div>
-        <div v-if="Popover">
-            <p class="warning-text">{{ warning }} <slot></slot></p>
-        </div>
-        <div class="button-box">
-            <Button
-                v-for="button in buttons"
-                :key="button"
-                @click.stop="handleClick(button.symbol)"
-            >
-                {{ button.title }}
-            </Button>
-        </div>
+        <Button
+            style="margin-top: 32px; flex: 0 0 180px"
+            @clickIt="handleClick"
+            >提交</Button
+        >
         <div class="tip">
             <slot name="tip"></slot>
         </div>
@@ -89,33 +82,12 @@
 <script>
 export default {
     name: 'InfoForm',
-    /**
-     * inputs: [
-     *  {
-     *  type: 'text',
-     *  symbol: 'account'
-     * }
-     * ]
-     * buttons: [
-     *  'register',
-     *  'login'
-     * ]
-     */
     props: {
         title: {
             type: String,
             default: ''
         },
-        warning: {
-            type: String,
-            default: ''
-        },
-        Popover: Boolean,
         inputs: {
-            type: Array,
-            default: () => []
-        },
-        buttons: {
             type: Array,
             default: () => []
         }
@@ -145,29 +117,13 @@ export default {
             }, 1000)
             callback(this.inputsF.account)
         },
-        handleClick(symbol) {
-            const name = symbol
+        handleClick() {
             // deal form
-            this.decodeForm()
             this.decodeFile()
-            this.$emit('receive', {
-                name: name,
-                inputsF: this.inputsF
-            })
+            this.$emit('receive', this.inputsF)
         },
-        decodeForm() {
-            const formNode = this.checkBox.map((e) =>
-                document.querySelector('#' + e)
-            )
-            formNode.forEach((e, index) => {
-                const checkboxs = e.querySelectorAll('input')
-                for (let i = 0; i < checkboxs.length; i++) {
-                    if (e.checked) {
-                        this.inputsF[checkboxs[index]] = e.value
-                        break
-                    }
-                }
-            })
+        choice(symbol, label) {
+            this.inputsF[symbol] = label
         },
         decodeFile() {
             const fileNode = this.fileBox.map((e) =>
@@ -176,19 +132,32 @@ export default {
             fileNode.forEach((e, index) => {
                 this.inputsF[this.fileBox[index]] = e.files[0]
             })
+        },
+        loadData() {
+            for (let i = 0; i < this.inputs.length; i++) {
+                const value =
+                    this.inputs[i].value === undefined
+                        ? ''
+                        : this.inputs[i].value
+                this.inputsF[this.inputs[i].symbol] = value
+                if (this.inputs[i].type === 'checkbox') {
+                    this.checkBox.push(this.inputs[i].symbol)
+                }
+                if (this.inputs[i].type === 'file') {
+                    this.fileBox.push(this.inputs[i].symbol)
+                }
+            }
         }
     },
-    created() {
-        for (let i = 0; i < this.inputs.length; i++) {
-            const value =
-                this.inputs[i].value === undefined ? '' : this.inputs[i].value
-            this.inputsF[this.inputs[i].symbol] = value
-            if (this.inputs[i].type === 'checkbox') {
-                this.checkBox.push(this.inputs[i].symbol)
-            }
-            if (this.inputs[i].type === 'file') {
-                this.fileBox.push(this.inputs[i].symbol)
-            }
+    mounted() {
+        this.loadData()
+    },
+    watch: {
+        inputs: {
+            handler() {
+                this.loadData()
+            },
+            deep: true
         }
     }
 }
@@ -199,22 +168,8 @@ export default {
     width: 100%;
     display: flex;
     flex-flow: row wrap;
+    justify-content: center;
     align-items: center;
-}
-.popover {
-    z-index: 200;
-    width: 400px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 7px 7px 10px 3px #24004628;
-}
-
-.popover .input-box > * {
-    width: 80%;
 }
 
 .frame > * {
@@ -222,7 +177,7 @@ export default {
 }
 /* title */
 .input-title {
-    margin-top: 32px;
+    margin-bottom: 32px;
     font-size: 26px;
     text-align: center;
 }
@@ -243,14 +198,10 @@ export default {
     border-bottom: 2px solid var(--item-bg-color);
 }
 
-.form-box > * {
-    margin: 0 0.5em;
-}
-
 .form-box .form-title {
-    margin: 0 1em;
+    margin: 0 5px;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 /* 表单样式 */
@@ -294,14 +245,6 @@ export default {
     background-color: var(--item-bg-rev-color);
 }
 
-/* button css */
-.button-box {
-    margin-top: 32px;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-evenly;
-}
-
 .tip {
     margin: 5px 0;
     text-align: center;
@@ -312,6 +255,18 @@ export default {
     width: 80%;
     font-size: 18px;
     font-weight: bold;
+    color: red;
+}
+
+.error-prompt {
+    z-index: 200;
+    position: absolute;
+    top: -30px;
+    right: 0;
+    padding: 10px 0;
+    min-width: 1px;
+    height: 20px;
+    font-size: 12px;
     color: red;
 }
 </style>

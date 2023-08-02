@@ -4,7 +4,6 @@ import router from './router'
 import store from './store'
 import * as echarts from 'echarts'
 import akComponents from './lib/index'
-
 const app = createApp(App)
 app.config.globalProperties.echarts = echarts
 app.use(akComponents)
