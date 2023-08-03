@@ -148,15 +148,16 @@ export default {
             e.target.setAttribute('disabled', true)
             e.target.style.cursor = 'not-allowed'
             let time = 60
-            e.target.innerHTML = time
+            e.target.innerHTML = '已发送(' + time + ')'
             const cdEvent = setInterval(() => {
                 time -= 1
                 if (time <= 0) {
                     clearInterval(cdEvent)
-                    e.target.setAttribute('disabledx', false)
+                    e.target.setAttribute('disabled', false)
                     e.target.style.cursor = 'pointer'
+                    e.target.innerHTML = '点击发送验证码'
                 }
-                e.target.innerHTML = time
+                e.target.innerHTML = '已发送(' + time + ')'
             }, 1000)
         }
     }

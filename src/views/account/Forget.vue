@@ -75,7 +75,7 @@
                     required
                 />
                 <span class="error-prompt"></span>
-                <label for="password">密码</label>
+                <label for="password">密码(8~16位，包含字符、数字和符号)</label>
                 <span class="line"></span>
             </div>
             <div class="form-group">

@@ -59,7 +59,7 @@ export default {
 .btn::before {
     content: '';
     width: 0;
-    height: 500%;
+    height: 1000%;
     position: absolute;
     top: 50%;
     left: 50%;

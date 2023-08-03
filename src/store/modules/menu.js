@@ -1,7 +1,7 @@
 const MainMenu = [
     {
         name: '个性推荐',
-        href: '/#',
+        href: '/system/interest',
         icon: 'telescope-outline'
     },
     {

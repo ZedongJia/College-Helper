@@ -54,7 +54,7 @@
                 required
             />
             <span class="error-prompt"></span>
-            <label for="password">密码</label>
+            <label for="password">密码(8~16位，包含字符、数字和符号)</label>
             <span class="line"></span>
         </div>
         <div class="form-group">
@@ -220,15 +220,16 @@ export default {
             e.target.setAttribute('disabled', true)
             e.target.style.cursor = 'not-allowed'
             let time = 60
-            e.target.innerHTML = time
+            e.target.innerHTML = '已发送(' + time + ')'
             const cdEvent = setInterval(() => {
                 time -= 1
                 if (time <= 0) {
                     clearInterval(cdEvent)
-                    e.target.setAttribute('disabledx', false)
+                    e.target.setAttribute('disabled', false)
                     e.target.style.cursor = 'pointer'
+                    e.target.innerHTML = '点击发送验证码'
                 }
-                e.target.innerHTML = time
+                e.target.innerHTML = '已发送(' + time + ')'
             }, 1000)
         }
     }
