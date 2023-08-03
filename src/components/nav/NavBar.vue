@@ -115,7 +115,7 @@ export default {
     line-height: 64px;
     color: var(--font-color);
     font-weight: bold;
-    box-shadow: 0 1px 10px var(--item-bg-color);
+    box-shadow: 0 1px 10px var(--shade-color);
 }
 
 #logo {

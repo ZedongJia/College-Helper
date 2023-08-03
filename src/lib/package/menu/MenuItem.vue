@@ -28,7 +28,7 @@ export default {
     transition: 0.5s;
 }
 .shade {
-    box-shadow: 7px 7px 10px 3px #24004628;
+    box-shadow: 0 1px 4px 0.5px var(--shade-color);
 }
 .dynamic:hover {
     transform: translate(10%, 0);

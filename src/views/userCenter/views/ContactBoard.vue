@@ -47,6 +47,22 @@ export default {
                             content: 'lizi'
                         }
                     }
+                ],
+                好友: [
+                    {
+                        time: '8:59',
+                        info: {
+                            img: 'http://localhost:8000/gallery/match/?ID=5',
+                            content: 'zhangsan'
+                        }
+                    },
+                    {
+                        time: '8:59',
+                        info: {
+                            img: 'http://localhost:8000/gallery/match/?ID=5',
+                            content: 'lizi'
+                        }
+                    }
                 ]
             },
             personInfo: {}

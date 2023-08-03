@@ -7,24 +7,26 @@
     /* theme */
 
     /* ligth */
-    --bg-color: #fcfada;
+    --bg-color: #efefef;
     --font-color: black;
-    --item-bg-color: rgb(57, 84, 57);
-    --item-font-color: rgb(255, 255, 255);
+    --item-bg-color: #003d74;
+    --item-font-color: #d3e1ef;
+    --shade-color: grey;
 
     /* menu-item hover */
-    --item-bg-rev-color: rgb(180, 243, 183);
-    --item-font-rev-color: rgb(0, 0, 0);
+    --item-bg-rev-color: #eda01f;
+    --item-font-rev-color: white;
 
     /* dark */
-    /* --bg-color: #000000;
-    --font-color: white;
-    --item-bg-color: rgb(113, 181, 157);
-    --item-font-color: rgb(0, 0, 0); */
+    /* --bg-color: #1e2732;
+    --font-color: #d1e4ef;
+    --item-bg-color: #98b6c2;
+    --item-font-color: #000000;
+    --shade-color: rgb(21, 219, 255); */
 
     /* menu-item hover */
-    /* --item-bg-rev-color: rgb(38, 83, 39);
-    --item-font-rev-color: rgb(255, 255, 255); */
+    /* --item-bg-rev-color: #547689;
+    --item-font-rev-color: #d1e4ef; */
 }
 
 /* Global css default */

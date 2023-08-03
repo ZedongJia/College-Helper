@@ -3,12 +3,12 @@ export default {
     children: [
         {
             path: '',
-            component: () => import('@/views/mainBoard/Identification.vue')
+            component: () => import('@/views/mainBoard/identification/Identification.vue')
         },
         {
             name: 'detailContent',
             path: 'detailContent',
-            component: () => import('@/views/mainBoard/DetailContent.vue'),
+            component: () => import('@/views/mainBoard/identification/Detail.vue'),
             props (route) {
                 return {
                     entity: route.query.entity

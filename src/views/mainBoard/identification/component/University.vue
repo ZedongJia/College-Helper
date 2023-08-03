@@ -1,21 +1,31 @@
+<!-- 字段
+name text
+honorTags json
+imageUrls json
+
+establishTime varchar(100)
+detailLocation text
+
+officialWebsite json
+officialPhoneNumber json
+officialEmail varchar(100)
+
+rankInfo json
+educationInfo json
+intro
+-->
 <template>
     <div class="wrapper fade-in">
         <br />
         <div class="row">
-            <div class="DetailContentColumns">
+            <div class="detail-layout">
                 <!-- 左列 -->
                 <Board class="left">
                     <!-- 第一部分：标题 + 词条 -->
                     <!-- 页面标题 -->
-                    <h1
-                        style="
-                            padding: 0 0 0.5em 0.5em;
-                            color: var(--headline-color);
-                        "
-                    >
-                        {{ searchTitle }}
-                    </h1>
+                    <Title> nothing{{ searchTitle }} </Title>
                     <!-- 词条 -->
+                    <br />
                     <div
                         class="itemLabel"
                         v-for="itemLabel in titleLabels"
@@ -27,7 +37,6 @@
                     <!-- 第二部分 图片 + 文字 -->
                     <!-- 图片 -->
                     <img
-                        src="../images/test.png"
                         alt="该条目无图片"
                         class="image"
                     />
@@ -191,8 +200,15 @@ export default {
 }
 
 /* 两列 */
-.DetailContentColumns {
-    width: 100%;
+.detail-layout {
+    display: flex;
+    justify-content: center;
+}
+.detail-layout > :nth-child(1) {
+    flex: 0 0 70%;
+}
+.detail-layout > :nth-child(2) {
+    flex: 0 0 30%;
 }
 
 /* 左列宽度 */

@@ -16,6 +16,7 @@
             style="width: 200px"
         >
             <Button @clickIt="mailTo">私信</Button>
+            <Button @clickIt="follow">关注</Button>
         </div>
         <br />
         <div class="info-block flex-row-left">
@@ -153,6 +154,9 @@ export default {
             })
         },
         mailTo() {
+            // todo
+        },
+        followTo() {
             // todo
         }
     },

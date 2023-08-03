@@ -72,12 +72,17 @@ export default {
             if (this.showMenu) {
                 menu.style.flex = '0 0 15%'
                 view.style.flex = '0 0 85%'
-                for (let i = 0; i < spans.length; i++) {
-                    spans[i].style.display = 'inline-block'
-                }
+                setTimeout(() => {
+                    for (let i = 0; i < spans.length; i++) {
+                        spans[i].style.display = 'inline-block'
+                    }
+                }, 200)
             } else {
                 menu.style.flex = '0 0 64px'
-                view.style.flex = '0 0 ' + (document.querySelector('body').clientWidth - 64) + 'px'
+                view.style.flex =
+                    '0 0 ' +
+                    (document.querySelector('body').clientWidth - 64) +
+                    'px'
                 for (let i = 0; i < spans.length; i++) {
                     spans[i].style.display = 'none'
                 }
@@ -112,7 +117,7 @@ export default {
 .menu > * {
     cursor: pointer;
     margin: 0 auto;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     height: 48px;
     line-height: 48px;
     font-weight: bold;
