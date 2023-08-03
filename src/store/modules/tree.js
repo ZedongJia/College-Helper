@@ -12,11 +12,11 @@ export default {
         updateNode (state, params) {
             state.currNode = params
         },
-        show (state) {
-            state.isShow = true
+        show(state) {
+            state.isShow = !state.isShow
         },
         hide (state) {
-            state.isShow = false
+            state.isShow = !state.isShow
         }
     }
 }
