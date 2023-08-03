@@ -145,19 +145,20 @@ export default {
         },
         countDown(e) {
             // 倒计时
-            e.target.setAttribute('disabled', true)
+            e.target.disabled = true
             e.target.style.cursor = 'not-allowed'
             let time = 60
             e.target.innerHTML = '已发送(' + time + ')'
             const cdEvent = setInterval(() => {
                 time -= 1
                 if (time <= 0) {
-                    clearInterval(cdEvent)
-                    e.target.setAttribute('disabled', false)
-                    e.target.style.cursor = 'pointer'
                     e.target.innerHTML = '点击发送验证码'
+                    e.target.disabled = false
+                    e.target.style.cursor = 'pointer'
+                    clearInterval(cdEvent)
+                } else {
+                    e.target.innerHTML = '已发送(' + time + ')'
                 }
-                e.target.innerHTML = '已发送(' + time + ')'
             }, 1000)
         }
     }
