@@ -17,6 +17,8 @@
     --item-bg-rev-color: #eda01f;
     --item-font-rev-color: white;
 
+    --label-color: green;
+
     /* dark */
     /* --bg-color: #1e2732;
     --font-color: #d1e4ef;
@@ -92,6 +94,15 @@ textarea {
 .slide-l-enter-active,
 .slide-l-leave-active {
     transition: opacity transform 1s;
+}
+
+.img-fade-enter-from,
+.img-fade-leave-to {
+    opacity: 0;
+}
+.img-fade-enter-active,
+.img-fade-leave-active {
+    transition: .2s;
 }
 
 @keyframes bounce {

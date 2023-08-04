@@ -1,151 +1,220 @@
-<!-- 字段
-name text
-honorTags json
-imageUrls json
-
-establishTime varchar(100)
-detailLocation text
-
-officialWebsite json
-officialPhoneNumber json
-officialEmail varchar(100)
-
-rankInfo json
-educationInfo json
-intro
--->
 <template>
-    <div class="wrapper fade-in">
-        <br />
-        <div class="row">
-            <div class="detail-layout">
-                <!-- 左列 -->
-                <Board class="left">
-                    <!-- 第一部分：标题 + 词条 -->
-                    <!-- 页面标题 -->
-                    <Title> nothing{{ searchTitle }} </Title>
-                    <!-- 词条 -->
-                    <br />
-                    <div
-                        class="itemLabel"
-                        v-for="itemLabel in titleLabels"
-                        :key="itemLabel"
-                    >
-                        {{ itemLabel.name }}
-                    </div>
-                    <hr class="line" />
-                    <!-- 第二部分 图片 + 文字 -->
-                    <!-- 图片 -->
+    <br />
+    <Loading v-if="isEmpty"></Loading>
+    <div
+        v-else
+        class="wrapper fade-in detail-layout"
+    >
+        <!-- 左列 -->
+        <Board>
+            <!-- 第一部分：标题 + 词条 -->
+            <!-- 页面标题 -->
+            <br />
+            <div class="flex-row detail-header">
+                <div class="icon">
+                    <ion-icon
+                        style="transform: scale(1.5)"
+                        name="pricetags-outline"
+                    ></ion-icon>
+                </div>
+                <Title style="font-size: 32px"> {{ data.name }} </Title>
+            </div>
+            <br />
+            <div
+                class="itemLabel"
+                v-for="tag in data.honorTags"
+                :key="tag"
+            >
+                {{ tag }}
+            </div>
+            <hr class="line" />
+            <div class="flex-row detail-title">
+                <div class="icon"><ion-icon name="logo-instagram"></ion-icon></div>
+                <Title>学校风景</Title>
+            </div>
+            <div
+                class="detail-content"
+                style="height: 400px"
+            >
+                <div
+                    class="img-to-left"
+                    @click="imgPointer > 0 ? (imgPointer -= 1) : (imgPointer = data.imageUrls.length - 1)"
+                >
+                    <ion-icon
+                        style="transform: scale(2)"
+                        name="caret-back-circle"
+                    ></ion-icon>
+                </div>
+                <Transition
+                    name="img-fade"
+                    mode="out-in"
+                >
                     <img
+                        :src="imgShow"
                         alt="该条目无图片"
                         class="image"
+                        :key="imgShow"
                     />
-                    <!-- 文字 -->
-                    <p class="text">{{ content }}</p>
-                    <hr class="line" />
-                    <!-- 第三部分： 表格 -->
-                    <div
-                        class="flex-row"
-                        style="
-                            justify-content: left;
-                            flex-flow: row wrap;
-                            margin: 2%;
-                        "
-                    >
-                        <div
-                            style="width: 50%"
-                            v-for="itemTable in tableContent"
-                            :key="itemTable"
+                </Transition>
+                <div
+                    class="img-to-right"
+                    @click="imgPointer < data.imageUrls.length - 1 ? (imgPointer += 1) : (imgPointer = 0)"
+                >
+                    <ion-icon
+                        style="transform: scale(2)"
+                        name="caret-forward-circle"
+                    ></ion-icon>
+                </div>
+            </div>
+            <br />
+            <div class="flex-row detail-title">
+                <div class="icon"><ion-icon name="call-outline"></ion-icon></div>
+                <Title>学校信息</Title>
+            </div>
+            <div
+                class="flex-row public-info-list detail-content"
+                style="justify-content: left; flex-flow: row wrap"
+            >
+                <div
+                    class="flex-row"
+                    v-for="keyItem in Object.keys(universityInfo)"
+                    :key="keyItem"
+                >
+                    <span>{{ keyItem }}:</span>
+                    <span style="font-size: 14px;" v-if="Array.isArray(universityInfo[keyItem])">
+                        <span
+                            v-for="(item, index) in universityInfo[keyItem]"
+                            :key="index"
                         >
-                            <div v-if="itemTable.isodd">
-                                <span
-                                    class="key"
-                                    style="background-color: gray"
-                                >
-                                    {{ itemTable.key }}
-                                </span>
-                                <span
-                                    class="value"
-                                    style="background-color: gray"
-                                >
-                                    {{ itemTable.value }}
-                                </span>
-                            </div>
-                            <div v-else>
-                                <span class="key"> {{ itemTable.key }} </span>
-                                <span class="value">
-                                    {{ itemTable.value }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </Board>
-                <!-- 右列 -->
-                <div class="right">
-                    <!-- 相关概念 -->
-                    <Board>
+                            {{ item }};
+                        </span>
+                    </span>
+                    <span style="font-size: 14px;" v-else>{{ universityInfo[keyItem] }}</span>
+                </div>
+            </div>
+            <br />
+            <div class="flex-row detail-title">
+                <div class="icon"><ion-icon name="pricetag-outline"></ion-icon></div>
+                <Title>学校简介</Title>
+            </div>
+            <div class="detail-content">
+                <p
+                    v-for="text in data.intro"
+                    :key="text"
+                >
+                    {{ text }}
+                </p>
+            </div>
+            <hr class="line" />
+        </Board>
+        <!-- 右列 -->
+        <div>
+            <!-- 相关概念 -->
+            <!-- <Board>
                         <Title title="相关概念"></Title>
                         <br />
-                        <!-- 关系 点 -->
                         <RelationGraph
                             fixHeight="200px"
                             :data="data"
                             :link="link"
                             inset
                         ></RelationGraph>
-                    </Board>
-                    <br />
-                    <!-- 农业类型 -->
-                    <Board>
-                        <Title title="农业类型"></Title>
-                        <div
-                            class="flex-row"
-                            style="justify-content: left; flex-flow: row wrap"
+                    </Board> -->
+            <!-- 农业类型 -->
+            <Board style="padding: 20px">
+                <Title title="基本信息"></Title>
+                <hr class="line" />
+                <div
+                    class="flex-row info-list"
+                    style="justify-content: left; flex-flow: row wrap"
+                >
+                    <div
+                        class="flex-row-left"
+                        style="width: 100%"
+                        v-for="keyItem in Object.keys(data.educationInfo)"
+                        :key="keyItem"
+                    >
+                        <span>{{ keyItem }}</span>
+                        <span
+                            v-if="typeof data.educationInfo[keyItem] === 'string'"
+                            style="font-size: 14px"
                         >
-                            <div
-                                v-for="(itemType, index) in AgriType"
-                                :key="index"
-                            >
-                                <p
-                                    v-if="index !== AgriType.length - 1"
-                                    class="agriTypeText"
-                                >
-                                    {{ itemType.name }} >
-                                </p>
-                                <p
-                                    v-else
-                                    class="agriTypeText"
-                                >
-                                    {{ itemType.name }}
-                                </p>
-                            </div>
-                        </div>
-                    </Board>
-                    <br />
-                    <!-- 实体类型 -->
-                    <Board>
-                        <Title title="实体类型"></Title>
-                    </Board>
+                            {{ data.educationInfo[keyItem] }}个
+                        </span>
+                        <span
+                            v-else
+                            style="font-size: 14px"
+                            v-for="subKey in Object.keys(data.educationInfo[keyItem])"
+                            :key="subKey"
+                        >
+                            <span>
+                                <b>{{ subKey }}:</b>
+                            </span>
+                            <span> {{ data.educationInfo[keyItem][subKey] }} {{ data.educationInfo[keyItem][subKey] === '--' ? '' : '个' }} </span>
+                        </span>
+                    </div>
                 </div>
-            </div>
+            </Board>
+            <br />
+            <Board style="padding: 20px">
+                <Title title="排名信息"></Title>
+                <hr class="line" />
+                <div
+                    class="flex-row info-list"
+                    style="justify-content: left; flex-flow: row wrap"
+                >
+                    <div
+                        class="flex-row-left"
+                        style="width: 100%"
+                        v-for="keyItem in Object.keys(data.rankInfo)"
+                        :key="keyItem"
+                    >
+                        <span>{{ keyItem }}</span>
+                        <span>{{ data.rankInfo[keyItem] }}名</span>
+                    </div>
+                </div>
+            </Board>
         </div>
     </div>
 </template>
 <script>
+import { queryEntity } from '@/api/entity'
+
 export default {
     props: {
-        entity: String
+        name: String,
+        label: String
     },
     data() {
         return {
-            searchTitle: '',
-            titleLabels: [],
-            content: '',
-            tableContent: [],
-            data: [],
-            link: [],
-            AgriType: [],
-            Entitytype: []
+            data: {
+                name: '',
+                educationInfo: {},
+                establishTime: '',
+                honorTags: [],
+                imageUrls: [],
+                intro: [],
+                officialEmail: '',
+                officialPhoneNumber: [],
+                officialWebsite: [],
+                rankInfo: []
+            },
+            imgPointer: 0
+        }
+    },
+    computed: {
+        isEmpty() {
+            return this.data.name === ''
+        },
+        universityInfo() {
+            return {
+                官方电话: this.data.officialPhoneNumber,
+                官方网站: this.data.officialWebsite,
+                官方邮箱: this.data.officialEmail.split('：')[1]
+            }
+        },
+        imgShow() {
+            return this.data.imageUrls[this.imgPointer]
         }
     },
     methods: {
@@ -154,131 +223,24 @@ export default {
         }
     },
     created() {
-        this.searchTitle = this.entity
-        // 请求entity数据
-        this.titleLabels = [
-            { id: 0, name: '中国传统文化' },
-            { id: 1, name: '农业' },
-            { id: 2, name: '农业气象百科' },
-            { id: 3, name: '农作物' },
-            { id: 4, name: '植物' },
-            { id: 5, name: '生物技术' },
-            { id: 6, name: '自然' }
-        ]
-        this.content =
-            '杂交水稻（hybrid rice）指选用两个在遗传上有一定差异，同时它们的优良性状又能互补的水稻品种进行杂交，生产具有杂种优势的第一代杂交种，就是杂交水稻。一般杂交水稻仅指由两个遗传背景相同的不育系和恢复系杂交后形成的第一代杂交种。大面积推广的杂交水稻主要是利用水稻雄性不育系作为遗传工具。中国是世界上第一个成功研发和推广杂交水稻的国家。杂交水稻具有个体高度杂合性，杂种后代出现性状分离，故需年年制种。和杂交水稻相对应的是常规水稻。'
-        this.tableContent = [
-            { id: 0, key: '中文名', value: '杂交水稻', isodd: true },
-            { id: 1, key: '主要食材', value: '水稻', isodd: true },
-            { id: 2, key: '中文学名', value: '杂交水稻', isodd: false },
-            { id: 3, key: '别名', value: '超级水稻', isodd: false },
-            { id: 4, key: '界', value: '植物界', isodd: true },
-            { id: 5, key: '命名者', value: '袁隆平', isodd: true },
-            { id: 6, key: '体征', value: '产量高', isodd: false }
-        ]
-        this.data = [
-            { name: '张三', symbolSize: 0, c: 1 },
-            { name: '李四', symbolSize: 0, c: 1 },
-            { name: '王五', symbolSize: 0, c: 1 },
-            { name: '赵六', symbolSize: 0, c: 1 },
-            { name: '小明', symbolSize: 0, c: 0 },
-            { name: '小红', symbolSize: 0, c: 0 }
-        ]
-        this.AgriType = [
-            { id: 0, name: '农业' },
-            { id: 1, name: '生物技术' },
-            { id: 2, name: '杂交水稻' }
-        ]
+        queryEntity({
+            name: this.name,
+            label: this.label
+        })
+            .then((data) => {
+                this.data = data
+            })
+            .catch((error) => {
+                this.$store.commit('prompt/trigger', {
+                    msg: error,
+                    level: 'warning'
+                })
+                setTimeout(() => {
+                    this.$router.push({
+                        name: 'identification'
+                    })
+                }, 2000)
+            })
     }
 }
 </script>
-
-<style>
-.line {
-    margin-top: 3%;
-    margin-bottom: 3%;
-}
-
-/* 两列 */
-.detail-layout {
-    display: flex;
-    justify-content: center;
-}
-.detail-layout > :nth-child(1) {
-    flex: 0 0 70%;
-}
-.detail-layout > :nth-child(2) {
-    flex: 0 0 30%;
-}
-
-/* 左列宽度 */
-.left {
-    float: left;
-    width: 65%;
-    justify-content: space-between;
-}
-/* 左列：图片 */
-.left .image {
-    float: left;
-    width: 40%;
-    margin: 5px;
-}
-
-@media screen and (max-width: 600px) {
-    .left .image {
-        width: 90%;
-        margin: 5px;
-    }
-}
-
-/* 左列：文字 */
-.left .text {
-    padding: 2px;
-    margin-left: 10px;
-    margin-right: 10px;
-    text-indent: 2em;
-    font-size: 18px;
-}
-
-/* 左列： 表格 —— 键 + 值 */
-.key,
-.value {
-    display: inline-block;
-    width: 50%;
-    padding: 1%;
-}
-.key {
-    font-weight: bold;
-}
-
-/* 右列宽度 */
-.right {
-    float: right;
-    padding-left: 5%;
-    width: 35%;
-}
-
-/* 标签 */
-.itemLabel {
-    display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    min-width: 20px;
-    max-width: 300px;
-    margin-right: 0.5%;
-    margin-top: 1%;
-    padding: 5px;
-    color: white;
-    background-color: var(--item-bg-color);
-    font-size: 10px;
-    border-radius: 12px;
-    text-overflow: ellipsis;
-}
-
-/* 农业类型 */
-.agriTypeText {
-    display: inline-block;
-    margin-top: 5px;
-    margin-right: 5px;
-}
-</style>

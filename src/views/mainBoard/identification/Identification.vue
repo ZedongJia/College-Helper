@@ -63,8 +63,21 @@ export default {
             showfirstBox: false,
             showsecondBox: false,
             textInput: '',
-            recognizeResult: '玉米，小麦, 袁隆平, 垂直农业, 顶顶顶顶顶顶顶',
-            entity: ['玉米', '袁隆平', '垂直农业'],
+            recognizeResult: '清华大学和南开大学是兄弟院校，张一鸣',
+            entity: {
+                0: {
+                    name: '清华大学',
+                    label: 'university'
+                },
+                5: {
+                    name: '南开大学',
+                    label: 'university'
+                },
+                15: {
+                    name: '张一鸣',
+                    label: 'person'
+                }
+            },
             segmentationResult: '无结果',
             isLoading: false
         }

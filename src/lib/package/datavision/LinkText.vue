@@ -5,6 +5,14 @@ export default {
     name: 'LinkText',
     props: {
         text: String,
+        /**
+         * @summary {
+         *  pos: {
+         *      name: String,
+         *      label: String
+         *  }
+         * }
+         */
         entity: Array
     },
     data() {
@@ -12,41 +20,53 @@ export default {
             renderContent: []
         }
     },
+    computed: {
+        entityMap() {
+            const mapping = {}
+            const keys = Object.keys(this.entity)
+            for (let i = 0; i < keys.length; i++) {
+                const { name, label } = this.entity[keys[i]]
+                mapping[name] = label
+            }
+            return mapping
+        }
+    },
     methods: {
         checkLinkAndReplace() {
-            if (this.entity === undefined || this.entity === []) {
-                this.renderContent.push(this.text)
-                return
+            let lastStopPos = 0
+            const keys = Object.keys(this.entity)
+            keys.sort((a, b) => a - b)
+            for (let i = 0; i < keys.length; i++) {
+                // cut & push
+                const { name } = this.entity[keys[i]]
+                const startPos = Number(keys[i])
+                const endPos = Number(startPos) + Number(name.length)
+                this.renderContent.push(this.text.substring(lastStopPos, startPos))
+                this.renderContent.push(h('a', { onclick: this.turnToDetail }, name))
+                lastStopPos = endPos
             }
-            let startPos = 0
-            for (let i = 0; i < this.entity.length; i++) {
-                const pos = this.text.indexOf(this.entity[i])
-                if (pos !== -1) {
-                    // push the text before
-                    this.renderContent.push(this.text.substring(startPos, pos))
-                    // push h
-                    this.renderContent.push(h('a', { onclick: this.turnToDetail }, this.entity[i]))
-                    // update start_pos
-                    startPos = pos + this.entity[i].length
-                }
-            }
-            if (startPos < this.text.length) {
-                this.renderContent.push(this.text.substring(startPos, this.text.length))
+            if (lastStopPos < this.text.length) {
+                this.renderContent.push(this.text.substring(lastStopPos, this.text.length))
             }
         },
         turnToDetail(e) {
-            const entity = e.target.innerHTML
+            const name = e.target.innerHTML
             this.$router.push({
                 name: 'detailContent',
                 query: {
-                    entity: entity
+                    name: name,
+                    label: this.entityMap[name]
                 }
             })
         }
     },
     render() {
         if (this.renderContent.length !== 0) {
-            return h('div', { class: 'link-text' }, this.renderContent.map((item) => item))
+            return h(
+                'div',
+                { class: 'link-text' },
+                this.renderContent.map((item) => item)
+            )
         }
         return h(EmptyHint)
     },

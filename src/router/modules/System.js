@@ -21,10 +21,6 @@ export default {
             component: () => import('@/views/mainBoard/overview/Overview.vue')
         },
         {
-            path: 'agriculturalQA',
-            component: () => import('@/views/mainBoard/AgriculturalQA.vue')
-        },
-        {
             path: 'interest',
             component: () => import('@/views/Interest.vue')
         },

@@ -1,33 +1,28 @@
 const MainMenu = [
     {
-        name: '个性推荐',
+        name: '智能推荐',
         href: '/system/interest',
         icon: 'telescope-outline'
     },
     {
-        name: '实体识别',
+        name: '文本智能分析',
         href: '/system/identification',
         icon: 'search-outline'
     },
     {
-        name: '实体查询',
+        name: '大学专业智能查询',
         href: '/system/entitySearch',
         icon: 'search-outline'
     },
     {
-        name: '关系查询',
+        name: '查关系',
         href: '/system/relationSearch',
         icon: 'search-outline'
     },
     {
-        name: '农业知识概览',
+        name: '大学专业概览',
         href: '/system/overview',
         icon: 'podium-outline'
-    },
-    {
-        name: '农知问答',
-        href: '/system/agriculturalQA',
-        icon: 'chatbox-ellipses-outline'
     },
     {
         name: 'AI问答',
@@ -35,7 +30,7 @@ const MainMenu = [
         icon: 'chatbubbles-outline'
     },
     {
-        name: '图谱演变',
+        name: '分数智能分析',
         href: '/#',
         icon: 'bar-chart-outline'
     },

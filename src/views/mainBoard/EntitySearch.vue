@@ -48,6 +48,12 @@ export default {
         return {
             entity: '',
             isLoading: false,
+            /**
+             * data: [
+             *  {name: String, symbolSize: int, c:int}
+             * ]
+             * @summary {name是节点名字, symbolSize是节点大小, c是节点颜色}
+             */
             data: [],
             link: []
         }
