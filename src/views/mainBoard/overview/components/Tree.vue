@@ -1,6 +1,6 @@
 <template>
     <ul class="tree">
-        <TreeNode parent="root" :model="model"></TreeNode>
+        <TreeNode parent="省份" :model="model"></TreeNode>
     </ul>
 </template>
 <script>
@@ -10,7 +10,7 @@ export default {
         TreeNode
     },
     props: {
-        model: Object
+        model: Array
     }
 }
 </script>
