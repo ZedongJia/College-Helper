@@ -23,10 +23,13 @@
                         src="@/assets/icons/zengjia.png"
                         alt="+"
                     />
-                    <p style="cursor: default">{{ mo.name }}</p>
+                    <p style="cursor: default; white-space: nowrap">
+                        {{ mo.name }}
+                    </p>
                     <span
                         class="toggle-icon"
                         @click="record(index)"
+                        style="white-space: nowrap"
                     >
                         [进入分类]
                     </span>
@@ -61,6 +64,13 @@ export default {
         toggle(index) {
             if (this.isFolder(index)) {
                 this.isShow[index] = !this.isShow[index]
+            }
+            if (this.isShow[index]) {
+                this.$store.commit('tree/updateStack', {
+                parent: this.parent,
+                children: this.model[index].children,
+                name: this.model[index].name
+            })
             }
         },
         isFolder(index) {

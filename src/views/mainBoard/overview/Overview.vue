@@ -46,7 +46,14 @@
                 >
                     已是最高级分类
                 </p>
-                <span v-else> {{ node.parent }} </span>
+                <span
+                    @click="upskip(node, node.parent)"
+                    v-else
+                >
+                    <div class="link-text">
+                        <a>{{ node.parent }}</a>
+                    </div>
+                </span>
             </Board>
             <br />
             <Board>
@@ -60,20 +67,23 @@
                 >
                     已是最低级分类
                 </p>
-                <p
-                    style="margin-bottom: 8px"
+                <span
                     v-for="i in node.children"
                     :key="i"
+                    @click="downskip(i, node.name)"
+                    style="line-height: 30px"
                 >
-                    {{ i.name }}
-                </p>
+                    <div class="link-text">
+                        <a>{{ i.name }}</a>
+                    </div>
+                </span>
             </Board>
         </div>
     </div>
     <PopFrame v-if="appear">
         <div style="width: 50%; margin: 50px auto">
             <Board>
-                <Title title="农业分类树"></Title>
+                <Title title="分类树"></Title>
             </Board>
             <Board
                 style="
@@ -108,7 +118,8 @@ export default {
         return {
             appear: false,
             treeData: treeData,
-            childrenList: []
+            childrenList: [],
+            treeStack: []
         }
     },
     methods: {
@@ -118,16 +129,8 @@ export default {
         hasChildren(children) {
             return children !== undefined && children.length !== 0
         },
-        // dfsAllNodes(i) {
-        //     if (i.children) {
-        //         for (let j = 0; j < i.children.length; j++) {
-        //             this.childrenList.push(this.dfsAllNodes(i.children[j]))
-        //         }
-        //     }
-        //     return i.name
-        // }
         dfsAllNodes(i, count = 0) {
-            if (count === 2) {
+            if (count === 1) {
                 // 达到指定递归次数时停止递归
                 return i.name
             }
@@ -140,6 +143,19 @@ export default {
             }
 
             return i.name
+        },
+        upskip(node, parent) {
+            this.$store.commit('tree/updateStack', {
+                nodename: parent,
+                updown: 'up'
+            })
+        },
+        downskip(i, name) {
+            this.$store.commit('tree/updateNode', {
+                parent: name,
+                children: i.children,
+                name: i.name
+            })
         }
     },
     computed: {
@@ -187,18 +203,18 @@ export default {
             this.appear = !this.appear
             this.childrenList = []
             this.dfsAllNodes(this.node)
+        },
+        node() {
+            this.childrenList = []
+            this.dfsAllNodes(this.node)
         }
     },
     created() {
         this.$store.commit('tree/updateNode', {
             parent: 'root',
-            children: treeData[0].children,
-            name: treeData[0].name
+            children: treeData,
+            name: '省份'
         })
-    },
-    mounted() {
-        this.dfsAllNodes(this.node)
-        console.log(this.node)
     }
 }
 </script>
