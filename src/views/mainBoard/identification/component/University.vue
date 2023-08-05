@@ -80,8 +80,8 @@
                     v-for="keyItem in Object.keys(universityInfo)"
                     :key="keyItem"
                 >
-                    <span>{{ keyItem }}:</span>
-                    <span style="font-size: 14px;" v-if="Array.isArray(universityInfo[keyItem])">
+                    <span class="detail-key">{{ keyItem }}:</span>
+                    <span class="detail-value" style="font-size: 14px;" v-if="Array.isArray(universityInfo[keyItem])">
                         <span
                             v-for="(item, index) in universityInfo[keyItem]"
                             :key="index"

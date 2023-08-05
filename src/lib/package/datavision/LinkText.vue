@@ -83,7 +83,7 @@ export default {
 <style>
 .link-text a {
     cursor: pointer;
-    color: orange;
+    color: orangered;
     transition: 0.25s;
 }
 .link-text a:hover {

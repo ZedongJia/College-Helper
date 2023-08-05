@@ -11,7 +11,7 @@
             @query="talkTo"
             @del="del"
         ></MessageList>
-        <div style="flex: 0 0 3px; height: 100%; background-color: grey; border-radius: 10%;"></div>
+        <div style="flex: 0 0 3px; height: 100%; background-color: grey; border-radius: 10%"></div>
         <div style="flex: 0 0 68%; height: 100%">
             <EmptyHint v-if="JSON.stringify(personInfo) === '{}'"></EmptyHint>
             <keep-alive
@@ -75,11 +75,30 @@ export default {
             const { group, index } = this.preDel
             dropSession({
                 session_id: this.sessionDict[group][index]
+            }).then(() => {
+                this.$forceUpdate()
             })
             this.needConfirm = false
         },
         reback() {
             this.needConfirm = false
+        },
+        updateData() {
+            getSession()
+                .then((sessionInfo) => {
+                    sessionInfo['临时会话'].forEach((element, index) => {
+                        this.temperoaryDict['临时会话'][index].time = element.time
+                    })
+                    sessionInfo['好友'].forEach((element, index) => {
+                        this.temperoaryDict['好友'][index].time = element.time
+                    })
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
         }
     },
     created() {
@@ -106,6 +125,9 @@ export default {
                     level: 'warning'
                 })
             })
+        setInterval(() => {
+            this.updateData()
+        }, 3000)
     }
 }
 </script>
