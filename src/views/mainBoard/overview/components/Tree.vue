@@ -10,7 +10,7 @@ export default {
         TreeNode
     },
     props: {
-        model: Object
+        model: Array
     }
 }
 </script>

@@ -56,9 +56,7 @@
                 ></Title>
                 <p
                     style="color: grey"
-                    v-if="
-                        !hasChildren(node.children)
-                    "
+                    v-if="!hasChildren(node.children)"
                 >
                     已是最低级分类
                 </p>
@@ -100,75 +98,8 @@
 <script>
 import { mapState } from 'vuex'
 import Tree from './components/Tree'
+import treeData from './tree.json'
 const pinyin = require('js-pinyin')
-const treeData = {
-    name: '农业',
-    children: [
-        { name: '养鱼业' },
-        { name: '种花业' },
-        {
-            name: '驯养动物',
-            children: [
-                {
-                    name: '畜牧业',
-                    children: [{ name: '家畜' }]
-                },
-                {
-                    name: '种植业',
-                    children: [{ name: '树' }]
-                },
-                {
-                    name: '畜牧业',
-                    children: [{ name: '家畜' }]
-                },
-                {
-                    name: '种植业',
-                    children: [
-                        { name: '树' },
-                        {
-                            name: '畜牧业',
-                            children: [{ name: '家畜' }]
-                        },
-                        {
-                            name: '种植业',
-                            children: [
-                                { name: '树' },
-                                {
-                                    name: '畜牧业',
-                                    children: [{ name: '家畜' }]
-                                },
-                                {
-                                    name: '种植业',
-                                    children: [
-                                        { name: '树' },
-                                        {
-                                            name: '畜牧业',
-                                            children: [{ name: '家畜' }]
-                                        },
-                                        {
-                                            name: '种植业',
-                                            children: [
-                                                { name: '树' },
-                                                {
-                                                    name: '畜牧业',
-                                                    children: [{ name: '家畜' }]
-                                                },
-                                                {
-                                                    name: '种植业',
-                                                    children: [{ name: '树' }]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-}
 export default {
     components: {
         Tree
@@ -176,7 +107,7 @@ export default {
     data() {
         return {
             appear: false,
-            treeData,
+            treeData: treeData,
             childrenList: []
         }
     },
@@ -187,12 +118,27 @@ export default {
         hasChildren(children) {
             return children !== undefined && children.length !== 0
         },
-        dfsAllNodes(i) {
+        // dfsAllNodes(i) {
+        //     if (i.children) {
+        //         for (let j = 0; j < i.children.length; j++) {
+        //             this.childrenList.push(this.dfsAllNodes(i.children[j]))
+        //         }
+        //     }
+        //     return i.name
+        // }
+        dfsAllNodes(i, count = 0) {
+            if (count === 2) {
+                // 达到指定递归次数时停止递归
+                return i.name
+            }
             if (i.children) {
                 for (let j = 0; j < i.children.length; j++) {
-                    this.childrenList.push(this.dfsAllNodes(i.children[j]))
+                    this.childrenList.push(
+                        this.dfsAllNodes(i.children[j], count + 1)
+                    )
                 }
             }
+
             return i.name
         }
     },
@@ -210,24 +156,28 @@ export default {
                 sortedData[initial] = []
             }
             if (this.childrenList && Array.isArray(this.childrenList)) {
-                this.childrenList.forEach((item) => {
+                // this.childrenList.forEach((item) =>
+                for (let i = 0; i < this.childrenList.length; i++) {
+                    const item = this.childrenList[i]
                     // 获取首字母
-                    const initial =
-                        collator.compare(
-                            pinyin.getFullChars(item[0])[0],
-                            'A'
-                        ) >= 0 &&
-                        collator.compare(
-                            pinyin.getFullChars(item[0])[0],
-                            'Z'
-                        ) <= 0
-                            ? pinyin.getFullChars(item[0])[0]
-                            : ''
-                    if (!sortedData[initial]) {
-                        sortedData[initial] = []
+                    if (item !== '') {
+                        const initial =
+                            collator.compare(
+                                pinyin.getFullChars(item[0])[0],
+                                'A'
+                            ) >= 0 &&
+                            collator.compare(
+                                pinyin.getFullChars(item[0])[0],
+                                'Z'
+                            ) <= 0
+                                ? pinyin.getFullChars(item[0])[0]
+                                : ''
+                        if (!sortedData[initial]) {
+                            sortedData[initial] = []
+                        }
+                        sortedData[initial].push(item)
                     }
-                    sortedData[initial].push(item)
-                })
+                }
             }
             return sortedData
         }
@@ -242,12 +192,13 @@ export default {
     created() {
         this.$store.commit('tree/updateNode', {
             parent: 'root',
-            children: treeData.children,
-            name: treeData.name
+            children: treeData[0].children,
+            name: treeData[0].name
         })
     },
     mounted() {
         this.dfsAllNodes(this.node)
+        console.log(this.node)
     }
 }
 </script>
