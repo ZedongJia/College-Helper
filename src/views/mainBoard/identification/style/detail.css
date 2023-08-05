@@ -4,7 +4,7 @@
     white-space: nowrap;
     overflow: hidden;
     min-width: 20px;
-    max-width: 300px;
+    max-width: 500px;
     margin-right: 5px;
     padding: 5px 10px;
     background-color: var(--item-bg-color);
@@ -84,7 +84,7 @@
 
 .detail-content {
     position: relative;
-    padding: 0 2em;
+    padding: 0 1em;
     width: 100%;
 }
 
@@ -93,15 +93,20 @@
     flex-wrap: wrap;
 }
 
-.detail-content > div > span:first-child {
-    margin: 5px 10px;
-    width: 150px;
+.detail-content .detail-key {
+    margin: 5px 0;
+    margin-right: 5px;
+    min-width: 100px;
     height: 32px;
     line-height: 32px;
     text-align: center;
-    border-radius: 50px;
+    border-radius: 50px 0 50px 0;
     background-color: orange;
     color: var(--font-color);
+}
+
+.detail-content .detail-value {
+    max-width: 500px;
 }
 
 .detail-content p {

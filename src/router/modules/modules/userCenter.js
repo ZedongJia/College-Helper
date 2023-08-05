@@ -4,8 +4,14 @@ export default {
     component: () => import('@/views/userCenter/UserCenter.vue'),
     children: [
         {
+            name: 'homePage',
             path: 'homePage',
-            component: () => import('@/views/userCenter/views/HomePage.vue')
+            component: () => import('@/views/userCenter/views/HomePage.vue'),
+            props(route) {
+                return {
+                    id: route.query.id
+                }
+            }
         },
         {
             path: 'infoBoard',

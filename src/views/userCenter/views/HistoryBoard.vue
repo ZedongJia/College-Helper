@@ -48,7 +48,6 @@ export default {
         del(group, index) {
             const { time, type, content } = this.historyDict[group][index]
             deleteBrowseInfo({
-                ID: this.$store.state.userInfo.ID,
                 time: group + time,
                 type: type,
                 content: content
@@ -66,9 +65,7 @@ export default {
         },
         loadData() {
             // require
-            getBrowseInfo({
-                ID: this.$store.state.userInfo.ID
-            })
+            getBrowseInfo()
                 .then((browseInfo) => {
                     this.historyDict = browseInfo
                 })

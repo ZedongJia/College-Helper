@@ -11,14 +11,13 @@ function raise(msg) {
 }
 
 /**
- * 查询实体
- * @param {{name: String, label: String}} params
+ * @param {{session_id: Number}} params
  * @returns {Promise}
  */
-export function queryEntity(params) {
+export function getMessageList(params) {
     return new Promise((resolve, reject) => {
         axios({
-            url: 'entity/query',
+            url: 'user/getMessageList',
             method: 'GET',
             params
         })
@@ -37,14 +36,13 @@ export function queryEntity(params) {
 }
 
 /**
- * 查询实体
- * @param {{sentence: String}} params
+ * @param {{session_id:Number, time: String, content: String}} params
  * @returns {Promise}
  */
-export function cutSentence(params) {
+export function addMessage(params) {
     return new Promise((resolve, reject) => {
         axios({
-            url: 'entity/cut',
+            url: 'user/addMessage',
             method: 'POST',
             data: params,
             headers: {
@@ -54,9 +52,9 @@ export function cutSentence(params) {
             .then((response) => {
                 const data = response.data
                 if (data.status) {
-                    resolve(data.cut_result)
+                    resolve(response)
                 } else {
-                    reject(data.error)
+                    reject(response)
                 }
             })
             .catch(() => {

@@ -30,25 +30,33 @@
                 <Title>个人信息</Title>
             </div>
             <div
-                class="flex-row public-info-list detail-content"
+                class="flex-row detail-content"
                 style="justify-content: left; flex-flow: row wrap"
             >
                 <div
                     class="flex-row"
-                    style="width: 50%"
                     v-for="keyItem in Object.keys(data.infoDict)"
                     :key="keyItem"
                 >
-                    <span style="width: 30%">{{ keyItem }}:</span>
-                    <span v-if="Array.isArray(data.infoDict[keyItem])">
+                    <span class="detail-key">{{ keyItem }}:</span>
+                    <span class="detail-value">
                         <span
-                            v-for="(item, index) in data.infoDict[keyItem]"
-                            :key="index"
+                            style="font-size: 14px"
+                            v-if="Array.isArray(data.infoDict[keyItem])"
                         >
-                            {{ item }};
+                            <span
+                                v-for="(item, index) in data.infoDict[keyItem]"
+                                :key="index"
+                            >
+                                {{ item }};
+                            </span>
                         </span>
+                        <span
+                            style="font-size: 14px"
+                            v-else
+                            >{{ data.infoDict[keyItem] }}</span
+                        >
                     </span>
-                    <span v-else>{{ data.infoDict[keyItem] }}</span>
                 </div>
             </div>
             <br />
@@ -81,7 +89,7 @@
             </Board>
             <br />
             <Board style="padding: 20px">
-                <Title>{{ label === 'person' ? "同校优秀校友、老师" : "你可能感兴趣的" }}</Title>
+                <Title>{{ label === 'person' ? '同校优秀校友、老师' : '你可能感兴趣的' }}</Title>
                 <hr class="line" />
                 <RelationGraph
                     fixHeight="200px"

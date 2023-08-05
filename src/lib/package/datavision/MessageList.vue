@@ -21,55 +21,51 @@
             <br />
             <div class="group-item">
                 <li class="flex-row header">
-                <span
-                    v-for="(v, index) in headers"
-                    :key="v"
-                    :style="'flex: 0 0 ' + colWidth[index] + '%;'"
-                >
-                    {{ v }}
-                </span>
-            </li>
-            <li
-                class="flex-row"
-                v-for="(item, index) in Object.values(messageDict[group])"
-                :key="item"
-                @click="query(group, index)"
-            >
-                <span
-                    v-for="(v, index) in Object.values(item)"
-                    :key="v"
-                    :style="'flex: 0 0 ' + colWidth[index] + '%;'"
-                    class="flex-row-left"
+                    <span
+                        v-for="(v, index) in headers"
+                        :key="v"
+                        :style="'flex: 0 0 ' + colWidth[index] + '%;'"
+                    >
+                        {{ v }}
+                    </span>
+                </li>
+                <li
+                    class="flex-row"
+                    v-for="(item, index) in Object.values(messageDict[group])"
+                    :key="item"
+                    @click="query(group, index)"
                 >
                     <span
-                        v-if="!!v.img || !!v.icon"
-                        class="prefix"
-                        ><img
-                            v-if="!!v.img"
-                            style="
-                                width: 32px;
-                                height: 32px;
-                                border-radius: 50%;
-                            "
-                            src="http://localhost:8000/gallery/match/?ID=5"
-                            alt=""
-                        />
-                        <ion-icon
-                            v-if="!!v.icon"
-                            style="transform: scale(1.5)"
-                            name="person-outline"
-                        ></ion-icon>
+                        v-for="(v, index) in Object.values(item)"
+                        :key="v"
+                        :style="'flex: 0 0 ' + colWidth[index] + '%;'"
+                        class="flex-row-left"
+                    >
+                        <span
+                            v-if="!!v.img || !!v.icon"
+                            class="prefix"
+                            ><img
+                                v-if="!!v.img"
+                                style="width: 32px; height: 32px; border-radius: 50%"
+                                src="http://localhost:8000/gallery/match/?ID=5"
+                                alt=""
+                            />
+                            <ion-icon
+                                v-if="!!v.icon"
+                                style="transform: scale(1.5)"
+                                name="person-outline"
+                            ></ion-icon>
+                        </span>
+                        <span>{{ !!v.content ? v.content : v }}</span>
                     </span>
-                    <span>{{ !!v.content ? v.content : v }}</span>
-                </span>
-                <Button
-                    v-if="!nodel"
-                    @clickIt="del(group, index)"
-                    warn
-                    >Delete<i>!</i></Button
-                >
-                <i class="hover-fill"></i>
-            </li>
+                    <Button
+                        v-if="!nodel"
+                        @clickIt="del(group, index)"
+                        warn
+                        >Delete<i>!</i></Button
+                    >
+                    <i class="hover-fill"></i>
+                </li>
             </div>
         </span>
     </transition-group>
