@@ -80,11 +80,11 @@ export default {
                         logout: true
                     })
                         .then(() => {
-                            // 清空本地存储
-                            this.$store.commit('userInfo/refresh')
                             this.$store.commit('prompt/trigger', '登出成功')
                             setTimeout(() => {
                                 // turn style to light
+                                // 清空本地存储
+                                this.$store.commit('userInfo/refresh')
                                 this.isLight = true
                                 this.$router.push('/')
                             }, 1500)

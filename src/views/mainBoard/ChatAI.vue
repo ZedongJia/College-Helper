@@ -13,7 +13,7 @@ export default {
         return {
             userInfo: {
                 username: '小农',
-                image: 'http://localhost:8000/gallery/match/?ID=5'
+                image: 'http://localhost:8000/gallery/match?ID=5'
             }
         }
     }

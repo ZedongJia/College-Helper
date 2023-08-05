@@ -215,10 +215,15 @@ export default {
             return Date()
         },
         // 发出消息后，当超出最大高度时，聊天框移到最底部显示刚发出的消息
-        toBottomArea() {
+        toBottomArea(first = false) {
             nextTick(() => {
+                const fixHeight = 395
+                const rg = 100
                 const div = document.getElementById('toBottom')
-                div.scrollTop = div.scrollHeight
+                if (div.scrollTop > div.scrollHeight - fixHeight - rg || first) {
+                    console.log('scroll')
+                    div.scrollTop = 9999999
+                }
             })
         },
         // 生成消息
@@ -268,10 +273,6 @@ export default {
                             session_id: this.session_id,
                             time: Date.parse(message.time),
                             content: message.content
-                        }).then(() => {
-                            setTimeout(() => {
-                                this.toBottomArea()
-                            }, 500)
                         })
                     }
                     // 搜索框置空
@@ -352,19 +353,21 @@ export default {
                     }
                 }
                 this.lastUpdateTime = endTime
-                if (time === '--') {
+                if (messageList.length !== 0) {
                     this.toBottomArea()
                 }
             })
         }
     },
+    activated() {
+        setTimeout(() => {
+            this.toBottomArea(true)
+        }, 10)
+    },
     mounted() {
         setTimeout(() => {
-            const div = document.getElementById('toBottom')
-            if (div !== undefined) {
-                div.scrollTop = div.scrollHeight
-            }
-        }, 0)
+            this.toBottomArea(true)
+        }, 10)
     },
     created() {
         if (!this.AImode) {

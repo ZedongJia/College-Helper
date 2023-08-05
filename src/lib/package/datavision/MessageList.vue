@@ -47,7 +47,7 @@
                             ><img
                                 v-if="!!v.img"
                                 style="width: 32px; height: 32px; border-radius: 50%"
-                                src="http://localhost:8000/gallery/match/?ID=5"
+                                :src="v.img"
                                 alt=""
                             />
                             <ion-icon
@@ -122,6 +122,7 @@ export default {
 .list li {
     z-index: 1;
     position: relative;
+    overflow: hidden;
 }
 .list li > span {
     flex: 0 0 55%;
