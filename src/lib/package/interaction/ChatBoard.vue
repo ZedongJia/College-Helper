@@ -33,9 +33,7 @@
                     <div
                         class="right"
                         :style="{
-                            padding: item.isLeft
-                                ? '0px 0px 0px 15px'
-                                : '0px 15px 0px 0px'
+                            padding: item.isLeft ? '0px 0px 0px 15px' : '0px 15px 0px 0px'
                         }"
                     >
                         <!-- 时间 -->
@@ -43,7 +41,7 @@
                             class="time"
                             :style="{ textAlign: item.isLeft ? '' : 'right' }"
                         >
-                            {{ item.time }}
+                            {{ item.time.replace('T', ' ') }}
                         </p>
                         <!-- 消息 -->
                         <div
@@ -124,9 +122,7 @@
                 class="inputItem"
                 style="width: 70%; border-radius: 5px 0 0 5px"
                 :style="{ cursor: canCommit ? '' : 'not-allowed' }"
-                :placeholder="
-                    canCommit ? 'Enter Text...' : '点击按钮让AI闭嘴...'
-                "
+                :placeholder="canCommit ? 'Enter Text...' : '点击按钮让AI闭嘴...'"
                 :disabled="!canCommit"
                 v-model="chatContent"
                 @keyup.enter="commit"
@@ -160,18 +156,14 @@
 <script>
 import { nextTick, ref } from 'vue'
 import { loading } from '@/utils/callback'
-
+import { getMessageList, addMessage } from '@/api/session'
 export default {
     name: 'ChatBoard',
     props: {
         info: Object,
         AImode: Boolean,
-        title: String
-    },
-    computed: {
-        typedText() {
-            return this.printtext.slice(0, this.currentIndex)
-        }
+        title: String,
+        session_id: Number
     },
     data() {
         return {
@@ -179,6 +171,7 @@ export default {
             template: {
                 left: {
                     // 对方的信息
+                    ID: this.info.id,
                     username: this.info.username,
                     image: this.info.image,
                     time: '',
@@ -191,6 +184,7 @@ export default {
                 },
                 right: {
                     // 你的信息
+                    ID: this.$store.state.userInfo.ID,
                     username: this.$store.state.userInfo.nickname,
                     image: this.$store.state.userInfo.image,
                     time: '',
@@ -198,6 +192,7 @@ export default {
                     isLeft: false
                 }
             },
+            lastUpdateTime: '',
             updateEvent: '',
             messageList: [],
             chatContent: '',
@@ -216,17 +211,15 @@ export default {
         }
     },
     methods: {
+        getDate() {
+            return Date()
+        },
         // 发出消息后，当超出最大高度时，聊天框移到最底部显示刚发出的消息
         toBottomArea() {
             nextTick(() => {
                 const div = document.getElementById('toBottom')
                 div.scrollTop = div.scrollHeight
             })
-        },
-        // 获取当前时间
-        getCurrentTime() {
-            const time = '10:26'
-            return time
         },
         // 生成消息
         generateMessage(content, time, pos) {
@@ -240,11 +233,7 @@ export default {
             this.canCommit = false
             // 思考
             setTimeout(() => {
-                const temp = this.generateMessage(
-                    '',
-                    this.getCurrentTime(),
-                    'left'
-                )
+                const temp = this.generateMessage('', this.getDate(), 'left')
                 temp.isthinking = true
                 this.messageList.push(temp)
                 this.toBottomArea()
@@ -256,11 +245,7 @@ export default {
                 // 弹出thinking数据
                 this.messageList.pop()
                 // 生成content 修改相应内容
-                const temp = this.generateMessage(
-                    content,
-                    this.getCurrentTime(),
-                    'left'
-                )
+                const temp = this.generateMessage(content, this.getDate(), 'left')
                 temp.tip = '查看关系图'
                 this.messageList.push(temp)
                 this.toBottomArea()
@@ -273,30 +258,24 @@ export default {
             if (this.canCommit) {
                 // 禁止提交空内容
                 if (this.chatContent.trim() !== '') {
-                    this.messageList.push(
-                        this.generateMessage(
-                            this.chatContent,
-                            this.getCurrentTime(),
-                            'right'
-                        )
-                    )
-                    this.toBottomArea()
+                    const message = this.generateMessage(this.chatContent, this.getDate(), 'right')
+                    if (this.AImode) {
+                        // todo, 请求AI
+                        this.AIresponse()
+                        this.messageList.push(message)
+                    } else {
+                        addMessage({
+                            session_id: this.session_id,
+                            time: Date.parse(message.time),
+                            content: message.content
+                        }).then(() => {
+                            setTimeout(() => {
+                                this.toBottomArea()
+                            }, 500)
+                        })
+                    }
                     // 搜索框置空
                     this.chatContent = ''
-                    // 向后端请求数据，看是否有对方的信息
-                    setTimeout(() => {
-                        this.messageList.push(
-                            this.generateMessage(
-                                '哈喽哈喽',
-                                this.getCurrentTime(),
-                                'left'
-                            )
-                        )
-                        this.toBottomArea()
-                    }, 3000)
-                    if (this.AImode) {
-                        this.AIresponse()
-                    }
                 }
             } else {
                 this.stopResponse()
@@ -307,13 +286,7 @@ export default {
             // 弹出思考ing
             this.messageList.pop()
             // 停止回答
-            this.messageList.push(
-                this.generateMessage(
-                    this.stopText,
-                    this.getCurrentTime(),
-                    'left'
-                )
-            )
+            this.messageList.push(this.generateMessage(this.stopText, this.getDate(), 'left'))
             // 清除延时器  后期应该是拦截请求
             clearTimeout(this.timer)
             this.canCommit = true
@@ -323,13 +296,7 @@ export default {
             // 清空数组
             this.messageList = []
             if (this.AImode) {
-                this.messageList.push(
-                    this.generateMessage(
-                        '让我们开始新的话题叭~',
-                        this.getCurrentTime(),
-                        'left'
-                    )
-                )
+                this.messageList.push(this.generateMessage('让我们开始新的话题叭~', this.getDate(), 'left'))
             }
             // 清除延时器  后期应该是拦截请求
             clearTimeout(this.timer)
@@ -343,10 +310,7 @@ export default {
         },
         // 显示关系图
         isShow(item, index) {
-            if (
-                index !== 0 &&
-                this.messageList[index].content !== this.stopText
-            ) {
+            if (index !== 0 && this.messageList[index].content !== this.stopText) {
                 if (!item.isShowGraph) {
                     item.tip = '收起关系图'
                 } else {
@@ -371,19 +335,28 @@ export default {
                     }
                 })
             }
+        },
+        queryMessage(time) {
+            // 获取数据
+            getMessageList({
+                session_id: this.session_id,
+                time: time
+            }).then((data) => {
+                const { endTime, messageList } = data
+                // 将历史纪录加入到消息列表中
+                for (let i = 0; i < messageList.length; i++) {
+                    if (messageList[i].ID === this.template.right.ID) {
+                        this.messageList.push(this.generateMessage(messageList[i].content, messageList[i].time, 'right'))
+                    } else {
+                        this.messageList.push(this.generateMessage(messageList[i].content, messageList[i].time, 'left'))
+                    }
+                }
+                this.lastUpdateTime = endTime
+                if (time === '--') {
+                    this.toBottomArea()
+                }
+            })
         }
-        // // 打字效果
-        // printText(text) {
-        //     // const textContainer = document.getElementById('chatText')
-        //     this.printtext = text
-        //     const interval = setInterval(() => {
-        //         if (this.currentIndex <= this.printtext.length) {
-        //             this.currentIndex++
-        //         } else {
-        //             clearInterval(interval)
-        //         }
-        //     }, 25)
-        // }
     },
     mounted() {
         setTimeout(() => {
@@ -394,69 +367,15 @@ export default {
         }, 0)
     },
     created() {
-        // 设定更新时间，用于获取left用户信息, 500ms请求一次
         if (!this.AImode) {
             // 获取先前聊天记录
-            const HistoryMesList = [
-                { ID: 1, time: '10:23', content: '哈喽哈喽' },
-                { ID: 1, time: '10:24', content: '额鹅鹅鹅' },
-                { ID: 1, time: '10:26', content: '不理我' },
-                { ID: 2, time: '10:30', content: '你好你好' },
-                { ID: 2, time: '10:30', content: '刚才在打游戏' },
-                { ID: 1, time: '10:31', content: '噢噢没事' }
-            ]
-            // 将历史纪录加入到消息列表中
-            for (let i = 0; i < HistoryMesList.length; i++) {
-                if (HistoryMesList[i].ID === 1) {
-                    this.messageList.push(
-                        this.generateMessage(
-                            HistoryMesList[i].content,
-                            HistoryMesList[i].time,
-                            'right'
-                        )
-                    )
-                } else {
-                    this.messageList.push(
-                        this.generateMessage(
-                            HistoryMesList[i].content,
-                            HistoryMesList[i].time,
-                            'left'
-                        )
-                    )
-                }
-            }
+            this.queryMessage('--')
             this.updateEvent = setInterval(() => {
                 // 请求contentList，后端会保留left最后一次请求截止日期
-                // 500ms更新一次聊天记录，并保存到数组中
-                const newInfo = []
-                for (let i = 0; i < newInfo.length; i++) {
-                    if (newInfo[i].ID === 1) {
-                        this.messageList.push(
-                            this.generateMessage(
-                                newInfo[i].content,
-                                newInfo[i].time,
-                                'right'
-                            )
-                        )
-                    } else {
-                        this.messageList.push(
-                            this.generateMessage(
-                                newInfo[i].content,
-                                newInfo[i].time,
-                                'left'
-                            )
-                        )
-                    }
-                }
+                this.queryMessage(this.lastUpdateTime)
             }, 500)
         } else {
-            this.messageList.push(
-                this.generateMessage(
-                    '快来和我交流你的问题叭~',
-                    this.getCurrentTime(),
-                    'left'
-                )
-            )
+            this.messageList.push(this.generateMessage('快来和我交流你的问题叭~', this.getDate(), 'left'))
         }
     },
     unmounted() {
@@ -492,6 +411,8 @@ export default {
     padding: 1%;
     overflow-x: hidden;
     overflow-y: auto;
+    border: 1px solid grey;
+    border-radius: 10px;
 }
 /* 左尖角聊天框  右尖角聊天框 */
 .chatleft,

@@ -13,7 +13,7 @@ export default {
     },
     mutations: {
         update (state, userInfo) {
-            state.ID = userInfo.ID
+            state.ID = userInfo.id
             state.nickname = userInfo.nickname
             state.image = userInfo.image
             // 持久化存储

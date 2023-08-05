@@ -7,12 +7,12 @@ const MainMenu = [
     {
         name: '文本智能分析',
         href: '/system/identification',
-        icon: 'search-outline'
+        icon: 'reader-outline'
     },
     {
         name: '大学专业智能查询',
         href: '/system/entitySearch',
-        icon: 'search-outline'
+        icon: 'search-circle-outline'
     },
     {
         name: '查关系',

@@ -13,7 +13,7 @@ export default {
          *  }
          * }
          */
-        entity: Array
+        entity: Object
     },
     data() {
         return {

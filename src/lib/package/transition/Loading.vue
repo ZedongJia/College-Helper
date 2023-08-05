@@ -24,7 +24,7 @@ export default {
     background: conic-gradient(
         from 120deg at 50% 64%,
         #0000,
-        #25b09b 1deg 120deg,
+        rgb(21, 219, 255) 1deg 120deg,
         #0000 121deg
     );
     transform-origin: 50% 50%;

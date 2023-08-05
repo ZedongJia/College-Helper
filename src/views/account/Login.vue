@@ -82,7 +82,7 @@ export default {
                 .then((userInfo) => {
                     this.$store.commit('userInfo/update', userInfo)
                     // 产生提示框
-                    this.$store.commit('prompt/trigger', '登陆成功')
+                    this.$store.commit('prompt/trigger', '登录成功')
                     // 跳转
                     jumpTo(() => {
                         this.$router.push({

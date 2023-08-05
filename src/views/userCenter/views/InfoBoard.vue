@@ -41,13 +41,7 @@
     </div>
 </template>
 <script>
-import {
-    getUserInfo,
-    updateUserInfo,
-    pwPOST,
-    getPrivacyInfo,
-    updatePrivacyInfo
-} from '@/api/user'
+import { getUserInfo, updateUserInfo, pwPOST, getPrivacyInfo, updatePrivacyInfo } from '@/api/user'
 import { Validator } from '@/utils/validation'
 export default {
     data() {
@@ -171,18 +165,15 @@ export default {
                     })
                     let isValid = true
                     if (!ret.phone.result) {
-                        document.querySelector('#id_phone').innerHTML =
-                            ret.phone.error
+                        document.querySelector('#id_phone').innerHTML = ret.phone.error
                         isValid = false
                     }
                     if (!ret.email.result) {
-                        document.querySelector('#id_email').innerHTML =
-                            ret.email.error
+                        document.querySelector('#id_email').innerHTML = ret.email.error
                         isValid = false
                     }
                     if (isValid) {
                         updateUserInfo({
-                            ID: this.$store.state.userInfo.ID,
                             ...receive
                         }).then((userInfo) => {
                             this.$store.commit('prompt/trigger', '修改成功')
@@ -199,19 +190,16 @@ export default {
                     })
                     let isValid = true
                     if (!ret.password.result) {
-                        document.querySelector('#id_password').innerHTML =
-                            ret.password.error
+                        document.querySelector('#id_password').innerHTML = ret.password.error
                         isValid = false
                     }
                     if (String(receive.confirm) !== String(receive.password)) {
-                        document.querySelector('#id_confirm').innerHTML =
-                            '确认密码必须与密码相同'
+                        document.querySelector('#id_confirm').innerHTML = '确认密码必须与密码相同'
                         isValid = false
                     }
                     if (isValid) {
                         // todo
                         pwPOST({
-                            ID: this.$store.state.userInfo.ID,
                             password: receive.password
                         })
                             .then((info) => {
@@ -228,7 +216,6 @@ export default {
                 }
                 case 2: {
                     updatePrivacyInfo({
-                        ID: this.$store.state.userInfo.ID,
                         ...receive
                     })
                         .then(() => {
@@ -246,9 +233,7 @@ export default {
         },
         loadData() {
             // require
-            getUserInfo({
-                ID: this.$store.state.userInfo.ID
-            })
+            getUserInfo()
                 .then((userInfo) => {
                     Object.values(userInfo).forEach((item, index) => {
                         this.infoInputs[index + 1].value = item
@@ -260,9 +245,7 @@ export default {
                         level: 'warning'
                     })
                 })
-            getPrivacyInfo({
-                ID: this.$store.state.userInfo.ID
-            })
+            getPrivacyInfo()
                 .then((privacyInfo) => {
                     Object.values(privacyInfo).forEach((item, index) => {
                         this.privInputs[index].value = item

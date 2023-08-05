@@ -49,7 +49,6 @@ export default {
         del(group, index) {
             const { time, type, content } = this.collectionDict[group][index]
             deleteCollectionInfo({
-                ID: this.$store.state.userInfo.ID,
                 time: time,
                 type: type,
                 content: content
@@ -67,9 +66,7 @@ export default {
         },
         loadData() {
             // require
-            getCollectionInfo({
-                ID: this.$store.state.userInfo.ID
-            })
+            getCollectionInfo()
                 .then((collectionInfo) => {
                     this.collectionDict = collectionInfo
                 })
