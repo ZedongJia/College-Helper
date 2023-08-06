@@ -23,6 +23,8 @@
                         text-align: center;
                         pointer-events: none;
                         user-select: none;
+                        height: 150px;
+                        overflow: hidden;
                         z-index: 10;
                     "
                 >
@@ -37,11 +39,15 @@
                         {{ item.content }}
                     </p>
                 </div>
-                <a
-                    :href="item.link"
-                    style="user-select: none"
-                    >Read More</a
+                <div
+                    style="
+                        padding:0 0 0 10em;
+                        pointer-events: none;
+                        user-select: none;
+                    "
                 >
+                    <a :href="item.link">Read More</a>
+                </div>
             </Card>
         </li>
     </ul>
@@ -261,7 +267,7 @@ export default {
                         'px,' +
                         this.firstheight +
                         'px)'
-                        console.log(style)
+                    console.log(style)
                 } else {
                     style.transform =
                         'translate3D(0,0,' +
@@ -278,10 +284,10 @@ export default {
         },
         onTransitionEnd(index) {
             if (this.isRefresh) {
-                    this.firstwidth = 0 - this.firstwidth
-                    this.firstheight = 0 - this.firstheight
-                    this.isRefresh = !this.isRefresh
-                    console.log(this.isRefresh)
+                this.firstwidth = 0 - this.firstwidth
+                this.firstheight = 0 - this.firstheight
+                this.isRefresh = !this.isRefresh
+                console.log(this.isRefresh)
             }
         },
         Refresh(index, centerX, centerY) {

@@ -36,7 +36,7 @@
                         :key="itemTable"
                     >
                         <td v-for="i in itemTable" :key="i">{{ i }}</td>
-                        <Button v-if="isShowButton" @clickIt="detail(itemTable)" style="margin: 2%;">{{ ButtonName }}<i>!</i></Button>
+                        <Button v-if="isShowButton" @clickIt="detail(itemTable)" style="margin: 2%;min-width:0">{{ ButtonName }}<i>!</i></Button>
                     </tr>
                 </TransitionGroup>
             </tbody>

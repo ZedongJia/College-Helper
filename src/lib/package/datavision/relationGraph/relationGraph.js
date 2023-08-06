@@ -9,14 +9,16 @@ import * as echarts from 'echarts'
  */
 function generateRelationGraph (element, data, link, isDraggable, isAnimation) {
     // todo
-    const colors = ['red', 'green', 'yellow']
+    const colors = ['RGB(100, 149, 237)', 'RGB(72,209,204', 'RGB(72,209,204']
     const option = {
         series: [
             {
                 type: 'graph',
                 layout: 'force',
+                symbolSize: 50,
                 roam: isDraggable,
                 animation: isAnimation,
+                initLayout: 'circular',
                 // 数据点
                 data: data,
                 // 边
@@ -24,18 +26,20 @@ function generateRelationGraph (element, data, link, isDraggable, isAnimation) {
                 // 数据点名称设置
                 label: {
                     show: true,
-                    position: 'right',
                     formatter: '{b}',
-                    distance: 20,
-                    fontSize: 18,
-                    align: 'center'
+                    // distance: 20,
+                    // fontSize: 18,
+                    align: 'center',
+                    textStyle: {
+                        color: 'white' // 设置节点标签字体颜色为红色
+                    }
                 },
                 // 边设置
                 lineStyle: {
                     color: 'grey',
                     opacity: 1,
                     width: 2,
-                    curveness: 0
+                    curveness: 0.1
                 },
                 itemStyle: {
                     color: (params) => {
@@ -57,13 +61,13 @@ function generateRelationGraph (element, data, link, isDraggable, isAnimation) {
                 force: {
                     // 初始化动画
                     layoutAnimation: isAnimation,
-                    repulsion: 10,
+                    repulsion: 20,
                     gravity: 0.01,
                     edgeLength: 200
                 },
                 focus: 'adjacency',
                 legendHoverLink: true,
-                draggable: false
+                draggable: true
             }
         ]
     }
