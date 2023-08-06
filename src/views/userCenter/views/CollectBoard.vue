@@ -9,6 +9,12 @@
         @query="turnTo"
         @del="del"
     ></MessageList>
+    <PromptBox
+        v-if="needConfirm"
+        title="确认删除？"
+        @confirm="confirmDel"
+        @back="reback"
+    />
 </template>
 <script>
 import { getCollectionInfo, deleteCollectionInfo } from '@/api/user'
@@ -16,7 +22,9 @@ import { getCollectionInfo, deleteCollectionInfo } from '@/api/user'
 export default {
     data() {
         return {
-            collectionDict: {}
+            collectionDict: {},
+            preDel: {},
+            needConfirm: false
         }
     },
     computed: {
@@ -47,9 +55,30 @@ export default {
             })
         },
         del(group, index) {
+            // todo
+            this.needConfirm = true
+            this.preDel = {
+                group: group,
+                index: index
+            }
+        },
+        loadData() {
+            // require
+            getCollectionInfo()
+                .then((collectionInfo) => {
+                    this.collectionDict = collectionInfo
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
+        },
+        confirmDel() {
+            const { group, index } = this.preDel
             const { time, type, content } = this.collectionDict[group][index]
             deleteCollectionInfo({
-                ID: this.$store.state.userInfo.ID,
                 time: time,
                 type: type,
                 content: content
@@ -64,21 +93,10 @@ export default {
                         level: 'warning'
                     })
                 })
+            this.needConfirm = false
         },
-        loadData() {
-            // require
-            getCollectionInfo({
-                ID: this.$store.state.userInfo.ID
-            })
-                .then((collectionInfo) => {
-                    this.collectionDict = collectionInfo
-                })
-                .catch((error) => {
-                    this.$store.commit('prompt/trigger', {
-                        msg: error,
-                        level: 'warning'
-                    })
-                })
+        reback() {
+            this.needConfirm = false
         }
     },
     created() {

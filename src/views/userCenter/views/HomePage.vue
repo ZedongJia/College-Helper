@@ -12,11 +12,12 @@
         </div>
         <div class="info-title">{{ userInfo.nickname }}</div>
         <div
+            v-if="id !== undefined"
             class="flex-row-evenly"
             style="width: 200px"
         >
             <Button @clickIt="mailTo">私信</Button>
-            <Button @clickIt="follow">关注</Button>
+            <Button @clickIt="followTo">关注</Button>
         </div>
         <br />
         <div class="info-block flex-row-left">
@@ -45,9 +46,7 @@
                             :name="msg.icon"
                         ></ion-icon
                     ></span>
-                    <span style="width: 100px; font-weight: bold">{{
-                        msg.title
-                    }}</span>
+                    <span style="width: 100px; font-weight: bold">{{ msg.title }}</span>
                     <span style="width: 20px">~</span>
                     <span style="width: 250px">{{ msg.value }}</span>
                     <i class="hover-fill"></i>
@@ -83,12 +82,15 @@
                 nodel
             ></MessageList>
         </Board>
-        <br>
+        <br />
     </Board>
 </template>
 <script>
 import { getOpenInfo } from '@/api/user'
 export default {
+    props: {
+        id: Number
+    },
     data() {
         return {
             userInfo: {
@@ -153,11 +155,13 @@ export default {
                 }
             })
         },
-        mailTo() {
+        mailTo(e) {
             // todo
+            console.log(e)
         },
-        followTo() {
+        followTo(e) {
             // todo
+            console.log(e)
         }
     },
     computed: {
@@ -167,8 +171,12 @@ export default {
     },
     created() {
         // request, filter, get public
+        let queryId = this.id
+        if (queryId === undefined) {
+            queryId = this.$store.state.userInfo.ID
+        }
         getOpenInfo({
-            ID: this.$store.state.userInfo.ID
+            ID: queryId
         })
             .then((openDict) => {
                 // 获取名字

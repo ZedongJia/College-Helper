@@ -50,22 +50,23 @@
             :isShow="showsecondBox"
             :isLoading="isLoading"
             :data="segmentationResult"
-        ></AnswerBoard>
+        >
+        </AnswerBoard>
     </div>
 </template>
 
 <script>
 import { loading } from '@/utils/callback'
-
+import { cutSentence } from '@/api/entity'
 export default {
     data() {
         return {
             showfirstBox: false,
             showsecondBox: false,
             textInput: '',
-            recognizeResult: '玉米，小麦, 袁隆平, 垂直农业, 顶顶顶顶顶顶顶',
-            entity: ['玉米', '袁隆平', '垂直农业'],
-            segmentationResult: '无结果',
+            recognizeResult: '',
+            entity: {},
+            segmentationResult: '',
             isLoading: false
         }
     },
@@ -81,14 +82,45 @@ export default {
         performSearch() {
             // todo
             // 判断问题不为空
+            if (this.textInput === '') {
+                this.$store.commit('prompt/trigger', {
+                    msg: '文本不能为空哦',
+                    level: 'attention'
+                })
+                return
+            }
             // 像后端发送数据
             this.isLoading = true
-
+            if (!this.showfirstBox) {
+                this.showfirstBox = true
+            }
+            if (!this.showsecondBox) {
+                this.showsecondBox = true
+            }
             // waiting for data
             loading(() => {
-                this.isLoading = false
-                this.recognizeResult = ''
-                this.segmentationResult = ''
+                cutSentence({
+                    sentence: this.textInput
+                })
+                    .then((result) => {
+                        console.log(result)
+                        this.recognizeResult = this.textInput
+                        this.entity = result.cut_dict
+                        this.segmentationResult = String(result.cut_list)
+                        this.isLoading = false
+                    })
+                    .catch((error) => {
+                        this.$store.commit('prompt/trigger', {
+                            msg: error,
+                            level: 'warning'
+                        })
+                        if (this.showfirstBox) {
+                            this.showfirstBox = true
+                        }
+                        if (this.showsecondBox) {
+                            this.showsecondBox = true
+                        }
+                    })
             })
         }
     }
