@@ -4,15 +4,15 @@
         style="width: 100%; height: 500px"
     >
         <MessageList
-            style="flex: 0 0 30%; height: 100%"
+            style="flex: 0 0 35%; height: 100%"
             :messageDict="temperoaryDict"
             :headers="['时间', '昵称']"
-            :colWidth="[30, 70]"
+            :colWidth="[40, 60]"
             @query="talkTo"
             @del="del"
         ></MessageList>
-        <div style="flex: 0 0 3px; height: 100%; background-color: grey; border-radius: 10%;"></div>
-        <div style="flex: 0 0 68%; height: 100%">
+        <div style="flex: 0 0 3px; height: 100%; background-color: grey; border-radius: 10%"></div>
+        <div style="flex: 0 0 63%; height: 100%">
             <EmptyHint v-if="JSON.stringify(personInfo) === '{}'"></EmptyHint>
             <keep-alive
                 :max="10"
@@ -51,16 +51,16 @@ export default {
             personInfo: {},
             session_id: -1,
             needConfirm: false,
-            preDel: {}
+            preDel: {},
+            updateSession: ''
         }
     },
     methods: {
         talkTo(group, index) {
             // 请求人员数据
-            const image = 'http://localhost:8000/gallery/match/?ID=5'
             const talkToPerson = this.temperoaryDict[group][index]
             this.personInfo.username = talkToPerson.info.content
-            this.personInfo.image = image
+            this.personInfo.image = talkToPerson.info.img
             this.session_id = this.sessionDict[group][index]
         },
         del(group, index) {
@@ -75,11 +75,30 @@ export default {
             const { group, index } = this.preDel
             dropSession({
                 session_id: this.sessionDict[group][index]
+            }).then(() => {
+                this.$forceUpdate()
             })
             this.needConfirm = false
         },
         reback() {
             this.needConfirm = false
+        },
+        updateData() {
+            getSession()
+                .then((sessionInfo) => {
+                    sessionInfo['临时会话'].forEach((element, index) => {
+                        this.temperoaryDict['临时会话'][index].time = element.time
+                    })
+                    sessionInfo['好友'].forEach((element, index) => {
+                        this.temperoaryDict['好友'][index].time = element.time
+                    })
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
         }
     },
     created() {
@@ -106,6 +125,14 @@ export default {
                     level: 'warning'
                 })
             })
+    },
+    mounted() {
+        this.updateSession = setInterval(() => {
+            this.updateData()
+        }, 3000)
+    },
+    unmounted() {
+        clearInterval(this.updateSession)
     }
 }
 </script>

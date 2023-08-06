@@ -65,6 +65,7 @@
 </template>
 <script>
 import { loading } from '@/utils/callback'
+import { RelationQuery } from '@/api/entity'
 
 export default {
     data() {
@@ -89,8 +90,17 @@ export default {
             // waiting for data
             loading(() => {
                 this.isLoading = false
-                this.data = []
-                this.link = []
+                // this.data = []
+                // this.link = []
+                RelationQuery({
+                    entity1: this.entity1,
+                    option: this.option,
+                    entity2: this.entity2
+                }).then((data) => {
+                    console.log(data)
+                }).catch((error) => {
+                    console.log(error)
+                })
             })
         },
         detail(item) {
@@ -112,7 +122,7 @@ export default {
             { name: '大菠萝', c: 0 }
         ]
         this.link = [
-            { source: '蔬菜', label: '属于3', target: '南开大学' },
+            { source: '蔬菜', label: ['属于2', '属于3'], target: '南开大学' },
             { source: '水果', label: '属于2', target: '南开大学' },
             { source: '大西瓜', label: '属于1', target: '水果' },
             { source: '番茄', label: '属于0', target: '蔬菜' },

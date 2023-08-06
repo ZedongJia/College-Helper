@@ -215,10 +215,15 @@ export default {
             return Date()
         },
         // 发出消息后，当超出最大高度时，聊天框移到最底部显示刚发出的消息
-        toBottomArea() {
+        toBottomArea(first = false) {
             nextTick(() => {
+                const fixHeight = 395
+                const rg = 100
                 const div = document.getElementById('toBottom')
-                div.scrollTop = div.scrollHeight
+                if (div.scrollTop > div.scrollHeight - fixHeight - rg || first) {
+                    console.log('scroll')
+                    div.scrollTop = 9999999
+                }
             })
         },
         // 生成消息
@@ -268,10 +273,6 @@ export default {
                             session_id: this.session_id,
                             time: Date.parse(message.time),
                             content: message.content
-                        }).then(() => {
-                            setTimeout(() => {
-                                this.toBottomArea()
-                            }, 500)
                         })
                     }
                     // 搜索框置空
@@ -352,34 +353,32 @@ export default {
                     }
                 }
                 this.lastUpdateTime = endTime
-                if (time === '--') {
+                if (messageList.length !== 0) {
                     this.toBottomArea()
                 }
             })
         }
     },
-    mounted() {
+    activated() {
+        this.updateEvent = setInterval(() => {
+            // 请求contentList，后端会保留left最后一次请求截止日期
+            this.queryMessage(this.lastUpdateTime)
+        }, 500)
         setTimeout(() => {
-            const div = document.getElementById('toBottom')
-            if (div !== undefined) {
-                div.scrollTop = div.scrollHeight
-            }
-        }, 0)
+            this.toBottomArea(true)
+        }, 600)
+    },
+    deactivated() {
+        console.log('clear')
+        clearInterval(this.updateEvent)
     },
     created() {
         if (!this.AImode) {
             // 获取先前聊天记录
             this.queryMessage('--')
-            this.updateEvent = setInterval(() => {
-                // 请求contentList，后端会保留left最后一次请求截止日期
-                this.queryMessage(this.lastUpdateTime)
-            }, 500)
         } else {
             this.messageList.push(this.generateMessage('快来和我交流你的问题叭~', this.getDate(), 'left'))
         }
-    },
-    unmounted() {
-        clearInterval(this.updateEvent)
     }
 }
 </script>
@@ -413,6 +412,7 @@ export default {
     overflow-y: auto;
     border: 1px solid grey;
     border-radius: 10px;
+    scroll-behavior: smooth;
 }
 /* 左尖角聊天框  右尖角聊天框 */
 .chatleft,

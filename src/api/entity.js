@@ -9,6 +9,23 @@ function raise(msg) {
         level: 'warning'
     })
 }
+export function RelationQuery (params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'entity/relation/',
+            method: 'GET',
+            params
+        }).then(response => {
+            if (response) {
+                resolve(response)
+            } else {
+                reject(response)
+            }
+        }).catch(() => {
+            raise('网络故障，请重试')
+        })
+    })
+}
 
 /**
  * 查询实体

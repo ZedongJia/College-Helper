@@ -106,7 +106,7 @@ export default {
                         console.log(result)
                         this.recognizeResult = this.textInput
                         this.entity = result.cut_dict
-                        this.segmentationResult = result.cut_list
+                        this.segmentationResult = String(result.cut_list)
                         this.isLoading = false
                     })
                     .catch((error) => {
