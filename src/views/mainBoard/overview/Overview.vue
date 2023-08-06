@@ -46,7 +46,14 @@
                 >
                     已是最高级分类
                 </p>
-                <span v-else> {{ node.parent }} </span>
+                <span
+                    @click="upskip(node, node.parent)"
+                    v-else
+                >
+                    <div class="link-text">
+                        <a>{{ node.parent }}</a>
+                    </div>
+                </span>
             </Board>
             <br />
             <Board>
@@ -56,26 +63,27 @@
                 ></Title>
                 <p
                     style="color: grey"
-                    v-if="
-                        !hasChildren(node.children)
-                    "
+                    v-if="!hasChildren(node.children)"
                 >
                     已是最低级分类
                 </p>
-                <p
-                    style="margin-bottom: 8px"
+                <span
                     v-for="i in node.children"
                     :key="i"
+                    @click="downskip(i, node.name)"
+                    style="line-height: 30px"
                 >
-                    {{ i.name }}
-                </p>
+                    <div class="link-text">
+                        <a>{{ i.name }}</a>
+                    </div>
+                </span>
             </Board>
         </div>
     </div>
     <PopFrame v-if="appear">
         <div style="width: 50%; margin: 50px auto">
             <Board>
-                <Title title="农业分类树"></Title>
+                <Title title="分类树"></Title>
             </Board>
             <Board
                 style="
@@ -100,75 +108,8 @@
 <script>
 import { mapState } from 'vuex'
 import Tree from './components/Tree'
+import treeData from './tree.json'
 const pinyin = require('js-pinyin')
-const treeData = {
-    name: '农业',
-    children: [
-        { name: '养鱼业' },
-        { name: '种花业' },
-        {
-            name: '驯养动物',
-            children: [
-                {
-                    name: '畜牧业',
-                    children: [{ name: '家畜' }]
-                },
-                {
-                    name: '种植业',
-                    children: [{ name: '树' }]
-                },
-                {
-                    name: '畜牧业',
-                    children: [{ name: '家畜' }]
-                },
-                {
-                    name: '种植业',
-                    children: [
-                        { name: '树' },
-                        {
-                            name: '畜牧业',
-                            children: [{ name: '家畜' }]
-                        },
-                        {
-                            name: '种植业',
-                            children: [
-                                { name: '树' },
-                                {
-                                    name: '畜牧业',
-                                    children: [{ name: '家畜' }]
-                                },
-                                {
-                                    name: '种植业',
-                                    children: [
-                                        { name: '树' },
-                                        {
-                                            name: '畜牧业',
-                                            children: [{ name: '家畜' }]
-                                        },
-                                        {
-                                            name: '种植业',
-                                            children: [
-                                                { name: '树' },
-                                                {
-                                                    name: '畜牧业',
-                                                    children: [{ name: '家畜' }]
-                                                },
-                                                {
-                                                    name: '种植业',
-                                                    children: [{ name: '树' }]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-}
 export default {
     components: {
         Tree
@@ -176,8 +117,9 @@ export default {
     data() {
         return {
             appear: false,
-            treeData,
-            childrenList: []
+            treeData: treeData,
+            childrenList: [],
+            treeStack: []
         }
     },
     methods: {
@@ -187,13 +129,33 @@ export default {
         hasChildren(children) {
             return children !== undefined && children.length !== 0
         },
-        dfsAllNodes(i) {
+        dfsAllNodes(i, count = 0) {
+            if (count === 1) {
+                // 达到指定递归次数时停止递归
+                return i.name
+            }
             if (i.children) {
                 for (let j = 0; j < i.children.length; j++) {
-                    this.childrenList.push(this.dfsAllNodes(i.children[j]))
+                    this.childrenList.push(
+                        this.dfsAllNodes(i.children[j], count + 1)
+                    )
                 }
             }
+
             return i.name
+        },
+        upskip(node, parent) {
+            this.$store.commit('tree/updateStack', {
+                nodename: parent,
+                updown: 'up'
+            })
+        },
+        downskip(i, name) {
+            this.$store.commit('tree/updateNode', {
+                parent: name,
+                children: i.children,
+                name: i.name
+            })
         }
     },
     computed: {
@@ -210,24 +172,28 @@ export default {
                 sortedData[initial] = []
             }
             if (this.childrenList && Array.isArray(this.childrenList)) {
-                this.childrenList.forEach((item) => {
+                // this.childrenList.forEach((item) =>
+                for (let i = 0; i < this.childrenList.length; i++) {
+                    const item = this.childrenList[i]
                     // 获取首字母
-                    const initial =
-                        collator.compare(
-                            pinyin.getFullChars(item[0])[0],
-                            'A'
-                        ) >= 0 &&
-                        collator.compare(
-                            pinyin.getFullChars(item[0])[0],
-                            'Z'
-                        ) <= 0
-                            ? pinyin.getFullChars(item[0])[0]
-                            : ''
-                    if (!sortedData[initial]) {
-                        sortedData[initial] = []
+                    if (item !== '') {
+                        const initial =
+                            collator.compare(
+                                pinyin.getFullChars(item[0])[0],
+                                'A'
+                            ) >= 0 &&
+                            collator.compare(
+                                pinyin.getFullChars(item[0])[0],
+                                'Z'
+                            ) <= 0
+                                ? pinyin.getFullChars(item[0])[0]
+                                : ''
+                        if (!sortedData[initial]) {
+                            sortedData[initial] = []
+                        }
+                        sortedData[initial].push(item)
                     }
-                    sortedData[initial].push(item)
-                })
+                }
             }
             return sortedData
         }
@@ -237,17 +203,18 @@ export default {
             this.appear = !this.appear
             this.childrenList = []
             this.dfsAllNodes(this.node)
+        },
+        node() {
+            this.childrenList = []
+            this.dfsAllNodes(this.node)
         }
     },
     created() {
         this.$store.commit('tree/updateNode', {
             parent: 'root',
-            children: treeData.children,
-            name: treeData.name
+            children: treeData,
+            name: '省份'
         })
-    },
-    mounted() {
-        this.dfsAllNodes(this.node)
     }
 }
 </script>

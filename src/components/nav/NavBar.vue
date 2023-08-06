@@ -5,15 +5,27 @@
                 class="menuToggle"
                 @click="switchMenu"
             ></span>
-            <span id="logo">垂直农业知识图谱</span>
+            <span id="logo"><i>College Helper</i></span>
         </div>
         <div class="flex-row-center">
             <ThemeCheck
                 id="theme-switch"
                 v-model="isLight"
             ></ThemeCheck>
+            <div id="nav-avator">
+                <img
+                    :src="$store.state.userInfo.image"
+                    alt="无法显示图片"
+                />
+            </div>
             <span id="log-menu">
-                个人中心
+                <div class="icon">
+                    <ion-icon
+                        style="transform: scale(1.5)"
+                        name="settings-outline"
+                    ></ion-icon>
+                </div>
+                更多
                 <span id="popover">
                     <MenuItem
                         v-for="item in popoverData"
@@ -40,6 +52,9 @@ export default {
         return {
             popoverData: [
                 {
+                    name: '个人中心'
+                },
+                {
                     name: '登出'
                 },
                 {
@@ -53,17 +68,23 @@ export default {
         handlePopoverClick(item) {
             // todo
             switch (item.name) {
+                case '个人中心':
+                    this.$store.commit('menu/toSubMenu')
+                    this.$router.push({
+                        name: 'homePage'
+                    })
+                    break
                 case '登出':
                     // todo
                     stateGET({
                         logout: true
                     })
                         .then(() => {
-                            // 清空本地存储
-                            this.$store.commit('userInfo/refresh')
                             this.$store.commit('prompt/trigger', '登出成功')
                             setTimeout(() => {
                                 // turn style to light
+                                // 清空本地存储
+                                this.$store.commit('userInfo/refresh')
                                 this.isLight = true
                                 this.$router.push('/')
                             }, 1500)
@@ -119,7 +140,6 @@ export default {
 }
 
 #logo {
-    margin-left: 20px;
     font-size: 22px;
     font-weight: bold;
 }
@@ -130,14 +150,36 @@ export default {
     cursor: pointer;
 }
 
+#nav-avator {
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+#nav-avator img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
 #log-menu {
     cursor: pointer;
     position: relative;
-    display: inline-block;
-    margin: 0 20px;
+    display: flex;
+    justify-content: left;
+    margin-right: 20px;
     width: 100px;
     text-align: center;
 }
+
+#log-menu .icon {
+    width: 48px;
+    height: 64px;
+}
+
 #popover {
     z-index: 100;
     position: absolute;
@@ -172,7 +214,7 @@ export default {
 }
 .menuToggle {
     min-width: 60px;
-    height: 70px;
+    height: 64px;
     background: transparent;
     z-index: 1000;
     cursor: pointer;

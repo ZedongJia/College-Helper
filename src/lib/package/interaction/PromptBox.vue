@@ -18,7 +18,8 @@
             'prompt-box': true,
             'p-top': true,
             info: level === 'info',
-            warning: level === 'warning'
+            warning: level === 'warning',
+            attention: level === 'attention'
         }"
     >
         <Title
@@ -87,7 +88,7 @@ export default {
     padding: 16px 0;
     width: 300px;
     border-radius: 10px;
-    box-shadow: 0 7px 10px 3px var(--item-bg-color);
+    box-shadow: 0 7px 10px 3px grey;
     transition: 0.25s;
 }
 .p-center {
@@ -107,5 +108,8 @@ export default {
 }
 .warning {
     background-color: rgb(255, 66, 66) !important;
+}
+.attention {
+    background-color: rgb(245, 210, 83) !important;
 }
 </style>
