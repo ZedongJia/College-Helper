@@ -114,7 +114,6 @@ export default {
                 phone: this.loginForm.account,
                 password: this.loginForm.password
             })
-            console.log(res)
             let isValid = true
             if (!res.password.result) {
                 document.querySelector('#password~.error-prompt').innerHTML =

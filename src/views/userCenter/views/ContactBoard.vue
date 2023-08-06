@@ -51,7 +51,8 @@ export default {
             personInfo: {},
             session_id: -1,
             needConfirm: false,
-            preDel: {}
+            preDel: {},
+            updateSession: ''
         }
     },
     methods: {
@@ -124,9 +125,14 @@ export default {
                     level: 'warning'
                 })
             })
-        setInterval(() => {
+    },
+    mounted() {
+        this.updateSession = setInterval(() => {
             this.updateData()
         }, 3000)
+    },
+    unmounted() {
+        clearInterval(this.updateSession)
     }
 }
 </script>

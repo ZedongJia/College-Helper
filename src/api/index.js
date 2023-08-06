@@ -3,7 +3,7 @@ import axios from 'axios'
 const STATE = {
     NOT_FOUND: 400
 }
-axios.defaults.baseURL = 'http://localhost:8000/'
+axios.defaults.baseURL = 'http://localhost:8000/api'
 
 axios.defaults.withCredentials = true
 

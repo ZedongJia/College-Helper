@@ -360,29 +360,25 @@ export default {
         }
     },
     activated() {
+        this.updateEvent = setInterval(() => {
+            // 请求contentList，后端会保留left最后一次请求截止日期
+            this.queryMessage(this.lastUpdateTime)
+        }, 500)
         setTimeout(() => {
             this.toBottomArea(true)
-        }, 10)
+        }, 600)
     },
-    mounted() {
-        setTimeout(() => {
-            this.toBottomArea(true)
-        }, 10)
+    deactivated() {
+        console.log('clear')
+        clearInterval(this.updateEvent)
     },
     created() {
         if (!this.AImode) {
             // 获取先前聊天记录
             this.queryMessage('--')
-            this.updateEvent = setInterval(() => {
-                // 请求contentList，后端会保留left最后一次请求截止日期
-                this.queryMessage(this.lastUpdateTime)
-            }, 500)
         } else {
             this.messageList.push(this.generateMessage('快来和我交流你的问题叭~', this.getDate(), 'left'))
         }
-    },
-    unmounted() {
-        clearInterval(this.updateEvent)
     }
 }
 </script>
@@ -416,6 +412,7 @@ export default {
     overflow-y: auto;
     border: 1px solid grey;
     border-radius: 10px;
+    scroll-behavior: smooth;
 }
 /* 左尖角聊天框  右尖角聊天框 */
 .chatleft,
