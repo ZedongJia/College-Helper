@@ -26,13 +26,6 @@
                     <p style="cursor: default; white-space: nowrap">
                         {{ mo.name }}
                     </p>
-                    <span
-                        class="toggle-icon"
-                        @click="record(index)"
-                        style="white-space: nowrap"
-                    >
-                        [进入分类]
-                    </span>
                 </div>
             </div>
             <ul v-if="isShow[index]">
@@ -75,17 +68,10 @@ export default {
         },
         isFolder(index) {
             return this.model[index].children !== undefined
-        },
-        record(index) {
-            this.$store.commit('tree/updateNode', {
-                parent: this.parent,
-                children: this.model[index].children,
-                name: this.model[index].name
-            })
-            this.$store.commit('tree/hide')
         }
     },
     created() {
+        console.log(this.model)
         for (let i = 0; i < this.model.length; i++) {
             this.isShow[i] = false
         }
