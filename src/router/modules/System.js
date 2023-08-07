@@ -22,7 +22,7 @@ export default {
         },
         {
             path: 'interest',
-            component: () => import('@/views/Interest.vue')
+            component: () => import('@/views/mainBoard/Interest.vue')
         },
         {
             path: 'chatAI',

@@ -171,6 +171,9 @@ export default {
 }
 
 .myform thead tr {
+    z-index: 1000;
+    position: sticky;
+    top: 0;
     background: var(--item-bg-color);
     color: var(--item-font-color);
     /* border-bottom: 2px solid var(--item-bg-color);

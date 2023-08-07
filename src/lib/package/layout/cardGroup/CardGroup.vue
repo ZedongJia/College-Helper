@@ -1,5 +1,5 @@
 <template>
-    <ul class="cardgroup">
+    <ul ref="fa" class="cardgroup">
         <li
             v-for="(item, index) in pages"
             :key="index"
@@ -111,6 +111,7 @@ export default {
                 if (this.isDraging) {
                     return
                 }
+                this.$refs.fa.style.zIndex = 1000
                 // 组件位置初始化
                 e.target.style.top = 0
                 e.target.style.left = 0
@@ -165,6 +166,7 @@ export default {
             if (index === this.firstPage) {
                 // 不再拖动
                 this.isDraging = false
+                this.$refs.fa.style.zIndex = 1
                 e.target.style.left = 0
                 e.target.style.top = 0
                 if (this.rotate > 100) {
@@ -271,7 +273,7 @@ export default {
                 } else {
                     style.transform =
                         'translate3D(0,0,' +
-                        -1 * 60 * (perIndex - this.offsetRatio) +
+                        -1 * 200 * (perIndex - this.offsetRatio) +
                         'px' +
                         ')'
                 }

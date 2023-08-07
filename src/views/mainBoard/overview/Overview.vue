@@ -7,16 +7,33 @@
             ></div
         ></Board>
         <div class="overview-table">
-            <Table
-                style="padding: 0"
-                :link="link"
-                :header="['地区', '大学数量']"
-                :colWidth="[50, 35, 15]"
-                isShowButton
-                ButtonName="详情"
-                @detail="outFrame"
+            <div :class="{ 'table-fold': isFold, 'table-unfold': !isFold }">
+                <Table
+                    style="padding: 0;"
+                    :link="link"
+                    :header="['地区', '大学数量']"
+                    :colWidth="[50, 35, 15]"
+                    isShowButton
+                    ButtonName="详情"
+                    @detail="outFrame"
+                >
+                </Table>
+            </div>
+            <div
+                @click="isFold = !isFold"
+                class="fold-button flex-row-center"
             >
-            </Table>
+                <ion-icon
+                    v-if="isFold"
+                    style="transform: scale(1.5)"
+                    name="caret-down-outline"
+                ></ion-icon>
+                <ion-icon
+                    v-if="!isFold"
+                    style="transform: scale(1.5)"
+                    name="caret-up-outline"
+                ></ion-icon>
+            </div>
         </div>
         <PopFrame v-if="appear">
             <div style="width: 50%; margin: 50px auto">
@@ -55,7 +72,8 @@ export default {
             link: [],
             province: '',
             appear: false,
-            dataList: []
+            dataList: [],
+            isFold: true
         }
     },
     methods: {
@@ -94,7 +112,7 @@ export default {
         const option = {
             geo: {
                 map: 'chinaMap', // 绘画的地图
-                zoom: 1.2, // 缩放比例
+                zoom: 1.6, // 缩放比例
                 itemStyle: {
                     // 每一项的样式
                     areaColor: '#fff', // 地区颜色
@@ -118,7 +136,9 @@ export default {
                             areaColor: '#0f2c66' // 选中颜色设置
                         }
                     }
-                }
+                },
+                x: '15%',
+                y: '30%'
             },
             visualMap: {
                 min: 0,
@@ -169,7 +189,6 @@ export default {
                 value: this.ProvinceSize(treeData[i].name)
             })
         }
-        console.log(this.dataList)
     },
     watch: {
         isShow() {
@@ -199,10 +218,10 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 #map {
     width: 100%;
-    height: 550px;
+    height: 500px;
     /* background-color: #111; */
     margin: 0;
 }
@@ -211,10 +230,48 @@ export default {
     position: absolute;
     top: 10px;
     right: 10px;
-    max-height: 500px;
     width: 400px;
-    overflow: auto;
     border-radius: 10px;
     box-shadow: -5px 5px 10px grey;
+}
+
+/* scrollbar */
+.table-fold::-webkit-scrollbar,
+.table-unfold::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: var(--bg-color);
+}
+
+.table-fold::-webkit-scrollbar-thumb,
+.table-unfold::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: var(--item-bg-color);
+}
+
+.table-fold::-webkit-scrollbar-button,
+.table-unfold::-webkit-scrollbar-button {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: var(--item-bg-color);
+}
+
+.table-fold,
+.table-unfold {
+    overflow-y: auto;
+}
+
+.table-fold {
+    max-height: 150px;
+}
+
+.table-unfold {
+    max-height: 400px;
+}
+
+.fold-button {
+    cursor: pointer;
+    height: 32px;
 }
 </style>
