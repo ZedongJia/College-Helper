@@ -46,7 +46,7 @@
 </template>
 <script>
 import { loading } from '@/utils/callback'
-
+import { IntelligentQuery } from '@/api/entity'
 export default {
     data() {
         return {
@@ -72,6 +72,15 @@ export default {
                 this.isLoading = false
                 this.data = []
                 this.link = []
+                IntelligentQuery({
+                    entity: this.entity
+                })
+                    .then((data) => {
+                        console.log(data)
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
             })
         },
         detail(item) {

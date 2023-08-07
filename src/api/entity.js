@@ -81,3 +81,32 @@ export function cutSentence(params) {
             })
     })
 }
+
+/**
+ *大学专业智能查询
+ * @param {{entity: String}} params
+ * @returns {Promise}
+ */
+export function IntelligentQuery(params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'entity/cut',
+            method: 'POST',
+            data: params,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then((response) => {
+                const data = response.data
+                if (data.status) {
+                    resolve(data)
+                } else {
+                    reject(data.error)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
+    })
+}
