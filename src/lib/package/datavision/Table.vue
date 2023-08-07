@@ -28,15 +28,23 @@
                 </tr>
             </thead>
             <tbody>
-                <TransitionGroup
-                    name="list"
-                >
+                <TransitionGroup name="list">
                     <tr
                         v-for="itemTable in tableContent"
                         :key="itemTable"
                     >
-                        <td v-for="i in itemTable" :key="i">{{ i }}</td>
-                        <Button v-if="isShowButton" @clickIt="detail(itemTable)" style="margin: 2%;min-width:0">{{ ButtonName }}<i>!</i></Button>
+                        <td
+                            v-for="i in itemTable"
+                            :key="i"
+                        >
+                            {{ i }}
+                        </td>
+                        <Button
+                            v-if="isShowButton"
+                            @clickIt="detail(itemTable)"
+                            style="margin: 2%; min-width: 0"
+                            >{{ ButtonName }}<i>!</i></Button
+                        >
                     </tr>
                 </TransitionGroup>
             </tbody>
@@ -107,6 +115,7 @@ export default {
         // 查看详情
         detail(item) {
             this.$emit('detail', item)
+            console.log(item)
         }
     },
     computed: {
@@ -116,6 +125,11 @@ export default {
                 this.link === null ||
                 this.link.length === 0
             )
+        }
+    },
+    watch: {
+        link() {
+            this.tableContent = this.link
         }
     }
 }
