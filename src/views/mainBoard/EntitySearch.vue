@@ -34,9 +34,13 @@
             <Title title="关系图表"></Title>
         </Board>
         <Table
+            :colWidth="[35, 20, 35, 10]"
             :isLoading="isLoading"
-            :header="[ '实体1', '关系', '实体2']"
+            :header="['实体1', '关系', '实体2']"
             :link="link"
+            isShowButton
+            ButtonName="详情"
+            @detail="detail"
         ></Table>
     </div>
 </template>
@@ -69,6 +73,9 @@ export default {
                 this.data = []
                 this.link = []
             })
+        },
+        detail(item) {
+            // todo
         }
     },
     created() {

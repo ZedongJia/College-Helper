@@ -11,18 +11,28 @@
                     class="flex-row"
                     style="justify-content: left"
                 >
-                    <img
+                    <div
+                        class="flex-row-center"
+                        style="padding: 0 5px"
                         @click="toggle(index)"
                         v-if="isShow[index] || !isFolder(index)"
-                        src="@/assets/icons/jianshao.png"
-                        alt="-"
-                    />
-                    <img
+                    >
+                        <ion-icon
+                            style="transform: scale(1.5)"
+                            name="remove-circle-outline"
+                        ></ion-icon>
+                    </div>
+                    <div
+                        class="flex-row-center"
+                        style="padding: 0 5px"
                         @click="toggle(index)"
                         v-else
-                        src="@/assets/icons/zengjia.png"
-                        alt="+"
-                    />
+                    >
+                        <ion-icon
+                            style="transform: scale(1.5)"
+                            name="add-circle-outline"
+                        ></ion-icon>
+                    </div>
                     <p style="cursor: default; white-space: nowrap">
                         {{ mo.name }}
                     </p>
@@ -60,10 +70,10 @@ export default {
             }
             if (this.isShow[index]) {
                 this.$store.commit('tree/updateStack', {
-                parent: this.parent,
-                children: this.model[index].children,
-                name: this.model[index].name
-            })
+                    parent: this.parent,
+                    children: this.model[index].children,
+                    name: this.model[index].name
+                })
             }
         },
         isFolder(index) {
@@ -85,12 +95,9 @@ export default {
     height: 32px;
     line-height: 32px;
 }
-.tree-node img {
+.tree-node ion-icon {
     cursor: pointer;
-    width: 24px;
-}
-.tree-node img:hover {
-    animation: bounce 0.25s;
+    color: var(--item-bg-color);
 }
 .tree-line {
     position: absolute;
@@ -100,10 +107,5 @@ export default {
     width: 2em;
     height: 1px;
     background-color: var(--item-bg-color);
-}
-.toggle-icon {
-    cursor: pointer;
-    color: orange;
-    position: relative;
 }
 </style>

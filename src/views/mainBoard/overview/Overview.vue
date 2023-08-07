@@ -1,13 +1,17 @@
 <template>
-    <div style="display: flex; padding: 0 2.5em 0 2.8em">
-        <div
-            ref="map"
-            id="map"
-        ></div>
-        <div style="max-height: 500px; width: 330px; overflow: auto">
+    <div class="wrapper">
+        <Board
+            ><div
+                ref="map"
+                id="map"
+            ></div
+        ></Board>
+        <div class="overview-table">
             <Table
+                style="padding: 0"
                 :link="link"
                 :header="['地区', '大学数量']"
+                :colWidth="[50, 35, 15]"
                 isShowButton
                 ButtonName="详情"
                 @detail="outFrame"
@@ -19,13 +23,7 @@
                 <Board>
                     <Title title="大学专业概览"></Title>
                 </Board>
-                <Board
-                    style="
-                        min-height: 400px;
-                        max-height: 500px; /* 设置容器的最大高度 */
-                        overflow-y: auto; /* 添加垂直滚动条 */
-                    "
-                >
+                <Board style="min-height: 400px; max-height: 500px; /* 设置容器的最大高度 */ overflow-y: auto; /* 添加垂直滚动条 */">
                     <Tree :model="treeData"></Tree>
                 </Board>
                 <Board class="flex-row-right">
@@ -107,7 +105,7 @@ export default {
                 label: {
                     // 文字
                     show: true, // 展示文字
-                    fontSize: 8 // 字体大小
+                    fontSize: 14 // 字体大小
                 },
                 emphasis: {
                     // 附加属性（强调）
@@ -159,6 +157,9 @@ export default {
                 this.province = params.name // 将选中的省份名称赋值给province属性
             }
         })
+        window.addEventListener('resize', () => {
+            chinamap.resize()
+        })
     },
     created() {
         this.link = [{ source: '中国', target: '2889' }]
@@ -200,9 +201,20 @@ export default {
 
 <style scoped>
 #map {
-    width: 700px;
-    height: 600px;
+    width: 100%;
+    height: 550px;
     /* background-color: #111; */
     margin: 0;
+}
+
+.overview-table {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    max-height: 500px;
+    width: 400px;
+    overflow: auto;
+    border-radius: 10px;
+    box-shadow: -5px 5px 10px grey;
 }
 </style>

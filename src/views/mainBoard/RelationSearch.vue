@@ -54,9 +54,10 @@
             <Title title="关系图表"></Title>
         </Board>
         <Table
+            :colWidth="[35, 20, 35, 10]"
             :isLoading="isLoading"
             :link="link"
-            :header="[ '实体1', '关系', '实体2']"
+            :header="['实体1', '关系', '实体2']"
             isShowButton
             ButtonName="详情"
             @detail="detail"
@@ -96,11 +97,13 @@ export default {
                     entity1: this.entity1,
                     option: this.option,
                     entity2: this.entity2
-                }).then((data) => {
-                    console.log(data)
-                }).catch((error) => {
-                    console.log(error)
                 })
+                    .then((data) => {
+                        console.log(data)
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
             })
         },
         detail(item) {
