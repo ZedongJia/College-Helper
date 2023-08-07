@@ -65,6 +65,7 @@
 </template>
 <script>
 import { loading } from '@/utils/callback'
+import { RelationQuery } from '@/api/entity'
 
 export default {
     data() {
@@ -89,8 +90,17 @@ export default {
             // waiting for data
             loading(() => {
                 this.isLoading = false
-                this.data = []
-                this.link = []
+                // this.data = []
+                // this.link = []
+                RelationQuery({
+                    entity1: this.entity1,
+                    option: this.option,
+                    entity2: this.entity2
+                }).then((data) => {
+                    console.log(data)
+                }).catch((error) => {
+                    console.log(error)
+                })
             })
         },
         detail(item) {
@@ -102,17 +112,17 @@ export default {
     created() {
         // 向后端请求，得到data，link
         this.data = [
-            { name: '玉米', symbolSize: 30, c: 1 },
-            { name: '蔬菜', symbolSize: 30, c: 1 },
-            { name: '番茄', symbolSize: 30, c: 1 },
-            { name: '大西瓜', symbolSize: 30, c: 1 },
-            { name: '水果', symbalSize: 30, c: 1 },
-            { name: '南开大学', symbalSize: 30, c: 0 },
-            { name: '起名字好难啊', symbalSize: 30, c: 0 },
-            { name: '大菠萝', symbalSize: 30, c: 0 }
+            { name: '玉米', c: 1 },
+            { name: '蔬菜', c: 1 },
+            { name: '番茄', c: 1 },
+            { name: '大西瓜', c: 1 },
+            { name: '水果', c: 1 },
+            { name: '南开大学', c: 0 },
+            { name: '起名字好难啊', c: 0 },
+            { name: '大菠萝', c: 0 }
         ]
         this.link = [
-            { source: '蔬菜', label: '属于3', target: '南开大学' },
+            { source: '蔬菜', label: ['属于2', '属于3'], target: '南开大学' },
             { source: '水果', label: '属于2', target: '南开大学' },
             { source: '大西瓜', label: '属于1', target: '水果' },
             { source: '番茄', label: '属于0', target: '蔬菜' },

@@ -35,25 +35,44 @@
             <span style="writing-mode: vertical-lr">换一换</span>
         </Button>
     </div>
+    <div
+        v-for="q in Question"
+        :key="q.id"
+    >
+        <div style="padding: 2em 9.2em 0em 4em">
+            <Card style="max-height: 60px; padding: 1em; text-align: center">
+                <span>{{ q }}</span>
+            </Card>
+        </div>
+    </div>
 </template>
 <script>
+import Card from '../lib/package/layout/cardGroup/Card.vue'
 export default {
+    components: {
+        Card
+    },
     data() {
         return {
             someList: [],
-            CardGroupRefs: [0, 1, 2, 3, 4, 5]
+            CardGroupRefs: [0, 1, 2, 3, 4, 5],
+            Question: [
+                '我今年考了700分，所有大学的任何专业任我挑自选吗？',
+                '南开大学怎么样？',
+                '455需要复读吗？'
+            ]
         }
     },
     mounted() {
         const that = this
         that.someList = [
             {
-                title: '原神',
-                content: '中国孩子使用',
+                title: '清华',
+                content: '清华大学（Tsinghua University）是中国著名高等学府。',
                 link: '#'
             },
             {
-                title: '柯洁',
+                title: '北大',
                 content: '柯洁局势不妙',
                 link: '#'
             },

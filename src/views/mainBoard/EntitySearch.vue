@@ -74,14 +74,14 @@ export default {
     created() {
         // 向后端请求，得到data，link
         this.data = [
-            { name: '玉米', symbolSize: 30, c: 1 },
-            { name: '蔬菜', symbolSize: 30, c: 1 },
-            { name: '番茄', symbolSize: 30, c: 1 },
-            { name: '大西瓜', symbolSize: 30, c: 1 },
-            { name: '水果', symbalSize: 30, c: 1 },
-            { name: '南开大学', symbalSize: 30, c: 0 },
-            { name: '起名字好难啊', symbalSize: 30, c: 0 },
-            { name: '大菠萝', symbalSize: 30, c: 0 }
+            { name: '玉米', c: 1 },
+            { name: '蔬菜', c: 1 },
+            { name: '番茄', c: 1 },
+            { name: '大西瓜', c: 1 },
+            { name: '水果', c: 1 },
+            { name: '南开大学', c: 0 },
+            { name: '起名字好难啊', c: 0 },
+            { name: '大菠萝', c: 0 }
         ]
         this.link = [
             { source: '蔬菜', label: '属于3', target: '南开大学' },
