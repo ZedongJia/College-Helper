@@ -9,7 +9,7 @@ import * as echarts from 'echarts'
  */
 function generateRelationGraph (element, data, link, isDraggable, isAnimation) {
     // todo
-    const colors = ['RGB(100, 149, 237)', 'RGB(72,209,204', 'RGB(72,209,204']
+    const colors = ['RGB(100, 149, 237)', 'RGB(72,209,204)', 'RGB(72,209,204)']
     const option = {
         series: [
             {
