@@ -11,7 +11,7 @@
             <!-- 页面标题 -->
             <br />
             <div class="flex-row detail-header">
-                <div class="icon">
+                <div class="icon" style="width: 64px;">
                     <ion-icon
                         style="transform: scale(1.5)"
                         name="pricetags-outline"
@@ -81,7 +81,11 @@
                     :key="keyItem"
                 >
                     <span class="detail-key">{{ keyItem }}:</span>
-                    <span class="detail-value" style="font-size: 14px;" v-if="Array.isArray(universityInfo[keyItem])">
+                    <span
+                        class="detail-value"
+                        style="font-size: 14px"
+                        v-if="Array.isArray(universityInfo[keyItem])"
+                    >
                         <span
                             v-for="(item, index) in universityInfo[keyItem]"
                             :key="index"
@@ -89,9 +93,28 @@
                             {{ item }};
                         </span>
                     </span>
-                    <span style="font-size: 14px;" v-else>{{ universityInfo[keyItem] }}</span>
+                    <span
+                        style="font-size: 14px"
+                        v-else
+                        >{{ universityInfo[keyItem] }}</span
+                    >
                 </div>
             </div>
+            <br />
+            <div class="flex-row detail-title">
+                <div class="icon"><ion-icon name="pricetag-outline"></ion-icon></div>
+                <Title>专业详情</Title>
+            </div>
+            <MessageList
+                style="width: 100%"
+                bigIcon="recording-outline"
+                :messageDict="data.recommend"
+                :headers="['主类别', '子类别', '专业']"
+                :colWidth="[15, 20, 65]"
+                @query="turnTo"
+                nodel
+                nocursor
+            ></MessageList>
             <br />
             <div class="flex-row detail-title">
                 <div class="icon"><ion-icon name="pricetag-outline"></ion-icon></div>
@@ -109,18 +132,19 @@
         </Board>
         <!-- 右列 -->
         <div>
-            <!-- 相关概念 -->
-            <!-- <Board>
-                        <Title title="相关概念"></Title>
-                        <br />
-                        <RelationGraph
-                            fixHeight="200px"
-                            :data="data"
-                            :link="link"
-                            inset
-                        ></RelationGraph>
-                    </Board> -->
-            <!-- 农业类型 -->
+            <Board style="padding: 20px">
+                <Title>{{ '专业概览' }}</Title>
+                <hr class="line" />
+                <RelationGraph
+                    fixHeight="200px"
+                    :data="data.related"
+                    :link="data.link"
+                    inset
+                    isDraggable
+                    isAnimation
+                ></RelationGraph>
+            </Board>
+            <br />
             <Board style="padding: 20px">
                 <Title title="基本信息"></Title>
                 <hr class="line" />
@@ -228,6 +252,7 @@ export default {
             label: this.label
         })
             .then((data) => {
+                console.log(data)
                 this.data = data
             })
             .catch((error) => {

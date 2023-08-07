@@ -12,6 +12,7 @@
                 id="theme-switch"
                 v-model="isLight"
             ></ThemeCheck>
+            <div>{{ $store.state.userInfo.nickname }}</div>
             <div id="nav-avator">
                 <img
                     :src="$store.state.userInfo.image"
@@ -140,8 +141,12 @@ export default {
 }
 
 #logo {
-    font-size: 22px;
+    font-size: 26px;
     font-weight: bold;
+}
+
+#logo i {
+    font-family: 'logo', Times, serif;
 }
 
 #theme-switch {
@@ -156,6 +161,7 @@ export default {
     height: 64px;
 }
 #nav-avator img {
+    z-index: 200;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -202,7 +208,7 @@ export default {
 @keyframes slide-from-top {
     0% {
         opacity: 0;
-        transform: translate(-50%, -100%);
+        transform: translate(-50%, -50%);
     }
     80% {
         opacity: 0.2;

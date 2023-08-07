@@ -2,7 +2,7 @@
     <transition-group
         tag="ul"
         name="list"
-        class="list"
+        :class="{ list: true, nocursor: nocursor }"
     >
         <span
             class="group"
@@ -13,7 +13,7 @@
                 <span class="icon"
                     ><ion-icon
                         style="transform: scale(2)"
-                        name="stats-chart-outline"
+                        :name="bigIcon"
                     ></ion-icon
                 ></span>
                 <span> {{ group }} </span>
@@ -74,10 +74,15 @@
 export default {
     name: 'MessageList',
     props: {
+        bigIcon: {
+            type: String,
+            default: 'stats-chart-outline'
+        },
         messageDict: Object,
         colWidth: Array,
         headers: Array,
-        nodel: Boolean
+        nodel: Boolean,
+        nocursor: Boolean
     },
     methods: {
         query(group, index) {
@@ -137,6 +142,10 @@ export default {
 .list li:hover .btn {
     cursor: pointer;
     color: var(--item-font-color);
+}
+
+.nocursor li:hover span {
+    cursor: default;
 }
 
 .group-block {
