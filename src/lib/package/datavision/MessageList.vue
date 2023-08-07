@@ -132,7 +132,7 @@ export default {
 .list li > span {
     flex: 0 0 55%;
     padding: 0 1em;
-    height: 48px;
+    min-height: 48px;
     line-height: 48px;
     overflow: hidden;
     transition: 0.25s;
@@ -196,7 +196,7 @@ export default {
 }
 
 .list li:hover .hover-fill {
-    height: 48px;
+    height: 100%;
     border-radius: 5px;
 }
 

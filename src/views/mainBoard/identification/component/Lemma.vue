@@ -151,7 +151,7 @@ export default {
                         const { name } = this.data.related[i]
                         this.data.related[i] = {
                             name: name,
-                            symbolSize: 30,
+                            symbolSize: 80,
                             c: 0
                         }
                     }

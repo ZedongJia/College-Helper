@@ -61,7 +61,7 @@
                 bigIcon="recording-outline"
                 :messageDict="data.recommend"
                 :headers="['主类别', '子类别', '专业']"
-                :colWidth="[15, 20, 65]"
+                :colWidth="[15, 30, 55]"
                 @query="turnTo"
                 nodel
                 nocursor
@@ -71,7 +71,7 @@
         <!-- 右列 -->
         <div>
             <Board style="padding: 20px">
-                <Title>{{ label === 'person' ? '同校优秀校友、老师' : '你可能感兴趣的' }}</Title>
+                <Title>相关概念图云</Title>
                 <hr class="line" />
                 <RelationGraph
                     fixHeight="200px"
