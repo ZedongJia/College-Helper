@@ -41,9 +41,15 @@ export default {
             if (item.option !== undefined) {
                 this.$store.commit(item.option)
             }
-            this.$router.push({
-                path: item.href
-            })
+            if (item.routerName !== undefined) {
+                this.$router.push({
+                    name: item.routerName
+                })
+            } else {
+                this.$router.push({
+                    path: item.href
+                })
+            }
         },
         onBeforeEnter(el) {
             el.style.opacity = 0
@@ -79,10 +85,7 @@ export default {
                 }, 200)
             } else {
                 menu.style.flex = '0 0 64px'
-                view.style.flex =
-                    '0 0 ' +
-                    (document.querySelector('body').clientWidth - 64) +
-                    'px'
+                view.style.flex = '0 0 ' + (document.querySelector('body').clientWidth - 64) + 'px'
                 for (let i = 0; i < spans.length; i++) {
                     spans[i].style.display = 'none'
                 }

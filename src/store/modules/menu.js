@@ -41,7 +41,7 @@ const MainMenu = [
     },
     {
         name: '用户中心',
-        href: '/system/userCenter',
+        routerName: 'homePage',
         option: 'menu/toSubMenu',
         icon: 'person-outline'
     }

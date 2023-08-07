@@ -69,6 +69,18 @@
                     {{ data.intro }}
                 </p>
             </div>
+            <br />
+            <div class="flex-row detail-title">
+                <div class="icon"><ion-icon name="chatbox-ellipses-outline"></ion-icon></div>
+                <Title>评论区</Title>
+            </div>
+            <div class="detail-content">
+                <Review
+                    :name="name"
+                    :label="label"
+                ></Review>
+            </div>
+            <br />
             <hr class="line" />
         </Board>
         <!-- 右列 -->

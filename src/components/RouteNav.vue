@@ -33,6 +33,11 @@ export default {
                     name: '详情页面',
                     base: 'detailContent',
                     icon: 'reader-outline'
+                },
+                {
+                    name: '好友页面',
+                    base: 'page',
+                    icon: 'earth-outline'
                 }
             ]
         }

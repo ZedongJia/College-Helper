@@ -146,6 +146,18 @@
                     {{ text }}
                 </p>
             </div>
+            <br />
+            <div class="flex-row detail-title">
+                <div class="icon"><ion-icon name="chatbox-ellipses-outline"></ion-icon></div>
+                <Title>评论区</Title>
+            </div>
+            <div class="detail-content">
+                <Review
+                    :name="name"
+                    :label="label"
+                ></Review>
+            </div>
+            <br />
             <hr class="line" />
         </Board>
         <!-- 右列 -->
@@ -222,9 +234,11 @@
 <script>
 import { queryEntity } from '@/api/entity'
 import ScrollImage from './scrollImage.vue'
+import Review from './Review.vue'
 export default {
     components: {
-        ScrollImage
+        ScrollImage,
+        Review
     },
     props: {
         name: String,
@@ -272,7 +286,6 @@ export default {
             label: this.label
         })
             .then((data) => {
-                console.log(data)
                 this.data = data
             })
             .catch((error) => {
