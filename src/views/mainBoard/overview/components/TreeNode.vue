@@ -90,6 +90,7 @@ export default {
 </script>
 <style>
 .tree-node {
+    z-index: 1000;
     position: relative;
     min-width: 100px;
     height: 32px;
