@@ -1,13 +1,6 @@
 <template>
-    <div
-        style="
-            display: flex;
-            justify-content: center;
-            min-width: auto;
-            overflow: auto;
-            padding: 2em 0 0 0;
-        "
-    >
+    <div class="wrapper">
+        <br />
         <div
             class="card-layout"
             id="cardOffset"
@@ -25,42 +18,30 @@
         </div>
         <Button
             @click="Refresh"
-            style="
-                display: flex;
-                padding: 0;
-                min-width: auto;
-                align-items: center;
-            "
+            class="interest-button"
         >
-            <span style="writing-mode: vertical-lr">换一换</span>
+            <span>换一换</span>
         </Button>
-    </div>
-    <div
-        v-for="q in Question"
-        :key="q.id"
-    >
-        <div style="padding: 2em 9.2em 0em 4em">
-            <Card style="max-height: 60px; padding: 1em; text-align: center">
-                <span>{{ q }}</span>
-            </Card>
+        <div
+            v-for="q in Question"
+            :key="q.id"
+        >
+            <br />
+            <div style="margin: 0 auto; width: 90%;">
+                <Card style="max-height: 60px; padding: 1em; text-align: center">
+                    <span>{{ q }}</span>
+                </Card>
+            </div>
         </div>
     </div>
 </template>
 <script>
-import Card from '../lib/package/layout/cardGroup/Card.vue'
 export default {
-    components: {
-        Card
-    },
     data() {
         return {
             someList: [],
             CardGroupRefs: [0, 1, 2, 3, 4, 5],
-            Question: [
-                '我今年考了700分，所有大学的任何专业任我挑自选吗？',
-                '南开大学怎么样？',
-                '455需要复读吗？'
-            ]
+            Question: ['我今年考了700分，所有大学的任何专业任我挑自选吗？', '南开大学怎么样？', '455需要复读吗？']
         }
     },
     mounted() {
@@ -100,10 +81,8 @@ export default {
     },
     methods: {
         Refresh() {
-            const centerX =
-                document.getElementById('cardOffset').clientWidth / 2 - 125
-            const centerY =
-                document.getElementById('cardOffset').clientHeight / 2 - 90
+            const centerX = document.getElementById('cardOffset').clientWidth / 2 - 125
+            const centerY = document.getElementById('cardOffset').clientHeight / 2 - 90
             this.$refs.CardGroup.forEach((child, index) => {
                 child.Refresh(index, centerX, centerY)
             })
@@ -113,13 +92,26 @@ export default {
 </script>
 <style>
 .card-layout {
-    padding: 0 3em 0.8em 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-gap: 5em;
-    overflow: hidden;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
 }
+
+.card-layout>div {
+    flex: 0 0 30%;
+    margin-bottom: 50px;
+}
+
+.interest-button {
+    position: absolute;
+    top: 20px;
+    right: -40px;
+    min-width: 0;
+    width: 40px;
+    writing-mode: vertical-lr;
+    align-items: center;
+}
+
 .group {
     display: flex;
     align-items: center;

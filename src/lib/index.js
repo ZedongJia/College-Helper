@@ -18,6 +18,7 @@ import Option from './package/interaction/Option.vue'
 import PromptBox from './package/interaction/PromptBox.vue'
 // layout
 import CardGroup from './package/layout/cardGroup/CardGroup.vue'
+import Card from './package/layout/cardGroup/Card.vue'
 import Board from './package/layout/Board.vue'
 import PopFrame from './package/layout/PopFrame.vue'
 import Title from './package/layout/Title.vue'
@@ -44,6 +45,7 @@ const installDict = {
     ],
     layout: [
         CardGroup,
+        Card,
         Board,
         PopFrame,
         Title
