@@ -27,7 +27,7 @@
             <br />
             <div class="flex-row detail-title">
                 <div class="icon"><ion-icon name="call-outline"></ion-icon></div>
-                <Title>个人信息</Title>
+                <Title>词条信息</Title>
             </div>
             <div
                 class="flex-row detail-content"
@@ -62,7 +62,7 @@
             <br />
             <div class="flex-row detail-title">
                 <div class="icon"><ion-icon name="pricetag-outline"></ion-icon></div>
-                <Title>个人简介</Title>
+                <Title>词条简介</Title>
             </div>
             <div class="detail-content">
                 <p>
@@ -73,12 +73,6 @@
         </Board>
         <!-- 右列 -->
         <div>
-            <Board style="padding: 20px">
-                <Title title="所属分类"></Title>
-                <hr class="line" />
-                <div>{{ label === 'person' ? data.identity : data.label }}</div>
-            </Board>
-            <br />
             <Board
                 v-if="label === 'person'"
                 style="padding: 20px"
@@ -139,7 +133,6 @@ export default {
         })
             .then((data) => {
                 this.data = data
-                console.log(this.data)
                 // symbolSize: 0, c: 1
                 if (this.label === 'person') {
                     // 是人

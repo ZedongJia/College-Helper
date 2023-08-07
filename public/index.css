@@ -31,6 +31,11 @@
     --item-font-rev-color: #d1e4ef; */
 }
 
+@font-face {
+    font-family: 'logo';
+    src: url('./Aclonica-Regular-2.ttf');
+}
+
 /* Global css default */
 * {
     margin: 0;
@@ -102,7 +107,7 @@ textarea {
 }
 .img-fade-enter-active,
 .img-fade-leave-active {
-    transition: .2s;
+    transition: 0.2s;
 }
 
 @keyframes bounce {
@@ -240,13 +245,20 @@ input[type='radio']:checked::before {
 }
 
 .textareaItem {
+    position: relative;
     padding: 1em;
     width: 85%;
     resize: none;
-    color: var(--edit-font-color);
-    background-color: var(--edit-bg-color);
-    border: 1px solid var(--item-bg-color);
+    font-size: 16px;
+    word-spacing: 1em;
+    line-height: 1.5em;
+    color: grey;
     border-radius: 4px;
+}
+.textareaItem:focus {
+    color: var(--edit-font-color);
+    box-shadow: 0 0 10px 2px var(--item-bg-color) inset;
+    transition-duration: 0.2s;
 }
 
 a {

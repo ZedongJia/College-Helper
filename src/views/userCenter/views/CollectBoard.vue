@@ -3,6 +3,7 @@
     <MessageList
         v-else
         style="width: 100%"
+        bigIcon="star-outline"
         :messageDict="collectionDict"
         :headers="['时间', '查询分类', '内容']"
         :colWidth="[30, 20, 50]"

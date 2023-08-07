@@ -28,6 +28,10 @@ export default {
             path: 'chatAI',
             component: () => import('@/views/mainBoard/ChatAI.vue')
         },
+        {
+            path: 'feedback',
+            component: () => import('@/views/mainBoard/Feedback.vue')
+        },
         userCenter
     ]
 }

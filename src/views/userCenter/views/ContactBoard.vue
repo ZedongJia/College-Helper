@@ -5,9 +5,10 @@
     >
         <MessageList
             style="flex: 0 0 35%; height: 100%"
+            bigIcon="chatbox-ellipses-outline"
             :messageDict="temperoaryDict"
             :headers="['时间', '昵称']"
-            :colWidth="[40, 60]"
+            :colWidth="[60, 40]"
             @query="talkTo"
             @del="del"
         ></MessageList>
