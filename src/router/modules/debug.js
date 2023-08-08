@@ -3,8 +3,8 @@ export default {
     // component: () => import('@/views/debug/BackendTest.vue'),
     children: [
         {
-            path: '/backend',
-            component: () => import('@/views/debug/BackendTest.vue')
+            path: '/newTest',
+            component: () => import('@/views/debug/newTest.vue')
         },
         {
             path: '/newOverview',

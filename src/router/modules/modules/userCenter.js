@@ -6,12 +6,7 @@ export default {
         {
             name: 'homePage',
             path: 'homePage',
-            component: () => import('@/views/userCenter/views/HomePage.vue'),
-            props(route) {
-                return {
-                    id: route.query.id
-                }
-            }
+            component: () => import('@/views/userCenter/views/Home.vue')
         },
         {
             path: 'infoBoard',

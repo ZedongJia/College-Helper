@@ -130,6 +130,13 @@ textarea {
     }
 }
 
+
+@keyframes show {
+    100% {
+        opacity: 1;
+    }
+}
+
 /* shared animation */
 .fade-in {
     animation: fade 0.25s ease-in forwards;
@@ -255,6 +262,7 @@ input[type='radio']:checked::before {
     line-height: 1.5em;
     color: grey;
     border-radius: 4px;
+    overflow-y: auto;
 }
 .textareaItem:focus {
     color: var(--edit-font-color);

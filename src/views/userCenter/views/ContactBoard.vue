@@ -77,14 +77,15 @@ export default {
             dropSession({
                 session_id: this.sessionDict[group][index]
             }).then(() => {
-                this.$forceUpdate()
+                this.clear()
+                this.loadData()
             })
             this.needConfirm = false
         },
         reback() {
             this.needConfirm = false
         },
-        updateData() {
+        updateTime() {
             getSession()
                 .then((sessionInfo) => {
                     sessionInfo['临时会话'].forEach((element, index) => {
@@ -100,36 +101,49 @@ export default {
                         level: 'warning'
                     })
                 })
+        },
+        loadData() {
+            getSession()
+                .then((sessionInfo) => {
+                    sessionInfo['临时会话'].forEach((element) => {
+                        this.temperoaryDict['临时会话'].push({
+                            time: element.time,
+                            info: element.info
+                        })
+                        this.sessionDict['临时会话'].push(element.session_id)
+                    })
+                    sessionInfo['好友'].forEach((element) => {
+                        this.temperoaryDict['好友'].push({
+                            time: element.time,
+                            info: element.info
+                        })
+                        this.sessionDict['好友'].push(element.session_id)
+                    })
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
+        },
+        clear() {
+            this.temperoaryDict = {
+                临时会话: [],
+                好友: []
+            }
+            this.sessionDict = {
+                临时会话: [],
+                好友: []
+            }
         }
     },
     created() {
-        getSession()
-            .then((sessionInfo) => {
-                sessionInfo['临时会话'].forEach((element) => {
-                    this.temperoaryDict['临时会话'].push({
-                        time: element.time,
-                        info: element.info
-                    })
-                    this.sessionDict['临时会话'].push(element.session_id)
-                })
-                sessionInfo['好友'].forEach((element) => {
-                    this.temperoaryDict['好友'].push({
-                        time: element.time,
-                        info: element.info
-                    })
-                    this.sessionDict['好友'].push(element.session_id)
-                })
-            })
-            .catch((error) => {
-                this.$store.commit('prompt/trigger', {
-                    msg: error,
-                    level: 'warning'
-                })
-            })
+        this.loadData()
     },
     mounted() {
         this.updateSession = setInterval(() => {
-            this.updateData()
+            this.updateTime()
         }, 3000)
     },
     unmounted() {

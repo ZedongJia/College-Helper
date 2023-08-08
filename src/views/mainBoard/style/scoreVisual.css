@@ -1,0 +1,29 @@
+.condition {
+    padding: 15px 20px 3px;
+}
+
+.conditionItem {
+    position: relative;
+}
+
+.conditionItemHead {
+    position:absolute;
+    left:0;
+}
+
+.conditionItemList {
+    padding: 0 20px 12px 0;
+    white-space: nowrap;
+    display: inline-block;
+    line-height: 24px;
+    cursor: pointer;
+}
+
+.conditionItemList a:hover {
+    font-size: 20px;
+    transition: 0.5s;
+}
+
+.boundary {
+    margin: 10px 0 10px 0;
+}

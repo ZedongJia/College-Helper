@@ -17,8 +17,8 @@
                     style="width: 100%"
                     bigIcon="mail-open-outline"
                     :messageDict="feedbackDict"
-                    :headers="['时间', '反馈ID', '状态']"
-                    :colWidth="[20, 40, 40]"
+                    :headers="['时间', '反馈ID', '状态', '问题', '建议']"
+                    :colWidth="[30, 10, 10, 25, 25]"
                     nodel
                     nocursor
                 ></MessageList>
@@ -28,6 +28,7 @@
     </div>
 </template>
 <script>
+import { queryFeedback, addFeedback } from '@/api/user'
 export default {
     data() {
         return {
@@ -35,7 +36,7 @@ export default {
                 {
                     type: 'file',
                     title: '相关图片',
-                    symbol: 'imgUrl',
+                    symbol: 'imgSrc',
                     accept: 'image/*'
                 },
                 {
@@ -43,51 +44,61 @@ export default {
                     title: '反馈类别',
                     options: ['实体', '关系', '新增'],
                     labels: ['entity', 'relation', 'addNew'],
-                    symbol: 'category',
+                    symbol: 'type',
                     value: 'entity'
                 },
                 {
                     type: 'text',
                     title: '反馈问题',
-                    symbol: 'phone',
+                    symbol: 'question',
                     icon: 'document-outline'
                 },
                 {
                     type: 'text',
                     title: '建议',
-                    symbol: 'phone',
+                    symbol: 'advice',
                     icon: 'document-outline'
                 }
             ],
-            feedbackDict: {
-                实体: [
-                    {
-                        time: '8:59:00',
-                        id: 0,
-                        state: '待处理'
-                    }
-                ],
-                关系: [
-                    {
-                        time: '8:59:00',
-                        id: 1,
-                        state: '待处理'
-                    }
-                ],
-                新增: [
-                    {
-                        time: '8:59:00',
-                        id: 2,
-                        state: '待处理'
-                    }
-                ]
-            }
+            feedbackDict: {}
         }
     },
     methods: {
-        r() {
+        r(formData) {
             // todo
+            if (formData.imgSrc === undefined) {
+                formData.imgSrc = ''
+            }
+            if (formData.question === '') {
+                this.$store.commit('prompt/trigger', {
+                    msg: '反馈问题不能为空哦',
+                    level: 'attention'
+                })
+                return
+            }
+            addFeedback(formData).then(() => {
+                this.$store.commit('prompt/trigger', {
+                    msg: '提交成功',
+                    level: 'info'
+                })
+                this.loadFeedback()
+            })
+        },
+        loadFeedback() {
+            queryFeedback()
+                .then((feedbackDict) => {
+                    this.feedbackDict = feedbackDict
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
         }
+    },
+    created() {
+        this.loadFeedback()
     }
 }
 </script>

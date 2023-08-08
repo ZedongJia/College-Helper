@@ -6,6 +6,7 @@
 import LinkText from './package/datavision/LinkText.vue'
 import MessageList from './package/datavision/MessageList.vue'
 import RelationGraph from './package/datavision/relationGraph/RelationGraph.vue'
+import lineChart from './package/datavision/lineChart/lineChart.vue'
 import Table from './package/datavision/Table.vue'
 // interaction
 import AnswerBoard from './package/interaction/AnswerBoard.vue'
@@ -31,6 +32,7 @@ const installDict = {
         LinkText,
         MessageList,
         RelationGraph,
+        lineChart,
         Table
     ],
     interaction: [

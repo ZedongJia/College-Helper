@@ -31,7 +31,7 @@ const MainMenu = [
     },
     {
         name: '分数智能分析',
-        href: '/#',
+        href: '/system/scoreVisual',
         icon: 'bar-chart-outline'
     },
     {
@@ -41,7 +41,7 @@ const MainMenu = [
     },
     {
         name: '用户中心',
-        href: '/system/userCenter',
+        routerName: 'homePage',
         option: 'menu/toSubMenu',
         icon: 'person-outline'
     }

@@ -40,12 +40,12 @@
                             {{ i }}
                         </td>
                         <td
+                            v-if="isShowButton"
                             :style="colWidth.length !== 0 ? 'width:' + colWidth[colWidth.length - 1] + '%' : ''"
                             style="position: relative"
                         >
                             <Button
                                 class="table-button"
-                                v-if="isShowButton"
                                 @clickIt="detail(itemTable)"
                                 >{{ ButtonName }}<i>!</i></Button
                             >
@@ -106,6 +106,7 @@ export default {
             }
         },
         Sort(index) {
+            console.log(index)
             // todo
             if (this.isSort) {
                 // 降序排列
@@ -125,6 +126,8 @@ export default {
     },
     computed: {
         isEmpty() {
+            // 默认第一列降序排序
+            this.Sort(0)
             return this.link === undefined || this.link === null || this.link.length === 0
         }
     },

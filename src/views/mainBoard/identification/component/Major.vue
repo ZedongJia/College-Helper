@@ -11,7 +11,10 @@
             <!-- 页面标题 -->
             <br />
             <div class="flex-row detail-header">
-                <div class="icon" style="width: 64px;">
+                <div
+                    class="icon"
+                    style="width: 64px"
+                >
                     <ion-icon
                         style="transform: scale(1.5)"
                         name="pricetags-outline"
@@ -66,6 +69,18 @@
                 nodel
                 nocursor
             ></MessageList>
+            <br />
+            <div class="flex-row detail-title">
+                <div class="icon"><ion-icon name="chatbox-ellipses-outline"></ion-icon></div>
+                <Title>评论区</Title>
+            </div>
+            <div class="detail-content">
+                <Review
+                    :name="name"
+                    :label="label"
+                ></Review>
+            </div>
+            <br />
             <hr class="line" />
         </Board>
         <!-- 右列 -->

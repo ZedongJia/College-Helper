@@ -12,12 +12,20 @@
         </div>
         <div class="info-title">{{ userInfo.nickname }}</div>
         <div
-            v-if="id !== undefined"
+            v-if="id !== undefined && id - home_id !== 0"
             class="flex-row-evenly"
             style="width: 200px"
         >
-            <Button @clickIt="mailTo">私信</Button>
-            <Button @clickIt="followTo">关注</Button>
+            <Button
+                @clickIt="mailTo"
+                :disabled="disallowMail"
+                >{{ disallowMail ? '已添加私信' : '私信' }}</Button
+            >
+            <Button
+                @clickIt="followTo"
+                :disabled="disallowFollow"
+                >{{ disallowFollow ? '已关注' : '关注' }}</Button
+            >
         </div>
         <br />
         <div class="info-block flex-row-left">
@@ -86,10 +94,11 @@
     </Board>
 </template>
 <script>
-import { getOpenInfo } from '@/api/user'
+import { addSession, follow, getOpenInfo, queryFollow, querySession } from '@/api/user'
+import { mapState } from 'vuex'
 export default {
     props: {
-        id: Number
+        id: String
     },
     data() {
         return {
@@ -130,7 +139,9 @@ export default {
                 ],
                 collectionDict: [],
                 hint: '未公开'
-            }
+            },
+            disallowMail: false,
+            disallowFollow: false
         }
     },
     methods: {
@@ -155,72 +166,139 @@ export default {
                 }
             })
         },
-        mailTo(e) {
-            // todo
-            console.log(e)
+        mailTo() {
+            addSession({
+                follow_id: this.id
+            })
+                .then(() => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: '成功加入会话',
+                        level: 'info'
+                    })
+                    this.loadData()
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
         },
-        followTo(e) {
+        followTo() {
             // todo
-            console.log(e)
+            follow({
+                follow_id: this.id
+            })
+                .then(() => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: '关注成功',
+                        level: 'info'
+                    })
+                    this.loadData()
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
+        },
+        loadData() {
+            // request, filter, get public
+            let queryId = this.id
+            if (queryId === undefined) {
+                queryId = this.$store.state.userInfo.ID
+            }
+            getOpenInfo({
+                ID: queryId
+            })
+                .then((openDict) => {
+                    // 获取名字
+                    this.userInfo.nickname = openDict.nickname
+                    const { publicMsg } = this.userInfo
+                    // 获取基本信息
+                    for (let i = 0; i < publicMsg.length; i++) {
+                        if (publicMsg[i].label === 'gender') {
+                            let value = openDict[publicMsg[i].label]
+                            switch (value) {
+                                case 'male':
+                                    value = '男'
+                                    break
+                                case 'female':
+                                    value = '女'
+                                    break
+                                default:
+                                    value = '未知'
+                                    break
+                            }
+                            publicMsg[i].value = value
+                        } else {
+                            let value = openDict[publicMsg[i].label]
+                            value = value === '' ? '暂无信息' : value
+                            publicMsg[i].value = value
+                        }
+                    }
+                    // 获取头像
+                    this.userInfo.image = openDict.image
+                    // 获取收藏
+                    if (openDict.collectionDict === '未公开') {
+                        this.userInfo.hint = '未公开'
+                        this.userInfo.collectionDict = {}
+                    } else {
+                        this.userInfo.hint = '暂无记录'
+                        this.userInfo.collectionDict = openDict.collectionDict
+                    }
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
+            queryFollow({
+                query_id: this.id
+            })
+                .then((msg) => {
+                    if (msg === 'exist') {
+                        // todo
+                        console.log(msg)
+                        this.disallowFollow = true
+                    }
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
+
+            querySession({
+                query_id: this.id
+            })
+                .then((msg) => {
+                    if (msg === 'exist') {
+                        // todo
+                        this.disallowMail = true
+                    }
+                })
+                .catch((error) => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: error,
+                        level: 'warning'
+                    })
+                })
         }
     },
     computed: {
         isEmpty() {
             return JSON.stringify(this.userInfo.collectionDict) === '{}'
-        }
+        },
+        ...mapState({
+            home_id: (state) => state.userInfo.ID
+        })
     },
     created() {
-        // request, filter, get public
-        let queryId = this.id
-        if (queryId === undefined) {
-            queryId = this.$store.state.userInfo.ID
-        }
-        getOpenInfo({
-            ID: queryId
-        })
-            .then((openDict) => {
-                // 获取名字
-                this.userInfo.nickname = openDict.nickname
-                const { publicMsg } = this.userInfo
-                // 获取基本信息
-                for (let i = 0; i < publicMsg.length; i++) {
-                    if (publicMsg[i].label === 'gender') {
-                        let value = openDict[publicMsg[i].label]
-                        switch (value) {
-                            case 'male':
-                                value = '男'
-                                break
-                            case 'female':
-                                value = '女'
-                                break
-                            default:
-                                value = '未知'
-                                break
-                        }
-                        publicMsg[i].value = value
-                    } else {
-                        let value = openDict[publicMsg[i].label]
-                        value = value === '' ? '暂无信息' : value
-                        publicMsg[i].value = value
-                    }
-                }
-                // 获取头像
-                this.userInfo.image = openDict.image
-                // 获取收藏
-                if (openDict.collectionDict === '未公开') {
-                    this.userInfo.hint = '未公开'
-                    this.userInfo.collectionDict = {}
-                } else {
-                    this.userInfo.hint = '暂无记录'
-                    this.userInfo.collectionDict = openDict.collectionDict
-                }
-            })
-            .catch((error) => {
-                this.$store.commit('prompt/trigger', {
-                    msg: error,
-                    level: 'warning'
-                })
-            })
+        this.loadData()
     }
 }
 </script>
