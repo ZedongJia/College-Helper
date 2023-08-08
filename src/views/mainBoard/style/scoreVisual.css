@@ -27,3 +27,39 @@
 .boundary {
     margin: 10px 0 10px 0;
 }
+
+.titleScore {
+    position: relative;
+    font-weight: 700;
+    margin: 20px 0 20px 0;
+}
+
+.titleScore::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 18px;
+    background: rgb(219, 143, 56);
+    margin: 0 5px 0 10px;
+    position: relative;
+    top: 1px;
+}
+
+.stack-line {
+    background-image: linear-gradient(to right, #c2e59c , #64b3f4 );
+    /* background: #aeaf6d; */
+    padding: 20px 20px 5px 20px;
+    margin: 0 30px 10px 30px;
+    border-radius: 20px;
+}
+
+.gk-info {
+    padding: 0 0 12px 12px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.gk-score {
+    border-bottom: 1px solid #ebcb9b;
+}

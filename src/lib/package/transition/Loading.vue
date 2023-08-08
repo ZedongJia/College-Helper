@@ -1,7 +1,11 @@
 <template>
     <div
         class="flex-column-center"
-        style="height: 400px; animation: fade 0.25s ease-in forwards"
+        :style="{
+            height: fixHeight,
+            width: '100%'
+        }"
+        style="animation: fade 0.25s ease-in forwards"
     >
         <div class="loading"></div>
         <span style="display: flex; margin-top: 8px; font-weight: bold">
@@ -11,7 +15,13 @@
 </template>
 <script>
 export default {
-    name: 'Loading'
+    name: 'Loading',
+    props: {
+        fixHeight: {
+            type: String,
+            default: '400px'
+        }
+    }
 }
 </script>
 <style>

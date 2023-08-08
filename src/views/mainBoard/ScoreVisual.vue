@@ -3,9 +3,13 @@
         <!-- 查询主界面 -->
         <board>
             <h1 style="color: grey">一分一段</h1>
-            <div>
+            <hr class="boundary" />
+            <Loading
+                fixHeight="200px"
+                v-if="pageIsLoading"
+            ></Loading>
+            <div v-else>
                 <!-- 条件 -->
-                <hr class="boundary" />
                 <div class="condition">
                     <div
                         class="conditionItem"
@@ -32,38 +36,59 @@
                         </div>
                     </div>
                 </div>
+            </div>
                 <hr class="boundary" />
                 <!-- 查询框 -->
                 <input
                     class="inputItem"
                     style="width: 70%; margin-left: 2%"
-                    v-model="myScore"
                     placeholder="请输入您的分数"
+                    v-model="rankInfo.rankScore"
                 />
                 <Button
-                    @clickIt="clickProvince"
+                    @clickIt="searchScore"
                     style="width: 15%"
                 >
                     查询
                 </Button>
                 <hr class="boundary" />
                 <!-- 折线图 -->
-                <Title title="折线图"></Title>
+                <h3 class="titleScore">折线图</h3>
+                <div class="stack-line">
+                    <div class="gk-info gk-score">
+                        <span style="margin-right: 3px">高考分数：</span>
+                        <b>{{ rankInfo.rankScore }} 分</b>
+                    </div>
+                    <div class="gk-info">
+                        <span style="margin-right: 3px">同分人数：</span>
+                        <b>{{ rankInfo.rankNum }} 人</b>
+                    </div>
+                    <div class="gk-info">
+                        <span
+                            style="
+                                margin-right: 3px;
+                                margin-bottomm: 2px;
+                                padding-bottom: 2px;
+                            "
+                            >排名区间：</span
+                        >
+                        <b>{{ rankInfo.rankRange }} 名</b>
+                    </div>
+                </div>
                 <lineChart
                     :dataX="dataX"
                     :dataY="dataY"
                     :isLoading="scoreIsLoading || pageIsLoading"
-                    >
+                >
                 </lineChart>
-                <Title title="一分一段表"></Title>
-                <div style="max-height: 600px; overflow: scroll;">
+                <h3 class="titleScore">一分一段表</h3>
+                <div style="max-height: 600px; overflow: scroll">
                     <Table
                         :isLoading="scoreIsLoading || pageIsLoading"
                         :link="link"
-                        :header="[ '分数', '本段人数', '累计人数']"
+                        :header="['分数', '本段人数', '累计人数']"
                     ></Table>
                 </div>
-            </div>
         </board>
     </div>
 </template>
@@ -72,16 +97,22 @@ import './style/scoreVisual.css'
 import { loading } from '@/utils/callback'
 // import { addHistoryInfo } from '@/api/user'
 import { getProYearsInfo, getCateDegreeInfo, getScoreInfo } from '@/api/entity'
+import Loading from '@/lib/package/transition/Loading.vue'
 
 export default {
     data() {
         return {
             pageIsLoading: false,
-            typeIsLoading: false,
             scoreIsLoading: false,
             isChoosed: [0, 0, 0, 0],
             allCondition: [],
-            myScore: '',
+            scoreData: [],
+            scoreKeys: [],
+            rankInfo: {
+                rankScore: '',
+                rankNum: '-',
+                rankRange: '-'
+            },
             dataX: [],
             dataY: [],
             copy: [],
@@ -91,7 +122,6 @@ export default {
     methods: {
         chooseType(index1, index2) {
             this.isChoosed[index1] = index2
-            console.log(index2)
             if (index1 === 0) {
                 // 点击省份
                 this.clickProvince({
@@ -127,22 +157,28 @@ export default {
         clickCateDegree(params) {
             // todo
             this.scoreIsLoading = true
+            this.clear()
             // waiting for data
             loading(() => {
                 getScoreInfo(params)
                     .then((response) => {
                         // 获取数据后，对数据进行操作
-                        console.log(JSON.parse(response.data).detail)
-                        this.toLineChart(JSON.parse(response.data).detail, JSON.parse(response.data).keys)
+                        this.scoreData = JSON.parse(response.data).detail
+                        this.scoreKeys = JSON.parse(response.data).keys
+                        this.toLineChart()
                         this.scoreIsLoading = false
                     })
-                    .catch((error) => {
-                        console.log(error)
+                    .catch(() => {
+                        this.$store.commit('prompt/trigger', {
+                            msg: '网络错误，请重试！',
+                            level: 'warning'
+                        })
                     })
-                })
+            })
         },
         // 点击年份时
         clickYears(params) {
+            this.scoreIsLoading = true
             // waiting for data
             getCateDegreeInfo(params)
                 .then((response) => {
@@ -167,17 +203,21 @@ export default {
                     params.degree = data.degree[0]
                     this.clickCateDegree(params)
                 })
-                .catch((error) => {
-                    console.log(error)
+                .catch(() => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: '网络错误，请重试！',
+                        level: 'warning'
+                    })
                 })
         },
         // 点击省份时
         clickProvince(params) {
-            // todo
-            this.pageIsLoading = true
+            this.scoreIsLoading = true
+            this.clear()
             // waiting for data
             getProYearsInfo(params)
                 .then((response) => {
+                    this.pageIsLoading = false
                     const data = JSON.parse(response.data)
                     this.copy = []
                     this.copy.push({
@@ -186,9 +226,7 @@ export default {
                     })
                     // 对年份排序
                     let years = data.years
-                    years = years.sort((a, b) =>
-                        a < b ? 1 : a > b ? -1 : 0
-                    )
+                    years = years.sort((a, b) => (a < b ? 1 : a > b ? -1 : 0))
                     this.copy.push({
                         title: '年份',
                         itemChoice: years
@@ -196,30 +234,85 @@ export default {
                     // 继续请求，默认最新一年的 category 与 degree
                     params.year = years[0]
                     this.clickYears(params)
-                    this.pageIsLoading = false
                 })
-                .catch((error) => {
-                    console.log(error)
+                .catch(() => {
+                    this.$store.commit('prompt/trigger', {
+                        msg: '网络错误，请重试！',
+                        level: 'warning'
+                    })
                 })
         },
-        toLineChart(scoreData, keys) {
+        // 处理数据
+        toLineChart() {
             this.dataX = []
             this.dataY = []
             const temp1 = []
-            console.log(scoreData)
-            for (let i = 0; i < scoreData.length; i++) {
-                this.dataX.push(scoreData[i].rank)
-                scoreData[i].value = scoreData[i].num
+            for (let i = 0; i < this.scoreData.length; i++) {
+                this.dataX.push(this.scoreData[i].rank)
+                this.scoreData[i].value = this.scoreData[i].num
                 // const temp = { value: scoreData[i].num, total: scoreData[i].total, batch_name: scoreData[i].batch_name }
-                this.dataY.push(scoreData[i])
-                temp1.push({ score: keys[i], num: scoreData[i].num, total: scoreData[i].total })
+                this.dataY.push(this.scoreData[i])
+                temp1.push({
+                    score: this.scoreKeys[i],
+                    num: this.scoreData[i].num,
+                    total: this.scoreData[i].total
+                })
             }
             this.link = temp1
+        },
+        // 判断分数是否合理
+        isRightScore() {
+            const t = Number(this.rankInfo.rankScore)
+            const max = Number(this.scoreKeys[this.scoreKeys.length - 1].split('-')[1])
+            return isNaN(t) || t < 0 || t > max
+        },
+        // 获取所查看分数的相关信息
+        getScoreInfo() {
+            let t = 0
+            for (let i = 0; i < this.scoreKeys.length; i++) {
+                if (this.scoreKeys[i].includes('-')) {
+                    if (this.scoreKeys[i].split('-')[0] <= this.rankInfo.rankScore && this.scoreKeys[i].split('-')[1] >= this.rankInfo.rankScore) {
+                        t = i
+                        break
+                    }
+                } else {
+                    if (this.scoreKeys[i] === this.rankInfo.rankScore) {
+                        t = i
+                        break
+                    }
+                }
+            }
+            this.rankInfo.rankNum = this.scoreData[t].num
+            this.rankInfo.rankRange = this.scoreData[t].rank_range
+        },
+        // 清空相关信息
+        clear() {
+            this.rankInfo.rankScore = ''
+            this.rankInfo.rankNum = '-'
+            this.rankInfo.rankRange = '-'
+        },
+        // 查看分数的相关信息
+        searchScore() {
+            // 获得当前 scoreKeys 中自己的位置
+            if (this.isRightScore()) {
+                this.$store.commit('prompt/trigger', {
+                    msg: '请输入正确的分数！',
+                    level: 'warning'
+                })
+                this.clear()
+            } else {
+                this.getScoreInfo()
+            }
         }
     },
     created() {
-        this.clickProvince({ provinceName: '北京' })
-    }
+        this.pageIsLoading = true
+        loading(() => {
+            this.pageIsLoading = true
+            this.clickProvince({ provinceName: '北京' })
+        })
+    },
+    components: { Loading }
 }
 </script>
 <style>
