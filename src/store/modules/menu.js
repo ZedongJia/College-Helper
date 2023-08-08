@@ -31,7 +31,7 @@ const MainMenu = [
     },
     {
         name: '分数智能分析',
-        href: '/#',
+        href: '/system/scoreVisual',
         icon: 'bar-chart-outline'
     },
     {

@@ -67,6 +67,7 @@
 <script>
 import { loading } from '@/utils/callback'
 import { RelationQuery } from '@/api/entity'
+import { addHistoryInfo } from '@/api/user'
 
 export default {
     data() {
@@ -74,7 +75,8 @@ export default {
             isLoading: false,
             data: [],
             link: [],
-            options: ['选项1', '选项2', '选项2', '选项2'],
+            options: ['属于', '拥有', '制定', '执行', '任职', '参考', '相关', '坐落于', '毕业于'],
+            map: { 属性: 'HAS', 拥有: 'BELONG_TO', 制定: 'SET', 执行: 'EXECUTE', 任职: 'TEACHING_IN', 参考: 'REFER', 相关: 'RELATED_TO', 坐落于: 'LOCATE', 毕业于: 'GRADUATED_FROM' },
             option: '',
             entity1: '',
             entity2: ''
@@ -82,21 +84,24 @@ export default {
     },
     methods: {
         receiveOption(option) {
-            this.option = option
+            this.option = this.map[option]
         },
         performSearch() {
             // todo
             this.isLoading = true
-
             // waiting for data
             loading(() => {
-                this.isLoading = false
-                // this.data = []
-                // this.link = []
                 RelationQuery({
                     entity1: this.entity1,
                     option: this.option,
                     entity2: this.entity2
+                }).then((response) => {
+                    this.data = JSON.parse(response.data).data
+                    this.link = JSON.parse(response.data).link
+                    this.isLoading = false
+                }).catch((error) => {
+                    console.log(error)
+                    this.isLoading = false
                 })
                     .then((data) => {
                         console.log(data)
@@ -105,8 +110,20 @@ export default {
                         console.log(error)
                     })
             })
+            // 将搜索记录插入到历史记录表中
+            console.log('------')
+            addHistoryInfo({
+                type: '关系查询',
+                content: this.entity1 + '----' + this.option + '----' + this.entity2
+            }).then(() => {
+                console.log('添加成功')
+            }).catch((error) => {
+                console.log(error)
+                // this.isLoading = false
+            })
         },
         detail(item) {
+            console.log('-----------')
             this.entity1 = item.source
             this.option = item.label
             this.entity2 = item.target
@@ -114,25 +131,6 @@ export default {
     },
     created() {
         // 向后端请求，得到data，link
-        this.data = [
-            { name: '玉米', c: 1 },
-            { name: '蔬菜', c: 1 },
-            { name: '番茄', c: 1 },
-            { name: '大西瓜', c: 1 },
-            { name: '水果', c: 1 },
-            { name: '南开大学', c: 0 },
-            { name: '起名字好难啊', c: 0 },
-            { name: '大菠萝', c: 0 }
-        ]
-        this.link = [
-            { source: '蔬菜', label: ['属于2', '属于3'], target: '南开大学' },
-            { source: '水果', label: '属于2', target: '南开大学' },
-            { source: '大西瓜', label: '属于1', target: '水果' },
-            { source: '番茄', label: '属于0', target: '蔬菜' },
-            { source: '玉米', label: '属于5', target: '蔬菜' },
-            { source: '起名字好难啊', label: '属于4', target: '南开大学' },
-            { source: '大菠萝', label: '属于6', target: '水果' }
-        ]
     }
 }
 </script>
