@@ -54,9 +54,10 @@
             <Title title="关系图表"></Title>
         </Board>
         <Table
+            :colWidth="[35, 20, 35, 10]"
             :isLoading="isLoading"
             :link="link"
-            :header="[ '实体1', '关系', '实体2']"
+            :header="['实体1', '关系', '实体2']"
             isShowButton
             ButtonName="详情"
             @detail="detail"
@@ -94,6 +95,7 @@ export default {
                     entity1: this.entity1,
                     option: this.option,
                     entity2: this.entity2
+<<<<<<< HEAD
                 }).then((response) => {
                     this.data = JSON.parse(response.data).data
                     this.link = JSON.parse(response.data).link
@@ -101,7 +103,15 @@ export default {
                 }).catch((error) => {
                     console.log(error)
                     this.isLoading = false
+=======
+>>>>>>> 9c5b9c365ec6a937ceb83426390af3ac661b5cd7
                 })
+                    .then((data) => {
+                        console.log(data)
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
             })
             // 将搜索记录插入到历史记录表中
             console.log('------')
@@ -124,6 +134,28 @@ export default {
     },
     created() {
         // 向后端请求，得到data，link
+<<<<<<< HEAD
+=======
+        this.data = [
+            { name: '玉米', c: 1 },
+            { name: '蔬菜', c: 1 },
+            { name: '番茄', c: 1 },
+            { name: '大西瓜', c: 1 },
+            { name: '水果', c: 1 },
+            { name: '南开大学', c: 0 },
+            { name: '起名字好难啊', c: 0 },
+            { name: '大菠萝', c: 0 }
+        ]
+        this.link = [
+            { source: '蔬菜', label: ['属于2', '属于3'], target: '南开大学' },
+            { source: '水果', label: '属于2', target: '南开大学' },
+            { source: '大西瓜', label: '属于1', target: '水果' },
+            { source: '番茄', label: '属于0', target: '蔬菜' },
+            { source: '玉米', label: '属于5', target: '蔬菜' },
+            { source: '起名字好难啊', label: '属于4', target: '南开大学' },
+            { source: '大菠萝', label: '属于6', target: '水果' }
+        ]
+>>>>>>> 9c5b9c365ec6a937ceb83426390af3ac661b5cd7
     }
 }
 </script>

@@ -9,8 +9,9 @@
                 style="margin-top: 20px"
                 name="description"
                 rows="10"
-                placeholder="Enter text"
-                v-model="textInput"
+                placeholder="请输入你想要识别的文本"
+                :value="textInput"
+                @change="useInput"
             ></textarea>
             <Button
                 style="margin: 20px 0; width: 20%"
@@ -58,17 +59,22 @@
 <script>
 import { loading } from '@/utils/callback'
 import { cutSentence } from '@/api/entity'
+import { mapState } from 'vuex'
 export default {
     data() {
         return {
             showfirstBox: false,
             showsecondBox: false,
-            textInput: '',
-            recognizeResult: '',
-            entity: {},
-            segmentationResult: '',
             isLoading: false
         }
+    },
+    computed: {
+        ...mapState({
+            textInput: (state) => state.identification.textInput,
+            recognizeResult: (state) => state.identification.recognizeResult,
+            entity: (state) => state.identification.entity,
+            segmentationResult: (state) => state.identification.segmentationResult
+        })
     },
     methods: {
         firstexpand() {
@@ -103,10 +109,11 @@ export default {
                     sentence: this.textInput
                 })
                     .then((result) => {
-                        console.log(result)
-                        this.recognizeResult = this.textInput
-                        this.entity = result.cut_dict
-                        this.segmentationResult = String(result.cut_list)
+                        this.$store.commit('identification/recordResult', {
+                            recognizeResult: this.textInput,
+                            entity: result.cut_dict,
+                            segmentationResult: String(result.cut_list)
+                        })
                         this.isLoading = false
                     })
                     .catch((error) => {
@@ -122,6 +129,9 @@ export default {
                         }
                     })
             })
+        },
+        useInput(e) {
+            this.$store.commit('identification/record', e.target.value)
         }
     }
 }

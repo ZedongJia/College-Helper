@@ -11,7 +11,10 @@
             <!-- 页面标题 -->
             <br />
             <div class="flex-row detail-header">
-                <div class="icon">
+                <div
+                    class="icon"
+                    style="width: 64px"
+                >
                     <ion-icon
                         style="transform: scale(1.5)"
                         name="pricetags-outline"
@@ -28,45 +31,18 @@
                 {{ tag }}
             </div>
             <hr class="line" />
-            <div class="flex-row detail-title">
+            <div
+                v-if="data.imageUrls.length !== 0"
+                class="flex-row detail-title"
+            >
                 <div class="icon"><ion-icon name="logo-instagram"></ion-icon></div>
                 <Title>学校风景</Title>
             </div>
-            <div
-                class="detail-content"
-                style="height: 400px"
-            >
-                <div
-                    class="img-to-left"
-                    @click="imgPointer > 0 ? (imgPointer -= 1) : (imgPointer = data.imageUrls.length - 1)"
-                >
-                    <ion-icon
-                        style="transform: scale(2)"
-                        name="caret-back-circle"
-                    ></ion-icon>
-                </div>
-                <Transition
-                    name="img-fade"
-                    mode="out-in"
-                >
-                    <img
-                        :src="imgShow"
-                        alt="该条目无图片"
-                        class="image"
-                        :key="imgShow"
-                    />
-                </Transition>
-                <div
-                    class="img-to-right"
-                    @click="imgPointer < data.imageUrls.length - 1 ? (imgPointer += 1) : (imgPointer = 0)"
-                >
-                    <ion-icon
-                        style="transform: scale(2)"
-                        name="caret-forward-circle"
-                    ></ion-icon>
-                </div>
-            </div>
-            <br />
+            <ScrollImage
+                v-if="data.imageUrls.length !== 0"
+                :imageUrls="data.imageUrls"
+            />
+            <br v-if="data.imageUrls.length !== 0" />
             <div class="flex-row detail-title">
                 <div class="icon"><ion-icon name="call-outline"></ion-icon></div>
                 <Title>学校信息</Title>
@@ -81,7 +57,11 @@
                     :key="keyItem"
                 >
                     <span class="detail-key">{{ keyItem }}:</span>
-                    <span class="detail-value" style="font-size: 14px;" v-if="Array.isArray(universityInfo[keyItem])">
+                    <span
+                        class="detail-value"
+                        style="font-size: 14px"
+                        v-if="Array.isArray(universityInfo[keyItem])"
+                    >
                         <span
                             v-for="(item, index) in universityInfo[keyItem]"
                             :key="index"
@@ -89,10 +69,71 @@
                             {{ item }};
                         </span>
                     </span>
-                    <span style="font-size: 14px;" v-else>{{ universityInfo[keyItem] }}</span>
+                    <span
+                        style="font-size: 14px"
+                        v-else
+                        >{{ universityInfo[keyItem] }}</span
+                    >
                 </div>
             </div>
             <br />
+            <div class="flex-row detail-title">
+                <div class="icon"><ion-icon name="pricetag-outline"></ion-icon></div>
+                <Title>饮食条件</Title>
+            </div>
+            <div class="detail-content">
+                <p
+                    v-for="(item, index) in data.living_condition"
+                    :key="index"
+                >
+                    {{ item.canteen }}
+                </p>
+            </div>
+            <br />
+            <div class="flex-row detail-title">
+                <div class="icon"><ion-icon name="pricetag-outline"></ion-icon></div>
+                <Title>住宿条件</Title>
+            </div>
+            <div class="detail-content">
+                <p
+                    v-for="(item, index) in data.living_condition"
+                    :key="index"
+                >
+                    {{ item.domitory }}
+                </p>
+            </div>
+            <br />
+            <div
+                v-if="lcImgUrls.length !== 0"
+                class="flex-row detail-title"
+            >
+                <div class="icon"><ion-icon name="logo-instagram"></ion-icon></div>
+                <Title>生活环境风景</Title>
+            </div>
+            <ScrollImage
+                v-if="lcImgUrls.length !== 0"
+                :imageUrls="lcImgUrls"
+            />
+            <br v-if="lcImgUrls.length !== 0" />
+            <div
+                v-if="JSON.stringify(data.recommend) !== '{}'"
+                class="flex-row detail-title"
+            >
+                <div class="icon"><ion-icon name="pricetag-outline"></ion-icon></div>
+                <Title>专业详情</Title>
+            </div>
+            <MessageList
+                v-if="JSON.stringify(data.recommend) !== '{}'"
+                style="width: 100%"
+                bigIcon="recording-outline"
+                :messageDict="data.recommend"
+                :headers="['主类别', '子类别', '专业']"
+                :colWidth="[15, 30, 55]"
+                @query="turnTo"
+                nodel
+                nocursor
+            ></MessageList>
+            <br v-if="JSON.stringify(data.recommend) !== '{}'" />
             <div class="flex-row detail-title">
                 <div class="icon"><ion-icon name="pricetag-outline"></ion-icon></div>
                 <Title>学校简介</Title>
@@ -105,22 +146,35 @@
                     {{ text }}
                 </p>
             </div>
+            <br />
+            <div class="flex-row detail-title">
+                <div class="icon"><ion-icon name="chatbox-ellipses-outline"></ion-icon></div>
+                <Title>评论区</Title>
+            </div>
+            <div class="detail-content">
+                <Review
+                    :name="name"
+                    :label="label"
+                ></Review>
+            </div>
+            <br />
             <hr class="line" />
         </Board>
         <!-- 右列 -->
         <div>
-            <!-- 相关概念 -->
-            <!-- <Board>
-                        <Title title="相关概念"></Title>
-                        <br />
-                        <RelationGraph
-                            fixHeight="200px"
-                            :data="data"
-                            :link="link"
-                            inset
-                        ></RelationGraph>
-                    </Board> -->
-            <!-- 农业类型 -->
+            <Board style="padding: 20px">
+                <Title>{{ '相关概念图云' }}</Title>
+                <hr class="line" />
+                <RelationGraph
+                    fixHeight="200px"
+                    :data="data.related"
+                    :link="data.link"
+                    inset
+                    isDraggable
+                    isAnimation
+                ></RelationGraph>
+            </Board>
+            <br />
             <Board style="padding: 20px">
                 <Title title="基本信息"></Title>
                 <hr class="line" />
@@ -179,8 +233,13 @@
 </template>
 <script>
 import { queryEntity } from '@/api/entity'
-
+import ScrollImage from './scrollImage.vue'
+import Review from './Review.vue'
 export default {
+    components: {
+        ScrollImage,
+        Review
+    },
     props: {
         name: String,
         label: String
@@ -198,8 +257,7 @@ export default {
                 officialPhoneNumber: [],
                 officialWebsite: [],
                 rankInfo: []
-            },
-            imgPointer: 0
+            }
         }
     },
     computed: {
@@ -213,8 +271,8 @@ export default {
                 官方邮箱: this.data.officialEmail.split('：')[1]
             }
         },
-        imgShow() {
-            return this.data.imageUrls[this.imgPointer]
+        lcImgUrls() {
+            return JSON.parse(this.data.living_condition[0].imageUrls)
         }
     },
     methods: {

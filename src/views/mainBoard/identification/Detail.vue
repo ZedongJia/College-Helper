@@ -19,8 +19,8 @@ export default {
         getComponent() {
             switch (this.label) {
                 case 'person':
-                case 'mainBranch':
-                case 'subBranch':
+                case 'main_branch':
+                case 'sub_branch':
                 case 'special':
                     return 'lemma'
                 default:

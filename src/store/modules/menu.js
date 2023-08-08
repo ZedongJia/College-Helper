@@ -35,8 +35,13 @@ const MainMenu = [
         icon: 'bar-chart-outline'
     },
     {
+        name: '反馈',
+        href: '/system/feedback',
+        icon: 'cafe-outline'
+    },
+    {
         name: '用户中心',
-        href: '/system/userCenter',
+        routerName: 'homePage',
         option: 'menu/toSubMenu',
         icon: 'person-outline'
     }

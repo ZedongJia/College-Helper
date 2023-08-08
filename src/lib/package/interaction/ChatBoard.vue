@@ -220,8 +220,10 @@ export default {
                 const fixHeight = 395
                 const rg = 100
                 const div = document.getElementById('toBottom')
+                if (div === null) {
+                    return
+                }
                 if (div.scrollTop > div.scrollHeight - fixHeight - rg || first) {
-                    console.log('scroll')
                     div.scrollTop = 9999999
                 }
             })
@@ -360,17 +362,20 @@ export default {
         }
     },
     activated() {
-        this.updateEvent = setInterval(() => {
-            // 请求contentList，后端会保留left最后一次请求截止日期
-            this.queryMessage(this.lastUpdateTime)
-        }, 500)
+        if (!this.AImode) {
+            this.updateEvent = setInterval(() => {
+                // 请求contentList，后端会保留left最后一次请求截止日期
+                this.queryMessage(this.lastUpdateTime)
+            }, 500)
+        }
         setTimeout(() => {
             this.toBottomArea(true)
         }, 600)
     },
     deactivated() {
-        console.log('clear')
-        clearInterval(this.updateEvent)
+        if (!this.AImode) {
+            clearInterval(this.updateEvent)
+        }
     },
     created() {
         if (!this.AImode) {
@@ -410,7 +415,8 @@ export default {
     padding: 1%;
     overflow-x: hidden;
     overflow-y: auto;
-    border: 1px solid grey;
+    background-color: white;
+    box-shadow: 0 0 5px 2px grey inset;
     border-radius: 10px;
     scroll-behavior: smooth;
 }

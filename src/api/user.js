@@ -455,13 +455,63 @@ export function dropSession(params) {
 }
 
 /**
- * @param {{type, content}} params
+ * @param {{query_id:String}} params
  * @returns {Promise}
  */
-export function addHistoryInfo(params) {
+export function queryFollow(params) {
     return new Promise((resolve, reject) => {
         axios({
-            url: 'user/addBrowseInfo',
+            url: 'user/queryFollow',
+            method: 'GET',
+            params
+        })
+            .then((response) => {
+                const data = response.data
+                if (data.status) {
+                    resolve(data.msg)
+                } else {
+                    reject(data.error)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
+    })
+}
+
+/**
+ * @param {{query_id:String}} params
+ * @returns {Promise}
+ */
+export function querySession(params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/querySession',
+            method: 'GET',
+            params
+        })
+            .then((response) => {
+                const data = response.data
+                if (data.status) {
+                    resolve(data.msg)
+                } else {
+                    reject(data.error)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
+    })
+}
+
+/**
+ * @param {{follow_id:Number}} params
+ * @returns {Promise}
+ */
+export function follow(params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/follow',
             method: 'POST',
             data: params,
             headers: {
@@ -469,7 +519,87 @@ export function addHistoryInfo(params) {
             }
         })
             .then((response) => {
-                if (response) {
+                const data = response.data
+                if (data.status) {
+                    resolve(response)
+                } else {
+                    reject(data.error)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
+    })
+}
+
+/**
+ * @param {{follow_id:Number}} params
+ * @returns {Promise}
+ */
+export function addSession(params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/addSession',
+            method: 'POST',
+            data: params,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then((response) => {
+                const data = response.data
+                if (data.status) {
+                    resolve(response)
+                } else {
+                    reject(data.error)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
+    })
+}
+
+/**
+ * @returns {Promise}
+ */
+export function queryFeedback() {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/queryFeedback',
+            method: 'GET'
+        })
+            .then((response) => {
+                const data = response.data
+                if (data.status) {
+                    resolve(data.feedbackDict)
+                } else {
+                    reject(data.error)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
+    })
+}
+
+/**
+ * @param {{type:String, question:String, advice:String, imgSrc:File}} params
+ * @returns {Promise}
+ */
+export function addFeedback(params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/addFeedback',
+            method: 'POST',
+            data: params,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then((response) => {
+                const data = response.data
+                if (data.status) {
                     resolve(response)
                 } else {
                     reject(response)

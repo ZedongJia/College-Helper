@@ -14,12 +14,10 @@
                         :key="itemHeader"
                     >
                         {{ itemHeader }}
-                        <img
-                            src="@/assets/icons/sort.png"
-                            @click="Sort(index)"
-                        />
+                        <div class="icon" @click="Sort(index)"> <ion-icon style="transform: scale(1.5);" name="swap-vertical-outline"></ion-icon> </div>
                     </td>
                     <td
+
                         style="height: 32px; position: relative"
                         v-if="isShowButton"
                     >
@@ -28,16 +26,28 @@
                 </tr>
             </thead>
             <tbody>
-                <TransitionGroup
-                    name="list"
-                >
+                <TransitionGroup name="list">
                     <tr
                         v-for="itemTable in tableContent"
                         :key="itemTable"
                     >
-                        <td v-for="i in itemTable" :key="i">{{ i }}</td>
-                        <td v-if="isShowButton">
-                            <Button @clickIt="detail(itemTable)" style="margin: 2%;">{{ ButtonName }}<i>!</i></Button>
+                        <td
+                            v-for="(i, index) in itemTable"
+                            :key="i"
+                            :style="colWidth.length !== 0 ? 'width:' + colWidth[index] + '%' : ''"
+                        >
+                            {{ i }}
+                        </td>
+                        <td
+                            v-if="isShowButton"
+                            :style="colWidth.length !== 0 ? 'width:' + colWidth[colWidth.length - 1] + '%' : ''"
+                            style="position: relative"
+                        >
+                            <Button
+                                class="table-button"
+                                @clickIt="detail(itemTable)"
+                                >{{ ButtonName }}<i>!</i></Button
+                            >
                         </td>
                     </tr>
                 </TransitionGroup>
@@ -53,7 +63,11 @@ export default {
         link: Array,
         header: Array,
         isShowButton: Boolean,
-        ButtonName: String
+        ButtonName: String,
+        colWidth: {
+            type: Array,
+            default: () => []
+        }
     },
     data() {
         return {
@@ -95,31 +109,25 @@ export default {
             // todo
             if (this.isSort) {
                 // 降序排列
-                this.tableContent = this.tableContent.sort(
-                    this.compareDes(index)
-                )
+                this.tableContent = this.tableContent.sort(this.compareDes(index))
                 this.isSort = false
             } else {
                 // 升序排列
-                this.tableContent = this.tableContent.sort(
-                    this.compareAsc(index)
-                )
+                this.tableContent = this.tableContent.sort(this.compareAsc(index))
                 this.isSort = true
             }
         },
         // 查看详情
         detail(item) {
             this.$emit('detail', item)
+            console.log(item)
         }
     },
     computed: {
         isEmpty() {
+            // 默认第一列降序排序
             this.Sort(0)
-            return (
-                this.link === undefined ||
-                this.link === null ||
-                this.link.length === 0
-            )
+            return this.link === undefined || this.link === null || this.link.length === 0
         }
     },
     watch: {
@@ -148,7 +156,7 @@ export default {
     line-height: 48px;
     text-align: center;
 }
-.myform img {
+.myform .icon {
     cursor: pointer;
     opacity: 0.5;
     width: 20px;
@@ -157,12 +165,17 @@ export default {
     top: 50%;
     transform: translate(0, -50%);
     transition: 0.25s;
+    color: white;
+    font-weight: bold;
 }
-.myform img:hover {
+.myform .icon:hover {
     opacity: 1;
 }
 
 .myform thead tr {
+    z-index: 100;
+    position: sticky;
+    top: 0;
     background: var(--item-bg-color);
     color: var(--item-font-color);
     /* border-bottom: 2px solid var(--item-bg-color);
@@ -172,25 +185,40 @@ export default {
     transition: 0.25s;
 }
 .myform thead tr td:hover {
-    background: var(--item-bg-rev-color);
-    color: var(--item-font-rev-color);
+    background-color: var(--item-font-color);
+    color: black;
 }
+.myform thead tr td:hover .icon {
+    color: black;
+}
+
 .myform tbody tr {
     color: rgb(16, 47, 26);
 }
 .myform tbody tr:nth-child(even) {
     /* border-bottom: 2px solid var(--item-bg-color); */
-    background: #8fbc8f;
+    background: rgb(221, 221, 221);
     /* #8fbc8f */
     /* rgb(112, 178, 150) */
 }
 .myform tbody tr:nth-child(odd) {
     /* border-bottom: 2px solid var(--item-bg-color); */
-    background: rgb(199, 237, 184);
+    background: white;
     /* #8fbc8f */
     /* rgb(112, 178, 150) */
 }
 .myform tbody tr:last-child {
     border-bottom: none;
+}
+
+.myform .table-button {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
+    min-width: 0;
+    width: 100%;
+    height: 80%;
+    line-height: 80%;
 }
 </style>

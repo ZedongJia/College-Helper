@@ -89,6 +89,7 @@ export function cutSentence(params) {
 }
 
 /**
+<<<<<<< HEAD
  * 获取某一省份下所有的年份信息
  * @param { provinceName: String } params
  * @returns { Promise }
@@ -154,5 +155,32 @@ export function getScoreInfo (params) {
         }).catch(() => {
             raise('网络故障，请重试')
         })
+=======
+ *大学专业智能查询
+ * @param {{entity: String}} params
+ * @returns {Promise}
+ */
+export function IntelligentQuery(params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'entity/cut',
+            method: 'POST',
+            data: params,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then((response) => {
+                const data = response.data
+                if (data.status) {
+                    resolve(data)
+                } else {
+                    reject(data.error)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
+>>>>>>> 9c5b9c365ec6a937ceb83426390af3ac661b5cd7
     })
 }

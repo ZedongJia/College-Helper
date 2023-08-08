@@ -1,5 +1,5 @@
 <template>
-    <ul class="cardgroup">
+    <ul ref="fa" class="cardgroup">
         <li
             v-for="(item, index) in pages"
             :key="index"
@@ -23,6 +23,8 @@
                         text-align: center;
                         pointer-events: none;
                         user-select: none;
+                        height: 150px;
+                        overflow: hidden;
                         z-index: 10;
                     "
                 >
@@ -37,11 +39,15 @@
                         {{ item.content }}
                     </p>
                 </div>
-                <a
-                    :href="item.link"
-                    style="user-select: none"
-                    >Read More</a
+                <div
+                    style="
+                        padding:0 0 0 10em;
+                        pointer-events: none;
+                        user-select: none;
+                    "
                 >
+                    <a :href="item.link">Read More</a>
+                </div>
             </Card>
         </li>
     </ul>
@@ -105,6 +111,7 @@ export default {
                 if (this.isDraging) {
                     return
                 }
+                this.$refs.fa.style.zIndex = 1000
                 // 组件位置初始化
                 e.target.style.top = 0
                 e.target.style.left = 0
@@ -159,6 +166,7 @@ export default {
             if (index === this.firstPage) {
                 // 不再拖动
                 this.isDraging = false
+                this.$refs.fa.style.zIndex = 1
                 e.target.style.left = 0
                 e.target.style.top = 0
                 if (this.rotate > 100) {
@@ -261,11 +269,11 @@ export default {
                         'px,' +
                         this.firstheight +
                         'px)'
-                        console.log(style)
+                    console.log(style)
                 } else {
                     style.transform =
                         'translate3D(0,0,' +
-                        -1 * 60 * (perIndex - this.offsetRatio) +
+                        -1 * 200 * (perIndex - this.offsetRatio) +
                         'px' +
                         ')'
                 }
@@ -278,10 +286,10 @@ export default {
         },
         onTransitionEnd(index) {
             if (this.isRefresh) {
-                    this.firstwidth = 0 - this.firstwidth
-                    this.firstheight = 0 - this.firstheight
-                    this.isRefresh = !this.isRefresh
-                    console.log(this.isRefresh)
+                this.firstwidth = 0 - this.firstwidth
+                this.firstheight = 0 - this.firstheight
+                this.isRefresh = !this.isRefresh
+                console.log(this.isRefresh)
             }
         },
         Refresh(index, centerX, centerY) {

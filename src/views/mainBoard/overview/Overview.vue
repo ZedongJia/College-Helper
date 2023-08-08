@@ -1,247 +1,277 @@
 <template>
-    <div class="wrapper fade-in overviewlayout">
-        <Board style="grid-column: 1 / 2">
-            <Title :title="'分类专题： [' + node.name + ']'"></Title>
-            <div
-                style="width: 100%"
-                v-for="key in Object.keys(sortedList)"
-                :key="key"
-            >
-                <p
-                    v-if="hasChildren(sortedList[key])"
-                    class="label"
+    <div class="wrapper">
+        <Board
+            ><div
+                ref="map"
+                id="map"
+            ></div
+        ></Board>
+        <div class="overview-table">
+            <div :class="{ 'table-fold': isFold, 'table-unfold': !isFold }">
+                <Table
+                    style="padding: 0;"
+                    :link="link"
+                    :header="['地区', '大学数量']"
+                    :colWidth="[50, 35, 15]"
+                    isShowButton
+                    ButtonName="详情"
+                    @detail="outFrame"
                 >
-                    {{ key }}
-                </p>
-                <div class="categray">
-                    <p
-                        v-for="item in sortedList[key]"
-                        :key="item"
-                    >
-                        {{ item }}
-                    </p>
-                </div>
+                </Table>
             </div>
-        </Board>
-        <div style="dispaly: grid; grid-template-rows: 200px 1fr 1fr">
-            <Board>
-                <Title title="分类导航:"></Title>
-                <br />
-                <Button
-                    @clickIt="outFrame"
-                    style="width: 100%"
-                >
-                    显示
-                </Button>
-            </Board>
-            <br />
-            <Board>
-                <Title
-                    style="margin-bottom: 8px"
-                    title="上级分类："
-                ></Title>
-                <p
-                    style="color: grey"
-                    v-if="node.parent === 'root'"
-                >
-                    已是最高级分类
-                </p>
-                <span
-                    @click="upskip(node, node.parent)"
-                    v-else
-                >
-                    <div class="link-text">
-                        <a>{{ node.parent }}</a>
-                    </div>
-                </span>
-            </Board>
-            <br />
-            <Board>
-                <Title
-                    style="margin-bottom: 8px"
-                    title="下级分类："
-                ></Title>
-                <p
-                    style="color: grey"
-                    v-if="!hasChildren(node.children)"
-                >
-                    已是最低级分类
-                </p>
-                <span
-                    v-for="i in node.children"
-                    :key="i"
-                    @click="downskip(i, node.name)"
-                    style="line-height: 30px"
-                >
-                    <div class="link-text">
-                        <a>{{ i.name }}</a>
-                    </div>
-                </span>
-            </Board>
-        </div>
-    </div>
-    <PopFrame v-if="appear">
-        <div style="width: 50%; margin: 50px auto">
-            <Board>
-                <Title title="分类树"></Title>
-            </Board>
-            <Board
-                style="
-                    min-height: 400px;
-                    max-height: 500px; /* 设置容器的最大高度 */
-                    overflow-y: auto; /* 添加垂直滚动条 */
-                "
+            <div
+                @click="isFold = !isFold"
+                class="fold-button flex-row-center"
             >
-                <Tree :model="treeData"></Tree>
-            </Board>
-            <Board class="flex-row-right">
-                <Button
-                    @clickIt="outFrame"
-                    style="padding: 0 3em"
-                >
-                    返回
-                </Button>
-            </Board>
+                <ion-icon
+                    v-if="isFold"
+                    style="transform: scale(1.5)"
+                    name="caret-down-outline"
+                ></ion-icon>
+                <ion-icon
+                    v-if="!isFold"
+                    style="transform: scale(1.5)"
+                    name="caret-up-outline"
+                ></ion-icon>
+            </div>
         </div>
-    </PopFrame>
+        <PopFrame v-if="appear">
+            <div style="width: 50%; margin: 50px auto">
+                <Board>
+                    <Title title="大学专业概览"></Title>
+                </Board>
+                <Board style="min-height: 400px; max-height: 500px; /* 设置容器的最大高度 */ overflow-y: auto; /* 添加垂直滚动条 */">
+                    <Tree :model="treeData"></Tree>
+                </Board>
+                <Board class="flex-row-right">
+                    <Button
+                        @clickIt="exitFrame"
+                        style="padding: 0 3em"
+                    >
+                        返回
+                    </Button>
+                </Board>
+            </div>
+        </PopFrame>
+    </div>
 </template>
+
 <script>
 import { mapState } from 'vuex'
+import * as echarts from 'echarts'
+import { chinaMap } from '@/utils/chinaMap'
 import Tree from './components/Tree'
 import treeData from './tree.json'
-const pinyin = require('js-pinyin')
 export default {
     components: {
         Tree
     },
     data() {
         return {
-            appear: false,
             treeData: treeData,
-            childrenList: [],
-            treeStack: []
+            link: [],
+            province: '',
+            appear: false,
+            dataList: [],
+            isFold: true
         }
     },
     methods: {
-        outFrame() {
+        ProvinceSize(name) {
+            let size = 0
+            for (let i = 0; i < treeData.length; i++) {
+                if (name.includes(treeData[i].name)) {
+                    for (let j = 0; j < treeData[i].children.length; j++) {
+                        size += treeData[i].children[j].children.length
+                    }
+                    return size
+                }
+            }
+            return 0
+        },
+        outFrame(item) {
+            for (let i = 0; i < treeData.length; i++) {
+                if (item.source.includes(treeData[i].name)) {
+                    for (let j = 0; j < treeData[i].children.length; j++) {
+                        if (treeData[i].children[j].name === item.source) {
+                            this.treeData = treeData[i].children[j].children
+                        }
+                    }
+                    break
+                }
+            }
             this.$store.commit('tree/show')
         },
-        hasChildren(children) {
-            return children !== undefined && children.length !== 0
-        },
-        dfsAllNodes(i, count = 0) {
-            if (count === 1) {
-                // 达到指定递归次数时停止递归
-                return i.name
-            }
-            if (i.children) {
-                for (let j = 0; j < i.children.length; j++) {
-                    this.childrenList.push(
-                        this.dfsAllNodes(i.children[j], count + 1)
-                    )
-                }
-            }
-
-            return i.name
-        },
-        upskip(node, parent) {
-            this.$store.commit('tree/updateStack', {
-                nodename: parent,
-                updown: 'up'
-            })
-        },
-        downskip(i, name) {
-            this.$store.commit('tree/updateNode', {
-                parent: name,
-                children: i.children,
-                name: i.name
-            })
+        exitFrame() {
+            this.$store.commit('tree/show')
         }
     },
-    computed: {
-        ...mapState({
-            isShow: (state) => state.tree.isShow,
-            node: (state) => state.tree.currNode
-        }),
-        sortedList() {
-            const sortedData = {}
-            const collator = new Intl.Collator('zh')
-            // 初始化分类
-            for (let i = 65; i <= 90; i++) {
-                const initial = String.fromCharCode(i)
-                sortedData[initial] = []
-            }
-            if (this.childrenList && Array.isArray(this.childrenList)) {
-                // this.childrenList.forEach((item) =>
-                for (let i = 0; i < this.childrenList.length; i++) {
-                    const item = this.childrenList[i]
-                    // 获取首字母
-                    if (item !== '') {
-                        const initial =
-                            collator.compare(
-                                pinyin.getFullChars(item[0])[0],
-                                'A'
-                            ) >= 0 &&
-                            collator.compare(
-                                pinyin.getFullChars(item[0])[0],
-                                'Z'
-                            ) <= 0
-                                ? pinyin.getFullChars(item[0])[0]
-                                : ''
-                        if (!sortedData[initial]) {
-                            sortedData[initial] = []
+    mounted() {
+        const chinamap = echarts.init(this.$refs.map)
+        echarts.registerMap('chinaMap', chinaMap) // 注册地图
+        const option = {
+            geo: {
+                map: 'chinaMap', // 绘画的地图
+                zoom: 1.6, // 缩放比例
+                itemStyle: {
+                    // 每一项的样式
+                    areaColor: '#fff', // 地区颜色
+                    borderColor: 'RGB(70,130,180)', // 边框颜色
+                    borderWidth: '0.5', // 边框宽度
+                    opacity: 1 // 不透明度
+                },
+                label: {
+                    // 文字
+                    show: true, // 展示文字
+                    fontSize: 14 // 字体大小
+                },
+                emphasis: {
+                    // 附加属性（强调）
+                    itemStyle: {
+                        areaColor: '#b4ffff' // 鼠标经过的颜色
+                    },
+                    select: {
+                        // 选中设置
+                        itemStyle: {
+                            areaColor: '#0f2c66' // 选中颜色设置
                         }
-                        sortedData[initial].push(item)
                     }
+                },
+                x: '15%',
+                y: '30%'
+            },
+            visualMap: {
+                min: 0,
+                max: 170,
+                left: 'left',
+                top: 'bottom',
+                text: ['高', '低'], // 取值范围的文字
+                inRange: {
+                    color: ['white', '#2E75B6'] // 取值范围的颜色
+                },
+                textStyle: {
+                    color: 'RGB(70,130,180)' // 取值范围文字的颜色
+                },
+                show: true // 图注
+            },
+            series: [
+                {
+                    name: '信息量',
+                    type: 'map',
+                    geoIndex: 0,
+                    data: this.dataList
                 }
+            ],
+            zoom: 1, //  地图放大
+            aspectScale: 0.8, //  地图宽高比例
+            roam: true, //  地图缩放、平移
+            scaleLimit: {
+                min: 1, // 最小1倍
+                max: 40 // 最大3倍
             }
-            return sortedData
+        }
+        chinamap.setOption(option)
+        // 获得点击省份的名称
+        chinamap.on('click', (params) => {
+            if (params.componentType === 'series') {
+                this.province = params.name // 将选中的省份名称赋值给province属性
+            }
+        })
+        window.addEventListener('resize', () => {
+            chinamap.resize()
+        })
+    },
+    created() {
+        this.link = [{ source: '中国', target: '2889' }]
+        for (let i = 0; i < treeData.length; i++) {
+            this.dataList.push({
+                name: treeData[i].name,
+                value: this.ProvinceSize(treeData[i].name)
+            })
         }
     },
     watch: {
         isShow() {
             this.appear = !this.appear
-            this.childrenList = []
-            this.dfsAllNodes(this.node)
         },
-        node() {
-            this.childrenList = []
-            this.dfsAllNodes(this.node)
+        province() {
+            const link = []
+            for (let i = 0; i < treeData.length; i++) {
+                if (this.province.includes(treeData[i].name)) {
+                    treeData[i].children.forEach((item) => {
+                        link.push({
+                            source: item.name,
+                            target: item.children.length
+                        })
+                    })
+                    break
+                }
+            }
+            this.link = link
         }
     },
-    created() {
-        this.$store.commit('tree/updateNode', {
-            parent: 'root',
-            children: treeData,
-            name: '省份'
+    computed: {
+        ...mapState({
+            isShow: (state) => state.tree.isShow
         })
     }
 }
 </script>
+
 <style>
-.overviewlayout {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-    grid-column-gap: 5%;
-}
-.label {
-    margin: 16px 0;
-    width: 64px;
-    height: 24px;
-    line-height: 24px;
-    text-align: center;
-    background-color: var(--item-bg-rev-color);
-    box-shadow: 0 2px 5px var(--item-bg-color);
-    border: none;
-    border-radius: 5px;
-}
-.categray {
-    display: flex;
-    flex-flow: row wrap;
+#map {
     width: 100%;
+    height: 500px;
+    /* background-color: #111; */
+    margin: 0;
 }
-.categray > p {
-    flex: 0 0 25%;
-    padding-bottom: 0.5em;
+
+.overview-table {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 400px;
+    border-radius: 10px;
+    box-shadow: -5px 5px 10px grey;
+}
+
+/* scrollbar */
+.table-fold::-webkit-scrollbar,
+.table-unfold::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: var(--bg-color);
+}
+
+.table-fold::-webkit-scrollbar-thumb,
+.table-unfold::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: var(--item-bg-color);
+}
+
+.table-fold::-webkit-scrollbar-button,
+.table-unfold::-webkit-scrollbar-button {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: var(--item-bg-color);
+}
+
+.table-fold,
+.table-unfold {
+    overflow-y: auto;
+}
+
+.table-fold {
+    max-height: 150px;
+}
+
+.table-unfold {
+    max-height: 400px;
+}
+
+.fold-button {
+    cursor: pointer;
+    height: 32px;
 }
 </style>
