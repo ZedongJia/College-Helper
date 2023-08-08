@@ -7,9 +7,12 @@
             ></div
         ></Board>
         <div class="overview-table">
-            <div :class="{ 'table-fold': isFold, 'table-unfold': !isFold }">
+            <div
+                style="transition: 0.5s"
+                :class="{ 'table-fold': isFold, 'table-unfold': !isFold }"
+            >
                 <Table
-                    style="padding: 0;"
+                    style="padding: 0"
                     :link="link"
                     :header="['地区', '大学数量']"
                     :colWidth="[50, 35, 15]"

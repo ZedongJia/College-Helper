@@ -67,7 +67,7 @@
 <script>
 import { loading } from '@/utils/callback'
 import { RelationQuery } from '@/api/entity'
-import { addHistoryInfo } from '@/api/user'
+import { addBrowseInfo } from '@/api/user'
 
 export default {
     data() {
@@ -76,10 +76,21 @@ export default {
             data: [],
             link: [],
             options: ['属于', '拥有', '制定', '执行', '任职', '参考', '相关', '坐落于', '毕业于'],
-            map: { 属性: 'HAS', 拥有: 'BELONG_TO', 制定: 'SET', 执行: 'EXECUTE', 任职: 'TEACHING_IN', 参考: 'REFER', 相关: 'RELATED_TO', 坐落于: 'LOCATE', 毕业于: 'GRADUATED_FROM' },
+            map: {
+                属性: 'HAS',
+                拥有: 'BELONG_TO',
+                制定: 'SET',
+                执行: 'EXECUTE',
+                任职: 'TEACHING_IN',
+                参考: 'REFER',
+                相关: 'RELATED_TO',
+                坐落于: 'LOCATE',
+                毕业于: 'GRADUATED_FROM'
+            },
             option: '',
             entity1: '',
-            entity2: ''
+            entity2: '',
+            noRecord: false
         }
     },
     methods: {
@@ -95,14 +106,16 @@ export default {
                     entity1: this.entity1,
                     option: this.option,
                     entity2: this.entity2
-                }).then((response) => {
-                    this.data = JSON.parse(response.data).data
-                    this.link = JSON.parse(response.data).link
-                    this.isLoading = false
-                }).catch((error) => {
-                    console.log(error)
-                    this.isLoading = false
                 })
+                    .then((response) => {
+                        this.data = JSON.parse(response.data).data
+                        this.link = JSON.parse(response.data).link
+                        this.isLoading = false
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        this.isLoading = false
+                    })
                     .then((data) => {
                         console.log(data)
                     })
@@ -110,20 +123,14 @@ export default {
                         console.log(error)
                     })
             })
-            // 将搜索记录插入到历史记录表中
-            console.log('------')
-            addHistoryInfo({
-                type: '关系查询',
-                content: this.entity1 + '----' + this.option + '----' + this.entity2
-            }).then(() => {
-                console.log('添加成功')
-            }).catch((error) => {
-                console.log(error)
-                // this.isLoading = false
-            })
+            if (!this.noRecord) {
+                addBrowseInfo({
+                    type: '查关系',
+                    content: this.entity1 + '-' + this.option + '-' + this.entity2
+                })
+            }
         },
         detail(item) {
-            console.log('-----------')
             this.entity1 = item.source
             this.option = item.label
             this.entity2 = item.target
@@ -131,6 +138,14 @@ export default {
     },
     created() {
         // 向后端请求，得到data，link
+        if (this.$route.query.content !== undefined) {
+            this.noRecord = true
+            const payload = this.$route.query.content.split('-')
+            this.entity1 = payload[0]
+            this.option = payload[1]
+            this.entity2 = payload[2]
+            this.performSearch()
+        }
     }
 }
 </script>

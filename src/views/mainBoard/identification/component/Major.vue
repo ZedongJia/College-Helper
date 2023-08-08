@@ -6,9 +6,18 @@
         class="wrapper fade-in detail-layout"
     >
         <!-- 左列 -->
-        <Board>
+        <Board style="position: relative">
             <!-- 第一部分：标题 + 词条 -->
             <!-- 页面标题 -->
+            <div
+                :class="{ star: !isStar, 'flex-row': true, hasStar: isStar }"
+                @click="star"
+            >
+                <ion-icon
+                    style="transform: scale(2)"
+                    name="star-outline"
+                ></ion-icon>
+            </div>
             <br />
             <div class="flex-row detail-header">
                 <div
@@ -65,7 +74,6 @@
                 :messageDict="data.recommend"
                 :headers="['主类别', '子类别', '专业']"
                 :colWidth="[15, 30, 55]"
-                @query="turnTo"
                 nodel
                 nocursor
             ></MessageList>
@@ -102,10 +110,16 @@
 </template>
 <script>
 import { queryEntity } from '@/api/entity'
+import { star } from '@/api/user'
+import Review from './Review.vue'
 export default {
+    components: {
+        Review
+    },
     props: {
         name: String,
-        label: String
+        label: String,
+        browse_id: String
     },
     data() {
         return {
@@ -118,7 +132,8 @@ export default {
                 related: '',
                 link: '',
                 recommend: ''
-            }
+            },
+            isStar: false
         }
     },
     computed: {
@@ -139,9 +154,27 @@ export default {
         },
         turnTo() {
             // todo
+        },
+        star() {
+            if (this.isStar) {
+                return
+            }
+            star({
+                browse_id: this.browse_id,
+                state: 'true'
+            }).then(() => {
+                this.$store.commit('prompt/trigger', {
+                    msg: '收藏成功',
+                    level: 'info'
+                })
+                this.isStar = true
+            })
         }
     },
     created() {
+        if (String(this.browse_id) === '-1') {
+            this.isStar = true
+        }
         queryEntity({
             name: this.name,
             label: this.label

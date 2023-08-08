@@ -9,10 +9,12 @@ export default {
     children: [
         identification,
         {
+            name: 'entitySearch',
             path: 'entitySearch',
             component: () => import('@/views/mainBoard/EntitySearch.vue')
         },
         {
+            name: 'relationSearch',
             path: 'relationSearch',
             component: () => import('@/views/mainBoard/RelationSearch.vue')
         },

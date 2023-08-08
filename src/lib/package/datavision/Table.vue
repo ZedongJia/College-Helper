@@ -15,7 +15,7 @@
                         :style="colWidth.length !== 0 ? 'width:' + colWidth[index] + '%' : ''"
                     >
                         {{ itemHeader }}
-                        <div class="icon" @click="Sort(index)"> <ion-icon style="transform: scale(1.5);" name="swap-vertical-outline"></ion-icon> </div>
+                        <div v-if="!disableSort" class="icon" @click="Sort(index)"> <ion-icon style="transform: scale(1.5);" name="swap-vertical-outline"></ion-icon> </div>
                     </td>
                     <td
                         :style="colWidth.length !== 0 ? 'width:' + colWidth[colWidth.length - 1] + '%' : ''"
@@ -64,6 +64,7 @@ export default {
         link: Array,
         header: Array,
         isShowButton: Boolean,
+        disableSort: Boolean,
         ButtonName: String,
         colWidth: {
             type: Array,
@@ -158,6 +159,7 @@ export default {
     text-align: center;
 }
 .myform .icon {
+    z-index: 1000;
     cursor: pointer;
     opacity: 0.5;
     width: 20px;
@@ -186,8 +188,8 @@ export default {
     transition: 0.25s;
 }
 .myform thead tr td:hover {
-    background-color: var(--item-font-color);
-    color: black;
+    background-color: var(--bg-color);
+    color: var(--font-color);
 }
 .myform thead tr td:hover .icon {
     color: black;
