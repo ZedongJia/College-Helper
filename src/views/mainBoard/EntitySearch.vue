@@ -69,14 +69,16 @@ export default {
 
             // waiting for data
             loading(() => {
-                this.isLoading = false
-                this.data = []
-                this.link = []
                 IntelligentQuery({
                     entity: this.entity
                 })
-                    .then((data) => {
-                        console.log(data)
+                    .then((response) => {
+                        const node = JSON.parse(response.data)
+                        console.log(node.data)
+                        console.log(node.link)
+                        this.data = node.data
+                        this.link = node.link
+                        this.isLoading = false
                     })
                     .catch((error) => {
                         console.log(error)
@@ -86,28 +88,6 @@ export default {
         detail(item) {
             // todo
         }
-    },
-    created() {
-        // 向后端请求，得到data，link
-        this.data = [
-            { name: '玉米', c: 1 },
-            { name: '蔬菜', c: 1 },
-            { name: '番茄', c: 1 },
-            { name: '大西瓜', c: 1 },
-            { name: '水果', c: 1 },
-            { name: '南开大学', c: 0 },
-            { name: '起名字好难啊', c: 0 },
-            { name: '大菠萝', c: 0 }
-        ]
-        this.link = [
-            { source: '蔬菜', label: '属于3', target: '南开大学' },
-            { source: '水果', label: '属于2', target: '南开大学' },
-            { source: '大西瓜', label: '属于1', target: '水果' },
-            { source: '番茄', label: '属于0', target: '蔬菜' },
-            { source: '玉米', label: '属于5', target: '蔬菜' },
-            { source: '起名字好难啊', label: '属于4', target: '南开大学' },
-            { source: '大菠萝', label: '属于6', target: '水果' }
-        ]
     }
 }
 </script>

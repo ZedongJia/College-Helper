@@ -269,7 +269,6 @@ export default {
                         'px,' +
                         this.firstheight +
                         'px)'
-                    console.log(style)
                 } else {
                     style.transform =
                         'translate3D(0,0,' +

@@ -90,19 +90,15 @@ export function cutSentence(params) {
 export function IntelligentQuery(params) {
     return new Promise((resolve, reject) => {
         axios({
-            url: 'entity/cut',
-            method: 'POST',
-            data: params,
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
+            url: 'entity/intelligentQuery',
+            method: 'GET',
+            params
         })
             .then((response) => {
-                const data = response.data
-                if (data.status) {
-                    resolve(data)
+                if (response) {
+                    resolve(response)
                 } else {
-                    reject(data.error)
+                    reject(response)
                 }
             })
             .catch(() => {
