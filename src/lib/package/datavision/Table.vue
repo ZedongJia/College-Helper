@@ -12,12 +12,13 @@
                         style="height: 32px; position: relative"
                         v-for="(itemHeader, index) in header"
                         :key="itemHeader"
+                        :style="colWidth.length !== 0 ? 'width:' + colWidth[index] + '%' : ''"
                     >
                         {{ itemHeader }}
                         <div class="icon" @click="Sort(index)"> <ion-icon style="transform: scale(1.5);" name="swap-vertical-outline"></ion-icon> </div>
                     </td>
                     <td
-
+                        :style="colWidth.length !== 0 ? 'width:' + colWidth[colWidth.length - 1] + '%' : ''"
                         style="height: 32px; position: relative"
                         v-if="isShowButton"
                     >

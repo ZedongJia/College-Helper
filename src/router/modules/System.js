@@ -29,13 +29,16 @@ export default {
             component: () => import('@/views/mainBoard/ChatAI.vue')
         },
         {
-<<<<<<< HEAD
             path: 'scoreVisual',
             component: () => import('@/views/mainBoard/ScoreVisual.vue')
-=======
+        },
+        {
             path: 'feedback',
             component: () => import('@/views/mainBoard/Feedback.vue')
->>>>>>> 9c5b9c365ec6a937ceb83426390af3ac661b5cd7
+        },
+        {
+            path: 'feedback',
+            component: () => import('@/views/mainBoard/Feedback.vue')
         },
         userCenter
     ]
