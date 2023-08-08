@@ -1,6 +1,6 @@
 <template>
     <Board>
-        <Loading v-if="isLoading"></Loading>
+        <Loading v-if="isLoading" fixHeight="100px"></Loading>
         <EmptyHint v-if="isEmpty && !isLoading"></EmptyHint>
         <table
             v-if="!isEmpty && !isLoading"

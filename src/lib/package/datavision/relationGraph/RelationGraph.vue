@@ -1,6 +1,12 @@
 <template>
-    <Board :inset="inset" class="fade-in">
-        <Loading v-if="isLoading"></Loading>
+    <Board
+        :inset="inset"
+        class="fade-in"
+    >
+        <Loading
+            v-if="isLoading"
+            fixHeight="100px"
+        ></Loading>
         <EmptyHint v-if="isEmpty && !isLoading"></EmptyHint>
         <div
             v-if="!isEmpty && !isLoading"
