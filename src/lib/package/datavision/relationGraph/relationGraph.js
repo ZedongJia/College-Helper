@@ -32,6 +32,10 @@ function generateRelationGraph(element, data, link, isDraggable, isAnimation) {
                 roam: isDraggable,
                 animation: isAnimation,
                 initLayout: 'circular',
+                scaleLimit: {
+                    min: 0.5, // 最小1倍
+                    max: 3 // 最大3倍
+                },
                 // 数据点
                 data: data,
                 // 边
@@ -48,9 +52,8 @@ function generateRelationGraph(element, data, link, isDraggable, isAnimation) {
                 },
                 // 边设置
                 lineStyle: {
-                    color: 'grey',
-                    opacity: 1,
-                    position: 'inside',
+                    color: 'target',
+                    opacity: 0.8,
                     width: 2,
                     curveness: 0.1
                 },
@@ -63,6 +66,7 @@ function generateRelationGraph(element, data, link, isDraggable, isAnimation) {
                 edgeLabel: {
                     show: true,
                     fontSize: 8,
+                    color: 'red',
                     formatter: (params) => {
                         return params.data.label
                     }
@@ -79,6 +83,7 @@ function generateRelationGraph(element, data, link, isDraggable, isAnimation) {
                 },
                 focus: 'adjacency',
                 legendHoverLink: true,
+                focusNodeAdjacency: true,
                 draggable: true
             }
         ]
