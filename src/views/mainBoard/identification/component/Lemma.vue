@@ -6,9 +6,18 @@
         class="wrapper fade-in detail-layout"
     >
         <!-- 左列 -->
-        <Board>
+        <Board style="position: relative">
             <!-- 第一部分：标题 + 词条 -->
             <!-- 页面标题 -->
+            <div
+                class="star flex-row"
+                @click="star"
+            >
+                <ion-icon
+                    style="transform: scale(2)"
+                    name="star-outline"
+                ></ion-icon>
+            </div>
             <br />
             <div class="flex-row detail-header">
                 <div class="icon">
@@ -93,7 +102,7 @@
                 <hr class="line" />
                 <div>{{ data.university.name }}</div>
             </Board>
-            <br />
+            <br v-if="label === 'person'" />
             <Board style="padding: 20px">
                 <Title>{{ label === 'person' ? '同校优秀校友、老师' : '你可能感兴趣的' }}</Title>
                 <hr class="line" />
@@ -110,7 +119,12 @@
 </template>
 <script>
 import { queryEntity } from '@/api/entity'
+import { star } from '@/api/user'
+import Review from './Review.vue'
 export default {
+    components: {
+        Review
+    },
     props: {
         name: String,
         label: String
@@ -125,7 +139,8 @@ export default {
                 intro: [],
                 university: {},
                 related: []
-            }
+            },
+            isStar: false
         }
     },
     computed: {
@@ -136,6 +151,23 @@ export default {
     methods: {
         receiveOption(option) {
             this.option = option
+        },
+        star() {
+            if (this.isStar) {
+                return
+            }
+            star({
+                browse_id: this.browse_id,
+                state: 'true'
+            }).then(() => {
+                this.$store.commit('prompt/trigger', {
+                    msg: '收藏成功',
+                    level: 'info'
+                })
+                this.isStar = true
+                document.querySelector('.star').style.color = 'yellow'
+                document.querySelector('.star').style.cursor = 'default'
+            })
         }
     },
     created() {

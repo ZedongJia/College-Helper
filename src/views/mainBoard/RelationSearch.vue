@@ -67,7 +67,7 @@
 <script>
 import { loading } from '@/utils/callback'
 import { RelationQuery } from '@/api/entity'
-import { addHistoryInfo } from '@/api/user'
+import { addBrowseInfo } from '@/api/user'
 
 export default {
     data() {
@@ -110,20 +110,12 @@ export default {
                         console.log(error)
                     })
             })
-            // 将搜索记录插入到历史记录表中
-            console.log('------')
-            addHistoryInfo({
-                type: '关系查询',
-                content: this.entity1 + '----' + this.option + '----' + this.entity2
-            }).then(() => {
-                console.log('添加成功')
-            }).catch((error) => {
-                console.log(error)
-                // this.isLoading = false
+            addBrowseInfo({
+                type: '查关系',
+                content: this.entity1 + '-' + this.option + '-' + this.entity2
             })
         },
         detail(item) {
-            console.log('-----------')
             this.entity1 = item.source
             this.option = item.label
             this.entity2 = item.target

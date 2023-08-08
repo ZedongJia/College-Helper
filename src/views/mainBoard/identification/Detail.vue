@@ -43,7 +43,7 @@ export default {
     created() {
         // record
         addBrowseInfo({
-            type: '实体查询',
+            type: '文本智能分析',
             content: this.name + '-' + this.label
         }).then((id) => {
             this.browse_id = id

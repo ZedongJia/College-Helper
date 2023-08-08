@@ -1,8 +1,8 @@
 <template>
-    <div class="review-write flex-row-center">
+    <div class="review-write flex-row-center" style="flex-wrap: wrap;">
         <div
-            class="flex-row-evenly"
-            style="width: 30%"
+            class="flex-row"
+            style="width: 40%"
         >
             <span class="avator">
                 <img
@@ -10,19 +10,19 @@
                     alt=""
                 />
             </span>
-            <span class="review-nickname" style="color: var(--item-bg-color);">
+            <span class="review-nickname" style="margin: 0 15px;color: var(--item-bg-color);">
                 {{ nickname }}
             </span>
         </div>
         <textarea
-            style="width: 55%; height: 64px"
+            style="width: 50%; height: 64px"
             class="textareaItem"
             v-model="content"
             placeholder="这里可以输入你想要发表的评论"
         ></textarea>
         <Button
             @click="send"
-            style="width: 10%; height: 64px"
+            style="min-width: 0; width: 10%; height: 64px"
         >
             <span class="flex-row-center"
                 ><ion-icon
@@ -45,7 +45,7 @@
             :key="r.id"
             class="review"
         >
-            <div class="review-time">{{ r.time }}</div>
+            <div class="review-time">{{ r.time.replace('T', ' ') }}</div>
             <div class="review-content">
                 <div class="flex-row avator-box">
                     <span class="avator">
@@ -267,7 +267,6 @@ export default {
 
 .review-nickname {
     padding-left: 1em;
-    min-width: 50px;
     color: black;
     border-bottom: 2px solid var(--item-bg-color);
     border-bottom-left-radius: 5px;

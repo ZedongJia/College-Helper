@@ -25,10 +25,7 @@
                                 :key="index2"
                                 class="conditionItemList"
                                 :style="{
-                                    color:
-                                        index2 === isChoosed[index1]
-                                            ? '#eda01f'
-                                            : ''
+                                    color: index2 === isChoosed[index1] ? '#eda01f' : ''
                                 }"
                                 @click="chooseType(index1, index2)"
                                 ><a>{{ choice }}</a></span
@@ -37,58 +34,52 @@
                     </div>
                 </div>
             </div>
-                <hr class="boundary" />
-                <!-- 查询框 -->
-                <input
-                    class="inputItem"
-                    style="width: 70%; margin-left: 2%"
-                    placeholder="请输入您的分数"
-                    v-model="rankInfo.rankScore"
-                />
-                <Button
-                    @clickIt="searchScore"
-                    style="width: 15%"
-                >
-                    查询
-                </Button>
-                <hr class="boundary" />
-                <!-- 折线图 -->
-                <h3 class="titleScore">折线图</h3>
-                <div class="stack-line">
-                    <div class="gk-info gk-score">
-                        <span style="margin-right: 3px">高考分数：</span>
-                        <b>{{ rankInfo.rankScore }} 分</b>
-                    </div>
-                    <div class="gk-info">
-                        <span style="margin-right: 3px">同分人数：</span>
-                        <b>{{ rankInfo.rankNum }} 人</b>
-                    </div>
-                    <div class="gk-info">
-                        <span
-                            style="
-                                margin-right: 3px;
-                                margin-bottomm: 2px;
-                                padding-bottom: 2px;
-                            "
-                            >排名区间：</span
-                        >
-                        <b>{{ rankInfo.rankRange }} 名</b>
-                    </div>
+            <hr class="boundary" />
+            <!-- 查询框 -->
+            <input
+                class="inputItem"
+                style="width: 70%; margin-left: 2%"
+                placeholder="请输入您的分数"
+                v-model="rankInfo.rankScore"
+            />
+            <Button
+                @clickIt="searchScore"
+                style="width: 15%"
+            >
+                查询
+            </Button>
+            <hr class="boundary" />
+            <!-- 折线图 -->
+            <h3 class="titleScore">折线图</h3>
+            <div class="stack-line">
+                <div class="gk-info gk-score">
+                    <span style="margin-right: 3px">高考分数：</span>
+                    <b>{{ rankInfo.rankScore }} 分</b>
                 </div>
-                <lineChart
-                    :dataX="dataX"
-                    :dataY="dataY"
+                <div class="gk-info">
+                    <span style="margin-right: 3px">同分人数：</span>
+                    <b>{{ rankInfo.rankNum }} 人</b>
+                </div>
+                <div class="gk-info">
+                    <span style="margin-right: 3px; margin-bottomm: 2px; padding-bottom: 2px">排名区间：</span>
+                    <b>{{ rankInfo.rankRange }} 名</b>
+                </div>
+            </div>
+            <lineChart
+                :dataX="dataX"
+                :dataY="dataY"
+                :isLoading="scoreIsLoading || pageIsLoading"
+            >
+            </lineChart>
+            <h3 class="titleScore">一分一段表</h3>
+            <div class="score-table" style="max-height: 600px; overflow-y: auto">
+                <Table
+                    disableSort
                     :isLoading="scoreIsLoading || pageIsLoading"
-                >
-                </lineChart>
-                <h3 class="titleScore">一分一段表</h3>
-                <div style="max-height: 600px; overflow: scroll">
-                    <Table
-                        :isLoading="scoreIsLoading || pageIsLoading"
-                        :link="link"
-                        :header="['分数', '本段人数', '累计人数']"
-                    ></Table>
-                </div>
+                    :link="link"
+                    :header="['分数', '本段人数', '累计人数']"
+                ></Table>
+            </div>
         </board>
     </div>
 </template>
@@ -125,15 +116,13 @@ export default {
             if (index1 === 0) {
                 // 点击省份
                 this.clickProvince({
-                    provinceName:
-                        this.allCondition[0].itemChoice[this.isChoosed[0]]
+                    provinceName: this.allCondition[0].itemChoice[this.isChoosed[0]]
                 })
                 this.isChoosed = [index2, 0, 0, 0]
             } else if (index1 === 1) {
                 // 点击年份
                 this.clickYears({
-                    provinceName:
-                        this.allCondition[0].itemChoice[this.isChoosed[0]],
+                    provinceName: this.allCondition[0].itemChoice[this.isChoosed[0]],
                     year: this.allCondition[1].itemChoice[this.isChoosed[1]]
                 })
                 this.isChoosed[2] = 0
@@ -141,15 +130,10 @@ export default {
             } else {
                 // 点击成绩类型或考生类别
                 this.clickCateDegree({
-                    provinceName:
-                        this.allCondition[0].itemChoice[this.isChoosed[0]],
+                    provinceName: this.allCondition[0].itemChoice[this.isChoosed[0]],
                     year: this.allCondition[1].itemChoice[this.isChoosed[1]],
-                    category:
-                        this.allCondition[2].itemChoice[this.isChoosed[2]],
-                    degree:
-                        this.allCondition.length === 4
-                            ? this.allCondition[3].itemChoice[this.isChoosed[3]]
-                            : '不分层次'
+                    category: this.allCondition[2].itemChoice[this.isChoosed[2]],
+                    degree: this.allCondition.length === 4 ? this.allCondition[3].itemChoice[this.isChoosed[3]] : '不分层次'
                 })
             }
         },
@@ -316,6 +300,21 @@ export default {
 }
 </script>
 <style>
+.score-table::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: var(--bg-color);
+}
+.score-table::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: var(--item-bg-color);
+}
+.score-table::-webkit-scrollbar-button {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: var(--item-bg-color);
+}
 .item:hover {
     background-color: var(--item-bg-rev-color);
     color: var(--item-font-rev-color);
