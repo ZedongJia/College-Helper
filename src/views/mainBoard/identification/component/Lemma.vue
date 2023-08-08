@@ -10,7 +10,7 @@
             <!-- 第一部分：标题 + 词条 -->
             <!-- 页面标题 -->
             <div
-                class="star flex-row"
+                :class="{ star: !isStar, 'flex-row': true, hasStar: isStar }"
                 @click="star"
             >
                 <ion-icon
@@ -127,7 +127,8 @@ export default {
     },
     props: {
         name: String,
-        label: String
+        label: String,
+        browse_id: String
     },
     data() {
         return {
@@ -165,12 +166,13 @@ export default {
                     level: 'info'
                 })
                 this.isStar = true
-                document.querySelector('.star').style.color = 'yellow'
-                document.querySelector('.star').style.cursor = 'default'
             })
         }
     },
     created() {
+        if (String(this.browse_id) === '-1') {
+            this.isStar = true
+        }
         queryEntity({
             name: this.name,
             label: this.label

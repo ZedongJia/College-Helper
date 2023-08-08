@@ -1,10 +1,7 @@
 <template>
     <Board
         class="flex-row-center wrapper"
-        style="
-            justify-content: left;
-            background-color: var(--item-bg-color);
-        "
+        style="justify-content: left; background-color: var(--item-bg-color)"
     >
         <transition-group name="slide-l">
             <router-link
@@ -38,6 +35,16 @@ export default {
                     name: '好友页面',
                     base: 'page',
                     icon: 'earth-outline'
+                },
+                {
+                    name: '大学专业智能查询',
+                    base: 'entitySearch',
+                    icon: 'search-circle-outline'
+                },
+                {
+                    name: '查关系',
+                    base: 'relationSearch',
+                    icon: 'search-outline'
                 }
             ]
         }
@@ -59,10 +66,7 @@ export default {
                             const newItem = item.substring(0, item.indexOf('?'))
                             this.include.forEach((e) => {
                                 if (e.base === newItem) {
-                                    const href = fullPath.substring(
-                                        0,
-                                        fullPath.indexOf(item) + item.length
-                                    )
+                                    const href = fullPath.substring(0, fullPath.indexOf(item) + item.length)
                                     this.pathList.push({
                                         name: e.name,
                                         href: href,
@@ -72,6 +76,7 @@ export default {
                             })
                         } else {
                             for (let i = 0; i < this.menuList.length; i++) {
+                                console.log(item)
                                 // 匹配正常路径
                                 if (this.menuList[i].href.endsWith(item)) {
                                     this.pathList.push(this.menuList[i])

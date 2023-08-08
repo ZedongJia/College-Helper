@@ -137,7 +137,7 @@ export default {
                         icon: 'logo-wechat'
                     }
                 ],
-                collectionDict: [],
+                collectionDict: {},
                 hint: '未公开'
             },
             disallowMail: false,
@@ -146,22 +146,23 @@ export default {
     },
     methods: {
         turnTo(group, index) {
-            const { type, content } = this.collectionDict[group][index]
-            let page = ''
+            const { type, content } = this.userInfo.collectionDict[group][index]
+            let name = ''
             switch (type) {
-                case '实体识别':
-                    page = 'identification'
-                    break
-                case '关系查询':
-                    page = 'relationSearch'
-                    break
                 case '实体查询':
-                    page = 'entitySearch'
+                    name = 'identification'
+                    break
+                case '查关系':
+                    name = 'relationSearch'
+                    break
+                case '大学专业智能查询':
+                    name = 'entitySearch'
                     break
             }
+            this.$store.commit('menu/toMainMenu')
             this.$router.push({
-                path: page,
-                meta: {
+                name: name,
+                query: {
                     content: content
                 }
             })

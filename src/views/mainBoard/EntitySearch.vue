@@ -79,7 +79,8 @@ export default {
              */
             data: [],
             relation_link: [],
-            entity_link: []
+            entity_link: [],
+            noRecord: false
         }
     },
     methods: {
@@ -104,16 +105,18 @@ export default {
                     })
             })
             // 添加历史记录
-            addBrowseInfo({
-                type: '大学专业智能查询',
-                content: this.entity
-            })
-                .then((response) => {
-                    console.log(response)
+            if (!this.noRecord) {
+                addBrowseInfo({
+                    type: '大学专业智能查询',
+                    content: this.entity
                 })
-                .catch((error) => {
-                    console.log(error)
-                })
+                    .then((response) => {
+                        console.log(response)
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
+            }
         },
         detail(item) {
             const name = item.name
@@ -125,6 +128,14 @@ export default {
                     label: item.type
                 }
             })
+        }
+    },
+    created() {
+        if (this.$route.query.content !== undefined) {
+            this.noRecord = true
+            const payload = this.$route.query.content.split('-')
+            this.entity = payload[0]
+            this.performSearch()
         }
     }
 }
