@@ -49,7 +49,7 @@ export default {
         that.someList = [
             {
                 title: '清华',
-                content: '清华大学（Tsinghua University）是中国著名高等学府。',
+                content: '清华大学（Tsinghua University）\n是中国著名高等学府。',
                 link: '#'
             },
             {

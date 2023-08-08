@@ -72,7 +72,7 @@ export default {
     },
     data() {
         return {
-            isSort: false,
+            isSort: true,
             tableContent: this.link
         }
     },
@@ -106,7 +106,6 @@ export default {
             }
         },
         Sort(index) {
-            console.log(index)
             // todo
             if (this.isSort) {
                 // 降序排列
@@ -126,14 +125,15 @@ export default {
     },
     computed: {
         isEmpty() {
-            // 默认第一列降序排序
-            this.Sort(0)
             return this.link === undefined || this.link === null || this.link.length === 0
         }
     },
     watch: {
         link() {
             this.tableContent = this.link
+            this.isSort = true
+            // 默认第一列降序排序
+            this.Sort(0)
         }
     }
 }

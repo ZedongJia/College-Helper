@@ -18,7 +18,6 @@ function generateLineChart (element, dataX, dataY) {
             a:代表参数,
             a['data']:代表series[{data:[]}]参数
             */
-                console.log(a)
                 return (
                     `
                     <div style="font-size: 16px;height: 210px;padding: 5px;
@@ -49,7 +48,6 @@ function generateLineChart (element, dataX, dataY) {
         toolbox: {
             show: true,
             feature: {
-                dataView: { show: true, readOnly: false },
                 saveAsImage: { show: true }
             }
         },

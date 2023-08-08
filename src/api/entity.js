@@ -156,6 +156,7 @@ export function getScoreInfo (params) {
         })
     })
 }
+
 /**
  *大学专业智能查询
  * @param {{entity: String}} params
@@ -165,6 +166,31 @@ export function IntelligentQuery(params) {
     return new Promise((resolve, reject) => {
         axios({
             url: 'entity/intelligentQuery',
+            method: 'GET',
+            params
+        })
+            .then((response) => {
+                if (response) {
+                    resolve(response)
+                } else {
+                    reject(response)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
+    })
+}
+
+/**
+ * 根据分数推荐大学
+ * @param {{provinceName: String, myScore: String}} params
+ * @returns {Promise}
+ */
+export function ScoreRecommend(params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'entity/scoreRecommend',
             method: 'GET',
             params
         })

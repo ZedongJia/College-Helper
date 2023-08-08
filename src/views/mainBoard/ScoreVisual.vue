@@ -1,47 +1,47 @@
 <template>
     <div class="wrapper fade-in">
         <!-- 查询主界面 -->
-        <board>
+        <Board>
             <h1 style="color: grey">一分一段</h1>
-            <hr class="boundary" />
+        </Board>
+        <Board>
             <Loading
                 fixHeight="200px"
                 v-if="pageIsLoading"
             ></Loading>
-            <div v-else>
-                <!-- 条件 -->
-                <div class="condition">
-                    <div
-                        class="conditionItem"
-                        v-for="(condition, index1) in allCondition"
-                        :key="index1"
-                    >
-                        <div class="conditionItemHead">
-                            <span>{{ condition.title }}</span>
-                        </div>
-                        <div style="padding-left: 107px">
-                            <span
-                                v-for="(choice, index2) in condition.itemChoice"
-                                :key="index2"
-                                class="conditionItemList"
-                                :style="{
-                                    color:
-                                        index2 === isChoosed[index1]
-                                            ? '#eda01f'
-                                            : ''
-                                }"
-                                @click="chooseType(index1, index2)"
-                                ><a>{{ choice }}</a></span
-                            >
-                        </div>
+            <!-- 条件 -->
+            <div v-else class="condition">
+                <div
+                    class="conditionItem"
+                    v-for="(condition, index1) in allCondition"
+                    :key="index1"
+                >
+                    <div class="conditionItemHead">
+                        <span>{{ condition.title }}</span>
+                    </div>
+                    <div style="padding-left: 107px">
+                        <span
+                            v-for="(choice, index2) in condition.itemChoice"
+                            :key="index2"
+                            class="conditionItemList"
+                            :style="{
+                                color:
+                                    index2 === isChoosed[index1]
+                                        ? '#eda01f'
+                                        : ''
+                            }"
+                            @click="chooseType(index1, index2)"
+                            ><a>{{ choice }}</a></span
+                        >
                     </div>
                 </div>
             </div>
-                <hr class="boundary" />
-                <!-- 查询框 -->
-                <input
+        </Board>
+        <Board>
+            <!-- 查询框 -->
+            <input
                     class="inputItem"
-                    style="width: 70%; margin-left: 2%"
+                    style="width: 70%; margin-left: 5%"
                     placeholder="请输入您的分数"
                     v-model="rankInfo.rankScore"
                 />
@@ -51,52 +51,94 @@
                 >
                     查询
                 </Button>
-                <hr class="boundary" />
-                <!-- 折线图 -->
-                <h3 class="titleScore">折线图</h3>
-                <div class="stack-line">
-                    <div class="gk-info gk-score">
-                        <span style="margin-right: 3px">高考分数：</span>
-                        <b>{{ rankInfo.rankScore }} 分</b>
-                    </div>
-                    <div class="gk-info">
-                        <span style="margin-right: 3px">同分人数：</span>
-                        <b>{{ rankInfo.rankNum }} 人</b>
-                    </div>
-                    <div class="gk-info">
-                        <span
-                            style="
-                                margin-right: 3px;
-                                margin-bottomm: 2px;
-                                padding-bottom: 2px;
-                            "
-                            >排名区间：</span
-                        >
-                        <b>{{ rankInfo.rankRange }} 名</b>
-                    </div>
+            <div class="stack-line">
+                <div class="gk-info gk-score">
+                    <span style="margin-right: 3px">高考分数：</span>
+                    <b>{{ rankInfo.rankScore }} 分</b>
                 </div>
-                <lineChart
-                    :dataX="dataX"
-                    :dataY="dataY"
-                    :isLoading="scoreIsLoading || pageIsLoading"
+                <div class="gk-info">
+                    <span style="margin-right: 3px">同分人数：</span>
+                    <b>{{ rankInfo.rankNum }} 人</b>
+                </div>
+                <div class="gk-info">
+                    <span
+                        style="
+                            margin-right: 3px;
+                            margin-bottomm: 2px;
+                            padding-bottom: 2px;
+                        "
+                        >排名区间：</span
+                    >
+                    <b>{{ rankInfo.rankRange }} 名</b>
+                </div>
+            </div>
+        </Board>
+        <Board>
+            <h3 class="titleScore">智能推荐</h3>
+        </Board>
+        <Board>
+            <Loading
+                fixHeight="200px"
+                v-if="!isSearchOK && recommendIsLoading"
+            ></Loading>
+            <div
+                v-else-if="isSearchOK"
+                class="card-layout"
+                id="cardOffset"
+            >
+                <div
+                    class="group"
+                    v-for="index in list"
+                    :key="index"
                 >
-                </lineChart>
-                <h3 class="titleScore">一分一段表</h3>
-                <div style="max-height: 600px; overflow: scroll">
-                    <Table
-                        :isLoading="scoreIsLoading || pageIsLoading"
-                        :link="link"
-                        :header="['分数', '本段人数', '累计人数']"
-                    ></Table>
+                    <CardGroup
+                        ref="CardGroup"
+                        :pages="card"
+                    ></CardGroup>
                 </div>
-        </board>
+            </div>
+            <div v-else>
+                <EmptyHint></EmptyHint>
+            </div>
+        </Board>
+            <!-- 推荐大学
+            <CardGroup
+                ref="CardGroup"
+                :pages="card"
+            ></CardGroup> -->
+            <!-- 折线图 -->
+        <br />
+        <Board>
+            <h3 class="titleScore">折线图</h3>
+        </Board>
+        <Board>
+            <lineChart
+                :dataX="dataX"
+                :dataY="dataY"
+                :isLoading="scoreIsLoading || pageIsLoading"
+            >
+            </lineChart>
+        </Board>
+        <br />
+        <Board>
+            <h3 class="titleScore">一分一段表</h3>
+        </Board>
+        <Board>
+            <div style="max-height: 600px; overflow: scroll">
+                <Table
+                    :isLoading="scoreIsLoading || pageIsLoading"
+                    :link="link"
+                    :header="['分数', '本段人数', '累计人数']"
+                ></Table>
+            </div>
+        </Board>
     </div>
 </template>
 <script>
 import './style/scoreVisual.css'
 import { loading } from '@/utils/callback'
 // import { addHistoryInfo } from '@/api/user'
-import { getProYearsInfo, getCateDegreeInfo, getScoreInfo } from '@/api/entity'
+import { getProYearsInfo, getCateDegreeInfo, getScoreInfo, ScoreRecommend } from '@/api/entity'
 import Loading from '@/lib/package/transition/Loading.vue'
 
 export default {
@@ -104,6 +146,8 @@ export default {
         return {
             pageIsLoading: false,
             scoreIsLoading: false,
+            recommendIsLoading: false,
+            isSearchOK: false,
             isChoosed: [0, 0, 0, 0],
             allCondition: [],
             scoreData: [],
@@ -116,7 +160,40 @@ export default {
             dataX: [],
             dataY: [],
             copy: [],
-            link: []
+            link: [],
+            card: [
+                {
+                    title: '清华',
+                    content: '清华大学（Tsinghua University）\n是中国著名高等学府。',
+                    link: '#'
+                },
+                {
+                    title: '北大',
+                    content: '柯洁局势不妙',
+                    link: '#'
+                },
+                {
+                    title: 'ww',
+                    content: '在ww的流水里',
+                    link: '#'
+                },
+                {
+                    title: '阿水',
+                    content: '别黑文波了',
+                    link: '#'
+                },
+                {
+                    title: '喻文波',
+                    content: '他是我们i文的信仰',
+                    link: '#'
+                },
+                {
+                    title: '杰克爱',
+                    content: '你在搜jackeylove',
+                    link: '#'
+                }
+            ],
+            list: [0, 1, 2]
         }
     },
     methods: {
@@ -261,7 +338,7 @@ export default {
             this.link = temp1
         },
         // 判断分数是否合理
-        isRightScore() {
+        isFalseScore() {
             const t = Number(this.rankInfo.rankScore)
             const max = Number(this.scoreKeys[this.scoreKeys.length - 1].split('-')[1])
             return isNaN(t) || t < 0 || t > max
@@ -290,11 +367,13 @@ export default {
             this.rankInfo.rankScore = ''
             this.rankInfo.rankNum = '-'
             this.rankInfo.rankRange = '-'
+            this.isSearchOK = false
+            this.recommendIsLoading = false
         },
         // 查看分数的相关信息
         searchScore() {
             // 获得当前 scoreKeys 中自己的位置
-            if (this.isRightScore()) {
+            if (this.isFalseScore()) {
                 this.$store.commit('prompt/trigger', {
                     msg: '请输入正确的分数！',
                     level: 'warning'
@@ -302,6 +381,30 @@ export default {
                 this.clear()
             } else {
                 this.getScoreInfo()
+                this.isSearchOK = false
+                // 向后端发送请求，获取推荐的学校及专业
+                this.recommendIsLoading = true
+                // waiting for data
+                console.log(this.allCondition[0].itemChoice[this.isChoosed[0]])
+                console.log(this.rankInfo.rankScore)
+                loading(() => {
+                    ScoreRecommend({ provinceName: this.allCondition[0].itemChoice[this.isChoosed[0]], myScore: this.rankInfo.rankScore })
+                        .then((response) => {
+                            // 获取数据后，对数据进行操作
+                            const data = JSON.parse(response.data)
+                            if (data.length !== 0) {
+                                this.card = data
+                                this.isSearchOK = true
+                            }
+                            this.recommendIsLoading = false
+                        })
+                        .catch(() => {
+                            this.$store.commit('prompt/trigger', {
+                                msg: '网络错误，请重试！',
+                                level: 'warning'
+                            })
+                        })
+                })
             }
         }
     },

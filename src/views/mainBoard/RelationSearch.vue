@@ -75,8 +75,9 @@ export default {
             isLoading: false,
             data: [],
             link: [],
-            options: ['属于', '拥有', '制定', '执行', '任职', '参考', '相关', '坐落于', '毕业于'],
-            map: { 属性: 'HAS', 拥有: 'BELONG_TO', 制定: 'SET', 执行: 'EXECUTE', 任职: 'TEACHING_IN', 参考: 'REFER', 相关: 'RELATED_TO', 坐落于: 'LOCATE', 毕业于: 'GRADUATED_FROM' },
+            options: ['选择关系', '属于', '拥有', '制定', '任职', '参考', '相关', '位置', '毕业'],
+            map: { 取消: NaN, 属于: 'BELONG_TO', 拥有: 'HAS', 制定: 'SET', 任职: 'TEACH_IN', 参考: 'REFER', 相关: 'RELATED_TO', 位置: 'LOCATE', 毕业: 'GRADUATED_FEOM' },
+            mapReverse: { BELONG_TO: '属于', HAS: '拥有', SET: '制定', TEACH_IN: '任职', REFER: '参考', RELATED_TO: '相关', LOCATE: '位置', GRADUATED_FEOM: '毕业' },
             option: '',
             entity1: '',
             entity2: ''
@@ -87,43 +88,58 @@ export default {
             this.option = this.map[option]
         },
         performSearch() {
-            // todo
-            this.isLoading = true
-            // waiting for data
-            loading(() => {
-                RelationQuery({
-                    entity1: this.entity1,
-                    option: this.option,
-                    entity2: this.entity2
-                }).then((response) => {
-                    this.data = JSON.parse(response.data).data
-                    this.link = JSON.parse(response.data).link
-                    this.isLoading = false
-                }).catch((error) => {
-                    console.log(error)
-                    this.isLoading = false
+            if (this.entity1 === '' && this.entity2 === '' && this.option === '') {
+                this.$store.commit('prompt/trigger', {
+                    msg: '请至少输入一个实体！',
+                    level: 'warning'
                 })
-                    .then((data) => {
-                        console.log(data)
+            } else {
+                // todo
+                this.isLoading = true
+                // waiting for data
+                loading(() => {
+                    RelationQuery({
+                        entity1: this.entity1,
+                        option: this.option,
+                        entity2: this.entity2
+                    }).then((response) => {
+                        this.data = JSON.parse(response.data).data
+                        this.link = JSON.parse(response.data).link
+                        for (let i = 0; i < this.link.length; i++) {
+                            const t = this.link[i].label
+                            this.link[i].label = this.mapReverse[t]
+                        }
+                        this.isLoading = false
+                    }).catch(() => {
+                        this.isLoading = false
                     })
-                    .catch((error) => {
+                        .then((data) => {
+                            console.log(data)
+                        })
+                        .catch(() => {
+                            this.isLoading = false
+                        })
+                    })
+                    let content = ''
+                    // 将搜索记录插入到历史记录表中
+                    if (this.entity1 === '') {
+                        content = this.entity2 + '-' + this.option
+                    } else {
+                        content = this.entity1 + '-' + this.option + '-' + this.entity2
+                    }
+                    console.log(this.entity1)
+                    addHistoryInfo({
+                        type: '关系查询',
+                        content: content
+                    }).then(() => {
+                        console.log('添加成功')
+                    }).catch((error) => {
                         console.log(error)
+                        // this.isLoading = false
                     })
-            })
-            // 将搜索记录插入到历史记录表中
-            console.log('------')
-            addHistoryInfo({
-                type: '关系查询',
-                content: this.entity1 + '----' + this.option + '----' + this.entity2
-            }).then(() => {
-                console.log('添加成功')
-            }).catch((error) => {
-                console.log(error)
-                // this.isLoading = false
-            })
+            }
         },
         detail(item) {
-            console.log('-----------')
             this.entity1 = item.source
             this.option = item.label
             this.entity2 = item.target
