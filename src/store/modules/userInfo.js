@@ -1,7 +1,10 @@
+import { queryFollowList } from '@/api/user'
+
 const defaultUser = {
     ID: -1,
     nickname: '张三',
-    image: 'http://localhost:8000/gallery/match/?ID=5'
+    image: 'http://localhost:8000/gallery/match/?ID=5',
+    followList: []
 }
 
 export default {
@@ -12,18 +15,23 @@ export default {
         image: 'http://localhost:8000/gallery/match/?ID=5'
     },
     mutations: {
-        update (state, userInfo) {
+        update(state, userInfo) {
             state.ID = userInfo.id
             state.nickname = userInfo.nickname
             state.image = userInfo.image
             // 持久化存储
             localStorage.setItem('userInfo', JSON.stringify(state))
         },
-        refresh (state) {
+        refresh(state) {
             state.ID = defaultUser.ID
             state.nickname = defaultUser.nickname
             state.image = defaultUser.image
             localStorage.clear()
+        },
+        queryFollowList(state) {
+            queryFollowList().then((followList) => {
+                state.followList = followList
+            })
         }
     }
 }

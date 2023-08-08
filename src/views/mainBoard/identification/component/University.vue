@@ -6,9 +6,15 @@
         class="wrapper fade-in detail-layout"
     >
         <!-- 左列 -->
-        <Board>
+        <Board style="position: relative">
             <!-- 第一部分：标题 + 词条 -->
             <!-- 页面标题 -->
+            <div class="star flex-row" @click="star">
+                <ion-icon
+                    style="transform: scale(2)"
+                    name="star-outline"
+                ></ion-icon>
+            </div>
             <br />
             <div class="flex-row detail-header">
                 <div
@@ -235,6 +241,7 @@
 import { queryEntity } from '@/api/entity'
 import ScrollImage from './scrollImage.vue'
 import Review from './Review.vue'
+import { star } from '@/api/user'
 export default {
     components: {
         ScrollImage,
@@ -242,7 +249,8 @@ export default {
     },
     props: {
         name: String,
-        label: String
+        label: String,
+        browse_id: String
     },
     data() {
         return {
@@ -257,7 +265,8 @@ export default {
                 officialPhoneNumber: [],
                 officialWebsite: [],
                 rankInfo: []
-            }
+            },
+            isStar: false
         }
     },
     computed: {
@@ -278,6 +287,23 @@ export default {
     methods: {
         receiveOption(option) {
             this.option = option
+        },
+        star() {
+            if (this.isStar) {
+                return
+            }
+            star({
+                browse_id: this.browse_id,
+                state: 'true'
+            }).then(() => {
+                this.$store.commit('prompt/trigger', {
+                    msg: '收藏成功',
+                    level: 'info'
+                })
+                this.isStar = true
+                document.querySelector('.star').style.color = 'yellow'
+                document.querySelector('.star').style.cursor = 'default'
+            })
         }
     },
     created() {

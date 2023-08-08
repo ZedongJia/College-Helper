@@ -78,11 +78,8 @@ export default {
         },
         confirmDel() {
             const { group, index } = this.preDel
-            const { time, type, content } = this.collectionDict[group][index]
             deleteCollectionInfo({
-                time: time,
-                type: type,
-                content: content
+                collection_id: this.collectionDict[group][index].collection_id
             })
                 .then(() => {
                     this.$store.commit('prompt/trigger', '删除成功')

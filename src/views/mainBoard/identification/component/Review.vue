@@ -2,7 +2,7 @@
     <div class="review-write flex-row-center">
         <div
             class="flex-row-evenly"
-            style="width: 25%"
+            style="width: 30%"
         >
             <span class="avator">
                 <img
@@ -10,7 +10,7 @@
                     alt=""
                 />
             </span>
-            <span class="review-nickname flex-row">
+            <span class="review-nickname" style="color: var(--item-bg-color);">
                 {{ nickname }}
             </span>
         </div>
@@ -22,7 +22,7 @@
         ></textarea>
         <Button
             @click="send"
-            style="width: 20%; height: 64px"
+            style="width: 10%; height: 64px"
         >
             <span class="flex-row-center"
                 ><ion-icon
@@ -75,7 +75,7 @@
                         {{ r.nickname }}
                     </span>
                 </div>
-                <p>
+                <p style="color: black;">
                     {{ r.content }}
                 </p>
             </div>
@@ -268,6 +268,7 @@ export default {
 .review-nickname {
     padding-left: 1em;
     min-width: 50px;
+    color: black;
     border-bottom: 2px solid var(--item-bg-color);
     border-bottom-left-radius: 5px;
 }
@@ -276,12 +277,6 @@ export default {
     margin-left: 48px;
     padding: 10px 0;
     text-indent: 2em;
-}
-
-@keyframes show {
-    100% {
-        opacity: 1;
-    }
 }
 
 .avator-popover::before {

@@ -130,6 +130,13 @@ textarea {
     }
 }
 
+
+@keyframes show {
+    100% {
+        opacity: 1;
+    }
+}
+
 /* shared animation */
 .fade-in {
     animation: fade 0.25s ease-in forwards;

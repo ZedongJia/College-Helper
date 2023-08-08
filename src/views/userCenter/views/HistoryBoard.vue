@@ -77,11 +77,8 @@ export default {
         },
         confirmDel() {
             const { group, index } = this.preDel
-            const { time, type, content } = this.historyDict[group][index]
             deleteBrowseInfo({
-                time: group + time,
-                type: type,
-                content: content
+                browse_id: this.historyDict[group][index].browse_id
             })
                 .then(() => {
                     this.$store.commit('prompt/trigger', '删除成功')

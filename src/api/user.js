@@ -326,7 +326,7 @@ export function getBrowseInfo(params) {
 }
 /**
  * 注意时间需要和分组的时间进行拼接再返回
- * @param {{time,typeof,content}} params
+ * @param {{browse_id: String}} params
  * @returns {Promise}
  */
 export function deleteBrowseInfo(params) {
@@ -377,7 +377,7 @@ export function getCollectionInfo(params) {
     })
 }
 /**
- * @param {{time,type,content}} params
+ * @param {{collection_id: String}} params
  * @returns {Promise}
  */
 export function deleteCollectionInfo(params) {
@@ -403,6 +403,61 @@ export function deleteCollectionInfo(params) {
             })
     })
 }
+
+/**
+ * @param {{browse_id:String, state:String}} params
+ */
+export function star(params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/star',
+            method: 'POST',
+            data: params,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then((response) => {
+                const data = response.data
+                if (data.status) {
+                    resolve(response)
+                } else {
+                    reject(response)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
+    })
+}
+
+/**
+ * @param {{type: String, content: String}} params
+ */
+export function addBrowseInfo(params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/addBrowseInfo',
+            method: 'POST',
+            data: params,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then((response) => {
+                const data = response.data
+                if (data.status) {
+                    resolve(data.browse_id)
+                } else {
+                    reject(response)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
+    })
+}
+
 /**
  * @returns {Promise}
  */
@@ -469,6 +524,29 @@ export function queryFollow(params) {
                 const data = response.data
                 if (data.status) {
                     resolve(data.msg)
+                } else {
+                    reject(data.error)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
+    })
+}
+
+/**
+ * @returns {Promise}
+ */
+export function queryFollowList() {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/queryFollowList',
+            method: 'GET'
+        })
+            .then((response) => {
+                const data = response.data
+                if (data.status) {
+                    resolve(data.followList)
                 } else {
                     reject(data.error)
                 }

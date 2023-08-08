@@ -7,17 +7,36 @@
             ></span>
             <span id="logo"><i>College Helper</i></span>
         </div>
-        <div class="flex-row-center">
+        <div class="flex-row-evenly">
             <ThemeCheck
                 id="theme-switch"
                 v-model="isLight"
             ></ThemeCheck>
-            <div>{{ $store.state.userInfo.nickname }}</div>
             <div id="nav-avator">
                 <img
                     :src="$store.state.userInfo.image"
                     alt="无法显示图片"
                 />
+                <ul id="nav-popover">
+                    <Title style="text-align: center; margin-top: 1em">关注的人</Title>
+                    <li
+                        class="flex-row follow"
+                        v-for="person in followList"
+                        :key="person.id"
+                        @click="toHome(person.id)"
+                    >
+                        <span>
+                            <img
+                                :src="person.image"
+                                alt=""
+                            />
+                        </span>
+                        <span>{{ person.nickname }}</span>
+                    </li>
+                </ul>
+            </div>
+            <div style="color: grey">
+                <i>{{ $store.state.userInfo.nickname }}</i>
             </div>
             <span id="log-menu">
                 <div class="icon">
@@ -45,6 +64,7 @@
 import { stateGET } from '@/api/user'
 import Theme from '@/assets/theme'
 import ThemeCheck from './components/ThemeCheck.vue'
+import { mapState } from 'vuex'
 export default {
     components: {
         ThemeCheck
@@ -64,6 +84,11 @@ export default {
             ],
             isLight: true
         }
+    },
+    computed: {
+        ...mapState({
+            followList: (state) => state.userInfo.followList
+        })
     },
     methods: {
         handlePopoverClick(item) {
@@ -116,7 +141,18 @@ export default {
         switchMenu() {
             this.$store.commit('menu/switchMenu')
             document.querySelector('.menuToggle').classList.toggle('active')
+        },
+        toHome(id) {
+            this.$router.push({
+                name: 'page',
+                query: {
+                    id: id
+                }
+            })
         }
+    },
+    created() {
+        this.$store.commit('userInfo/queryFollowList')
     },
     watch: {
         isLight() {
@@ -160,8 +196,28 @@ export default {
     width: 64px;
     height: 64px;
 }
-#nav-avator img {
+#nav-avator > img {
     z-index: 200;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: 0.25s;
+}
+
+#nav-avator .follow {
+    cursor: pointer;
+    margin: 0 auto;
+    margin-bottom: 1em;
+    width: 80%;
+    border-radius: 10px;
+    border-bottom: 2px solid grey;
+}
+
+#nav-avator .follow img {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -171,12 +227,49 @@ export default {
     border-radius: 50%;
 }
 
+#nav-avator .follow span:nth-child(1) {
+    position: relative;
+    width: 32px;
+    height: 48px;
+}
+
+#nav-avator .follow span:nth-child(2) {
+    position: relative;
+    width: 32px;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+}
+
+#nav-avator:hover > img {
+    width: 48px;
+    height: 48px;
+    top: calc(50% + 12px);
+}
+
+#nav-avator #nav-popover {
+    z-index: 100;
+    position: absolute;
+    display: none;
+    left: 50%;
+    top: 48px;
+    transform: translate(-50%, 0);
+    width: 200px;
+    background-color: var(--bg-color);
+    box-shadow: -5px 5px 10px var(--item-bg-color);
+    border-radius: 10px;
+}
+
+#nav-avator:hover #nav-popover {
+    display: inline-block;
+}
+
 #log-menu {
     cursor: pointer;
     position: relative;
     display: flex;
     justify-content: left;
-    margin-right: 20px;
+    margin: 0 20px 0 40px;
     width: 100px;
     text-align: center;
 }
@@ -204,6 +297,7 @@ export default {
 }
 #log-menu:hover > #popover {
     display: inline-block;
+    animation: show 0.5s forwards;
 }
 @keyframes slide-from-top {
     0% {
