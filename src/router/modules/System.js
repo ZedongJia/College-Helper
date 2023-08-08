@@ -28,6 +28,10 @@ export default {
             path: 'chatAI',
             component: () => import('@/views/mainBoard/ChatAI.vue')
         },
+        {
+            path: 'scoreVisual',
+            component: () => import('@/views/mainBoard/ScoreVisual.vue')
+        },
         userCenter
     ]
 }

@@ -36,7 +36,9 @@
                         :key="itemTable"
                     >
                         <td v-for="i in itemTable" :key="i">{{ i }}</td>
-                        <Button v-if="isShowButton" @clickIt="detail(itemTable)" style="margin: 2%;">{{ ButtonName }}<i>!</i></Button>
+                        <td v-if="isShowButton">
+                            <Button @clickIt="detail(itemTable)" style="margin: 2%;">{{ ButtonName }}<i>!</i></Button>
+                        </td>
                     </tr>
                 </TransitionGroup>
             </tbody>
@@ -89,6 +91,7 @@ export default {
             }
         },
         Sort(index) {
+            console.log(index)
             // todo
             if (this.isSort) {
                 // 降序排列
@@ -111,11 +114,17 @@ export default {
     },
     computed: {
         isEmpty() {
+            this.Sort(0)
             return (
                 this.link === undefined ||
                 this.link === null ||
                 this.link.length === 0
             )
+        }
+    },
+    watch: {
+        link() {
+            this.tableContent = this.link
         }
     }
 }

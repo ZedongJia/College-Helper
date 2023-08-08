@@ -453,3 +453,30 @@ export function dropSession(params) {
             })
     })
 }
+
+/**
+ * @param {{type, content}} params
+ * @returns {Promise}
+ */
+export function addHistoryInfo(params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'user/addBrowseInfo',
+            method: 'POST',
+            data: params,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then((response) => {
+                if (response) {
+                    resolve(response)
+                } else {
+                    reject(response)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
+    })
+}

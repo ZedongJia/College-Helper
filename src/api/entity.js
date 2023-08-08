@@ -9,6 +9,12 @@ function raise(msg) {
         level: 'warning'
     })
 }
+
+/**
+ * 关系查询
+ * @param { entity1: String, option: String, entity2: String } params
+ * @returns { Promise }
+ */
 export function RelationQuery (params) {
     return new Promise((resolve, reject) => {
         axios({
@@ -79,5 +85,74 @@ export function cutSentence(params) {
             .catch(() => {
                 raise('网络故障，请重试')
             })
+    })
+}
+
+/**
+ * 获取某一省份下所有的年份信息
+ * @param { provinceName: String } params
+ * @returns { Promise }
+ */
+export function getProYearsInfo (params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'entity/getProYearsInfo/',
+            method: 'GET',
+            params
+        }).then(response => {
+            if (response) {
+                resolve(response)
+            } else {
+                reject(response)
+            }
+        }).catch(() => {
+            raise('网络故障，请重试')
+        })
+    })
+}
+
+/**
+ * 获取某一省份下某一年的所有的 category 与 degree 信息
+ * @param { provinceName: String, year: String } params
+ * @returns { Promise }
+ */
+export function getCateDegreeInfo (params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'entity/getCateDegreeInfo/',
+            method: 'GET',
+            params
+        }).then(response => {
+            if (response) {
+                resolve(response)
+            } else {
+                reject(response)
+            }
+        }).catch(() => {
+            raise('网络故障，请重试')
+        })
+    })
+}
+
+/**
+ * 获取某一省份下某一年下category 与 degree 下对应的分数信息
+ * @param { provinceName: String, year: String, category: String, degree: String } params
+ * @returns { Promise }
+ */
+export function getScoreInfo (params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'entity/getScoreInfo/',
+            method: 'GET',
+            params
+        }).then(response => {
+            if (response) {
+                resolve(response)
+            } else {
+                reject(response)
+            }
+        }).catch(() => {
+            raise('网络故障，请重试')
+        })
     })
 }

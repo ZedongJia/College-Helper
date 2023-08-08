@@ -63,7 +63,7 @@ function generateRelationGraph (element, data, link, isDraggable, isAnimation) {
                 },
                 focus: 'adjacency',
                 legendHoverLink: true,
-                draggable: false
+                draggable: true
             }
         ]
     }
