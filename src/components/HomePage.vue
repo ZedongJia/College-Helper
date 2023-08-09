@@ -262,7 +262,6 @@ export default {
                 .then((msg) => {
                     if (msg === 'exist') {
                         // todo
-                        console.log(msg)
                         this.disallowFollow = true
                     }
                 })

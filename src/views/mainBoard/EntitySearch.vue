@@ -8,7 +8,7 @@
                 class="inputItem"
                 style="width: 70%"
                 v-model="entity"
-                placeholder="输入实体名称"
+                placeholder="输入大学或专业名称"
             />
             <Button
                 @clickIt="performSearch"

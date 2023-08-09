@@ -104,7 +104,7 @@
             </Board>
             <br v-if="label === 'person'" />
             <Board style="padding: 20px">
-                <Title>{{ label === 'person' ? '同校优秀校友、老师' : '你可能感兴趣的' }}</Title>
+                <Title>{{ label === 'person' ? '同校优秀校友、老师' : '相关概念' }}</Title>
                 <hr class="line" />
                 <RelationGraph
                     fixHeight="200px"
