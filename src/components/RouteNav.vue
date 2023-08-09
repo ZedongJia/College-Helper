@@ -76,7 +76,6 @@ export default {
                             })
                         } else {
                             for (let i = 0; i < this.menuList.length; i++) {
-                                console.log(item)
                                 // 匹配正常路径
                                 if (this.menuList[i].href.endsWith(item)) {
                                     this.pathList.push(this.menuList[i])

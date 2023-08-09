@@ -180,7 +180,6 @@ export default {
             label: this.label
         })
             .then((data) => {
-                console.log(data)
                 /**
                  *                "name": data["name"],
                 "mainBranch": data["mainBranch"],
