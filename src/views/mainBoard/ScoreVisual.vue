@@ -340,12 +340,17 @@ export default {
         // 判断分数是否合理
         isFalseScore() {
             const t = Number(this.rankInfo.rankScore)
-            const max = Number(this.scoreKeys[0].split('-')[1])
+            let max = 1
+            if (this.scoreKeys[0].includes('-')) {
+                max = Number(this.scoreKeys[0].split('-')[1])
+            } else {
+                max = Number(this.scoreKeys[0])
+            }
             return isNaN(t) || t < 0 || t > max
         },
         // 获取所查看分数的相关信息
         getScoreInfo() {
-            let t = 0
+            let t = -1
             for (let i = 0; i < this.scoreKeys.length; i++) {
                 if (this.scoreKeys[i].includes('-')) {
                     if (this.scoreKeys[i].split('-')[0] <= this.rankInfo.rankScore && this.scoreKeys[i].split('-')[1] >= this.rankInfo.rankScore) {
@@ -358,6 +363,9 @@ export default {
                         break
                     }
                 }
+            }
+            if (t === -1) {
+                t = this.scoreKeys.length - 1
             }
             this.rankInfo.rankNum = this.scoreData[t].num
             this.rankInfo.rankRange = this.scoreData[t].rank_range
@@ -433,8 +441,5 @@ export default {
     border-radius: 5px;
     background-color: var(--item-bg-color);
 }
-.item:hover {
-    background-color: var(--item-bg-rev-color);
-    color: var(--item-font-rev-color);
-}
+
 </style>
