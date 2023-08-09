@@ -24,29 +24,48 @@
         <RelationGraph
             :isLoading="isLoading"
             :data="data"
-            :link="link"
+            :link="relation_link"
             isDraggable
             isAnimation
         >
         </RelationGraph>
         <br />
         <Board>
-            <Title title="关系图表"></Title>
+            <Title title="实体图表"></Title>
         </Board>
         <Table
-            :colWidth="[35, 20, 35, 10]"
+            :colWidth="[40, 35, 25]"
             :isLoading="isLoading"
-            :header="['实体1', '关系', '实体2']"
-            :link="link"
+            :header="['实体', '类别']"
+            :link="entity_link"
             isShowButton
             ButtonName="详情"
             @detail="detail"
-        ></Table>
+        >
+        </Table>
+        <br />
+        <Board>
+            <Title title="关系图表"></Title>
+        </Board>
+        <div
+            class="container"
+            style="padding: 0"
+        >
+            <div class="table-unfold">
+                <Table
+                    :colWidth="[35, 20, 35, 10]"
+                    :isLoading="isLoading"
+                    :header="['实体1', '关系', '实体2']"
+                    :link="relation_link"
+                ></Table>
+            </div>
+        </div>
     </div>
 </template>
 <script>
 import { loading } from '@/utils/callback'
 import { IntelligentQuery } from '@/api/entity'
+import { addBrowseInfo } from '@/api/user'
 export default {
     data() {
         return {
@@ -59,7 +78,9 @@ export default {
              * @summary {name是节点名字, symbolSize是节点大小, c是节点颜色}
              */
             data: [],
-            link: []
+            relation_link: [],
+            entity_link: [],
+            noRecord: false
         }
     },
     methods: {
@@ -74,21 +95,70 @@ export default {
                 })
                     .then((response) => {
                         const node = JSON.parse(response.data)
-                        console.log(node.data)
-                        console.log(node.link)
                         this.data = node.data
-                        this.link = node.link
+                        this.relation_link = node.relation_link
+                        this.entity_link = node.entity_link
                         this.isLoading = false
                     })
                     .catch((error) => {
                         console.log(error)
                     })
             })
+            // 添加历史记录
+            if (!this.noRecord) {
+                addBrowseInfo({
+                    type: '大学专业智能查询',
+                    content: this.entity
+                })
+                    .then((response) => {
+                        console.log(response)
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
+            }
         },
         detail(item) {
+            const name = item.name
             // todo
+            this.$router.push({
+                name: 'detailContent',
+                query: {
+                    name: name,
+                    label: item.type
+                }
+            })
+        }
+    },
+    created() {
+        if (this.$route.query.content !== undefined) {
+            this.noRecord = true
+            const payload = this.$route.query.content.split('-')
+            this.entity = payload[0]
+            this.performSearch()
         }
     }
 }
 </script>
-<style></style>
+<style>
+/* 表格样式 */
+.table-unfold::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: var(--bg-color);
+}
+.table-unfold::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: var(--item-bg-color);
+}
+.table-unfold::-webkit-scrollbar-button {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: var(--item-bg-color);
+}
+.table-unfold {
+    overflow-y: auto;
+    max-height: 430px;
+}
+</style>

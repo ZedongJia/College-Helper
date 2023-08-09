@@ -101,12 +101,6 @@
                 <EmptyHint></EmptyHint>
             </div>
         </Board>
-            <!-- 推荐大学
-            <CardGroup
-                ref="CardGroup"
-                :pages="card"
-            ></CardGroup> -->
-            <!-- 折线图 -->
         <br />
         <Board>
             <h3 class="titleScore">折线图</h3>
@@ -124,8 +118,9 @@
             <h3 class="titleScore">一分一段表</h3>
         </Board>
         <Board>
-            <div style="max-height: 600px; overflow: scroll">
+            <div class="score-table" style="max-height: 600px; overflow-y: auto">
                 <Table
+                    disableSort
                     :isLoading="scoreIsLoading || pageIsLoading"
                     :link="link"
                     :header="['分数', '本段人数', '累计人数']"
@@ -419,6 +414,21 @@ export default {
 }
 </script>
 <style>
+.score-table::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: var(--bg-color);
+}
+.score-table::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: var(--item-bg-color);
+}
+.score-table::-webkit-scrollbar-button {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: var(--item-bg-color);
+}
 .item:hover {
     background-color: var(--item-bg-rev-color);
     color: var(--item-font-rev-color);

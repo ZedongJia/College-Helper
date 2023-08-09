@@ -42,12 +42,20 @@ export default {
     },
     created() {
         // record
-        addBrowseInfo({
-            type: '实体查询',
-            content: this.name + '-' + this.label
-        }).then((id) => {
-            this.browse_id = id
-        })
+        if (!this.$route.query.noRecord) {
+            addBrowseInfo({
+                type: '实体查询',
+                content: this.name + '-' + this.label
+            }).then((id) => {
+                this.browse_id = id
+            })
+        } else {
+            if (this.$route.query.browse_id !== undefined) {
+                this.browse_id = this.$route.query.browse_id
+            } else {
+                this.browse_id = '-1'
+            }
+        }
     }
 }
 </script>

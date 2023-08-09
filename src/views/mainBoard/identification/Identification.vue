@@ -133,6 +133,21 @@ export default {
         useInput(e) {
             this.$store.commit('identification/record', e.target.value)
         }
+    },
+    created() {
+        const query = this.$route.query
+        if (query.content !== undefined) {
+            const payload = query.content.split('-')
+            this.$router.push({
+                name: 'detailContent',
+                query: {
+                    name: payload[0],
+                    label: payload[1],
+                    noRecord: true,
+                    browse_id: query.browse_id
+                }
+            })
+        }
     }
 }
 </script>

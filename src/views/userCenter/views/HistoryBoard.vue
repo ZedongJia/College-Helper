@@ -35,22 +35,24 @@ export default {
     methods: {
         turnTo(group, index) {
             const { type, content } = this.historyDict[group][index]
-            let page = ''
+            let name = ''
             switch (type) {
-                case '实体识别':
-                    page = 'identification'
-                    break
-                case '关系查询':
-                    page = 'relationSearch'
-                    break
                 case '实体查询':
-                    page = 'entitySearch'
+                    name = 'identification'
+                    break
+                case '查关系':
+                    name = 'relationSearch'
+                    break
+                case '大学专业智能查询':
+                    name = 'entitySearch'
                     break
             }
+            this.$store.commit('menu/toMainMenu')
             this.$router.push({
-                path: page,
-                meta: {
-                    content: content
+                name: name,
+                query: {
+                    content: content,
+                    browse_id: this.historyDict[group][index].browse_id
                 }
             })
         },

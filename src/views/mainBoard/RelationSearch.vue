@@ -67,7 +67,7 @@
 <script>
 import { loading } from '@/utils/callback'
 import { RelationQuery } from '@/api/entity'
-import { addHistoryInfo } from '@/api/user'
+import { addBrowseInfo } from '@/api/user'
 
 export default {
     data() {
@@ -80,7 +80,8 @@ export default {
             mapReverse: { BELONG_TO: '属于', HAS: '拥有', SET: '制定', TEACH_IN: '任职', REFER: '参考', RELATED_TO: '相关', LOCATE: '位置', GRADUATED_FEOM: '毕业' },
             option: '',
             entity1: '',
-            entity2: ''
+            entity2: '',
+            noRecord: false
         }
     },
     methods: {
@@ -147,12 +148,14 @@ export default {
     },
     created() {
         // 向后端请求，得到data，link
+        if (this.$route.query.content !== undefined) {
+            this.noRecord = true
+            const payload = this.$route.query.content.split('-')
+            this.entity1 = payload[0]
+            this.option = payload[1]
+            this.entity2 = payload[2]
+            this.performSearch()
+        }
     }
 }
 </script>
-<style>
-.item:hover {
-    background-color: var(--item-bg-rev-color);
-    color: var(--item-font-rev-color);
-}
-</style>

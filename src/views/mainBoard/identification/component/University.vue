@@ -9,7 +9,10 @@
         <Board style="position: relative">
             <!-- 第一部分：标题 + 词条 -->
             <!-- 页面标题 -->
-            <div class="star flex-row" @click="star">
+            <div
+                :class="{ star: !isStar, 'flex-row': true, hasStar: isStar }"
+                @click="star"
+            >
                 <ion-icon
                     style="transform: scale(2)"
                     name="star-outline"
@@ -135,7 +138,6 @@
                 :messageDict="data.recommend"
                 :headers="['主类别', '子类别', '专业']"
                 :colWidth="[15, 30, 55]"
-                @query="turnTo"
                 nodel
                 nocursor
             ></MessageList>
@@ -290,6 +292,7 @@ export default {
         },
         star() {
             if (this.isStar) {
+                console.log('return')
                 return
             }
             star({
@@ -301,12 +304,13 @@ export default {
                     level: 'info'
                 })
                 this.isStar = true
-                document.querySelector('.star').style.color = 'yellow'
-                document.querySelector('.star').style.cursor = 'default'
             })
         }
     },
     created() {
+        if (String(this.browse_id) === '-1') {
+            this.isStar = true
+        }
         queryEntity({
             name: this.name,
             label: this.label
