@@ -88,6 +88,7 @@ export default {
             visible: 3,
             // 是否拖动
             isDraging: false,
+            // 是否刷新
             isRefresh: false,
             // 第一张卡片移动偏移量
             firstwidth: 0,
