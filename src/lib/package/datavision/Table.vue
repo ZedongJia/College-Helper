@@ -132,9 +132,6 @@ export default {
     watch: {
         link() {
             this.tableContent = this.link
-            this.isSort = true
-            // 默认第一列降序排序
-            this.Sort(0)
         }
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <Loading v-if="isLoading"></Loading>
+    <Loading v-if="isLoading" fixHeight="100px"></Loading>
         <EmptyHint v-if="isEmpty && !isLoading"></EmptyHint>
         <div
             v-if="!isEmpty && !isLoading"

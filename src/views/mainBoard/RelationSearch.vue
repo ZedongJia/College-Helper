@@ -128,7 +128,6 @@ export default {
                     } else {
                         content = this.entity1 + '-' + this.option + '-' + this.entity2
                     }
-                    console.log(this.entity1)
                     addBrowseInfo({
                         type: '关系查询',
                         content: content
