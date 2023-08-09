@@ -206,3 +206,28 @@ export function ScoreRecommend(params) {
             })
     })
 }
+
+/**
+ * AiChat
+ * @param {{ sentence: String }} params
+ * @returns {Promise}
+ */
+export function AiChat(params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'entity/aiChat',
+            method: 'GET',
+            params
+        })
+            .then((response) => {
+                if (response) {
+                    resolve(response)
+                } else {
+                    reject(response)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
+    })
+}

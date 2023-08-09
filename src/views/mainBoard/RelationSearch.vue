@@ -138,7 +138,8 @@ export default {
             this.option = this.map[item.label]
             this.entity2 = item.target
             this.selectRel = item.label
-            // this.toTopArea()
+            window.scrollTo(0, 500)
+            this.performSearch()
         }
     },
     created() {

@@ -157,6 +157,8 @@
 import { nextTick, ref } from 'vue'
 import { loading } from '@/utils/callback'
 import { getMessageList, addMessage } from '@/api/session'
+// import { loginGET } from '@/api/user'
+import { AiChat } from '@/api/entity'
 export default {
     name: 'ChatBoard',
     props: {
@@ -244,10 +246,25 @@ export default {
                 temp.isthinking = true
                 this.messageList.push(temp)
                 this.toBottomArea()
-            }, 100)
+            }, 10)
             // 获取答案
             this.timer = setTimeout(() => {
                 // 请求数据
+                AiChat({
+                    sentence: this.chatContent
+                }).then((response) => {
+                    this.data = JSON.parse(response.data).data
+                    this.link = JSON.parse(response.data).link
+                    for (let i = 0; i < this.link.length; i++) {
+                        const t = this.link[i].label
+                        this.link[i].label = this.mapReverse[t]
+                    }
+                    this.isLoading = false
+                }).catch(() => {
+                    this.isLoading = false
+                    })
+                }, 600)
+
                 const content = '这是答案'
                 // 弹出thinking数据
                 this.messageList.pop()
@@ -258,7 +275,6 @@ export default {
                 this.toBottomArea()
                 // 恢复输入框 恢复按钮内容
                 this.canCommit = true
-            }, 6000)
         },
         // 提交用户输入的文本
         commit() {
@@ -279,6 +295,8 @@ export default {
                     }
                     // 搜索框置空
                     this.chatContent = ''
+                } else {
+                    console.log('请先输入内容！')
                 }
             } else {
                 this.stopResponse()
