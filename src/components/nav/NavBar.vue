@@ -8,17 +8,13 @@
             <span id="logo"><i>College Helper</i></span>
         </div>
         <div class="flex-row-evenly">
-            <ThemeCheck
-                id="theme-switch"
-                v-model="isLight"
-            ></ThemeCheck>
             <div id="nav-avator">
                 <img
                     :src="$store.state.userInfo.image"
                     alt="无法显示图片"
                 />
                 <ul id="nav-popover">
-                    <Title style="text-align: center; margin-top: 1em">关注的人</Title>
+                    <Title style="text-align: center; margin: 1em 0">关注的人</Title>
                     <li
                         class="flex-row follow"
                         v-for="person in followList"
@@ -35,9 +31,13 @@
                     </li>
                 </ul>
             </div>
-            <div style="color: grey">
+            <div class="nav-nickname">
                 <i>{{ $store.state.userInfo.nickname }}</i>
             </div>
+            <ThemeCheck
+                id="theme-switch"
+                v-model="isLight"
+            ></ThemeCheck>
             <span id="log-menu">
                 <div class="icon">
                     <ion-icon
@@ -197,7 +197,7 @@ export default {
     height: 64px;
 }
 #nav-avator > img {
-    z-index: 200;
+    z-index: 2500;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -210,11 +210,17 @@ export default {
 
 #nav-avator .follow {
     cursor: pointer;
-    margin: 0 auto;
+    margin: 0 20px;
     margin-bottom: 1em;
-    width: 80%;
+    overflow: hidden;
     border-radius: 10px;
     border-bottom: 2px solid grey;
+    transition: 0.5s;
+}
+
+#nav-avator .follow:hover {
+    background-color: var(--item-bg-color);
+    color: var(--item-font-color);
 }
 
 #nav-avator .follow img {
@@ -229,15 +235,15 @@ export default {
 
 #nav-avator .follow span:nth-child(1) {
     position: relative;
-    width: 32px;
+    width: 48px;
     height: 48px;
 }
 
 #nav-avator .follow span:nth-child(2) {
     position: relative;
-    width: 32px;
     height: 48px;
     line-height: 48px;
+    max-width: 100px;
     text-align: center;
 }
 
@@ -248,13 +254,13 @@ export default {
 }
 
 #nav-avator #nav-popover {
-    z-index: 100;
+    z-index: 2000;
     position: absolute;
     display: none;
     left: 50%;
     top: 48px;
     transform: translate(-50%, 0);
-    width: 200px;
+    min-width: 150px;
     background-color: var(--bg-color);
     box-shadow: -5px 5px 10px var(--item-bg-color);
     border-radius: 10px;
@@ -264,12 +270,21 @@ export default {
     display: inline-block;
 }
 
+.nav-nickname {
+    display: inline-block;
+    color: grey;
+    max-width: 80px;
+    height: 64px;
+    line-height: 64px;
+    overflow: hidden;
+}
+
 #log-menu {
     cursor: pointer;
     position: relative;
     display: flex;
     justify-content: left;
-    margin: 0 20px 0 40px;
+    margin: 0 40px 0 0;
     width: 100px;
     text-align: center;
 }
@@ -285,14 +300,14 @@ export default {
     left: 50%;
     top: 64px;
     transform: translate(-50%, 0);
-    width: 100px;
     display: none;
     animation: slide-from-top 0.25s linear forwards;
 }
 #popover > * {
     cursor: pointer;
-    height: 32px;
-    line-height: 32px;
+    height: 36px;
+    line-height: 36px;
+    min-width: 150px;
     font-weight: bold;
 }
 #log-menu:hover > #popover {

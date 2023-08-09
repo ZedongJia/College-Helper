@@ -8,7 +8,7 @@
             bigIcon="chatbox-ellipses-outline"
             :messageDict="temperoaryDict"
             :headers="['时间', '昵称']"
-            :colWidth="[60, 40]"
+            :colWidth="[40, 60]"
             @query="talkTo"
             @del="del"
         ></MessageList>

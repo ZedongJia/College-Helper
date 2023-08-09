@@ -4,7 +4,7 @@ import userCenter from './modules/userCenter.js'
 export default {
     name: 'system',
     path: '/system',
-    redirect: '/system/identification',
+    redirect: '/system/interest',
     component: () => import('@/views/System.vue'),
     children: [
         identification,
