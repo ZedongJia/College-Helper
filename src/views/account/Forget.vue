@@ -14,15 +14,11 @@
                 v-for="(c, index) in 11"
                 :key="c"
                 @input="handleInput($event, index, 11)"
+                @keydown="handleKeyDown($event, index, 11)"
             />
         </div>
         <Button
-            style="
-                margin-top: 20px;
-                width: 150px;
-                height: 40px;
-                line-height: 40px;
-            "
+            style="margin-top: 20px; width: 150px; height: 40px; line-height: 40px"
             @click="confirm"
             >确认
         </Button>
@@ -44,15 +40,11 @@
                 v-for="(c, index) in 6"
                 :key="c"
                 @input="handleInput($event, index, 6)"
+                @keydown="handleKeyDown($event, index, 6)"
             />
         </div>
         <Button
-            style="
-                margin-top: 20px;
-                width: 150px;
-                height: 40px;
-                line-height: 40px;
-            "
+            style="margin-top: 20px; width: 150px; height: 40px; line-height: 40px"
             @click="confirm"
             >确认
         </Button>
@@ -93,12 +85,7 @@
                 <span class="line"></span>
             </div>
             <Button
-                style="
-                    margin-top: 20px;
-                    width: 150px;
-                    height: 40px;
-                    line-height: 40px;
-                "
+                style="margin-top: 20px; width: 150px; height: 40px; line-height: 40px"
                 @click="confirm"
                 >确认
             </Button>
@@ -134,6 +121,13 @@ export default {
         handleInput(e, index, len) {
             this.inputList[index + 1 < len ? index + 1 : index].focus()
         },
+        handleKeyDown(e, index, len) {
+            if (e.key === 'Backspace') {
+                this.inputList[index].value = ''
+                this.inputList[index - 1 > 0 ? index - 1 : 0].focus()
+                e.preventDefault()
+            }
+        },
         confirm() {
             if (this.dealPhone) {
                 // 验证手机号
@@ -144,8 +138,7 @@ export default {
                     phone: this.phone
                 })
                 if (!ret.phone.result) {
-                    document.querySelector('.error-prompt').innerHTML =
-                        ret.phone.error
+                    document.querySelector('.error-prompt').innerHTML = ret.phone.error
                     this.phone = ''
                     return
                 }
@@ -155,9 +148,7 @@ export default {
                         this.dealPhone = false
                         this.dealCode = true
                         nextTick(() => {
-                            this.inputList = document.querySelectorAll(
-                                '#account-form input'
-                            )
+                            this.inputList = document.querySelectorAll('#account-form input')
                         })
                     })
                     .catch((error) => {
@@ -174,8 +165,7 @@ export default {
                     this.code += item.value
                 })
                 if (this.code === '') {
-                    document.querySelector('.error-prompt').innerHTML =
-                        '验证码不能为空'
+                    document.querySelector('.error-prompt').innerHTML = '验证码不能为空'
                     this.code = ''
                     return
                 }
