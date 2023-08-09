@@ -70,7 +70,6 @@ export default {
     },
     data() {
         return {
-            treeData: this.$store.state.tree.treeData,
             link: [],
             province: '',
             appear: false,
@@ -214,7 +213,8 @@ export default {
     },
     computed: {
         ...mapState({
-            isShow: (state) => state.tree.isShow
+            isShow: (state) => state.tree.isShow,
+            treeData: (state) => state.tree.treeData
         })
     }
 }
