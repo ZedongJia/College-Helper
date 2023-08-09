@@ -2,7 +2,7 @@
     <div class="wrapper">
         <Board class="feedback">
             <br />
-            <fieldset>
+            <fieldset class="feedbackform">
                 <legend>反馈ACTIVE</legend>
                 <InfoForm
                     style="width: 50%"
@@ -10,6 +10,7 @@
                     @receive="r"
                 ></InfoForm>
             </fieldset>
+            <br />
             <br />
             <fieldset>
                 <legend>处理ACTIVE</legend>
