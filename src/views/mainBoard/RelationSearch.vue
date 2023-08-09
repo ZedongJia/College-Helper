@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper fade-in">
+    <div class="wrapper fade-in" id="toTop">
         <!-- 查询主界面 -->
         <board>
             <Title title="查询条件："></Title>
@@ -16,7 +16,7 @@
             <!-- 关系选择 -->
             <Option
                 :data="options"
-                default="选择关系"
+                :default="selectRel"
                 @choice="receiveOption"
             ></Option>
             <!-- 实体2 -->
@@ -68,6 +68,7 @@
 import { loading } from '@/utils/callback'
 import { RelationQuery } from '@/api/entity'
 import { addBrowseInfo } from '@/api/user'
+import { nextTick } from 'vue'
 
 export default {
     data() {
@@ -81,7 +82,8 @@ export default {
             option: '',
             entity1: '',
             entity2: '',
-            noRecord: false
+            noRecord: false,
+            selectRel: '选择关系'
         }
     },
     methods: {
@@ -89,6 +91,9 @@ export default {
             this.option = this.map[option]
         },
         performSearch() {
+            console.log(this.entity1)
+            console.log(this.entity2)
+            console.log(this.option)
             if (this.entity1 === '' && this.entity2 === '' && this.option === '') {
                 this.$store.commit('prompt/trigger', {
                     msg: '请至少输入一个实体！',
@@ -113,12 +118,6 @@ export default {
                         this.isLoading = false
                     }).catch(() => {
                         this.isLoading = false
-                    })
-                        .then((data) => {
-                            console.log(data)
-                        })
-                        .catch(() => {
-                            this.isLoading = false
                         })
                     })
                     let content = ''
@@ -129,20 +128,17 @@ export default {
                         content = this.entity1 + '-' + this.option + '-' + this.entity2
                     }
                     addBrowseInfo({
-                        type: '关系查询',
+                        type: '查关系',
                         content: content
-                    }).then(() => {
-                        console.log('添加成功')
-                    }).catch((error) => {
-                        console.log(error)
-                        // this.isLoading = false
                     })
             }
         },
         detail(item) {
             this.entity1 = item.source
-            this.option = item.label
+            this.option = this.map[item.label]
             this.entity2 = item.target
+            this.selectRel = item.label
+            this.toTopArea()
         }
     },
     created() {

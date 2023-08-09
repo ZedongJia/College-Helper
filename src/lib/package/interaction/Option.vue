@@ -57,6 +57,11 @@ export default {
     },
     created() {
         this.selected = this.default
+    },
+    watch: {
+        default() {
+            this.selected = this.default
+        }
     }
 }
 </script>
