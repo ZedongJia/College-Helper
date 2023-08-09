@@ -4,7 +4,7 @@
         id="account-form"
         style="width: 500px"
     >
-        <h1>找回密码</h1>
+        <h1>忘记密码</h1>
         <p>请输入你的手机号</p>
         <div class="input-group">
             <span class="error-prompt"></span>
@@ -35,7 +35,7 @@
         id="account-form"
         style="width: 500px"
     >
-        <h1>找回密码</h1>
+        <h1>忘记密码</h1>
         <p>我们已经向你的手机发送了验证码, 请输入验证码</p>
         <div class="input-group">
             <input
