@@ -235,8 +235,8 @@ export default {
                 getScoreInfo(params)
                     .then((response) => {
                         // 获取数据后，对数据进行操作
-                        this.scoreData = JSON.parse(response.data).detail
-                        this.scoreKeys = JSON.parse(response.data).keys
+                        this.scoreData = response.data.detail
+                        this.scoreKeys = response.data.keys
                         this.toLineChart()
                         this.scoreIsLoading = false
                     })
@@ -245,6 +245,7 @@ export default {
                             msg: '网络错误，请重试！',
                             level: 'warning'
                         })
+                        this.scoreIsLoading = false
                     })
             })
         },
@@ -280,6 +281,7 @@ export default {
                         msg: '网络错误，请重试！',
                         level: 'warning'
                     })
+                    this.scoreIsLoading = false
                 })
         },
         // 点击省份时
@@ -312,6 +314,7 @@ export default {
                         msg: '网络错误，请重试！',
                         level: 'warning'
                     })
+                    this.scoreIsLoading = false
                 })
         },
         // 处理数据
@@ -330,12 +333,14 @@ export default {
                     total: this.scoreData[i].total
                 })
             }
+            this.dataX = this.dataX.reverse()
+            this.dataY = this.dataY.reverse()
             this.link = temp1
         },
         // 判断分数是否合理
         isFalseScore() {
             const t = Number(this.rankInfo.rankScore)
-            const max = Number(this.scoreKeys[this.scoreKeys.length - 1].split('-')[1])
+            const max = Number(this.scoreKeys[0].split('-')[1])
             return isNaN(t) || t < 0 || t > max
         },
         // 获取所查看分数的相关信息
@@ -380,8 +385,6 @@ export default {
                 // 向后端发送请求，获取推荐的学校及专业
                 this.recommendIsLoading = true
                 // waiting for data
-                console.log(this.allCondition[0].itemChoice[this.isChoosed[0]])
-                console.log(this.rankInfo.rankScore)
                 loading(() => {
                     ScoreRecommend({ provinceName: this.allCondition[0].itemChoice[this.isChoosed[0]], myScore: this.rankInfo.rankScore })
                         .then((response) => {
@@ -398,6 +401,7 @@ export default {
                                 msg: '网络错误，请重试！',
                                 level: 'warning'
                             })
+                            this.recommendIsLoading = false
                         })
                 })
             }
