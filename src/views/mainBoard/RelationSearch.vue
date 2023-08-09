@@ -68,7 +68,7 @@
 import { loading } from '@/utils/callback'
 import { RelationQuery } from '@/api/entity'
 import { addBrowseInfo } from '@/api/user'
-import { nextTick } from 'vue'
+// import { nextTick } from 'vue'
 
 export default {
     data() {
