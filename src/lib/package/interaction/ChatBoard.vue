@@ -12,7 +12,7 @@
         >
             <div
                 v-for="(item, index) in messageList"
-                :key="item.id"
+                :key="item.ID"
             >
                 <div
                     class="areachat"
@@ -21,7 +21,12 @@
                     }"
                 >
                     <!-- 左侧：头像 + 用户名 -->
-                    <div class="left">
+                    <div
+                        :disabled="AImode"
+                        :style="{ cursor: !AImode ? 'pointer' : 'defalut' }"
+                        @click="toPersonHome(item.ID)"
+                        class="left"
+                    >
                         <img
                             :src="item.image"
                             style="width: 48px; height: 48px"
@@ -220,7 +225,10 @@ export default {
         toBottomArea(first = false) {
             nextTick(() => {
                 const fixHeight = 395
-                const rg = 100
+                let rg = 120
+                if (this.AImode) {
+                    rg = 200
+                }
                 const div = document.getElementById('toBottom')
                 if (div === null) {
                     return
@@ -232,9 +240,12 @@ export default {
         },
         // 生成消息
         generateMessage(content, time, pos) {
-            const temp = Object.create(this.template[pos])
+            const temp = {
+                ...this.template[pos]
+            }
             temp.content = content
             temp.time = time
+            console.log(temp)
             return temp
         },
         AIresponse() {
@@ -377,6 +388,17 @@ export default {
                     this.toBottomArea()
                 }
             })
+        },
+        toPersonHome(id) {
+            // todo
+            if (!this.AImode) {
+                this.$router.push({
+                    name: 'page',
+                    query: {
+                        id: id
+                    }
+                })
+            }
         }
     },
     activated() {
@@ -430,7 +452,7 @@ export default {
 .chat {
     width: 100%;
     height: 400px;
-    padding: 1%;
+    padding: 0 2em 0 1em;
     overflow-x: hidden;
     overflow-y: auto;
     background-color: white;
@@ -482,7 +504,12 @@ export default {
     overflow: hidden;
 }
 .areachat .left .username {
+    margin: 0 auto;
     font-size: 14px;
+    max-width: 50px;
+    height: 24px;
+    text-align: center;
+    overflow: hidden;
 }
 /* 消息行的右侧：时间 */
 .areachat .right {

@@ -1,3 +1,4 @@
+import treeData from '@/views/mainBoard/overview/tree.json'
 export default {
     namespaced: true,
     state: {
@@ -7,7 +8,8 @@ export default {
             name: ''
         },
         isShow: false,
-        treeStack: []
+        treeStack: [],
+        treeData: treeData
     },
     mutations: {
         updateNode(state, params) {

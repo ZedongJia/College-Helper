@@ -292,7 +292,6 @@ export default {
         },
         star() {
             if (this.isStar) {
-                console.log('return')
                 return
             }
             star({

@@ -58,10 +58,10 @@ export default {
     },
     methods: {
         talkTo(group, index) {
+            console.log(this.temperoaryDict)
             // 请求人员数据
             const talkToPerson = this.temperoaryDict[group][index]
-            this.personInfo.username = talkToPerson.info.content
-            this.personInfo.image = talkToPerson.info.img
+            this.personInfo = talkToPerson.info
             this.session_id = this.sessionDict[group][index]
         },
         del(group, index) {

@@ -64,14 +64,12 @@ import { mapState } from 'vuex'
 import * as echarts from 'echarts'
 import { chinaMap } from '@/utils/chinaMap'
 import Tree from './components/Tree'
-import treeData from './tree.json'
 export default {
     components: {
         Tree
     },
     data() {
         return {
-            treeData: treeData,
             link: [],
             province: '',
             appear: false,
@@ -82,10 +80,10 @@ export default {
     methods: {
         ProvinceSize(name) {
             let size = 0
-            for (let i = 0; i < treeData.length; i++) {
-                if (name.includes(treeData[i].name)) {
-                    for (let j = 0; j < treeData[i].children.length; j++) {
-                        size += treeData[i].children[j].children.length
+            for (let i = 0; i < this.treeData.length; i++) {
+                if (name.includes(this.treeData[i].name)) {
+                    for (let j = 0; j < this.treeData[i].children.length; j++) {
+                        size += this.treeData[i].children[j].children.length
                     }
                     return size
                 }
@@ -93,11 +91,11 @@ export default {
             return 0
         },
         outFrame(item) {
-            for (let i = 0; i < treeData.length; i++) {
-                if (item.source.includes(treeData[i].name)) {
-                    for (let j = 0; j < treeData[i].children.length; j++) {
-                        if (treeData[i].children[j].name === item.source) {
-                            this.treeData = treeData[i].children[j].children
+            for (let i = 0; i < this.treeData.length; i++) {
+                if (item.source.includes(this.treeData[i].name)) {
+                    for (let j = 0; j < this.treeData[i].children.length; j++) {
+                        if (this.treeData[i].children[j].name === item.source) {
+                            this.treeData = this.treeData[i].children[j].children
                         }
                     }
                     break
@@ -186,10 +184,10 @@ export default {
     },
     created() {
         this.link = [{ source: '中国', target: '2889' }]
-        for (let i = 0; i < treeData.length; i++) {
+        for (let i = 0; i < this.treeData.length; i++) {
             this.dataList.push({
-                name: treeData[i].name,
-                value: this.ProvinceSize(treeData[i].name)
+                name: this.treeData[i].name,
+                value: this.ProvinceSize(this.treeData[i].name)
             })
         }
     },
@@ -199,9 +197,9 @@ export default {
         },
         province() {
             const link = []
-            for (let i = 0; i < treeData.length; i++) {
-                if (this.province.includes(treeData[i].name)) {
-                    treeData[i].children.forEach((item) => {
+            for (let i = 0; i < this.treeData.length; i++) {
+                if (this.province.includes(this.treeData[i].name)) {
+                    this.treeData[i].children.forEach((item) => {
                         link.push({
                             source: item.name,
                             target: item.children.length
@@ -215,7 +213,8 @@ export default {
     },
     computed: {
         ...mapState({
-            isShow: (state) => state.tree.isShow
+            isShow: (state) => state.tree.isShow,
+            treeData: (state) => state.tree.treeData
         })
     }
 }
