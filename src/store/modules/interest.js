@@ -2,7 +2,8 @@ import { Recommendation } from '@/api/entity'
 export default {
     namespaced: true,
     state: {
-        someList: []
+        someList: [],
+        isRequired: false
     },
     getters: {
         getSomeList(state) {
@@ -11,9 +12,11 @@ export default {
     },
     mutations: {
         fetch(state, params) {
+            state.isRequired = true
             Recommendation(params)
                 .then((recommdList) => {
                     state.someList = state.someList.concat(recommdList)
+                    state.isRequired = false
                 })
                 .catch((error) => {
                     console.log(error)
@@ -22,6 +25,9 @@ export default {
     },
     actions: {
         update({ state, commit }) {
+            if (state.isRequired) {
+                return
+            }
             if (state.someList.length === 12) {
                 commit('fetch', {
                     status: 'refresh'
