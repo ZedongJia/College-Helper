@@ -445,6 +445,7 @@ export default {
             }, 500)
         } else {
             this.chatContent = this.$route.query.content
+            this.commit()
         }
         setTimeout(() => {
             this.toBottomArea(true)
