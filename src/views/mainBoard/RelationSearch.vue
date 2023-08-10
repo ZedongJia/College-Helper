@@ -61,6 +61,7 @@
             isShowButton
             ButtonName="详情"
             @detail="detail"
+            disableSort
         ></Table>
     </div>
 </template>

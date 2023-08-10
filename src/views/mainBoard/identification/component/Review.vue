@@ -1,5 +1,8 @@
 <template>
-    <div class="review-write flex-row-center" style="flex-wrap: wrap;">
+    <div
+        class="review-write flex-row-center"
+        style="flex-wrap: wrap"
+    >
         <div
             class="flex-row"
             style="width: 40%"
@@ -10,7 +13,10 @@
                     alt=""
                 />
             </span>
-            <span class="review-nickname" style="margin: 0 15px;color: var(--item-bg-color);">
+            <span
+                class="review-nickname"
+                style="margin-left: 1em;max-width: 100px; height: 24px; line-height: 24px"
+            >
                 {{ nickname }}
             </span>
         </div>
@@ -72,10 +78,10 @@
                             style="margin-right: 1em"
                             name="planet-outline"
                         ></ion-icon>
-                        {{ r.nickname }}
+                        <span>{{ r.nickname }}</span>
                     </span>
                 </div>
-                <p style="color: black;">
+                <p style="color: black">
                     {{ r.content }}
                 </p>
             </div>
@@ -267,7 +273,8 @@ export default {
 
 .review-nickname {
     padding-left: 1em;
-    color: black;
+    overflow: hidden;
+    color: var(--item-bg-color);
     border-bottom: 2px solid var(--item-bg-color);
     border-bottom-left-radius: 5px;
 }
