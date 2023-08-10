@@ -23,7 +23,7 @@
             <span>换一换</span>
         </Button>
         <div
-            v-for="q in Question"
+            v-for="q in showQuestion"
             :key="q.id"
         >
             <br />
@@ -42,18 +42,35 @@ import { mapGetters } from 'vuex'
 export default {
     data() {
         return {
-            showList: [],
             Question: [
                 '我今年考了700分，所有大学的任何专业任我挑自选吗？',
                 '南开大学怎么样？',
-                '455需要复读吗？'
-            ]
+                '455需要复读吗？',
+                'fsadfgd',
+                'agegea',
+                'ahreegf',
+                '4aregera',
+                '5aerh'
+            ],
+            showQuestion: []
         }
     },
     computed: {
         ...mapGetters({
             someList: 'interest/getSomeList'
         })
+    },
+    mounted() {
+        const all = []
+        for (let i = 0; i < 3; i++) {
+            let num = Math.floor(Math.random() * this.Question.length)
+            while (all[num] != null) {
+                num = Math.floor(Math.random() * this.Question.length)
+            }
+            all.push(num)
+            const question = this.Question[num]
+            this.showQuestion.push(question)
+        }
     },
     methods: {
         Refresh() {
@@ -65,6 +82,19 @@ export default {
                 child.Refresh(index, centerX, centerY)
             })
             this.$store.dispatch('interest/update')
+            // 问题转换
+            this.showQuestion = []
+            const all = []
+            for (let i = 0; i < 3; i++) {
+                let num = Math.floor(Math.random() * this.Question.length)
+                while (all[num] != null) {
+                    num = Math.floor(Math.random() * this.Question.length)
+                    console.log(num)
+                }
+                all.push(num)
+                const question = this.Question[num]
+                this.showQuestion.push(question)
+            }
         }
     }
 }

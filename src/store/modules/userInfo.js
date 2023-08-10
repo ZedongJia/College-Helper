@@ -19,7 +19,9 @@ export default {
             state.ID = userInfo.id
             state.nickname = userInfo.nickname
             state.image = userInfo.image
-
+            store.commit('interest/fetch', {
+                status: 'origin'
+            })
             // 持久化存储
             localStorage.setItem('userInfo', JSON.stringify(state))
         },
