@@ -14,9 +14,6 @@ export default {
             Recommendation(params)
                 .then((recommdList) => {
                     state.someList = state.someList.concat(recommdList)
-                    if (params.status === 'refresh') {
-                        state.someList = state.someList.slice(6)
-                    }
                 })
                 .catch((error) => {
                     console.log(error)
@@ -25,11 +22,13 @@ export default {
     },
     actions: {
         update({ state, commit }) {
-            if (state.someList.length === 6) {
+            if (state.someList.length === 12) {
                 commit('fetch', {
                     status: 'refresh'
                 })
             }
+            state.someList = state.someList.slice(6, state.someList.length)
+            console.log(state.someList.length)
         }
     }
 }
