@@ -42,8 +42,12 @@
             <input
                     class="inputItem"
                     style="width: 70%; margin-left: 5%"
-                    placeholder="请输入您的分数"
                     v-model="rankInfo.rankScore"
+                    :style="{ cursor: pageIsLoading ? 'not-allowed' : '' }"
+                    :placeholder="
+                        pageIsLoading ? '页面正在加载，请稍等...' : '请输入您的分数'
+                    "
+                :disabled="pageIsLoading"
                 />
                 <Button
                     @clickIt="searchScore"

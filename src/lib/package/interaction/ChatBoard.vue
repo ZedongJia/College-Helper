@@ -215,6 +215,7 @@ export default {
             timer: ref(null),
             // 闭嘴
             stopText: '好的，我闭嘴啦',
+            stop: false,
             appear: false,
             // 打字效果
             printtext: '',
@@ -272,25 +273,26 @@ export default {
                 sentence: this.chatContent
             })
                 .then((response) => {
-                    this.answer = response.data.content
-                    this.isLoading = false
-                    // 弹出thinking数据
-                    this.messageList.pop()
-                    // 生成content 修改相应内容
-                    const temp = this.generateMessage(
-                        this.answer,
-                        this.getDate(),
-                        'left'
-                    )
-                    console.log(temp)
-                    temp.data = response.data.data
-                    temp.link = response.data.link
-                    console.log(temp)
-                    temp.tip = '查看关系图'
-                    this.messageList.push(temp)
-                    this.toBottomArea()
-                    // 恢复输入框 恢复按钮内容
-                    this.canCommit = true
+                    if (!this.stop) {
+                        this.answer = response.data.content
+                        this.isLoading = false
+                        // 弹出thinking数据
+                        this.messageList.pop()
+                        // 生成content 修改相应内容
+                        const temp = this.generateMessage(
+                            this.answer,
+                            this.getDate(),
+                            'left'
+                        )
+                        temp.data = response.data.data
+                        temp.link = response.data.link
+                        temp.tip = '查看关系图'
+                        this.messageList.push(temp)
+                        this.toBottomArea()
+                        // 恢复输入框 恢复按钮内容
+                        this.canCommit = true
+                        this.stop = false
+                    }
                 })
         },
         // 提交用户输入的文本
@@ -333,6 +335,7 @@ export default {
             )
             // 清除延时器  后期应该是拦截请求
             clearTimeout(this.timer)
+            this.stop = true
             this.canCommit = true
         },
         // 清除聊天记录
