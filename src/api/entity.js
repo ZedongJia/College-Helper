@@ -215,7 +215,7 @@ export function ScoreRecommend(params) {
 export function AiChat(params) {
     return new Promise((resolve, reject) => {
         axios({
-            url: 'entity/aiChat',
+            url: 'entity/AIChat/',
             method: 'GET',
             params
         })

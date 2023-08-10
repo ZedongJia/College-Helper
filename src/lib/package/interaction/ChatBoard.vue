@@ -38,7 +38,9 @@
                     <div
                         class="right"
                         :style="{
-                            padding: item.isLeft ? '0px 0px 0px 15px' : '0px 15px 0px 0px'
+                            padding: item.isLeft
+                                ? '0px 0px 0px 15px'
+                                : '0px 15px 0px 0px'
                         }"
                     >
                         <!-- 时间 -->
@@ -127,7 +129,9 @@
                 class="inputItem"
                 style="width: 70%; border-radius: 5px 0 0 5px"
                 :style="{ cursor: canCommit ? '' : 'not-allowed' }"
-                :placeholder="canCommit ? 'Enter Text...' : '点击按钮让AI闭嘴...'"
+                :placeholder="
+                    canCommit ? 'Enter Text...' : '点击按钮让AI闭嘴...'
+                "
                 :disabled="!canCommit"
                 v-model="chatContent"
                 @keyup.enter="commit"
@@ -214,7 +218,9 @@ export default {
             appear: false,
             // 打字效果
             printtext: '',
-            currentIndex: 0
+            currentIndex: 0,
+            // 答案
+            answer: ''
         }
     },
     methods: {
@@ -233,7 +239,10 @@ export default {
                 if (div === null) {
                     return
                 }
-                if (div.scrollTop > div.scrollHeight - fixHeight - rg || first) {
+                if (
+                    div.scrollTop > div.scrollHeight - fixHeight - rg ||
+                    first
+                ) {
                     div.scrollTop = 9999999
                 }
             })
@@ -259,40 +268,42 @@ export default {
                 this.toBottomArea()
             }, 10)
             // 获取答案
-            this.timer = setTimeout(() => {
-                // 请求数据
-                AiChat({
-                    sentence: this.chatContent
-                }).then((response) => {
-                    this.data = JSON.parse(response.data).data
-                    this.link = JSON.parse(response.data).link
-                    for (let i = 0; i < this.link.length; i++) {
-                        const t = this.link[i].label
-                        this.link[i].label = this.mapReverse[t]
-                    }
+            AiChat({
+                sentence: this.chatContent
+            })
+                .then((response) => {
+                    this.data = response.data.data
+                    this.link = response.data.link
+                    this.answer = response.data.content
                     this.isLoading = false
-                }).catch(() => {
+                    // 弹出thinking数据
+                    this.messageList.pop()
+                    // 生成content 修改相应内容
+                    const temp = this.generateMessage(
+                        this.answer,
+                        this.getDate(),
+                        'left'
+                    )
+                    temp.tip = '查看关系图'
+                    this.messageList.push(temp)
+                    this.toBottomArea()
+                    // 恢复输入框 恢复按钮内容
+                    this.canCommit = true
+                })
+                .catch(() => {
                     this.isLoading = false
-                    })
-                }, 600)
-
-                const content = '这是答案'
-                // 弹出thinking数据
-                this.messageList.pop()
-                // 生成content 修改相应内容
-                const temp = this.generateMessage(content, this.getDate(), 'left')
-                temp.tip = '查看关系图'
-                this.messageList.push(temp)
-                this.toBottomArea()
-                // 恢复输入框 恢复按钮内容
-                this.canCommit = true
+                })
         },
         // 提交用户输入的文本
         commit() {
             if (this.canCommit) {
                 // 禁止提交空内容
                 if (this.chatContent.trim() !== '') {
-                    const message = this.generateMessage(this.chatContent, this.getDate(), 'right')
+                    const message = this.generateMessage(
+                        this.chatContent,
+                        this.getDate(),
+                        'right'
+                    )
                     if (this.AImode) {
                         // todo, 请求AI
                         this.AIresponse()
@@ -318,7 +329,9 @@ export default {
             // 弹出思考ing
             this.messageList.pop()
             // 停止回答
-            this.messageList.push(this.generateMessage(this.stopText, this.getDate(), 'left'))
+            this.messageList.push(
+                this.generateMessage(this.stopText, this.getDate(), 'left')
+            )
             // 清除延时器  后期应该是拦截请求
             clearTimeout(this.timer)
             this.canCommit = true
@@ -328,7 +341,13 @@ export default {
             // 清空数组
             this.messageList = []
             if (this.AImode) {
-                this.messageList.push(this.generateMessage('让我们开始新的话题叭~', this.getDate(), 'left'))
+                this.messageList.push(
+                    this.generateMessage(
+                        '让我们开始新的话题叭~',
+                        this.getDate(),
+                        'left'
+                    )
+                )
             }
             // 清除延时器  后期应该是拦截请求
             clearTimeout(this.timer)
@@ -342,7 +361,10 @@ export default {
         },
         // 显示关系图
         isShow(item, index) {
-            if (index !== 0 && this.messageList[index].content !== this.stopText) {
+            if (
+                index !== 0 &&
+                this.messageList[index].content !== this.stopText
+            ) {
                 if (!item.isShowGraph) {
                     item.tip = '收起关系图'
                 } else {
@@ -378,9 +400,21 @@ export default {
                 // 将历史纪录加入到消息列表中
                 for (let i = 0; i < messageList.length; i++) {
                     if (messageList[i].ID === this.template.right.ID) {
-                        this.messageList.push(this.generateMessage(messageList[i].content, messageList[i].time, 'right'))
+                        this.messageList.push(
+                            this.generateMessage(
+                                messageList[i].content,
+                                messageList[i].time,
+                                'right'
+                            )
+                        )
                     } else {
-                        this.messageList.push(this.generateMessage(messageList[i].content, messageList[i].time, 'left'))
+                        this.messageList.push(
+                            this.generateMessage(
+                                messageList[i].content,
+                                messageList[i].time,
+                                'left'
+                            )
+                        )
                     }
                 }
                 this.lastUpdateTime = endTime
@@ -422,7 +456,13 @@ export default {
             // 获取先前聊天记录
             this.queryMessage('--')
         } else {
-            this.messageList.push(this.generateMessage('快来和我交流你的问题叭~', this.getDate(), 'left'))
+            this.messageList.push(
+                this.generateMessage(
+                    '快来和我交流你的问题叭~',
+                    this.getDate(),
+                    'left'
+                )
+            )
         }
     }
 }

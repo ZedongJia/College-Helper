@@ -77,7 +77,7 @@ export default {
             data: [],
             link: [],
             options: ['选择关系', '属于', '拥有', '制定', '任职', '参考', '相关', '位置', '毕业'],
-            map: { 取消: NaN, 属于: 'BELONG_TO', 拥有: 'HAS', 制定: 'SET', 任职: 'TEACH_IN', 参考: 'REFER', 相关: 'RELATED_TO', 位置: 'LOCATE', 毕业: 'GRADUATED_FEOM' },
+            map: { 选择关系: '', 属于: 'BELONG_TO', 拥有: 'HAS', 制定: 'SET', 任职: 'TEACH_IN', 参考: 'REFER', 相关: 'RELATED_TO', 位置: 'LOCATE', 毕业: 'GRADUATED_FEOM' },
             mapReverse: { BELONG_TO: '属于', HAS: '拥有', SET: '制定', TEACH_IN: '任职', REFER: '参考', RELATED_TO: '相关', LOCATE: '位置', GRADUATED_FEOM: '毕业' },
             option: '',
             entity1: '',
