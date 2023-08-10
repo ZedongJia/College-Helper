@@ -1,6 +1,6 @@
 <template>
     <div id="account-form">
-        <h1>登录</h1>
+        <h1>Login</h1>
         <div class="form-group">
             <span class="icon">
                 <ion-icon name="person-circle-outline"></ion-icon>

@@ -28,6 +28,10 @@ router.beforeEach(async (to, from) => {
             for (const k in userInfo) {
                 store.state.userInfo[k] = userInfo[k]
             }
+            // 此情况存在需获取个性推荐
+            store.commit('interest/fetch', {
+                status: 'origin'
+            })
         }
     }
     // test
@@ -38,15 +42,19 @@ router.beforeEach(async (to, from) => {
     // 跳过login
     if (!to.fullPath.startsWith('/account')) {
         // 检测
-        await stateGET({
-            logout: false
-        }, () => {
-            console.log('enter')
+        await stateGET(
+            {
+                logout: false
+            },
+            () => {
+                console.log('enter')
+                store.commit('userInfo/refresh')
+                router.push({
+                    name: 'login'
+                })
+            }
+        ).catch(() => {
             store.commit('userInfo/refresh')
-            router.push({
-                name: 'login'
-            })
-        }).catch(() => {
             router.push({
                 name: 'login'
             })

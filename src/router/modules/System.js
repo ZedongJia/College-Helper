@@ -27,6 +27,7 @@ export default {
             component: () => import('@/views/mainBoard/Interest.vue')
         },
         {
+            name: 'chatAI',
             path: 'chatAI',
             component: () => import('@/views/mainBoard/ChatAI.vue')
         },

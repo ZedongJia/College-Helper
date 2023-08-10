@@ -1,5 +1,8 @@
 <template>
-    <ul ref="fa" class="cardgroup">
+    <ul
+        ref="fa"
+        class="cardgroup"
+    >
         <li
             v-for="(item, index) in pages"
             :key="index"
@@ -20,7 +23,7 @@
             >
                 <div
                     style="
-                        text-align: center;
+                        /* text-align: center; */
                         pointer-events: none;
                         user-select: none;
                         height: 150px;
@@ -28,25 +31,39 @@
                         z-index: 10;
                     "
                 >
-                    <h3>
+                    <h3 style="text-align: center">
                         {{ item.title }}
                     </h3>
                     <hr
                         class="line"
                         style="margin: 1em"
                     />
-                    <p>
+                    <p
+                        style="
+                            width: 180px;
+                            margin: 0 auto;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 4;
+                            -webkit-box-orient: vertical;
+                        "
+                    >
                         {{ item.content }}
                     </p>
                 </div>
                 <div
                     style="
-                        padding:0 0 0 10em;
-                        pointer-events: none;
+                        padding: 0 0 0 10em;
                         user-select: none;
                     "
                 >
-                    <a :href="item.link">Read More</a>
+                    <button
+                        @click="skip(item.title, item.link)"
+                        style="color: #bd9f67;cursor: pointer;"
+                    >
+                        Read More
+                    </button>
                 </div>
             </Card>
         </li>
@@ -107,6 +124,15 @@ export default {
         }
     },
     methods: {
+        skip(name, label) {
+            this.$router.push({
+                name: 'detailContent',
+                query: {
+                    name: name,
+                    label: label
+                }
+            })
+        },
         dragstart(e, index) {
             if (index === this.firstPage) {
                 if (this.isDraging) {
@@ -220,7 +246,7 @@ export default {
             if (index === this.firstPage) {
                 style.opacity = 1
                 style.zIndex = 3
-                style.transition = 'transform ease 700ms'
+                style.transition = 'transform ease 1000ms'
                 if (this.isRefresh) {
                     style.transform =
                         'translate(' +
@@ -289,7 +315,6 @@ export default {
                 this.firstwidth = 0 - this.firstwidth
                 this.firstheight = 0 - this.firstheight
                 this.isRefresh = !this.isRefresh
-                console.log(this.isRefresh)
             }
         },
         Refresh(index, centerX, centerY) {
