@@ -32,7 +32,7 @@
                             style="width: 48px; height: 48px"
                             alt="头像"
                         />
-                        <p class="username">{{ item.username }}</p>
+                        <p class="username" style="color: black;">{{ item.username }}</p>
                     </div>
                     <!-- 右侧：时间 + 消息 -->
                     <div
@@ -61,6 +61,7 @@
                                 v-if="!item.isthinking"
                                 class="fade-in"
                                 id="chatText"
+                                style="color: black;"
                             >
                                 {{ item.content }}
                             </p>
@@ -69,10 +70,10 @@
                                 v-if="item.isthinking"
                                 style="display: flex"
                             >
-                                <p>正在努力思考中</p>
+                                <p style="color: black;">正在努力思考中</p>
                                 <span
                                     class="dot"
-                                    style="font-size: 24px"
+                                    style="font-size: 24px;color: black"
                                     >...</span
                                 >
                             </span>

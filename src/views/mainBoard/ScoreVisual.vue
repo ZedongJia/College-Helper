@@ -10,7 +10,10 @@
                 v-if="pageIsLoading"
             ></Loading>
             <!-- 条件 -->
-            <div v-else class="condition">
+            <div
+                v-else
+                class="condition"
+            >
                 <div
                     class="conditionItem"
                     v-for="(condition, index1) in allCondition"
@@ -25,10 +28,7 @@
                             :key="index2"
                             class="conditionItemList"
                             :style="{
-                                color:
-                                    index2 === isChoosed[index1]
-                                        ? '#eda01f'
-                                        : ''
+                                color: index2 === isChoosed[index1] ? '#eda01f' : ''
                             }"
                             @click="chooseType(index1, index2)"
                             ><a>{{ choice }}</a></span
@@ -40,21 +40,19 @@
         <Board>
             <!-- 查询框 -->
             <input
-                    class="inputItem"
-                    style="width: 70%; margin-left: 5%"
-                    v-model="rankInfo.rankScore"
-                    :style="{ cursor: pageIsLoading ? 'not-allowed' : '' }"
-                    :placeholder="
-                        pageIsLoading ? '页面正在加载，请稍等...' : '请输入您的分数'
-                    "
+                class="inputItem"
+                style="width: 70%; margin-left: 5%"
+                v-model="rankInfo.rankScore"
+                :style="{ cursor: pageIsLoading ? 'not-allowed' : '' }"
+                :placeholder="pageIsLoading ? '页面正在加载，请稍等...' : '请输入您的分数'"
                 :disabled="pageIsLoading"
-                />
-                <Button
-                    @clickIt="searchScore"
-                    style="width: 15%"
-                >
-                    查询
-                </Button>
+            />
+            <Button
+                @clickIt="searchScore"
+                style="width: 15%"
+            >
+                查询
+            </Button>
             <div class="stack-line">
                 <div class="gk-info gk-score">
                     <span style="margin-right: 3px">高考分数：</span>
@@ -65,14 +63,7 @@
                     <b>{{ rankInfo.rankNum }} 人</b>
                 </div>
                 <div class="gk-info">
-                    <span
-                        style="
-                            margin-right: 3px;
-                            margin-bottomm: 2px;
-                            padding-bottom: 2px;
-                        "
-                        >排名区间：</span
-                    >
+                    <span style="margin-right: 3px; margin-bottomm: 2px; padding-bottom: 2px">排名区间：</span>
                     <b>{{ rankInfo.rankRange }} 名</b>
                 </div>
             </div>
@@ -122,7 +113,10 @@
             <h3 class="titleScore">一分一段表</h3>
         </Board>
         <Board>
-            <div class="score-table" style="max-height: 600px; overflow-y: auto">
+            <div
+                class="score-table"
+                style="max-height: 600px; overflow-y: auto"
+            >
                 <Table
                     disableSort
                     :isLoading="scoreIsLoading || pageIsLoading"
@@ -170,15 +164,13 @@ export default {
             if (index1 === 0) {
                 // 点击省份
                 this.clickProvince({
-                    provinceName:
-                        this.allCondition[0].itemChoice[this.isChoosed[0]]
+                    provinceName: this.allCondition[0].itemChoice[this.isChoosed[0]]
                 })
                 this.isChoosed = [index2, 0, 0, 0]
             } else if (index1 === 1) {
                 // 点击年份
                 this.clickYears({
-                    provinceName:
-                        this.allCondition[0].itemChoice[this.isChoosed[0]],
+                    provinceName: this.allCondition[0].itemChoice[this.isChoosed[0]],
                     year: this.allCondition[1].itemChoice[this.isChoosed[1]]
                 })
                 this.isChoosed[2] = 0
@@ -186,15 +178,10 @@ export default {
             } else {
                 // 点击成绩类型或考生类别
                 this.clickCateDegree({
-                    provinceName:
-                        this.allCondition[0].itemChoice[this.isChoosed[0]],
+                    provinceName: this.allCondition[0].itemChoice[this.isChoosed[0]],
                     year: this.allCondition[1].itemChoice[this.isChoosed[1]],
-                    category:
-                        this.allCondition[2].itemChoice[this.isChoosed[2]],
-                    degree:
-                        this.allCondition.length === 4
-                            ? this.allCondition[3].itemChoice[this.isChoosed[3]]
-                            : '不分层次'
+                    category: this.allCondition[2].itemChoice[this.isChoosed[2]],
+                    degree: this.allCondition.length === 4 ? this.allCondition[3].itemChoice[this.isChoosed[3]] : '不分层次'
                 })
             }
         },
@@ -368,15 +355,19 @@ export default {
                 // waiting for data
                 console.log(this.allCondition[2].itemChoice[this.isChoosed[2]])
                 loading(() => {
-                    ScoreRecommend({ provinceName: this.allCondition[0].itemChoice[this.isChoosed[0]], myScore: this.rankInfo.rankScore, branch: this.allCondition[2].itemChoice[this.isChoosed[2]] })
+                    ScoreRecommend({
+                        provinceName: this.allCondition[0].itemChoice[this.isChoosed[0]],
+                        myScore: this.rankInfo.rankScore,
+                        branch: this.allCondition[2].itemChoice[this.isChoosed[2]]
+                    })
                         .then((response) => {
                             // 获取数据后，对数据进行操作
                             const data = JSON.parse(response.data)
                             if (data.length !== 0) {
                                 let index = 0
-                                let newArray = [];
-                                while(index < data.length) {
-                                    newArray.push(data.slice(index, index += 6));
+                                const newArray = []
+                                while (index < data.length) {
+                                    newArray.push(data.slice(index, (index += 7)))
                                 }
                                 this.card = newArray
                                 this.isSearchOK = true
@@ -420,5 +411,4 @@ export default {
     border-radius: 5px;
     background-color: var(--item-bg-color);
 }
-
 </style>

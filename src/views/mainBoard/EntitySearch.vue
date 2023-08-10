@@ -39,6 +39,7 @@
             :header="['实体', '类别']"
             :link="entity_link"
             isShowButton
+            disableSort
             ButtonName="详情"
             @detail="detail"
         >
@@ -57,6 +58,7 @@
                     :isLoading="isLoading"
                     :header="['实体1', '关系', '实体2']"
                     :link="relation_link"
+                    disableSort
                 ></Table>
             </div>
         </div>
