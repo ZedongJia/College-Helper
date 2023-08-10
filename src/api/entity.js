@@ -15,21 +15,23 @@ function raise(msg) {
  * @param { entity1: String, option: String, entity2: String } params
  * @returns { Promise }
  */
-export function RelationQuery (params) {
+export function RelationQuery(params) {
     return new Promise((resolve, reject) => {
         axios({
             url: 'entity/relation/',
             method: 'GET',
             params
-        }).then(response => {
-            if (response) {
-                resolve(response)
-            } else {
-                reject(response)
-            }
-        }).catch(() => {
-            raise('网络故障，请重试')
         })
+            .then((response) => {
+                if (response) {
+                    resolve(response)
+                } else {
+                    reject(response)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
     })
 }
 
@@ -93,21 +95,23 @@ export function cutSentence(params) {
  * @param { provinceName: String } params
  * @returns { Promise }
  */
-export function getProYearsInfo (params) {
+export function getProYearsInfo(params) {
     return new Promise((resolve, reject) => {
         axios({
             url: 'entity/getProYearsInfo/',
             method: 'GET',
             params
-        }).then(response => {
-            if (response) {
-                resolve(response)
-            } else {
-                reject(response)
-            }
-        }).catch(() => {
-            raise('网络故障，请重试')
         })
+            .then((response) => {
+                if (response) {
+                    resolve(response)
+                } else {
+                    reject(response)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
     })
 }
 
@@ -116,21 +120,23 @@ export function getProYearsInfo (params) {
  * @param { provinceName: String, year: String } params
  * @returns { Promise }
  */
-export function getCateDegreeInfo (params) {
+export function getCateDegreeInfo(params) {
     return new Promise((resolve, reject) => {
         axios({
             url: 'entity/getCateDegreeInfo/',
             method: 'GET',
             params
-        }).then(response => {
-            if (response) {
-                resolve(response)
-            } else {
-                reject(response)
-            }
-        }).catch(() => {
-            raise('网络故障，请重试')
         })
+            .then((response) => {
+                if (response) {
+                    resolve(response)
+                } else {
+                    reject(response)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
     })
 }
 
@@ -139,21 +145,23 @@ export function getCateDegreeInfo (params) {
  * @param { provinceName: String, year: String, category: String, degree: String } params
  * @returns { Promise }
  */
-export function getScoreInfo (params) {
+export function getScoreInfo(params) {
     return new Promise((resolve, reject) => {
         axios({
             url: 'entity/getScoreInfo/',
             method: 'GET',
             params
-        }).then(response => {
-            if (response) {
-                resolve(response)
-            } else {
-                reject(response)
-            }
-        }).catch(() => {
-            raise('网络故障，请重试')
         })
+            .then((response) => {
+                if (response) {
+                    resolve(response)
+                } else {
+                    reject(response)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
     })
 }
 
@@ -172,6 +180,32 @@ export function IntelligentQuery(params) {
             .then((response) => {
                 if (response) {
                     resolve(response)
+                } else {
+                    reject(response)
+                }
+            })
+            .catch(() => {
+                raise('网络故障，请重试')
+            })
+    })
+}
+
+/**
+ *智能推荐
+ * @param {{status: String}} params
+ * @returns {Promise}
+ */
+export function Recommendation(params) {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: 'entity/recommendation',
+            method: 'GET',
+            params
+        })
+            .then((response) => {
+                const data = response.data
+                if (response) {
+                    resolve(data.recommdList)
                 } else {
                     reject(response)
                 }
