@@ -80,7 +80,7 @@
                             </span>
                             <!-- AI提示框 -->
                             <div
-                                v-if="AImode && item.isLeft && !item.isthinking"
+                                v-if="AImode && item.isLeft && !item.isthinking && index === this.messageList.length - 1"
                                 class="tooltiptext"
                             >
                                 <a
@@ -96,12 +96,12 @@
                         <div v-if="item.isLeft && item.isShowGraph">
                             <br />
                             <RelationGraph
-                                :data="data"
-                                :link="link"
+                                :data="item.data"
+                                :link="item.link"
                                 isDraggable
                                 isAnimation
                                 :isLoading="item.isLoading"
-                                style="z-index: 1"
+                                style="z-index: 1;"
                             >
                             </RelationGraph>
                         </div>
@@ -191,6 +191,9 @@ export default {
                     isLoading: false,
                     isthinking: false,
                     isShowGraph: false,
+                    isShowTip: false,
+                    data: [],
+                    link: [],
                     tip: '空空如也'
                 },
                 right: {
@@ -207,9 +210,6 @@ export default {
             updateEvent: '',
             messageList: [],
             chatContent: '',
-            // 答案的关系数据
-            data: [],
-            link: [],
             canCommit: true,
             // 定时器
             timer: ref(null),
@@ -272,8 +272,6 @@ export default {
                 sentence: this.chatContent
             })
                 .then((response) => {
-                    this.data = response.data.data
-                    this.link = response.data.link
                     this.answer = response.data.content
                     this.isLoading = false
                     // 弹出thinking数据
@@ -284,14 +282,15 @@ export default {
                         this.getDate(),
                         'left'
                     )
+                    console.log(temp)
+                    temp.data = response.data.data
+                    temp.link = response.data.link
+                    console.log(temp)
                     temp.tip = '查看关系图'
                     this.messageList.push(temp)
                     this.toBottomArea()
                     // 恢复输入框 恢复按钮内容
                     this.canCommit = true
-                })
-                .catch(() => {
-                    this.isLoading = false
                 })
         },
         // 提交用户输入的文本
@@ -441,6 +440,8 @@ export default {
                 // 请求contentList，后端会保留left最后一次请求截止日期
                 this.queryMessage(this.lastUpdateTime)
             }, 500)
+        } else {
+            this.chatContent = this.$route.query.content
         }
         setTimeout(() => {
             this.toBottomArea(true)
@@ -580,12 +581,12 @@ export default {
     margin-left: -60px;
     left: 50%;
     top: 95%;
-    background-color: gray;
+    background-color: var(--item-bg-color);
     text-align: center;
     position: absolute;
     z-index: 9999;
-    opacity: 0;
     transition: 1s;
+    opacity: 0;
     visibility: hidden;
 }
 .tooltiptext::after,
@@ -601,8 +602,8 @@ export default {
 }
 .chatleft:hover .tooltiptext,
 .chatright:hover .tooltiptext {
+    opacity: 1;
     visibility: visible;
-    opacity: 0.75;
 }
 .chatleft:hover .tooltiptext:hover,
 .chatright:hover .tooltiptext:hover {
