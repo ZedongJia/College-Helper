@@ -151,6 +151,14 @@ export default {
             this.entity1 = payload[0]
             this.option = payload[1]
             this.entity2 = payload[2]
+            console.log(payload[0])
+            console.log(payload[1])
+            console.log(payload[2])
+            if (payload[1] === '') {
+                this.selectRel = '选择关系'
+            } else {
+                this.selectRel = this.option
+            }
             this.performSearch()
         }
     }
