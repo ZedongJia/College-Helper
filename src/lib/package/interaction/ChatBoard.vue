@@ -444,8 +444,10 @@ export default {
                 this.queryMessage(this.lastUpdateTime)
             }, 500)
         } else {
-            this.chatContent = this.$route.query.content
-            this.commit()
+            if (this.$route.query.content !== undefined) {
+                this.chatContent = this.$route.query.content
+                this.commit()
+            }
         }
         setTimeout(() => {
             this.toBottomArea(true)

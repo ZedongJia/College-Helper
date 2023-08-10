@@ -218,7 +218,7 @@ export function Recommendation(params) {
 
 /**
  * 根据分数推荐大学
- * @param {{provinceName: String, myScore: String}} params
+ * @param {{provinceName: String, myScore: String, branch: String}} params
  * @returns {Promise}
  */
 export function ScoreRecommend(params) {

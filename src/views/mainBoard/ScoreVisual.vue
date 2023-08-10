@@ -92,12 +92,12 @@
             >
                 <div
                     class="group"
-                    v-for="index in list"
+                    v-for="(list, index) in card"
                     :key="index"
                 >
                     <CardGroup
                         ref="CardGroup"
-                        :pages="card"
+                        :pages="list"
                     ></CardGroup>
                 </div>
             </div>
@@ -160,39 +160,8 @@ export default {
             dataY: [],
             copy: [],
             link: [],
-            card: [
-                {
-                    title: '清华',
-                    content: '清华大学（Tsinghua University）\n是中国著名高等学府。',
-                    link: '#'
-                },
-                {
-                    title: '北大',
-                    content: '柯洁局势不妙',
-                    link: '#'
-                },
-                {
-                    title: 'ww',
-                    content: '在ww的流水里',
-                    link: '#'
-                },
-                {
-                    title: '阿水',
-                    content: '别黑文波了',
-                    link: '#'
-                },
-                {
-                    title: '喻文波',
-                    content: '他是我们i文的信仰',
-                    link: '#'
-                },
-                {
-                    title: '杰克爱',
-                    content: '你在搜jackeylove',
-                    link: '#'
-                }
-            ],
-            list: [0, 1, 2]
+            card: [],
+            list: [1, 2, 3]
         }
     },
     methods: {
@@ -397,13 +366,19 @@ export default {
                 // 向后端发送请求，获取推荐的学校及专业
                 this.recommendIsLoading = true
                 // waiting for data
+                console.log(this.allCondition[2].itemChoice[this.isChoosed[2]])
                 loading(() => {
-                    ScoreRecommend({ provinceName: this.allCondition[0].itemChoice[this.isChoosed[0]], myScore: this.rankInfo.rankScore })
+                    ScoreRecommend({ provinceName: this.allCondition[0].itemChoice[this.isChoosed[0]], myScore: this.rankInfo.rankScore, branch: this.allCondition[2].itemChoice[this.isChoosed[2]] })
                         .then((response) => {
                             // 获取数据后，对数据进行操作
                             const data = JSON.parse(response.data)
                             if (data.length !== 0) {
-                                this.card = data
+                                let index = 0
+                                let newArray = [];
+                                while(index < data.length) {
+                                    newArray.push(data.slice(index, index += 6));
+                                }
+                                this.card = newArray
                                 this.isSearchOK = true
                             }
                             this.recommendIsLoading = false
