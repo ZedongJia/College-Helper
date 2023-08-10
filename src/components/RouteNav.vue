@@ -45,6 +45,11 @@ export default {
                     name: '查关系',
                     base: 'relationSearch',
                     icon: 'search-outline'
+                },
+                {
+                    name: 'AI问答',
+                    base: 'chatAI',
+                    icon: 'chatbubbles-outline'
                 }
             ]
         }

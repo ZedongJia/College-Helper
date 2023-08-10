@@ -12,8 +12,8 @@ export default {
     data() {
         return {
             userInfo: {
-                username: '小农',
-                image: 'http://localhost:8000/api/gallery/match?ID=5'
+                username: '小度',
+                image: require('@/assets/头像.jpg')
             }
         }
     }
