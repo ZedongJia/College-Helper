@@ -23,15 +23,33 @@
     background-color: white;
     padding: 20px 60px;
     width: 450px;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px grey;
+    border-radius: 20px;
+    box-shadow: 0px 187px 75px rgba(0, 0, 0, 0.01), 0px 105px 63px rgba(0, 0, 0, 0.05), 0px 47px 47px rgba(0, 0, 0, 0.09),
+        0px 12px 26px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
 }
 
 #account-form h1 {
+    position: relative;
+    margin: 0.5em 0 0 0;
+    font-size: 40px;
+    font-family: 'logo';
+    text-transform: uppercase;
     color: transparent;
-    background-image: linear-gradient(to right, rgb(44, 235, 178), rgb(89,18,100));
+    background-image: linear-gradient(to right, rgb(44, 235, 178), rgb(89, 18, 100));
     -webkit-background-clip: text;
     background-clip: text;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(0.9);
+        opacity: 1;
+    }
+
+    to {
+        transform: scale(1.8);
+        opacity: 0;
+    }
 }
 
 #account-form a {
@@ -75,7 +93,7 @@
     width: 0;
     height: 3px;
     background: transparent;
-    transition: .8s;
+    transition: 0.8s;
 }
 
 .form-group label {
@@ -91,13 +109,9 @@
 }
 
 .form-group input:focus ~ .line,
-.form-group input:valid ~ .line  {
+.form-group input:valid ~ .line {
     width: 100%;
-    background-image: linear-gradient(
-        to right,
-        var(--item-bg-color),
-        var(--item-bg-rev-color)
-    );
+    background-image: linear-gradient(to right, var(--item-bg-color), var(--item-bg-rev-color));
 }
 
 .form-group input:focus ~ label,

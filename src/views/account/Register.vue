@@ -1,6 +1,6 @@
 <template lang="">
     <div id="account-form">
-        <h1>注册</h1>
+        <h1>register</h1>
         <div class="form-group">
             <span class="icon">
                 <ion-icon name="person-circle-outline"></ion-icon>

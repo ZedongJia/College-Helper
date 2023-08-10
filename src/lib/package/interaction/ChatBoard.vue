@@ -12,7 +12,7 @@
         >
             <div
                 v-for="(item, index) in messageList"
-                :key="item.id"
+                :key="item.ID"
             >
                 <div
                     class="areachat"
@@ -21,7 +21,12 @@
                     }"
                 >
                     <!-- 左侧：头像 + 用户名 -->
-                    <div class="left">
+                    <div
+                        :disabled="AImode"
+                        :style="{ cursor: !AImode ? 'pointer' : 'defalut' }"
+                        @click="toPersonHome(item.ID)"
+                        class="left"
+                    >
                         <img
                             :src="item.image"
                             style="width: 48px; height: 48px"
@@ -157,6 +162,8 @@
 import { nextTick, ref } from 'vue'
 import { loading } from '@/utils/callback'
 import { getMessageList, addMessage } from '@/api/session'
+// import { loginGET } from '@/api/user'
+import { AiChat } from '@/api/entity'
 export default {
     name: 'ChatBoard',
     props: {
@@ -218,7 +225,10 @@ export default {
         toBottomArea(first = false) {
             nextTick(() => {
                 const fixHeight = 395
-                const rg = 100
+                let rg = 120
+                if (this.AImode) {
+                    rg = 200
+                }
                 const div = document.getElementById('toBottom')
                 if (div === null) {
                     return
@@ -230,9 +240,12 @@ export default {
         },
         // 生成消息
         generateMessage(content, time, pos) {
-            const temp = Object.create(this.template[pos])
+            const temp = {
+                ...this.template[pos]
+            }
             temp.content = content
             temp.time = time
+            console.log(temp)
             return temp
         },
         AIresponse() {
@@ -244,10 +257,25 @@ export default {
                 temp.isthinking = true
                 this.messageList.push(temp)
                 this.toBottomArea()
-            }, 100)
+            }, 10)
             // 获取答案
             this.timer = setTimeout(() => {
                 // 请求数据
+                AiChat({
+                    sentence: this.chatContent
+                }).then((response) => {
+                    this.data = JSON.parse(response.data).data
+                    this.link = JSON.parse(response.data).link
+                    for (let i = 0; i < this.link.length; i++) {
+                        const t = this.link[i].label
+                        this.link[i].label = this.mapReverse[t]
+                    }
+                    this.isLoading = false
+                }).catch(() => {
+                    this.isLoading = false
+                    })
+                }, 600)
+
                 const content = '这是答案'
                 // 弹出thinking数据
                 this.messageList.pop()
@@ -258,7 +286,6 @@ export default {
                 this.toBottomArea()
                 // 恢复输入框 恢复按钮内容
                 this.canCommit = true
-            }, 6000)
         },
         // 提交用户输入的文本
         commit() {
@@ -279,6 +306,8 @@ export default {
                     }
                     // 搜索框置空
                     this.chatContent = ''
+                } else {
+                    console.log('请先输入内容！')
                 }
             } else {
                 this.stopResponse()
@@ -359,6 +388,17 @@ export default {
                     this.toBottomArea()
                 }
             })
+        },
+        toPersonHome(id) {
+            // todo
+            if (!this.AImode) {
+                this.$router.push({
+                    name: 'page',
+                    query: {
+                        id: id
+                    }
+                })
+            }
         }
     },
     activated() {
@@ -412,7 +452,7 @@ export default {
 .chat {
     width: 100%;
     height: 400px;
-    padding: 1%;
+    padding: 0 2em 0 1em;
     overflow-x: hidden;
     overflow-y: auto;
     background-color: white;
@@ -464,7 +504,12 @@ export default {
     overflow: hidden;
 }
 .areachat .left .username {
+    margin: 0 auto;
     font-size: 14px;
+    max-width: 50px;
+    height: 24px;
+    text-align: center;
+    overflow: hidden;
 }
 /* 消息行的右侧：时间 */
 .areachat .right {

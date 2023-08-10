@@ -44,7 +44,7 @@
                     <Title title="大学专业概览"></Title>
                 </Board>
                 <Board style="min-height: 400px; max-height: 500px; /* 设置容器的最大高度 */ overflow-y: auto; /* 添加垂直滚动条 */">
-                    <Tree :model="treeData"></Tree>
+                    <Tree :model="tempData"></Tree>
                 </Board>
                 <Board class="flex-row-right">
                     <Button
@@ -74,7 +74,8 @@ export default {
             province: '',
             appear: false,
             dataList: [],
-            isFold: true
+            isFold: true,
+            tempData: []
         }
     },
     methods: {
@@ -95,7 +96,7 @@ export default {
                 if (item.source.includes(this.treeData[i].name)) {
                     for (let j = 0; j < this.treeData[i].children.length; j++) {
                         if (this.treeData[i].children[j].name === item.source) {
-                            this.treeData = this.treeData[i].children[j].children
+                            this.tempData = this.treeData[i].children[j].children
                         }
                     }
                     break
@@ -183,6 +184,7 @@ export default {
         })
     },
     created() {
+        this.tempData = this.treeData
         this.link = [{ source: '中国', target: '2889' }]
         for (let i = 0; i < this.treeData.length; i++) {
             this.dataList.push({

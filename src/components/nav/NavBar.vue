@@ -243,7 +243,7 @@ export default {
     position: relative;
     height: 48px;
     line-height: 48px;
-    max-width: 100px;
+    width: 150px;
     text-align: center;
 }
 

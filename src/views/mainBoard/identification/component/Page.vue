@@ -7,7 +7,7 @@
 import HomePage from '@/components/HomePage.vue'
 export default {
     props: {
-        id: Number
+        id: String
     },
     components: {
         HomePage
