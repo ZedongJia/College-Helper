@@ -29,7 +29,13 @@
             <br />
             <div style="margin: 0 auto; width: 90%">
                 <Card
-                    style="max-height: 60px; padding: 1em; text-align: center"
+                    style="
+                        max-height: 60px;
+                        padding: 1em;
+                        text-align: center;
+                        cursor: pointer;
+                    "
+                    @click="turnTo(q)"
                 >
                     <span>{{ q }}</span>
                 </Card>
@@ -95,6 +101,15 @@ export default {
                 const question = this.Question[num]
                 this.showQuestion.push(question)
             }
+        },
+        turnTo(q) {
+            console.log(q)
+            this.$router.push({
+                name: 'chatAI',
+                query: {
+                    content: q
+                }
+            })
         }
     }
 }
